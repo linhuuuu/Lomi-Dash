@@ -1,3 +1,4 @@
+﻿using PCG;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,20 +10,17 @@ public class GameManager : MonoBehaviour
     private float timeTouchEnded;
     private float displayTime = .5f;
 
-    void Update()
-    {
-        if (Input.touchCount > 0)
+
+        void Start()
         {
-            touch = Input.GetTouch(0);
-            phaseDisplayText.text = touch.phase.ToString();
+            // Initialize RNG with a seed
+            ProceduralRNG.Initialize(System.DateTime.Now.GetHashCode());
 
-            if (touch.phase == TouchPhase.Ended)
-            {
-                timeTouchEnded = Time.time;
-            }
-         
-        }
+            // Generate a tray
+            OrderNode order = OrderGenerator.GenerateTray(difficulty: 3);
 
-
+            // Print it to console
+            Debug.Log("🍽️ Generated Dish:");
+            OrderGraphPrinter.PrintOrderGraph(order);
     }
 }

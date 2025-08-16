@@ -34,21 +34,21 @@ public static class OrderGraphPrinter
         {
             return $"= {t.toppingName} x{t.expectedCount}";
         }
-        if (node is IntSubStep i)
+        if (node is BoilNode i )
         {
-            return $"= {i.expectedValue}{(i.name == "BoilTime" ? "s" : "")}";
+            return $"= {i.id}{i.time}";
         }
-        if (node is BooleanSubStep b)
+        if (node is BonesNode b)
         {
-            return $"= {b.expectedValue}";
+            return $"= {b.id}{b.count}";
         }
         if (node is BeverageNode bev)
         {
-            return $"= {bev.drinkName}";
+            return $"= {bev.name}";
         }
-        if (node is SeasoningNode s)
+        if (node is SeasoningTrayNode s)
         {
-            return $"= {s.seasoningType}";
+            return $"= {s.trayCount}";
         }
 
         // Default for containers

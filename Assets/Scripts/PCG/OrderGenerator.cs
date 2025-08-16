@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace PCG
 {
@@ -8,35 +9,144 @@ namespace PCG
     {
         public static OrderNode GenerateTray(int difficulty)
         {
-            //Tray has complete weight of 100.
-            var root = new TrayRootNode();
-            root.weight = 100;
+            int headCount = ProceduralRNG.Range(1, 5);  //CHANGE TO PARAMETER REMOVE
+            bool largeBowlUnlocked = true; //CHANGE TO PARAMATER AND REMOVE
+            int traySlots = 5; //CHANGE TO PARAMATER AND REMOVE
+            int dishCount = Math.Clamp(headCount, 0, 3);
+            int largeDishCount = 0;
 
-            // Decide how many dishes to make
-            bool wantsLargeDish = ProceduralRNG.Bool(0.4f + difficulty * 0.05f);
 
-            if (wantsLargeDish)
+            //Add Root Tray Node
+            var root = new OrderNode {
+                id = "TRAY",
+                weight = 100,
+            };
+
+
+            // Dish Generation Rules:
+            // Ensures that each customer head recieves a bowl;
+            // Make sure that largeDishCount scales with difficulty;
+            // Make sure that if there are two heads, it can either be one large bowl or two small/large bowls, the former for easier difficulty
+            // 3 Difficulty Level 
+            // Decide if its 3 or 5 people cause????
+            // Base Tray = 3 slots, Upgraded Tray = 5 slots
+            // Regular Dish = 1 slot, Large Dish = 2 slots
+
+            if (headCount == 1)
             {
-                root.children.Add(GenerateDish(difficulty, isLarge: true));
+                if (largeBowlUnlocked && ProceduralRNG.Bool(0.1f + difficulty * 0.3f))
+                {
+                    largeDishCount = 1;
+                }
+                else
+                {
+                    largeDishCount = 0;
+                }
             }
-            else
+            else if (headCount == 2)    //could prolly use improvement
             {
-                root.children.Add(GenerateDish(difficulty, isLarge: false));
+                float sharedChance = 0.1f + difficulty * 0.2f; // increases with difficulty
+                float twoLargeChance = 0.1f + difficulty * 0.3f;
+
+                if (largeBowlUnlocked && ProceduralRNG.Bool(sharedChance))
+                {
+                    largeDishCount = 1;
+                }
+                else if (largeBowlUnlocked && ProceduralRNG.Bool(twoLargeChance) && traySlots >= 4)
+                {
+                    largeDishCount = 2;
+                }
+                else
+                {
+                    largeDishCount = 0;
+                }
+            }
+            else if (headCount == 3)
+            {
+                float largeChance = 0.1f + difficulty * 0.3f;
+
+                for (int i = 0; i < dishCount; i++)
+                {
+                    if (!largeBowlUnlocked) break;
+                    if (traySlots > 3 && largeDishCount<2)
+                    {
+                        if (ProceduralRNG.Bool(largeChance))
+                        {
+                            largeDishCount++;
+                        }
+                    }
+                    else
+                    {
+                        largeDishCount++;
+                        break;
+                    }
+                }
+            }
+            else if (headCount>=4)
+            {
+                largeDishCount = 2;
             }
 
-            // Add beverage and seasoning (optional)
-            if (ProceduralRNG.Bool(0.6f))
+            //largeDishCount = 2;
+            //for (int i = 0; i < dishCount; i++)
+            //{
+            //    if (largeDishCount < 2 && // cap at 2 large dishes
+            //        largeBowlUnlocked &&
+            //        ProceduralRNG.Bool(difficulty * 0.25f))
+            //    {
+            //        largeDishCount++;
+            //    }
+            //}
+
+            Debug.Log("Dish Count for Tray:" + dishCount);
+            Debug.Log("Large Dish Count for Tray:" + largeDishCount);
+
+            int remainingLarge = largeDishCount;
+            int totalSlotsUsed = 0;
+
+            for (int i = 0; i < dishCount; i++)
+            {
+                bool shouldMakeLarge = remainingLarge > 0;
+
+                if (shouldMakeLarge && totalSlotsUsed + 2 <= traySlots)
+                {
+                    root.children.Add(GenerateDish(difficulty, isLarge: true));
+                    totalSlotsUsed += 2;
+                    remainingLarge--;
+                }
+                else if (totalSlotsUsed + 1 <= traySlots)
+                {
+                    root.children.Add(GenerateDish(difficulty, isLarge: false));
+                    totalSlotsUsed += 1;
+                }
+                else
+                {
+                    // No space left — skip or log warning
+                    Debug.LogWarning("No slot available for dish " + i);
+                }
+            }
+
+            // Add Beverage
+            int beverageCount = ProceduralRNG.Range(1, 2);
+            for (int i = 0; i <= beverageCount; i++)
             {
                 root.children.Add(GenerateBeverage());
             }
-            root.children.Add(GenerateSeasoning());
 
+            // Add Seasoning
+            for (int i = 0; i <= beverageCount; i++)
+            {
+                root.children.Add(GenerateSeasoning());
+            }
+
+            Debug.Log("Created Tray: " + root.id);
             return root;
         }
 
-       public static OrderNode GenerateDish(int difficulty, bool isLarge)
+        public static OrderNode GenerateDish(int difficulty, bool isLarge)
         {
             var dish = new DishSectionNode();
+            dish.isLarge = isLarge;
             dish.id = isLarge ? "DISH_LARGE" : "DISH_REGULAR";
             dish.weight = isLarge ? 40 : 20;
 
@@ -47,41 +157,33 @@ namespace PCG
             return dish;
         }
 
-        public static OrderNode GeneratePot(bool large)
+        public static OrderNode GeneratePot(bool isLarge)
         {
-            var pot = new PotNode() { id = "POT", weight = large ? 12 : 6 };
+            var pot = new OrderNode() { id = "POT" };
 
-            pot.children.Add(new IntSubStep
+            pot.children.Add(new BoilNode
             {
                 id = "BOIL_TIME",
-                name = "BoilTime",
-                expectedValue = ProceduralRNG.Range(20, 41),
-                weight = 5
             });
 
-            pot.children.Add(new BooleanSubStep
+            pot.children.Add(new BonesNode
             {
                 id = "BONES",
-                name = "Bones",
-                expectedValue = ProceduralRNG.Bool(0.7f),
-                weight = 4
             });
 
             return pot;
         }
 
-        public static OrderNode GeneratePan(bool large)
+        public static OrderNode GeneratePan(bool isLarge)
         {
-            var pan = new PanNode() { id = "PAN", weight = large ? 14 : 7 };
-            int ingredientCount = large ? 7 : 3;
+            var pan = new OrderNode() { id = "PAN" };
+            int ingredientCount = isLarge ? 7 : 3;
 
             for (int i = 0; i < ingredientCount; i++)
             {
                 pan.children.Add(new ToppingNode
                 {
                     id = $"INGREDIENT_{i}",
-                    toppingName = GetRandomIngredient(),
-                    expectedCount = 1,
                     weight = 2f
                 });
             }
@@ -91,15 +193,11 @@ namespace PCG
 
         public static OrderNode GenerateToppings(int count, int difficulty)
         {
-            var toppingsSection = new ToppingsSectionNode()
-            {
-                id = "TOPPINGS_SECTION",
-                weight = 12 // was using isLarge — now fixed
-            };
+            var toppingsSection = new ToppingsSectionNode() { id = "TOPPINGS_SECTION" };
 
             string[] allToppings = {
-                "Pork Belly", "Egg", "Green Onion", "Corn", "Spicy Mayo", "Mushrooms"
-            };
+                            "Pork Belly", "Egg", "Green Onion", "Corn", "Spicy Mayo", "Mushrooms"
+                        };
 
             for (int i = 0; i < count; i++)
             {
@@ -109,8 +207,6 @@ namespace PCG
                 toppingsSection.children.Add(new ToppingNode
                 {
                     id = $"TOPPING_{i}",
-                    toppingName = name,
-                    expectedCount = expectedCount,
                     weight = 2f
                 });
             }
@@ -130,18 +226,23 @@ namespace PCG
             {
                 id = "BEVERAGE",
                 weight = 10,
-                drinkName = ProceduralRNG.Bool(0.5f) ? "Tea" : "Calamansi"
+                size = 1
             };
         }
 
         private static OrderNode GenerateSeasoning()
         {
-            return new SeasoningNode
+            return new SeasoningTrayNode
             {
                 id = "SEASONING",
                 weight = 10,
-                seasoningType = ProceduralRNG.Bool(0.5f) ? "Salt" : "Spice"
+                trayCount = 1,  //edit to make it the number of people.
             };
         }
-    }
+
+
+
+        }
+
 }
+

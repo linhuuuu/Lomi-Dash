@@ -1,15 +1,37 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-//Each node contains a name, a weight, children(list) and Matches function that could be overloaded. THIS IS A TEMPLATE.
+//OrderNode, Base Class for each node. Has a string, weight, children and virtual evaluate function that could be overriden.
 namespace PCG
 {
-    public abstract class OrderNode
+    [System.Serializable]
+    public class OrderNode
     {
         public string id;
-        public float weight = 1f;
+        public float weight{set; get;}
         public List<OrderNode> children = new List<OrderNode>();
+        public virtual float Evaluate(OrderNode other)
+        {
+            Debug.Log("Evaluating " + id + " with " +  other.id);
+            //Check First if Container Matches.
+            if (id != other.id)
+            {
+                Debug.Log("Failed to evaluate Node " + id + "with Other Node " + other.id);
+                return 0f;
+            }
 
-        public abstract bool Matches(OrderNode other);
+            float score = 0f;
+            for (int i = 0; i < children.Count; i++)
+            {
+                if (i < other.children.Count)
+                {
+                    score += children[i].Evaluate(other.children[i]);   //recursively call children score.
+                   
+                }
+            }
+            return score;
+        }
+        public override string ToString() => $"[{id} (w={weight})"; // Debugging
     }
 }

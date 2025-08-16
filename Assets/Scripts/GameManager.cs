@@ -19,8 +19,15 @@ public class GameManager : MonoBehaviour
             // Generate a tray
             OrderNode order = OrderGenerator.GenerateTray(difficulty: 3);
 
-            // Print it to console
-            Debug.Log("🍽️ Generated Dish:");
-            OrderGraphPrinter.PrintOrderGraph(order);
+        // Generate a tray
+        OrderNode order2 = OrderGenerator.GenerateTray(difficulty: 3);
+
+        float score = order.Evaluate(order);
+        // Print it to console
+        Debug.Log("🍽️ Generated Dish 1 :");
+        OrderGraphPrinter.PrintOrderGraph(order);
+
+        Debug.Log("Total Score: " + score);
+
     }
 }

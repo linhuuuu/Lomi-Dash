@@ -45,6 +45,22 @@ public class CustomerDrag : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (Snapped) return;
+
+        // Check all tables in the scene
+        TableDropZone[] tables = FindObjectsOfType<TableDropZone>();
+        foreach (TableDropZone table in tables)
+        {
+            if (table.IsInsideTable(transform.position))
+            {
+                if (table.TrySeatCustomer(this))
+                {
+                    return; // seated successfully
+                }
+            }
+        }
+
+        // If no valid table, reset
         transform.position = originalPosition;
         if (defaultSprite != null)
             spriteRenderer.sprite = defaultSprite;

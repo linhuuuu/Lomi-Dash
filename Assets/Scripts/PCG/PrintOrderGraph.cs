@@ -9,7 +9,7 @@ public static class OrderGraphPrinter
     {
         // Print current node
         string nodeInfo = GetNodeInfo(node);
-        Debug.Log($"{indent}└─ [{node.id}] {nodeInfo} (w={node.weight:F1})");
+        if (Debug.isDebugBuild) Debug.Log($"{indent}└─ [{node.id}] {nodeInfo} (w={node.weight:F1})");
 
         // Recurse into children
         for (int i = 0; i < node.children.Count; i++)
@@ -32,7 +32,7 @@ public static class OrderGraphPrinter
     {
         if (node is ToppingNode t)
         {
-            return $"= {t.toppingName} x{t.expectedCount}";
+            return $"= {t.toppingName} x{t.toppingCount}";
         }
         if (node is BoilNode i )
         {

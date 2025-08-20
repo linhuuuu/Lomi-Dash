@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-
+using UnityEngine;
 //Procedural RNG Class that can be used by other scripts to initialize RNG.
 //Bool returns a bool value based on probability. Range(int), Range(float) returns value based on min and max range.
 //Next() / NextDouble() returns random value.
@@ -9,11 +9,11 @@ namespace PCG
 {
     public static class ProceduralRNG
     {
-        private static Random rng;  //rng variable of class Random
+        private static System.Random rng;  //rng variable of class Random
 
         public static void Initialize(int seed)
         {
-            rng = new Random(seed);
+            rng = new System.Random(seed);
         }
 
         public static bool Bool(float probability = 0.5f)   //param could be overloaded
@@ -36,7 +36,7 @@ namespace PCG
 
         public static void rngBoolError()
         {
-            UnityEngine.Debug.Log("RNG not Initialized. RNG Initialized to 12345");
+            if (UnityEngine.Debug.isDebugBuild) UnityEngine.Debug.Log("RNG not Initialized. RNG Initialized to 12345");
             if (rng == null) rngBoolError();
         }
     }

@@ -145,7 +145,7 @@ namespace PCG
 
         public static OrderNode GenerateDish(int difficulty, bool isLarge)
         {
-            var dish = new DishSectionNode();
+            var dish = new DishNode("DISH_");
             dish.isLarge = isLarge;
             dish.id = isLarge ? "DISH_LARGE" : "DISH_REGULAR";
             dish.weight = isLarge ? 40 : 20;
@@ -161,12 +161,9 @@ namespace PCG
         {
             var pot = new OrderNode() { id = "POT" };
 
-            pot.children.Add(new BoilNode
-            {
-                id = "BOIL_TIME",
-            });
+            pot.children.Add(new BoilNode("BOIL"));
 
-            pot.children.Add(new BonesNode
+            pot.children.Add(new BonesNode("BONES")
             {
                 id = "BONES",
             });
@@ -181,11 +178,7 @@ namespace PCG
 
             for (int i = 0; i < ingredientCount; i++)
             {
-                pan.children.Add(new ToppingNode
-                {
-                    id = $"INGREDIENT_{i}",
-                    weight = 2f
-                });
+                pan.children.Add(new ToppingNode($"INGREDIENT_{i}"));
             }
 
             return pan;
@@ -193,7 +186,7 @@ namespace PCG
 
         public static OrderNode GenerateToppings(int count, int difficulty)
         {
-            var toppingsSection = new ToppingsSectionNode() { id = "TOPPINGS_SECTION" };
+            var toppingsSection = new ToppingSectionNode("TOPPINGS_SECTION");
 
             string[] allToppings = {
                             "Pork Belly", "Egg", "Green Onion", "Corn", "Spicy Mayo", "Mushrooms"
@@ -204,11 +197,10 @@ namespace PCG
                 string name = allToppings[ProceduralRNG.Range(0, allToppings.Length)];
                 int expectedCount = ProceduralRNG.Range(1, 3);
 
-                toppingsSection.children.Add(new ToppingNode
-                {
-                    id = $"TOPPING_{i}",
-                    weight = 2f
-                });
+                toppingsSection.children.Add(new ToppingNode($"TOPPING_{i}")
+                
+           
+                );
             }
 
             return toppingsSection;

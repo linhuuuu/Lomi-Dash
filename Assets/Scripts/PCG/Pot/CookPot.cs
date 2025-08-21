@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CookPot : MonoBehaviour, IDropHandler
+public class CookPot : MonoBehaviour
 {
     public bool stove_1_On = false;
     private BoilNode boilNode;
@@ -155,13 +155,13 @@ public class CookPot : MonoBehaviour, IDropHandler
         }
     }
 
-    public void OnDrop(PointerEventData eventData)
+    public void OnMouseUp()
     {
-        if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<CookWok>(out CookWok targetWok))
+        // if ()
         {
             //Creates the PotNode and Passes it to the wok.
             CreatePotNode();
-            targetWok.potNode = potNode;
+            // targetWok.potNode = potNode;
 
             //Simplified Reset, Does not account for large Bowls;
             potNode = null;
@@ -169,5 +169,7 @@ public class CookPot : MonoBehaviour, IDropHandler
             bonesNode = null;
             if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
         }
+
+        
     }
 }

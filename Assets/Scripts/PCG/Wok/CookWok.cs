@@ -1,4 +1,4 @@
-﻿using PCG;
+using PCG;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +19,11 @@ public class CookWok : MonoBehaviour, IDropHandler
     private WokNode wokNode;
     private Coroutine cookingRoutine;
 
+
+    void Awake()
+    {
+        if(wokNode == null) wokNode = new WokNode("WOK");
+    }
     public void SauteePan(string type)
     {
         if (sauteeNode == null) sauteeNode = new SauteeNode("SAUTEE");
@@ -31,9 +36,9 @@ public class CookWok : MonoBehaviour, IDropHandler
             case "Onion":
                 sauteeNode.onionCount++; break;
             default:
-                Debug.Log("Unrecognized Type."); break;
+                if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
         }
-        Debug.Log("Added Sautee Component of Type " + type);
+        if (Debug.isDebugBuild) Debug.Log("Added Sautee Component of Type " + type);
 
         sauteeNode.satueeCount++; //improve
     }
@@ -100,7 +105,7 @@ public class CookWok : MonoBehaviour, IDropHandler
 
             //Simplified Reset, Does not account for large Bowls;
             potNode = null;
-            Debug.Log("Cleared WOKNODE");
+            if (Debug.isDebugBuild) Debug.Log("Cleared WOKNODE");
         }
     }
 }

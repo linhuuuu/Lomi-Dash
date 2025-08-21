@@ -7,65 +7,100 @@ using UnityEngine.EventSystems;
 
 public class DragAndDrop : MonoBehaviour
 {
-    private Collider2D col;
-    private Vector3 startDragPosition;
+    private Vector3 originalPosition;
+    private Camera mainCamera;
+    private float zOffset;
+    private SpriteRenderer spriteRenderer;
+
+    [HideInInspector] public bool Snapped = false;
+
+    [Header("Sprites")]
+    public Sprite defaultSprite;
+    public Sprite draggingSprite;
+    public Sprite sittingSprite;
+
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = defaultSprite;
+    }
 
     private void OnMouseDown()
     {
-        // // Only run if no touches (prioritize touch in Update)
-        // if (Input.touchCount == 0)
-        {
-            startDragPosition = transform.position;
-            transform.position = GetMouseWorldPos();
-        }
+        originalPosition = transform.position;
+        zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
+
+        transform.SetAsFirstSibling();
+
+        if (draggingSprite != null)
+            spriteRenderer.sprite = draggingSprite;
     }
 
     private void OnMouseDrag()
     {
+        Vector3 screenPos = Input.mousePosition;
+        screenPos.z = zOffset;
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
 
-            transform.position = GetMouseWorldPos();
-
+        transform.position = worldPos;
     }
 
     private void OnMouseUp()
     {
-
-            transform.position = startDragPosition;
+        transform.position = originalPosition;
+        if (defaultSprite != null)
+            spriteRenderer.sprite = defaultSprite;
     }
 
-    // // Handle mobile touch
-    // private void Update()
-    // {
-    //     if (Input.touchCount == 0) return;
-
-    //     Touch touch = Input.GetTouch(0);
-    //     Vector3 touchPos = GetMouseWorldPos();
-
-    //     // Only respond if touch started on this object
-    //     if (touch.phase == TouchPhase.Began)
-    //     {
-    //         if (GetComponent<Collider2D>().OverlapPoint(touchPos))
-    //         {
-    //             startDragPosition = transform.position;
-    //             transform.position = touchPos;
-    //         }
-    //     }
-    //     else if (touch.phase == TouchPhase.Moved)
-    //     {
-    //         transform.position = touchPos;
-    //     }
-    //     else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-    //     {
-    //         transform.position = startDragPosition;
-    //     }
-    // }
-
-    // Helper: Get world position from screen (mouse or touch)
-    private Vector3 GetMouseWorldPos()
+    private void Update()
+{
+#if UNITY_IOS || UNITY_ANDROID
+    if (Input.touchCount > 0)
     {
-        Vector3 z = Input.mousePosition;
-        z.z = 0f;
-        return z;
+        Touch touch = Input.GetTouch(0);
+        Vector3 touchPosition = touch.position;
+        touchPosition.z = zOffset;
+
+        Ray ray = mainCamera.ScreenPointToRay(touchPosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                if (hit.collider != null && hit.collider.gameObject == gameObject)
+                {
+                    // Simulate OnMouseDown
+                    originalPosition = transform.position;
+                    zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
+                    transform.SetAsFirstSibling();
+                    if (draggingSprite != null)
+                        spriteRenderer.sprite = draggingSprite;
+
+                    // Start drag
+                    Vector3 worldPos = mainCamera.ScreenToWorldPoint(touch.position);
+                    transform.position = worldPos;
+                }
+                break;
+
+            case TouchPhase.Moved:
+                // Simulate OnMouseDrag
+                Vector3 movedPos = touch.position;
+                movedPos.z = zOffset;
+                transform.position = mainCamera.ScreenToWorldPoint(movedPos);
+                break;
+
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                // Simulate OnMouseUp
+                transform.position = originalPosition;
+                if (defaultSprite != null)
+                    spriteRenderer.sprite = defaultSprite;
+                break;
+        }
     }
+#endif
 }
+}
+
 

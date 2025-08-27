@@ -1,106 +1,81 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
+//Reusable cript to enable gameobject dragging. Dropping is specific to each entity therefore not included here.
 public class DragAndDrop : MonoBehaviour
 {
-    private Vector3 originalPosition;
-    private Camera mainCamera;
-    private float zOffset;
-    private SpriteRenderer spriteRenderer;
-
-    [HideInInspector] public bool Snapped = false;
-
-    [Header("Sprites")]
-    public Sprite defaultSprite;
-    public Sprite draggingSprite;
-    public Sprite sittingSprite;
-
+    protected int originalSortingOrder;
+    protected SpriteRenderer sprite;
+    protected Vector3 originalPosition;
+    protected Collider2D col;
     private void Awake()
     {
-        mainCamera = Camera.main;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = defaultSprite;
+        col = gameObject.GetComponent<Collider2D>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
+        originalSortingOrder = sprite.sortingOrder;
+        originalPosition = transform.position;
     }
-
     private void OnMouseDown()
     {
-        originalPosition = transform.position;
-        zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
-
-        transform.SetAsFirstSibling();
-
-        if (draggingSprite != null)
-            spriteRenderer.sprite = draggingSprite;
+        transform.position = GetMousePositionInWorldSpace();
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 20;
     }
 
     private void OnMouseDrag()
     {
-        Vector3 screenPos = Input.mousePosition;
-        screenPos.z = zOffset;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
-
-        transform.position = worldPos;
+        transform.position = GetMousePositionInWorldSpace();
     }
-
-    private void OnMouseUp()
+    private Vector3 GetMousePositionInWorldSpace()
     {
-        transform.position = originalPosition;
-        if (defaultSprite != null)
-            spriteRenderer.sprite = defaultSprite;
+        Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        p.z = 0f;
+        return p;
     }
 
-    private void Update()
-{
-#if UNITY_IOS || UNITY_ANDROID
-    if (Input.touchCount > 0)
-    {
-        Touch touch = Input.GetTouch(0);
-        Vector3 touchPosition = touch.position;
-        touchPosition.z = zOffset;
 
-        Ray ray = mainCamera.ScreenPointToRay(touchPosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+    // private void Update()
+    // {
 
-        switch (touch.phase)
-        {
-            case TouchPhase.Began:
-                if (hit.collider != null && hit.collider.gameObject == gameObject)
-                {
-                    // Simulate OnMouseDown
-                    originalPosition = transform.position;
-                    zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
-                    transform.SetAsFirstSibling();
-                    if (draggingSprite != null)
-                        spriteRenderer.sprite = draggingSprite;
+    //         if (Input.touchCount > 0)
+    //         {
+    //             Touch touch = Input.GetTouch(0);
+    //             Vector3 touchPosition = touch.position;
+    //             touchPosition.z = zOffset;
 
-                    // Start drag
-                    Vector3 worldPos = mainCamera.ScreenToWorldPoint(touch.position);
-                    transform.position = worldPos;
-                }
-                break;
+    //             Ray ray = mainCamera.ScreenPointToRay(touchPosition);
+    //             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-            case TouchPhase.Moved:
-                // Simulate OnMouseDrag
-                Vector3 movedPos = touch.position;
-                movedPos.z = zOffset;
-                transform.position = mainCamera.ScreenToWorldPoint(movedPos);
-                break;
+    //             switch (touch.phase)
+    //             {
+    //                 case TouchPhase.Began:
+    //                     if (hit.collider != null && hit.collider.gameObject == gameObject)
+    //                     {
+    //                         // Simulate OnMouseDown
+    //                         originalPosition = transform.position;
+    //                         zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
+    //                         transform.SetAsFirstSibling();
 
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                // Simulate OnMouseUp
-                transform.position = originalPosition;
-                if (defaultSprite != null)
-                    spriteRenderer.sprite = defaultSprite;
-                break;
-        }
-    }
-#endif
-}
+    //                         // Start drag
+    //                         Vector3 worldPos = mainCamera.ScreenToWorldPoint(touch.position);
+    //                         transform.position = worldPos;
+    //                     }
+    //                     break;
+
+    //                 case TouchPhase.Moved:
+    //                     // Simulate OnMouseDrag
+    //                     Vector3 movedPos = touch.position;
+    //                     movedPos.z = zOffset;
+    //                     transform.position = mainCamera.ScreenToWorldPoint(movedPos);
+    //                     break;
+
+    //                 case TouchPhase.Ended:
+    //                 case TouchPhase.Canceled:
+    //                     // Simulate OnMouseUp
+    //                     transform.position = originalPosition;
+
+    //                     break;
+    //             }
+    //         }
+    // }
 }
 
 

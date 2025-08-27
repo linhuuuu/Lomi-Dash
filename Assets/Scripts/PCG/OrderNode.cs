@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
@@ -13,11 +13,11 @@ namespace PCG
         public List<OrderNode> children = new List<OrderNode>();
         public virtual float Evaluate(OrderNode other)
         {
-            Debug.Log("Evaluating " + id + " with " +  other.id);
+            if (Debug.isDebugBuild) Debug.Log("Evaluating " + id + " with " +  other.id);
             //Check First if Container Matches.
             if (id != other.id)
             {
-                Debug.Log("Failed to evaluate Node " + id + "with Other Node " + other.id);
+                if (Debug.isDebugBuild) Debug.Log("Failed to evaluate Node " + id + "with Other Node " + other.id);
                 return 0f;
             }
 

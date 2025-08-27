@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace PCG
         {
             if (!(other is BoilNode player))
             {
-                Debug.Log($"[BoilNode] Mismatched type: expected BoilNode, got {other.GetType().Name}");
+                if (Debug.isDebugBuild) Debug.Log($"[BoilNode] Mismatched type: expected BoilNode, got {other.GetType().Name}");
                 return 0f;
             }
 
@@ -43,6 +43,5 @@ namespace PCG
 
         public override string ToString()
             => $"[BOIL: {time}s ±{tolerance}s (w={weight:F1})]";
-
     }
 }

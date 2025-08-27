@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private Camera camera;
+    [SerializeField] private Camera cam;
 
     private Vector3 targetPosition;
     private bool hasTarget = false;
@@ -26,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
             {
-                Ray ray = camera.ScreenPointToRay(touch.position);
+                Ray ray = cam.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     targetPosition = hit.point;

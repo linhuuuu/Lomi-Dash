@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace PCG
 {
@@ -10,7 +10,7 @@ namespace PCG
         {
             if(!(other is BeverageNode a)) //Checks if Beverage Node
             {
-                Debug.Log("Ordernode is not a BeverageNode");
+                if (Debug.isDebugBuild) Debug.Log("Ordernode is not a BeverageNode");
                 return 0f;
             }
 

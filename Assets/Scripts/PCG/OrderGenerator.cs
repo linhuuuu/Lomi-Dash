@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -98,8 +98,8 @@ namespace PCG
             //    }
             //}
 
-            Debug.Log("Dish Count for Tray:" + dishCount);
-            Debug.Log("Large Dish Count for Tray:" + largeDishCount);
+            if (Debug.isDebugBuild) Debug.Log("Dish Count for Tray:" + dishCount);
+            if (Debug.isDebugBuild) Debug.Log("Large Dish Count for Tray:" + largeDishCount);
 
             int remainingLarge = largeDishCount;
             int totalSlotsUsed = 0;
@@ -139,7 +139,7 @@ namespace PCG
                 root.children.Add(GenerateSeasoning());
             }
 
-            Debug.Log("Created Tray: " + root.id);
+            if (Debug.isDebugBuild) Debug.Log("Created Tray: " + root.id);
             return root;
         }
 

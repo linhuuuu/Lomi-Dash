@@ -1,4 +1,4 @@
-﻿using PCG;
+using PCG;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI phaseDisplayText;
     private Touch touch;
     private float timeTouchEnded;
-    private float displayTime = .5f;
-
 
         void Start()
         {
@@ -24,10 +22,10 @@ public class GameManager : MonoBehaviour
 
         float score = order.Evaluate(order);
         // Print it to console
-        Debug.Log("🍽️ Generated Dish 1 :");
+        if (Debug.isDebugBuild) Debug.Log("🍽️ Generated Dish 1 :");
         OrderGraphPrinter.PrintOrderGraph(order);
 
-        Debug.Log("Total Score: " + score);
+        if (Debug.isDebugBuild) Debug.Log("Total Score: " + score);
 
     }
 }

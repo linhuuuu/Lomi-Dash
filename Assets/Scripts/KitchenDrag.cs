@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CameraDrag : MonoBehaviour
+public class KitchenDrag : MonoBehaviour
 {
     [Header("Drag")]
     [SerializeField] private float dragSpeed = 2.0f;
@@ -13,7 +13,12 @@ public class CameraDrag : MonoBehaviour
 
     private Vector3 dragOrigin;
     private Vector3 targetPosition;
+
     private Vector3 velocity = Vector3.zero;
+
+    private Vector3 _screenPosition;
+    
+    private Vector3 _worldPosition;
 
     private Camera cam;
 
@@ -25,13 +30,19 @@ public class CameraDrag : MonoBehaviour
 
     void Update()
     {
+        Vector3 mousePos = Input.mousePosition;
+        _screenPosition = new Vector3(mousePos.x, mousePos.y);
+        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
+
+        RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
+
+        if (hit.collider != null) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             dragOrigin = Input.mousePosition;
             return;
         }
-
-        if (!Input.GetMouseButton(0)) return;
 
         // Calculate drag delta in viewport space
         Vector3 pos = cam.ScreenToViewportPoint(dragOrigin - Input.mousePosition);
@@ -56,4 +67,5 @@ public class CameraDrag : MonoBehaviour
             transform.position = clampedTarget;
         }
     }
+        
 }

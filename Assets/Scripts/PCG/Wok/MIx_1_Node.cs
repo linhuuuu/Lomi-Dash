@@ -13,7 +13,7 @@ namespace PCG
         {
             if (!(other is SeasoningPotNode node))
             {
-                Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
+                if (Debug.isDebugBuild) Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
                 return 0f;
             }
 

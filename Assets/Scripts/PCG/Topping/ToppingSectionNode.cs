@@ -1,4 +1,4 @@
-﻿using PCG;
+using PCG;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +18,7 @@ public class ToppingSectionNode : OrderNode
 
         if (!(other is ToppingSectionNode playerSection))
         {
-            Debug.Log("ToppingsSection: Type mismatch");
+            if (Debug.isDebugBuild) Debug.Log("ToppingsSection: Type mismatch");
             return 0f;
         }
 
@@ -50,7 +50,7 @@ public class ToppingSectionNode : OrderNode
                 if (!foundMatch)
                 {
                     // Optionally: log missing topping
-                    // Debug.Log($"Missing: {expectedTopping.toppingName}");
+                    // if (Debug.isDebugBuild) Debug.Log($"Missing: {expectedTopping.toppingName}");
                 }
             }
         }

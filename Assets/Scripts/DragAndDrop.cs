@@ -5,17 +5,29 @@ public class DragAndDrop : MonoBehaviour
 {
     protected int originalSortingOrder;
     protected SpriteRenderer sprite;
-    protected Vector3 originalPosition;
+
+    protected Transform parent;
+    protected Vector3 originalLocalPosition;
     protected Collider2D col;
+
+    protected bool isDetached = false;
+
     private void Awake()
     {
         col = gameObject.GetComponent<Collider2D>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
-        originalPosition = transform.position;
+        originalLocalPosition = transform.localPosition;
+        parent = transform.parent;
     }
     private void OnMouseDown()
     {
+        if (!isDetached)
+        {
+            transform.SetParent(null);
+            isDetached = true;
+        }
+
         transform.position = GetMousePositionInWorldSpace();
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 20;
     }
@@ -29,6 +41,13 @@ public class DragAndDrop : MonoBehaviour
         Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         p.z = 0f;
         return p;
+    }
+
+    protected void revertDefaults()
+    {
+        transform.SetParent(parent);
+        transform.localPosition = originalLocalPosition;
+        isDetached = false;
     }
 
 

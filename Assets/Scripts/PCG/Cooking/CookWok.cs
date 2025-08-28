@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CookWok : MonoBehaviour, IDropHandler
+public class CookWok : DragAndDrop
 {
 
     public bool stove_On = false;

@@ -1,71 +1,124 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class KitchenDrag : MonoBehaviour
 {
-    [Header("Drag")]
-    [SerializeField] private float dragSpeed = 2.0f;
-    [SerializeField] private bool useSmoothing = true;
-    [SerializeField] private float smoothTime = 0.1f;
+    [SerializeField] private LayerMask interactable;
+    [SerializeField] private float dragSpeed = 10f;
+    [SerializeField] private Vector2 kitchenSize;
+    [SerializeField] private Vector3 inPos = new Vector3(13f, 0f);
+    [SerializeField] private Vector3 outPos = new Vector3(40f, 0f);
+    public bool isDragging = false;
+    private Vector3 dragStart;
+    // public static KitchenDrag kitchen;
+    public bool isKitchenFocus = false;
 
-    [Header("Bounds (World Space)")]
-    [SerializeField] private Vector2 minBounds = new Vector2(-10f, -5f);  // left, bottom
-    [SerializeField] private Vector2 maxBounds = new Vector2(10f, 5f);   // right, top
 
-    private Vector3 dragOrigin;
-    private Vector3 targetPosition;
-
-    private Vector3 velocity = Vector3.zero;
-
-    private Vector3 _screenPosition;
-    
-    private Vector3 _worldPosition;
-
-    private Camera cam;
-
-    private void Start()
+    public void ToggleKitchen()
     {
-        cam = Camera.main;
-        targetPosition = transform.position;
+        isKitchenFocus = !isKitchenFocus;
+
+        if (isKitchenFocus)
+            LeanTween.move(gameObject, inPos, 0.5f).setEaseOutBounce();
+
+        else
+            LeanTween.move(gameObject, outPos, 0.5f).setEaseOutBounce();
     }
 
-    void Update()
+    public void Update()
     {
-        Vector3 mousePos = Input.mousePosition;
-        _screenPosition = new Vector3(mousePos.x, mousePos.y);
-        _worldPosition = Camera.main.ScreenToWorldPoint(_screenPosition);
+        if (!isKitchenFocus) return;
 
-        RaycastHit2D hit = Physics2D.Raycast(_worldPosition, Vector2.zero);
-
-        if (hit.collider != null) return;
-
+        //if pointer is not true;
         if (Input.GetMouseButtonDown(0))
         {
-            dragOrigin = Input.mousePosition;
-            return;
+            if (!IsTouchOnInteractable())
+            {
+                isDragging = true;
+                dragStart = getMousePos();
+            }
+
         }
 
-        // Calculate drag delta in viewport space
-        Vector3 pos = cam.ScreenToViewportPoint(dragOrigin - Input.mousePosition);
-        Vector3 move = new Vector3(pos.x * dragSpeed, 0, 0); // Z = 0 → no zoom
-
-        // Accumulate movement
-        targetPosition = transform.position + move;
-
-        // Clamp to bounds
-        float clampedX = Mathf.Clamp(targetPosition.x, minBounds.x, maxBounds.x);
-        float clampedY = Mathf.Clamp(targetPosition.y, minBounds.y, maxBounds.y);
-
-        Vector3 clampedTarget = new Vector3(clampedX, clampedY, transform.position.z);
-
-        if (useSmoothing)
+        if (Input.GetMouseButton(0) && isDragging)
         {
-            // Smooth damp for staggered, buttery movement
-            transform.position = Vector3.SmoothDamp(transform.position, clampedTarget, ref velocity, smoothTime);
+            Vector3 currentPos = getMousePos();
+            Vector3 offset = currentPos - dragStart;
+
+            Vector3 targetPos = transform.position + offset * dragSpeed * Time.deltaTime;
+            dragStart = currentPos;
+
+            transform.position = ClampPositionToCamera(targetPos);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+            isDragging = false;
+    }
+
+    private Vector3 ClampPositionToCamera(Vector3 targetPos)
+    {
+        Vector2 camBounds = getCameraBounds();
+        Vector2 kitchenBounds = kitchenSize / 2;
+
+        float minX = -(kitchenBounds.x - camBounds.x);
+        float maxX = kitchenBounds.x - camBounds.x;
+
+        float clampedX = Mathf.Clamp(targetPos.x, minX, maxX);
+
+        return new Vector3(clampedX, 0f, 0f);
+    }
+
+    private Vector2 getCameraBounds() => new Vector2(Camera.main.orthographicSize, Camera.main.aspect * Camera.main.orthographicSize);
+    //Get mouse Position by Input
+    private Vector3 getMousePos()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        worldPos.z = 0; //2D;
+        worldPos.y = 0;
+        return worldPos;
+    }
+
+    private bool IsTouchOnInteractable()
+    {
+        if (EventSystem.current?.IsPointerOverGameObject() ?? false)
+        {
+            Debug.Log("Blocked by UI/EventSystem");
+            return true;
+        }
+
+        Vector3 worldPos = getMousePos();
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, Mathf.Infinity, interactable);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Hit: " + hit.collider.name + " on layer " + LayerMask.LayerToName(hit.collider.gameObject.layer));
+            Debug.DrawRay(worldPos, Vector2.up * 0.5f, Color.red, 2f);
         }
         else
         {
-            transform.position = clampedTarget;
+            Debug.Log("No hit");
         }
+
+        return hit.collider != null;
     }
-        
+
+    // //IF outside app
+    // private void OnApplicationFocus(bool hasFocus)
+    // {
+    //     if (!hasFocus)
+    //     {
+    //         isDragging = false; // ✅ Kill drag state
+    //     }
+    // }
+
+    // private void OnApplicationPause(bool paused)
+    // {
+    //     if (paused)
+    //     {
+    //         isDragging = false; // ✅ Pause or quit
+    //     }
+    // }
+
 }

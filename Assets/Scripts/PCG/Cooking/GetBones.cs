@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GetBones : DragAndDrop
@@ -14,14 +12,14 @@ public class GetBones : DragAndDrop
 
         if (hitCollider == null)
         {
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
 
         if (hitCollider.TryGetComponent(out CookPot targetPot))
         {
             targetPot.AddBones();
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
     }

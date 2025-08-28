@@ -12,7 +12,7 @@ public class SeasoningDrop : DragAndDrop
 
         if (hitCollider == null)
         {
-            transform.position = originalPosition;
+            revertDefaults();
             return;
 
         }
@@ -20,10 +20,9 @@ public class SeasoningDrop : DragAndDrop
         if (hitCollider.TryGetComponent(out CookPot targetPot))
         {
             targetPot.AddSeasoning(seasoningName);
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
-
-        transform.position = originalPosition;
+        revertDefaults();
     }
 }

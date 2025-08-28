@@ -11,10 +11,9 @@ public class KitchenDrag : MonoBehaviour
     [SerializeField] private Vector3 outPos = new Vector3(40f, 0f);
     public bool isDragging = false;
     private Vector3 dragStart;
-    // public static KitchenDrag kitchen;
     public bool isKitchenFocus = false;
 
-
+    //Toggle If Kitchen mode or not
     public void ToggleKitchen()
     {
         isKitchenFocus = !isKitchenFocus;
@@ -28,12 +27,12 @@ public class KitchenDrag : MonoBehaviour
 
     public void Update()
     {
-        if (!isKitchenFocus) return;
+        if (!isKitchenFocus) return;    //return if not in Kitchen
 
-        //if pointer is not true;
+        //if pointer is clicked;
         if (Input.GetMouseButtonDown(0))
         {
-            if (!IsTouchOnInteractable())
+            if (!IsTouchOnInteractable())   //if pointer is touching an interactable object
             {
                 isDragging = true;
                 dragStart = getMousePos();
@@ -54,6 +53,7 @@ public class KitchenDrag : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
             isDragging = false;
+
     }
 
     private Vector3 ClampPositionToCamera(Vector3 targetPos)
@@ -75,25 +75,22 @@ public class KitchenDrag : MonoBehaviour
     {
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        worldPos.z = 0; //2D;
-        worldPos.y = 0;
+        worldPos.z = 0; 
         return worldPos;
     }
 
     private bool IsTouchOnInteractable()
     {
-        if (EventSystem.current?.IsPointerOverGameObject() ?? false)
-        {
-            Debug.Log("Blocked by UI/EventSystem");
-            return true;
-        }
+        if (EventSystem.current?.IsPointerOverGameObject() ?? false) return true;   //UI Collision
 
+         //Checks if mousepoint interacted with collider in layer interactable
         Vector3 worldPos = getMousePos();
-        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, Mathf.Infinity, interactable);
+        Collider2D hit = Physics2D.OverlapPoint(worldPos, interactable);    
 
-        if (hit.collider != null)
+        if (hit != null)
         {
-            Debug.Log("Hit: " + hit.collider.name + " on layer " + LayerMask.LayerToName(hit.collider.gameObject.layer));
+            Physics2D.SyncTransforms();
+            Debug.Log("Hit: " + hit.name + " on layer " + LayerMask.LayerToName(hit.gameObject.layer));
             Debug.DrawRay(worldPos, Vector2.up * 0.5f, Color.red, 2f);
         }
         else
@@ -101,7 +98,7 @@ public class KitchenDrag : MonoBehaviour
             Debug.Log("No hit");
         }
 
-        return hit.collider != null;
+        return hit != null;
     }
 
     // //IF outside app

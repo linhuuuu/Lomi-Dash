@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class Sink : DragAndDrop
+public class Spatula : DragAndDrop
 {
 public void OnMouseUp()
     {

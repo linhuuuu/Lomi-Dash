@@ -23,7 +23,6 @@ namespace PCG
             return (saltCount / node.saltCount) * (weight * 0.5f) + (pepperCount / node.pepperCount) * (weight * 0.5f);
             //saltcount and peppercount could overexceed and minus the weight...
         }
-
         public override string ToString()
             => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
     }

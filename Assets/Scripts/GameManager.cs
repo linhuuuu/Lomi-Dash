@@ -1,6 +1,4 @@
 using PCG;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -17,12 +15,9 @@ public class GameManager : MonoBehaviour
             // Generate a tray
             OrderNode order = OrderGenerator.GenerateTray(difficulty: 3);
 
-        // Generate a tray
-        OrderNode order2 = OrderGenerator.GenerateTray(difficulty: 3);
-
         float score = order.Evaluate(order);
         // Print it to console
-        if (Debug.isDebugBuild) Debug.Log("🍽️ Generated Dish 1 :");
+        if (Debug.isDebugBuild) Debug.Log("Generated Dish 1 :");
         OrderGraphPrinter.PrintOrderGraph(order);
 
         if (Debug.isDebugBuild) Debug.Log("Total Score: " + score);

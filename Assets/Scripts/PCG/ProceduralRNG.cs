@@ -1,6 +1,3 @@
-using System;
-using System.Diagnostics;
-using UnityEngine;
 //Procedural RNG Class that can be used by other scripts to initialize RNG.
 //Bool returns a bool value based on probability. Range(int), Range(float) returns value based on min and max range.
 //Next() / NextDouble() returns random value.

@@ -158,11 +158,7 @@ public class CookPot : DragAndDrop
     //Dropping
     public void OnMouseUp()
     {
-<<<<<<< Updated upstream
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrder;
-=======
         initDraggable();
->>>>>>> Stashed changes
 
         if (hitCollider == null)
         {

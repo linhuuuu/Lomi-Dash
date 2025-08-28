@@ -20,7 +20,7 @@ public class CookWok : MonoBehaviour, IDropHandler
 
     void Awake()
     {
-        if(wokNode == null) wokNode = new WokNode("WOK");
+        if (wokNode == null) wokNode = new WokNode("WOK");
     }
     public void SauteePan(string type)
     {
@@ -60,12 +60,12 @@ public class CookWok : MonoBehaviour, IDropHandler
         thickenerNode.thickenerCount++;
     }
 
-    public void EggNode()
+    public void AddEgg()
     {
-        if (eggNode == null) eggNode = new EggNode("THICKENER");
+        if (eggNode == null) eggNode = new EggNode("EGG");
         eggNode.eggCount++;
     }
-    
+
     public void Mix_2()
     {
         if (mix_2_Node == null) mix_2_Node = new Mix_2_Node("MIX_2");
@@ -93,17 +93,49 @@ public class CookWok : MonoBehaviour, IDropHandler
         };
     }
 
-    public void OnDrop(PointerEventData eventData)
+    //Dropping
+    public void OnMouseUp()
     {
-        if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<CookWok>(out CookWok targetWok))
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrder;
+
+        col.enabled = false;
+        Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
+        col.enabled = true;
+
+        if (hitCollider == null)
         {
-            //Creates the PotNode and Passes it to the wok.
-            CreateWokNode();
-            targetWok.potNode = potNode;
+            if (Debug.isDebugBuild) Debug.Log("Got Nothing");
+            revertDefaults();
+            return;
+        }
+
+        if (hitCollider.TryGetComponent(out Sink targetSink))
+        {
+
+            revertDefaults();
+            return;
+        }
+
+        if (hitCollider.TryGetComponent(out PrepDish dish))
+        {
+            // CreatePotNode();
+            
 
             //Simplified Reset, Does not account for large Bowls;
             potNode = null;
-            if (Debug.isDebugBuild) Debug.Log("Cleared WOKNODE");
+            sauteeNode = null;
+            noodlesNode = null;
+            mix_1_Node = null;
+            thickenerNode = null;
+            eggNode = null;
+            mix_2_Node = null;
+
+            if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
+
+            revertDefaults();
+            return;
         }
+        revertDefaults();
     }
+
 }

@@ -158,13 +158,12 @@ public class CookPot : DragAndDrop
     //Dropping
     public void OnMouseUp()
     {
+<<<<<<< Updated upstream
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrder;
+=======
+        initDraggable();
+>>>>>>> Stashed changes
 
-        col.enabled = false;
-        Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
-        col.enabled = true;
-
-        //Possible raycasting to quickly filter out
         if (hitCollider == null)
         {
             if (Debug.isDebugBuild) Debug.Log("Got Nothing");
@@ -187,6 +186,7 @@ public class CookPot : DragAndDrop
             potNode = null;
             boilNode = null;
             bonesNode = null;
+            seasoningPotNode = null;
 
             if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
 

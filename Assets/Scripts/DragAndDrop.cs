@@ -36,7 +36,7 @@ public class DragAndDrop : MonoBehaviour
 
     protected void revertDefaults()
     {
-        transform.localPosition = originalPosition;
+        transform.localPosition = originalLocalPosition;
     }
     protected void initDraggable()
     {

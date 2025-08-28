@@ -1,29 +1,24 @@
 using UnityEngine;
-public class SeasoningDrop : DragAndDrop
+public class EggDrop : DragAndDrop
 {
     [SerializeField] private string seasoningName;
     public void OnMouseUp()
     {
-        sprite.sortingOrder = originalSortingOrder;
-
-        col.enabled = false;
-        Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
-        col.enabled = true;
+        initDraggable();
 
         if (hitCollider == null)
         {
-            transform.position = originalPosition;
+            revertDefaults();
             return;
 
         }
 
-        if (hitCollider.TryGetComponent(out CookPot targetPot))
+        if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            targetPot.AddSeasoning(seasoningName);
-            transform.position = originalPosition;
+            targetWok.AddEgg();
+            revertDefaults();
             return;
         }
-
-        transform.position = originalPosition;
+        revertDefaults();
     }
 }

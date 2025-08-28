@@ -163,14 +163,14 @@ public class CookPot : DragAndDrop
         if (hitCollider == null)
         {
             if (Debug.isDebugBuild) Debug.Log("Got Nothing");
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
 
         if (hitCollider.TryGetComponent(out Sink targetSink))
         {
             AddWater();
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
 
@@ -186,9 +186,9 @@ public class CookPot : DragAndDrop
 
             if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
 
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
-        transform.position = originalPosition;
+        revertDefaults();
     }
 }

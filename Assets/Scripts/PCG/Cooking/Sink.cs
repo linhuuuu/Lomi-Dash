@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Sink : MonoBehaviour
+public class Sink : DragAndDrop
 {
-    // Start is called before the first frame update
-    void Start()
+public void OnMouseUp()
     {
-        
-    }
+        // sprite.sortingOrder = originalSortingOrder;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // col.enabled = false;
+        // Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
+        // col.enabled = true;
+
+        // if (hitCollider == null)
+        // {
+        //     revertDefaults();
+        //     return;
+        // }
+        // revertDefaults();
     }
 }

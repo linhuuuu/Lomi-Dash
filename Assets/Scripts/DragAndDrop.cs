@@ -3,17 +3,19 @@ using UnityEngine;
 //Reusable cript to enable gameobject dragging. Dropping is specific to each entity therefore not included here.
 public class DragAndDrop : MonoBehaviour
 {
-    protected int originalSortingOrder;
-    protected SpriteRenderer sprite;
-    protected Vector3 originalPosition;
     protected Collider2D col;
+    protected SpriteRenderer sprite;
+    protected int originalSortingOrder;
+    protected Vector3 originalLocalPosition;
+    protected Transform parent;
     protected Collider2D hitCollider;
     private void Awake()
     {
         col = gameObject.GetComponent<Collider2D>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
-        originalPosition = transform.position;
+        originalLocalPosition = transform.localPosition;
+        parent = transform.parent;
     }
     private void OnMouseDown()
     {

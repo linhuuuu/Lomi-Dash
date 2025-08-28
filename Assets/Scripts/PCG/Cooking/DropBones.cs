@@ -1,27 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GetBones : DragAndDrop
+public class DropBones : DragAndDrop
 {
     public void OnMouseUp()
     {
-        sprite.sortingOrder = originalSortingOrder;
-
-        col.enabled = false;
-        Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
-        col.enabled = true;
+        initDraggable();
 
         if (hitCollider == null)
         {
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
 
         if (hitCollider.TryGetComponent(out CookPot targetPot))
         {
             targetPot.AddBones();
-            transform.position = originalPosition;
+            revertDefaults();
             return;
         }
     }

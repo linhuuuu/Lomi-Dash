@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CookWok : MonoBehaviour, IDropHandler
+public class CookWok : DragAndDrop
 {
 
     public bool stove_On = false;
@@ -96,11 +96,7 @@ public class CookWok : MonoBehaviour, IDropHandler
     //Dropping
     public void OnMouseUp()
     {
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrder;
-
-        col.enabled = false;
-        Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
-        col.enabled = true;
+        initDraggable();
 
         if (hitCollider == null)
         {

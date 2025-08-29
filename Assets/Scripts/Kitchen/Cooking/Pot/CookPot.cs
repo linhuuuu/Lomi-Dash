@@ -5,10 +5,10 @@ using UnityEngine;
 public class CookPot : DragAndDrop
 {
     public bool stove_1_On = false;
-    private BoilNode boilNode;
-    private SeasoningPotNode seasoningPotNode;
-    private BonesNode bonesNode;
-    private PotNode potNode;
+    public BoilNode boilNode { set; get; }
+    public SeasoningPotNode seasoningPotNode { set; get; }
+    public BonesNode bonesNode { set; get; }
+    public PotNode potNode { set; get;}
 
 
     private Coroutine boilingRoutine;
@@ -111,8 +111,8 @@ public class CookPot : DragAndDrop
     public void CreatePotNode()
     {
         if (boilNode == null) boilNode = new BoilNode("BOIL");
-        if (bonesNode == null) new BonesNode("BONES");
-        if (seasoningPotNode == null) new SeasoningPotNode("SEASONING_POT");
+        if (bonesNode == null) bonesNode = new BonesNode("BONES");
+        if (seasoningPotNode == null) seasoningPotNode = new SeasoningPotNode("SEASONING_POT");
 
         // Create the container node
         potNode = new PotNode("POT_NODE");
@@ -123,36 +123,6 @@ public class CookPot : DragAndDrop
             bonesNode,
             seasoningPotNode
         };
-
-        // Print the full structure
-        if (Debug.isDebugBuild) Debug.Log("=== Pot Node Created ===");
-        PrintNode(potNode, "");
-        if (Debug.isDebugBuild) Debug.Log("========================");
-    }
-
-    //DEBUG
-    private void PrintNode(OrderNode node, string indent)
-    {
-        // Print current node
-        string nodeInfo = node switch
-        {
-            BoilNode b => $"[BoilNode] Water: {b.waterHeld}, Time: {b.time}s",
-            BonesNode bn => $"[BonesNode] {bn.id} = {bn.count}",
-            SeasoningPotNode sn => $"[SeasoningNode] {sn.id}",
-            _ => $""
-        };
-
-        if (Debug.isDebugBuild) Debug.Log($"{indent}├─ {nodeInfo}");
-
-        // Recurse into children
-        for (int i = 0; i < node.children.Count; i++)
-        {
-            string newIndent = indent + "│  ";
-            if (i == node.children.Count - 1)
-                newIndent = indent + "   ";
-
-            PrintNode(node.children[i], newIndent);
-        }
     }
 
     //Dropping
@@ -185,6 +155,7 @@ public class CookPot : DragAndDrop
             seasoningPotNode = null;
 
             if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
+            if (Debug.isDebugBuild) Debug.Log(targetWok.potNode.id);
 
             revertDefaults();
             return;

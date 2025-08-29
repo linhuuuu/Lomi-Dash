@@ -1,6 +1,7 @@
 using PCG;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,10 +14,15 @@ public class PrepDish : MonoBehaviour
     public List<string> ToppingsUnlocked = new List<string>() { "Kikiam", "Bola-Bola" };
 
     public ToppingNode currentTopping = new ToppingNode("");
+
+    public PotNode potNode;
+    public WokNode wokNode;
     public void CreateDish()
     {
         if (dishNode == null) dishNode = new DishNode("DISH");
         if (toppingSectionNode == null) toppingSectionNode = new ToppingSectionNode("TOPPING_SECTION");
+        if (potNode == null) potNode = new PotNode("POTNODE");
+        if (wokNode == null) wokNode = new WokNode("WOKNODE");
     }
 
     public void PlaceTopping(string type)

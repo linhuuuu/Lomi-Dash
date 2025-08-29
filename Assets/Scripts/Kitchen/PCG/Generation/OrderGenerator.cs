@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
+using PCG;
 
-namespace PCG
-{
     public static class OrderGenerator
     {
         public static OrderNode GenerateTray(int difficulty)
@@ -230,9 +229,7 @@ namespace PCG
             };
         }
 
-
-
         }
 
-}
+
 

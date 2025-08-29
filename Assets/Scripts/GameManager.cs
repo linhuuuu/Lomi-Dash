@@ -1,26 +1,25 @@
-using PCG;
 using UnityEngine;
+using PCG;
+using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
-    public TMPro.TextMeshProUGUI phaseDisplayText;
-    private Touch touch;
-    private float timeTouchEnded;
+    [Header("Debug View")]
+    public List<OrderNode> orders = new List<OrderNode>();
 
-        void Start()
+    void Start()
+    {
+        ProceduralRNG.Initialize(System.DateTime.Now.GetHashCode());
+        GenerateOrders(3, 2);
+    }
+
+    public void GenerateOrders(int count, int difficulty)
+    {
+        for (int i = 0; i < count; i++)
         {
-            // Initialize RNG with a seed
-            ProceduralRNG.Initialize(System.DateTime.Now.GetHashCode());
-
-            // Generate a tray
-            OrderNode order = OrderGenerator.GenerateTray(difficulty: 3);
-
-        float score = order.Evaluate(order);
-        // Print it to console
-        if (Debug.isDebugBuild) Debug.Log("Generated Dish 1 :");
-        OrderGraphPrinter.PrintOrderGraph(order);
-
-        if (Debug.isDebugBuild) Debug.Log("Total Score: " + score);
-
+            OrderNode order = OrderGenerator.GenerateTray(difficulty);
+            orders.Add(order);
+        }
     }
 }

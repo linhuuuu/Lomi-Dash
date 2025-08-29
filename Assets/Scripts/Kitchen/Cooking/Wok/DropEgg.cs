@@ -1,5 +1,5 @@
 using UnityEngine;
-public class EggDrop : DragAndDrop
+public class DropEgg : DragAndDrop
 {
     [SerializeField] private string seasoningName;
     public void OnMouseUp()

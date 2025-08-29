@@ -1,27 +1,33 @@
 using PCG;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
+using UnityEditor;
 
 public class CookWok : DragAndDrop
 {
-
     public bool stove_On = false;
-    private SauteeNode sauteeNode;
+    public SauteeNode sauteeNode { get; set; }
     public PotNode potNode { get; set; }
     private NoodlesNode noodlesNode;
     private Mix_1_Node mix_1_Node;
     private ThickenerNode thickenerNode;
     private EggNode eggNode;
     private Mix_2_Node mix_2_Node;
-    private WokNode wokNode;
+    public WokNode wokNode { get;  set;}
     private Coroutine cookingRoutine;
-
 
     void Awake()
     {
         if (wokNode == null) wokNode = new WokNode("WOK");
     }
+
+    public void ToggleStove()
+    {
+        stove_On = !stove_On;
+        if (Debug.isDebugBuild) Debug.Log("Stove is " + stove_On);
+    }
+
     public void SauteePan(string type)
     {
         if (sauteeNode == null) sauteeNode = new SauteeNode("SAUTEE");
@@ -44,7 +50,6 @@ public class CookWok : DragAndDrop
     public void AddNoodles()
     {
         if (noodlesNode == null) noodlesNode = new NoodlesNode("NOODLES");
-
         noodlesNode.noodleCount++;
     }
 
@@ -54,7 +59,7 @@ public class CookWok : DragAndDrop
         mix_1_Node.isMixed = true;
     }
 
-    public void ThickenerNode()
+    public void AddThickener()
     {
         if (thickenerNode == null) thickenerNode = new ThickenerNode("THICKENER");
         thickenerNode.thickenerCount++;
@@ -65,6 +70,7 @@ public class CookWok : DragAndDrop
         if (eggNode == null) eggNode = new EggNode("EGG");
         eggNode.eggCount++;
     }
+
 
     public void Mix_2()
     {
@@ -81,6 +87,7 @@ public class CookWok : DragAndDrop
         if (thickenerNode == null) thickenerNode = new ThickenerNode("THICKENER");
         if (eggNode == null) eggNode = new EggNode("THICKENER");
         if (mix_2_Node == null) mix_2_Node = new Mix_2_Node("MIX_2");
+        if (potNode == null) potNode = new PotNode("POT_NODE");
 
         wokNode.children = new List<OrderNode>
         {
@@ -114,8 +121,11 @@ public class CookWok : DragAndDrop
 
         if (hitCollider.TryGetComponent(out PrepDish dish))
         {
-            // CreatePotNode();
+            dish.potNode = potNode;
+            dish.wokNode = wokNode;
+            CreateWokNode();
             
+
 
             //Simplified Reset, Does not account for large Bowls;
             potNode = null;
@@ -131,7 +141,10 @@ public class CookWok : DragAndDrop
             revertDefaults();
             return;
         }
+
         revertDefaults();
+        EditorUtility.SetDirty(this);
+
     }
 
 }

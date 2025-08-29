@@ -1,21 +1,19 @@
 using UnityEngine;
-public class NoodlesDrop : DragAndDrop
+public class DropThickener : DragAndDrop
 {
-    [SerializeField] private string seasoningName;
     public void OnMouseUp()
     {
         initDraggable();
-        
+
         if (hitCollider == null)
         {
             revertDefaults();
             return;
-
         }
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            targetWok.AddEgg();
+            targetWok.AddThickener();
             revertDefaults();
             return;
         }

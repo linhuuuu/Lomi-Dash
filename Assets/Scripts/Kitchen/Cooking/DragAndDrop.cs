@@ -5,10 +5,12 @@ public class DragAndDrop : MonoBehaviour
 {
     protected Collider2D col;
     protected SpriteRenderer sprite;
-    protected int originalSortingOrder;
-    protected Vector3 originalLocalPosition;
-    protected Transform parent;
+    public int originalSortingOrder { set; get; }
+    public Vector3 originalLocalPosition { set; get; }
+    public Transform parent { set; get; }
     protected Collider2D hitCollider;
+    private LayerMask interactable;
+
     private void Awake()
     {
         col = gameObject.GetComponent<Collider2D>();
@@ -16,11 +18,14 @@ public class DragAndDrop : MonoBehaviour
         originalSortingOrder = sprite.sortingOrder;
         originalLocalPosition = transform.localPosition;
         parent = transform.parent;
+
+        interactable = 1 << 8; //interactables are at layer 8
+
     }
     private void OnMouseDown()
     {
         transform.position = GetMousePositionInWorldSpace();
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 20;
+        sprite.sortingOrder = 30;
     }
 
     private void OnMouseDrag()
@@ -36,13 +41,14 @@ public class DragAndDrop : MonoBehaviour
 
     protected void revertDefaults()
     {
+        transform.SetParent(parent);
         transform.localPosition = originalLocalPosition;
+        sprite.sortingOrder = originalSortingOrder;
     }
     protected void initDraggable()
     {
-        sprite.sortingOrder = originalSortingOrder;
         col.enabled = false;
-        hitCollider = Physics2D.OverlapPoint(transform.position);
+        hitCollider = Physics2D.OverlapPoint(transform.position, interactable);
         col.enabled = true;
     }
 

@@ -4,12 +4,14 @@ namespace PCG
 {
     public class ToppingNode : OrderNode
     {
-        public string toppingName { get; set; } = "";
         public int toppingCount { get; set; } = 0;
-        public ToppingNode(string id)
+        public ToppingNode(string id) =>  this.id = id;
+
+        public ToppingNode(Topping topping, int count)
         {
-            this.id = id;
-        } // clearer
+            id = topping.toppingName;
+            toppingCount = count;
+        }
 
         public override float Evaluate(OrderNode other)
         {
@@ -21,7 +23,7 @@ namespace PCG
             }
 
             // Names must match
-            if (toppingName != player.toppingName)
+            if (id != player.id)
                 return 0f; // ❌ Wrong topping → no score
 
             // If player provided 0, no match
@@ -34,6 +36,6 @@ namespace PCG
         }
 
         public override string ToString()
-            => $"[TOPPING: {toppingName} x{toppingCount} (w={weight:F1})]";
+            => $"[TOPPING: {id} x{toppingCount} (w={weight:F1})]";
     }
 }

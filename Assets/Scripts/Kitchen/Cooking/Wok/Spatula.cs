@@ -1,7 +1,7 @@
 using UnityEngine;
 public class Spatula : DragAndDrop
 {
-public void OnMouseUp()
+    public void OnMouseUp()
     {
         initDraggable();
 
@@ -9,6 +9,16 @@ public void OnMouseUp()
         {
             revertDefaults();
             return;
+        }
+
+        if (hitCollider.TryGetComponent(out CookWok targetWok))
+        {
+            if ((targetWok.noodlesNode != null || targetWok.potGroup != null) && targetWok.thickenerNode == null)
+            {
+                targetWok.AddThickener();
+                revertDefaults();
+                return;
+            }
         }
         revertDefaults();
     }

@@ -7,28 +7,29 @@ namespace PCG
     public class Mix_2_Node : OrderNode
     {
         //DOUBLECHECK
-         public bool isMixed { get; set; } = false;
-        public Mix_2_Node (string id) => this.id = id;
-
-
+        public bool isMixed { get; set; } = false;
+        public Mix_2_Node() => id = "MIX_2_NODE";
+        public Mix_2_Node(bool isMixed)
+        {
+            id = "MIX_2_NODE";
+            this.isMixed = isMixed; 
+        }
         public override float Evaluate(OrderNode other)
         {
-            if (!(other is SeasoningPotNode node))
-            {
-                if (Debug.isDebugBuild) Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
-                return 0f;
-            }
+            // if (!(other is SeasoningPotNode node))
+            // {
+            //     if (Debug.isDebugBuild) Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
+            //     return 0f;
+            // }
 
-            //if (node.saltCount == 0 && node.pepperCount == 0) return 0f;
+            // //if (node.saltCount == 0 && node.pepperCount == 0) return 0f;
 
-            //return (saltCount / node.saltCount) * (weight * 0.5f) + (pepperCount / node.pepperCount) * (weight * 0.5f);
-            ////saltcount and peppercount could overexceed and minus the weight...
-            ///
+            // //return (saltCount / node.saltCount) * (weight * 0.5f) + (pepperCount / node.pepperCount) * (weight * 0.5f);
+            // ////saltcount and peppercount could overexceed and minus the weight...
+            // ///
             return 1f;
         }
-
-        
-        //public override string ToString()
-        //    => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
+        public override string ToString()
+            => $"[{id}: isMixed: {isMixed} (w={weight:F1})]";
     }
 }

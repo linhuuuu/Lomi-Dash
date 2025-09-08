@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Sink
+  - DishPos
+  - Tray
+  - Dish
+  - Dish Slot
+  - Beverage Slot
+  - Seasoning Tray Slot
+  - Seasoning Tray
+  - Trash
+  - Seasoning Tray Clone
+  - Beverage
   layers:
   - Default
   - TransparentFX

@@ -14,9 +14,12 @@ public class DropNoodles : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            targetWok.AddNoodles();
-            revertDefaults();
-            return;
+            if (targetWok.mix_1_Node == null)
+            {
+                targetWok.AddNoodles();
+                revertDefaults();
+                return;
+            }
         }
         revertDefaults();
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StoveButton : MonoBehaviour
+public class StovePotButton : MonoBehaviour
 {
     [SerializeField] private CookPot pot;
     void OnMouseDown()

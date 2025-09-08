@@ -1,3 +1,4 @@
+using System.Data.Common;
 using UnityEngine;
 
 namespace PCG
@@ -6,12 +7,14 @@ namespace PCG
     {
         public int time { get; set; } = 0;
         public int waterHeld { get; set; } = 0;
-
         public int tolerance = 2;
-
-        public BoilNode(string id) => this.id = id;
-        
-
+        public BoilNode() => id = "BOIL_NODE";
+        public BoilNode(int time, int waterHeld)
+        {
+            id = "BOIL_NODE";
+            this.time = time;
+            this.waterHeld = waterHeld;
+        }
         public override float Evaluate(OrderNode other)
         {
             if (!(other is BoilNode player))
@@ -39,6 +42,6 @@ namespace PCG
         }
 
         public override string ToString()
-            => $"[BOIL: {time}s ±{tolerance}s (w={weight:F1})]";
+            => $"[{id}: Water x{waterHeld}, Boiled for: {time}s (w={weight:F1})]";
     }
 }

@@ -1,235 +1,259 @@
-using System;
-using UnityEngine;
 using PCG;
+using System.Collections.Generic;
+using UnityEditor.Animations;
+using UnityEngine;
 
-    public static class OrderGenerator
+// Dish Generation Rules:
+// Each Customer must have a bowl;
+// Base Tray = 3 slots, Upgraded Tray = 5 slots
+// Regular Dish = 1 slot, Large Dish = 2 slots
+// LargeDishCount scales with difficulty
+// LargeDish can accomodate 2 heads 
+// Tray can accomodate max 5 slots, maybe increase to 6?
+// 3 Difficulty Level 
+
+public static class OrderGenerator
+{
+    public static OrderNode GenerateTray(int difficulty, int headCount, bool largeBowlUnlocked, bool largeTrayUnlocked, List<Beverage> bevList, List<Recipe> recipeList)
     {
-        public static OrderNode GenerateTray(int difficulty)
+        //Tray Init
+        int trayDishSlots = largeTrayUnlocked ? 5 : 3;
+        var trayNode = new TrayRootNode() { weight = 100f };
+
+        //Large Dish Init
+        int dishCount = Mathf.Clamp(headCount, 0, 3);
+        int largeDishCount = 0;
+        if (headCount == 1)
         {
-            int headCount = ProceduralRNG.Range(1, 5);  //CHANGE TO PARAMETER REMOVE
-            bool largeBowlUnlocked = true; //CHANGE TO PARAMATER AND REMOVE
-            int traySlots = 5; //CHANGE TO PARAMATER AND REMOVE
-            int dishCount = Math.Clamp(headCount, 0, 3);
-            int largeDishCount = 0;
+            if (largeBowlUnlocked && ProceduralRNG.Bool(0.1f + difficulty * 0.3f))
+                largeDishCount = 1;
+            else
+                largeDishCount = 0;
+        }
+        else if (headCount == 2)
+        {
+            float sharedChance = 0.1f + difficulty * 0.2f; // increases with difficulty
+            float twoLargeChance = 0.1f + difficulty * 0.3f;
 
-
-            //Add Root Tray Node
-            var root = new OrderNode {
-                id = "TRAY",
-                weight = 100,
-            };
-
-
-            // Dish Generation Rules:
-            // Ensures that each customer head recieves a bowl;
-            // Make sure that largeDishCount scales with difficulty;
-            // Make sure that if there are two heads, it can either be one large bowl or two small/large bowls, the former for easier difficulty
-            // 3 Difficulty Level 
-            // Decide if its 3 or 5 people cause????
-            // Base Tray = 3 slots, Upgraded Tray = 5 slots
-            // Regular Dish = 1 slot, Large Dish = 2 slots
-
-            if (headCount == 1)
-            {
-                if (largeBowlUnlocked && ProceduralRNG.Bool(0.1f + difficulty * 0.3f))
-                {
-                    largeDishCount = 1;
-                }
-                else
-                {
-                    largeDishCount = 0;
-                }
-            }
-            else if (headCount == 2)    //could prolly use improvement
-            {
-                float sharedChance = 0.1f + difficulty * 0.2f; // increases with difficulty
-                float twoLargeChance = 0.1f + difficulty * 0.3f;
-
-                if (largeBowlUnlocked && ProceduralRNG.Bool(sharedChance))
-                {
-                    largeDishCount = 1;
-                }
-                else if (largeBowlUnlocked && ProceduralRNG.Bool(twoLargeChance) && traySlots >= 4)
-                {
-                    largeDishCount = 2;
-                }
-                else
-                {
-                    largeDishCount = 0;
-                }
-            }
-            else if (headCount == 3)
-            {
-                float largeChance = 0.1f + difficulty * 0.3f;
-
-                for (int i = 0; i < dishCount; i++)
-                {
-                    if (!largeBowlUnlocked) break;
-                    if (traySlots > 3 && largeDishCount<2)
-                    {
-                        if (ProceduralRNG.Bool(largeChance))
-                        {
-                            largeDishCount++;
-                        }
-                    }
-                    else
-                    {
-                        largeDishCount++;
-                        break;
-                    }
-                }
-            }
-            else if (headCount>=4)
-            {
+            if (largeBowlUnlocked && ProceduralRNG.Bool(sharedChance))
+                largeDishCount = 1;
+            else if (largeBowlUnlocked && ProceduralRNG.Bool(twoLargeChance) && trayDishSlots >= 4)
                 largeDishCount = 2;
-            }
-
-            //largeDishCount = 2;
-            //for (int i = 0; i < dishCount; i++)
-            //{
-            //    if (largeDishCount < 2 && // cap at 2 large dishes
-            //        largeBowlUnlocked &&
-            //        ProceduralRNG.Bool(difficulty * 0.25f))
-            //    {
-            //        largeDishCount++;
-            //    }
-            //}
-
-            if (Debug.isDebugBuild) Debug.Log("Dish Count for Tray:" + dishCount);
-            if (Debug.isDebugBuild) Debug.Log("Large Dish Count for Tray:" + largeDishCount);
-
-            int remainingLarge = largeDishCount;
-            int totalSlotsUsed = 0;
+            else
+                largeDishCount = 0;
+        }
+        else if (headCount == 3)
+        {
+            float largeChance = 0.1f + difficulty * 0.3f;
 
             for (int i = 0; i < dishCount; i++)
             {
-                bool shouldMakeLarge = remainingLarge > 0;
-
-                if (shouldMakeLarge && totalSlotsUsed + 2 <= traySlots)
+                if (!largeBowlUnlocked) break;
+                if (trayDishSlots > 3 && largeDishCount < 2)
                 {
-                    root.children.Add(GenerateDish(difficulty, isLarge: true));
-                    totalSlotsUsed += 2;
-                    remainingLarge--;
-                }
-                else if (totalSlotsUsed + 1 <= traySlots)
-                {
-                    root.children.Add(GenerateDish(difficulty, isLarge: false));
-                    totalSlotsUsed += 1;
+                    if (ProceduralRNG.Bool(largeChance))
+                        largeDishCount++;
                 }
                 else
                 {
-                    // No space left — skip or log warning
-                    Debug.LogWarning("No slot available for dish " + i);
+                    largeDishCount++;
+                    break;
                 }
             }
+        }
+        else if (headCount >= 4)
+        {
+            largeDishCount = 2;
+        }
 
-            // Add Beverage
-            int beverageCount = ProceduralRNG.Range(1, 2);
-            for (int i = 0; i <= beverageCount; i++)
+        
+        //Dish Generation
+        int remainingLarge = largeDishCount;
+        int totalSlotsUsed = 0;
+
+        for (int i = 0; i < dishCount; i++)
+        {
+            bool shouldMakeLarge = remainingLarge > 0;
+            var recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count)];
+
+            if (shouldMakeLarge && totalSlotsUsed + 2 <= trayDishSlots)
             {
-                root.children.Add(GenerateBeverage());
+                trayNode.children.Add(GenerateDish(difficulty, isLarge: true, recipe));
+                totalSlotsUsed += 2;
+                remainingLarge--;
+            }
+            else if (totalSlotsUsed + 1 <= trayDishSlots)
+            {
+                trayNode.children.Add(GenerateDish(difficulty, isLarge: false, recipe));
+                totalSlotsUsed += 1;
+            }
+        }
+
+        // Add Beverage fix
+        int beverageCount = ProceduralRNG.Range(1, 2);
+        for (int i = 0; i < beverageCount; i++)
+        {
+            var beverage = bevList[ProceduralRNG.Range(0, bevList.Count)];
+            trayNode.children.Add(GenerateBeverage(beverage));
+        }
+
+        //Add Seasoning
+        trayNode.children.Add(GenerateSeasoning(headCount));
+
+        //Add Weights
+        AddWeights(trayNode, 100f);
+        
+        return trayNode;
+    }
+
+    public static OrderNode GenerateDish(int difficulty, bool isLarge, Recipe recipe)
+    {
+        var dish = new DishSectionNode();
+        dish.isLarge = isLarge;
+
+        dish.children.Add(GeneratePotGroup(isLarge));
+        dish.children.Add(GenerateWokGroup(isLarge));
+        dish.children.Add(GenerateToppingGroup(recipe));
+
+        return dish;
+    }
+
+    public static OrderNode GeneratePotGroup(bool isLarge)
+    {
+        PotGroup pot = new PotGroup();
+
+        int boilTime = 15, waterHeld = 1, bonesCount = 1, saltCount = 1, pepperCount = 1, bawangCount = 1;
+
+        if (isLarge)
+        {
+            waterHeld = 2;
+            saltCount = 2;
+            pepperCount = 2;
+            bawangCount = 2;
+        }
+
+        pot.children.Add(new BoilNode(boilTime, waterHeld));
+        pot.children.Add(new BonesNode(bonesCount));
+        pot.children.Add(new SeasoningNode(saltCount, pepperCount, bawangCount));
+
+        return pot;
+    }
+
+    public static OrderNode GenerateWokGroup(bool isLarge)
+    {
+        var wok = new WokGroup();
+        int oilCount = 1, onionCount = 1, bawangCount = 1, sauteeCount = 1;
+        int noodleCount = 1, cookTime = 15, eggCount = 1, thickenerCount = 1;
+        bool isMixed = true;
+
+        if (isLarge)
+        {
+            oilCount = 2; onionCount = 2; bawangCount = 2; sauteeCount = 2;
+            noodleCount = 2; eggCount = 2; thickenerCount = 2;
+        }
+
+        wok.children.Add(new SauteeNode(oilCount, onionCount, bawangCount, sauteeCount));
+        wok.children.Add(new NoodlesNode(noodleCount, cookTime));
+        wok.children.Add(new Mix_1_Node(isMixed));
+        wok.children.Add(new EggNode(eggCount));
+        wok.children.Add(new ThickenerNode(thickenerCount));
+        wok.children.Add(new Mix_2_Node(isMixed));
+
+        return wok;
+    }
+
+    public static OrderNode GenerateToppingGroup(Recipe recipe)
+    {
+        var toppingsSection = new ToppingGroup();
+        var toppingList = recipe.toppingList;
+
+        foreach(var toppingEntry in toppingList)
+            toppingsSection.children.Add(new ToppingNode(toppingEntry.topping, toppingEntry.count));
+        return toppingsSection;
+    }
+
+    private static OrderNode GenerateBeverage(Beverage bev)
+    {
+        return new BeverageSectionNode(bev);
+    }
+
+    private static OrderNode GenerateSeasoning(int headCount)
+    {
+        return new SeasoningTraySection { trayCount = headCount };
+    }
+
+    //Weight Distribution
+    private static void AddWeights(OrderNode rootNode, float totalWeight)
+    {
+        float dishTotal = totalWeight * 0.7f;
+        float beverageTotal = totalWeight * 0.2f;
+        float seasoningTrayTotal = totalWeight * 0.1f;
+        List<OrderNode> dishes = new List<OrderNode>();
+        List<OrderNode> beverages = new List<OrderNode>();
+
+        foreach (var child in rootNode.children)
+        {
+            switch (child.id)
+            {
+                case "DISH_SECTION":
+                    dishes.Add(child);
+                    break;
+                case "BEVERAGE_SECTION":
+                    beverages.Add(child);
+                    break;
+                case "SEASONING_TRAY_SECTION":
+                    child.weight = seasoningTrayTotal;
+                    break;
+            }
+        }
+
+        DistributeWeightsToDish(dishes, dishTotal);
+        DistributeWeightsToBeverages(beverages, beverageTotal);
+    }
+
+    private static void DistributeWeightsToBeverages(List<OrderNode> beverages, float beverageTotal)
+    {
+        float perBev = beverageTotal / beverages.Count;
+        foreach (var bev in beverages)
+            bev.weight = perBev;
+    }
+
+    private static void DistributeWeightsToDish(List<OrderNode> dishes, float dishTotal)
+    {
+        float perDish = dishTotal / dishes.Count;
+        foreach (var dish in dishes)
+        {
+            dish.weight = perDish;
+            DistributeToDishSection(dish);
+        }
+    }
+
+    private static void DistributeToDishSection(OrderNode dish)
+    {
+        float[] dishChildrenWeights = new float[3] { 0.3f, 0.4f, 0.3f };    //pot, wok, toppings
+        float dishWeight = dish.weight;
+        foreach(var section in dish.children)
+        {
+            switch (section)
+            {
+                case PotGroup:
+                    section.weight = dishWeight * dishChildrenWeights[0];
+                    break;
+                case WokGroup:
+                    section.weight = dishWeight * dishChildrenWeights[1];
+                    break;
+                case ToppingGroup:
+                    section.weight = dishWeight * dishChildrenWeights[2];
+                    break;  
             }
 
-            // Add Seasoning
-            for (int i = 0; i <= beverageCount; i++)
-            {
-                root.children.Add(GenerateSeasoning());
-            }
-
-            if (Debug.isDebugBuild) Debug.Log("Created Tray: " + root.id);
-            return root;
+            float perChild = section.weight / section.children.Count;
+            foreach (var node in section.children)
+                node.weight = perChild;
         }
+    }
+}
 
-        public static OrderNode GenerateDish(int difficulty, bool isLarge)
-        {
-            var dish = new DishNode("DISH_");
-            dish.isLarge = isLarge;
-            dish.id = isLarge ? "DISH_LARGE" : "DISH_REGULAR";
-            dish.weight = isLarge ? 40 : 20;
-
-            dish.children.Add(GeneratePot(isLarge));
-            dish.children.Add(GeneratePan(isLarge));
-            dish.children.Add(GenerateToppings(isLarge ? 4 : 2, difficulty));
-
-            return dish;
-        }
-
-        public static OrderNode GeneratePot(bool isLarge)
-        {
-            var pot = new OrderNode() { id = "POT" };
-
-            pot.children.Add(new BoilNode("BOIL"));
-
-            pot.children.Add(new BonesNode("BONES")
-            {
-                id = "BONES",
-            });
-
-            return pot;
-        }
-
-        public static OrderNode GeneratePan(bool isLarge)
-        {
-            var pan = new OrderNode() { id = "PAN" };
-            int ingredientCount = isLarge ? 7 : 3;
-
-            for (int i = 0; i < ingredientCount; i++)
-            {
-                pan.children.Add(new ToppingNode($"INGREDIENT_{i}"));
-            }
-
-            return pan;
-        }
-
-        public static OrderNode GenerateToppings(int count, int difficulty)
-        {
-            var toppingsSection = new ToppingSectionNode("TOPPINGS_SECTION");
-
-            string[] allToppings = {
-                            "Pork Belly", "Egg", "Green Onion", "Corn", "Spicy Mayo", "Mushrooms"
-                        };
-
-            for (int i = 0; i < count; i++)
-            {
-                string name = allToppings[ProceduralRNG.Range(0, allToppings.Length)];
-                int expectedCount = ProceduralRNG.Range(1, 3);
-
-                toppingsSection.children.Add(new ToppingNode($"TOPPING_{i}")
-                
-           
-                );
-            }
-
-            return toppingsSection;
-        }
-
-        private static string GetRandomIngredient()
-        {
-            string[] ingredients = { "Noodles", "Udon", "Soba", "Rice" };
-            return ingredients[ProceduralRNG.Range(0, ingredients.Length)];
-        }
-
-        private static OrderNode GenerateBeverage()
-        {
-            return new BeverageNode
-            {
-                id = "BEVERAGE",
-                weight = 10,
-                size = 1
-            };
-        }
-
-        private static OrderNode GenerateSeasoning()
-        {
-            return new SeasoningTrayNode
-            {
-                id = "SEASONING",
-                weight = 10,
-                trayCount = 1,  //edit to make it the number of people.
-            };
-        }
-
-        }
 
 
 

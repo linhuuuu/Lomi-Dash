@@ -11,7 +11,16 @@ namespace PCG
         public int bawangCount { get; set; } = 0;
         public int satueeCount { get; set; } = 0;
 
-        public SauteeNode(string id) => this.id = id;
+        public SauteeNode() => id = "SAUTEE_NODE";
+
+        public SauteeNode(int oilCount, int onionCount, int bawangCount, int sauteeCount)
+        {
+            id = "SAUTEE_NODE";
+            this.oilCount = oilCount;
+            this.onionCount = onionCount;
+            this.bawangCount = bawangCount;
+            this.satueeCount = sauteeCount;
+        }
         public override float Evaluate(OrderNode other)
         {
             if (!(other is SauteeNode node))
@@ -27,7 +36,7 @@ namespace PCG
             ///
             return 1f;
         }
-        //public override string ToString()
-        //    => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
+        public override string ToString()
+           => $"[{id}: OilCount x{oilCount} OnionCount x{onionCount} BawangCount x{bawangCount} SauteeCount x{satueeCount} (w={weight:F1})]";
     }
 }

@@ -8,7 +8,13 @@ namespace PCG
     {
         //DOUBLECHECK
         public int eggCount { get; set; }
-        public EggNode (string id) => this.id = id;
+        public EggNode () => id = "EGG_NODE";
+        public EggNode(int eggCount)
+        {
+            id = "EGG_NODE";
+            this.eggCount = eggCount;
+        }
+
         public override float Evaluate(OrderNode other)
         {
             if (!(other is EggNode node))
@@ -26,7 +32,7 @@ namespace PCG
         }
 
         
-        //public override string ToString()
-        //    => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
+        public override string ToString()
+           => $"[{id}: Count x{eggCount} (w={weight:F1})]";
     }
 }

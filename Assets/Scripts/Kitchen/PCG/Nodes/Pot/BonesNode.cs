@@ -4,9 +4,15 @@ namespace PCG
 {
     public class BonesNode : OrderNode
     {
-        public int count{ get; set; } = 0;
+        public int count{ set; get; } = 0;
 
-        public BonesNode(string id) => this.id = id;
+        public BonesNode() => id = "BONES_NDOE";
+
+        public BonesNode(int count)
+        {
+            id = "BONES_NDOE";
+            this.count = 1;
+        }
 
         public override float Evaluate(OrderNode other)
         {
@@ -21,6 +27,6 @@ namespace PCG
         }
 
         public override string ToString()
-            => $"[BOIL: {count}s (w={weight:F1})]";
+            => $"[{id}: Count x{count}s (w={weight:F1})]";
     }
 }

@@ -7,25 +7,29 @@ namespace PCG
     public class ThickenerNode : OrderNode
     {
         public int thickenerCount { get; set; }
-        public ThickenerNode (string id) => this.id = id;
+        public ThickenerNode () => id = "THICKENER_NODE";
+        public ThickenerNode(int thickenerCount)
+        {
+            id = "THICKENER_NODE";
+            this.thickenerCount = thickenerCount;
+        }
         public override float Evaluate(OrderNode other)
         {
-            if (!(other is SeasoningPotNode node))
-            {
-                if (Debug.isDebugBuild) Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
-                return 0f;
-            }
+            // if (!(other is SeasoningPotNode node))
+            // {
+            //     if (Debug.isDebugBuild) Debug.Log($"[BonesNode] Type mismatch: got {other?.GetType().Name}");
+            //     return 0f;
+            // }
 
-            //if (node.saltCount == 0 && node.pepperCount == 0) return 0f;
+            // //if (node.saltCount == 0 && node.pepperCount == 0) return 0f;
 
-            //return (saltCount / node.saltCount) * (weight * 0.5f) + (pepperCount / node.pepperCount) * (weight * 0.5f);
-            ////saltcount and peppercount could overexceed and minus the weight...
-            ///
+            // //return (saltCount / node.saltCount) * (weight * 0.5f) + (pepperCount / node.pepperCount) * (weight * 0.5f);
+            // ////saltcount and peppercount could overexceed and minus the weight...
+            // ///
             return 1f;
         }
 
-        
-        //public override string ToString()
-        //    => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
+        public override string ToString()
+           => $"[{id}: Count x{thickenerCount} (w={weight:F1})]";
     }
 }

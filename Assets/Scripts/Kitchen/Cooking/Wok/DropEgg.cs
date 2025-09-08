@@ -2,7 +2,7 @@ using UnityEngine;
 public class DropEgg : DragAndDrop
 {
     [SerializeField] private string seasoningName;
-    public void OnMouseUp()
+    private void OnMouseUp()
     {
         initDraggable();
 

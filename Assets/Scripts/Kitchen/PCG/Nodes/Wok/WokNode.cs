@@ -1,9 +1,9 @@
 namespace PCG
 {
     [System.Serializable]
-    public class WokNode: OrderNode
+    public class WokGroup: OrderNode
     {
-        public WokNode (string id) => this.id = id;
+        public WokGroup () => id = "WOK_GROUP";
         public override string ToString() => $"[{id} (w={weight})"; // Debugging
     }
 }

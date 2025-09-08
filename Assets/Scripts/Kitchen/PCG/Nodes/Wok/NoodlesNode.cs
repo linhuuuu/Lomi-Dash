@@ -8,9 +8,14 @@ namespace PCG
     {
         //DOUBLECHECK
         public int noodleCount { get; set; } = 0;
-        public int noodleCookCount { get; set; } = 0;
-
-        public NoodlesNode (string id) => this.id = id;
+        public int cookTime { get; set; } = 0;
+        public NoodlesNode() => id = "NOODLES_NODE";
+        public NoodlesNode(int noodleCount, int cookTime)
+        {
+            id = "NOODLES_NODE";
+            this.noodleCount = noodleCount;
+            this.cookTime = cookTime;
+        }
         public override float Evaluate(OrderNode other)
         {
             if (!(other is NoodlesNode node))
@@ -26,9 +31,8 @@ namespace PCG
             ///
             return 1f;
         }
-
-
-        //public override string ToString()
-        //    => $"[Salt: {saltCount}s PepperCount: {pepperCount} (w={weight:F1})]";
+        
+        public override string ToString()
+           => $"[{id}: Count: {noodleCount}s CookTime: {cookTime} (w={weight:F1})]";
     }
 }

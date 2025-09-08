@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class KitchenDrag : MonoBehaviour
 {
     [SerializeField] private LayerMask interactable;
-    [SerializeField] private float dragSpeed = 10f;
+    [SerializeField] private float dragSpeed = 60f;
     [SerializeField] private Vector2 kitchenSize;
     [SerializeField] private Vector3 inPos = new Vector3(13f, 0f);
     [SerializeField] private Vector3 outPos = new Vector3(40f, 0f);

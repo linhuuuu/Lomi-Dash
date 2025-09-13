@@ -1,8 +1,7 @@
 using UnityEngine;
-
-public class DropBones : DragAndDrop
+public class AddSoySauce : DragAndDrop
 {
-    public void OnMouseUp()
+    private void OnMouseUp()
     {
         initDraggable();
 
@@ -10,13 +9,15 @@ public class DropBones : DragAndDrop
         {
             revertDefaults();
             return;
+
         }
 
-        if (hitCollider.TryGetComponent(out CookPot targetPot))
+        if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            targetPot.AddBones();
+            targetWok.AddSoySauce();
             revertDefaults();
             return;
         }
+        revertDefaults();
     }
 }

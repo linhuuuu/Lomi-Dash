@@ -10,7 +10,8 @@ public class PrepDish : DragAndDrop
     public ToppingGroup toppingGroup { private set; get; }  //The Topping Section
     public ToppingNode currentTopping { private set; get; } //Current Toppings
     public List<string> ToppingsUnlocked { private set; get; } = new List<string>() { "Kikiam", "Bola-Bola" };
-
+    public Transform toppingSection { set; get; }
+    public AnimDish animDish;
     //Groups
     public PotGroup potGroup { set; get; }
     public WokGroup wokGroup { set; get; }
@@ -21,6 +22,7 @@ public class PrepDish : DragAndDrop
 
     void Start()
     {
+        animDish = GetComponent<AnimDish>();
         //Init DishNode
         if (dishNode == null)
             dishNode = new DishSectionNode();
@@ -30,6 +32,8 @@ public class PrepDish : DragAndDrop
         //Set Parent
         dishPos = transform.parent;
         dishPosCollider = dishPos.GetComponent<Collider2D>();
+
+        toppingSection = transform.Find("Topping Section");
     }
     public void InitDish()
     {
@@ -152,6 +156,10 @@ public class PrepDish : DragAndDrop
                 dishSlot.RemoveDishFromSlot();
 
             dishPosCollider.enabled = true;
+
+            foreach (ToppingPoolObj obj in toppingSection.GetComponentsInChildren<ToppingPoolObj>())
+                obj.section.ReturnTopping();
+
             Destroy(this.gameObject);
         }
 

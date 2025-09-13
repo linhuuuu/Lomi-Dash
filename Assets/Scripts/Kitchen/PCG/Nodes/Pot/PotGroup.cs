@@ -6,6 +6,6 @@ namespace PCG
     public class PotGroup : OrderNode
     {
         public PotGroup() => id = "POT_GROUP";
-        public override string ToString() => $"[{id} \n (w={weight})"; // Debugging
+        public override string ToString() => $"[{id} (w={weight})"; // Debugging
     }
 }

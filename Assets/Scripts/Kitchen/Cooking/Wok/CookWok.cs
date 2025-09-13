@@ -8,22 +8,26 @@ public class CookWok : DragAndDrop
     public SauteeNode sauteeNode { private set; get; }
     public PotGroup potGroup { set; get; }
     public NoodlesNode noodlesNode { private set; get; }
+    public SoySauceNode soysauceNode { private set; get; }
     public Mix_1_Node mix_1_Node { private set; get; }
     public ThickenerNode thickenerNode { private set; get; }
     public EggNode eggNode { private set; get; }
     public Mix_2_Node mix_2_Node { private set; get; }
     public WokGroup wokGroup { private set; get; }
+    public AnimWok animWok { private set; get; }
     private Coroutine cookingRoutine;
 
     void Start()
     {
-         if (wokGroup == null) wokGroup = new WokGroup();
+        if (wokGroup == null) wokGroup = new WokGroup();
+        animWok = GetComponent<AnimWok>();
     }
     private void initWok()
     {
         if (wokGroup == null) wokGroup = new WokGroup();
         if (sauteeNode == null) sauteeNode = new SauteeNode();
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
+        if (soysauceNode == null) soysauceNode= new SoySauceNode();
         if (mix_1_Node == null) mix_1_Node = new Mix_1_Node();
         if (thickenerNode == null) thickenerNode = new ThickenerNode();
         if (eggNode == null) eggNode = new EggNode();
@@ -44,29 +48,41 @@ public class CookWok : DragAndDrop
         switch (type)
         {
             case "Oil":
-                sauteeNode.oilCount++; break;
+                sauteeNode.oilCount++;
+                animWok.ToggleOil();
+                break;
             case "Bawang":
-                sauteeNode.bawangCount++; break;
+                sauteeNode.bawangCount++;
+                animWok.ToggleBawang();
+                break;
             case "Onion":
-                sauteeNode.onionCount++; break;
+                sauteeNode.onionCount++;
+                animWok.ToggleOnion();
+                break;
             default:
                 if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
         }
-        if (Debug.isDebugBuild) Debug.Log("Added Sautee Component of Type " + type);
-
         sauteeNode.satueeCount++; //improve
     }
 
+    public void AddSoySauce()
+    {
+        if (soysauceNode == null) soysauceNode = new SoySauceNode();
+        soysauceNode.sauceCount++;
+        StartCoroutine(animWok.AddSoySauce());
+    }
     public void AddNoodles()
     {
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
         noodlesNode.noodleCount++;
+        animWok.ToggleNoodles();
     }
 
     public void Mix_1()
     {
         if (mix_1_Node == null) mix_1_Node = new Mix_1_Node();
         mix_1_Node.isMixed = true;
+        animWok.MixWok();
     }
 
     public void AddThickener()
@@ -121,6 +137,11 @@ public class CookWok : DragAndDrop
             CreateWokGroup();
             dish.potGroup = potGroup;
             dish.wokGroup = wokGroup;
+
+            //Anim
+            animWok.CreateWok();
+            dish.animDish.OnRecieve(animWok.state);
+
 
             //Clear
             wokGroup = new WokGroup();

@@ -10,6 +10,12 @@ public class CookPot : DragAndDrop
     public BonesNode bonesNode { private set; get; }
     public PotGroup potGroup { private set; get; }
     private Coroutine boilingRoutine;
+    public AnimPot animPot { private set; get; }
+
+    void Start()
+    {
+        animPot = GetComponent<AnimPot>();
+    }
 
     private void InitPot()
     {
@@ -25,6 +31,7 @@ public class CookPot : DragAndDrop
         {
             boilNode.waterHeld++;
             UpdateBoilingState();
+            animPot.AddWater();
         }
     }
     public void AddBones()  //if theres time add uses meter to the bones used or remove the white scum floating...
@@ -59,7 +66,10 @@ public class CookPot : DragAndDrop
 
     private void UpdateBoilingState()
     {
-        if (stove_On && boilNode != null && boilNode.waterHeld > 0)
+        if (boilNode != null && boilNode.waterHeld > 0)
+            animPot.ChangeToBrothColor();
+
+        if (stove_On)
         {
             if (boilingRoutine == null)
             {
@@ -118,10 +128,17 @@ public class CookPot : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            if (targetWok.mix_1_Node == null)
+            if (targetWok.mix_1_Node == null && boilNode != null)   //must have water before transferring
             {
+                //Create and Transfer
                 CreatePotNode();
                 targetWok.potGroup = potGroup;
+
+                //Anim
+                targetWok.animWok.ToggleBroth();
+                targetWok.animWok.ToggleSwirl();
+                
+                animPot.ClearPot();
 
                 //Simplified Reset, Does not account for large Bowls;
                 potGroup = null;
@@ -131,14 +148,12 @@ public class CookPot : DragAndDrop
 
                 if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
             }
-            else
-            {
-                if (Debug.isDebugBuild) Debug.Log("PotNode Transferrence Failed.");
-            }
 
             revertDefaults();
             return;
         }
+
+
 
         revertDefaults();
     }

@@ -15,6 +15,8 @@ TagManager:
   - Trash
   - Seasoning Tray Clone
   - Beverage
+  - Pot
+  - Wok
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - Kitchen Background
+  - Collider
+  - Non-Collidable
   - Interactable
   - 
   - 
@@ -51,4 +53,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Pot
+    uniqueID: 3811873089
+    locked: 0
+  - name: Wok
+    uniqueID: 3509793079
     locked: 0

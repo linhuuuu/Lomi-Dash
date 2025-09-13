@@ -1,3 +1,4 @@
+using PCG;
 using UnityEngine;
 public class Spatula : DragAndDrop
 {
@@ -15,7 +16,14 @@ public class Spatula : DragAndDrop
         {
             if ((targetWok.noodlesNode != null || targetWok.potGroup != null) && targetWok.thickenerNode == null)
             {
-                targetWok.AddThickener();
+                if (targetWok.mix_1_Node == null)
+                {
+                    targetWok.Mix_1();
+                    revertDefaults();
+                    return;
+                }
+
+                targetWok.Mix_2();
                 revertDefaults();
                 return;
             }

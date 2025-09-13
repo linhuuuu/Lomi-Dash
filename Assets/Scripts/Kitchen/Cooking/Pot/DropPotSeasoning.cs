@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class DropPotSeasoning : DragAndDrop
 {
@@ -11,12 +12,20 @@ public class DropPotSeasoning : DragAndDrop
             return;
         }
 
-        if (hitCollider.TryGetComponent(out CookPot targetPot))
+        if (hitCollider.tag == "Pot")
         {
-                targetPot.AddSeasoning(seasoningName);
-                revertDefaults();
+            if (!hitCollider.TryGetComponent(out CookPot targetPot)) return;
+
+            targetPot.AddSeasoning(seasoningName);
+            StartCoroutine(Wrapper(targetPot));
             return;
         }
+        revertDefaults();
+    }
+
+    public IEnumerator Wrapper(CookPot targetPot)
+    {
+        yield return targetPot.animPot.AddSeasoning(gameObject);
         revertDefaults();
     }
 }

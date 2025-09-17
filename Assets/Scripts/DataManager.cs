@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public PlayerData playerData;
+    [SerializeField] public PlayerData playerData;  //Change to DataBase
     public static DataManager data;
     void Awake()
     {

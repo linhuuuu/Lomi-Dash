@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class ToppingPoolObj : DragAndDrop
 {
-    public InstToppings section { set; get;}
+    public InstToppings section { set; get; }
+    Plane interactionPlane = new Plane(Vector3.up, new Vector3(0, -18f, 0));
     public void OnMouseUp()
     {
         initDraggable();
@@ -15,7 +16,8 @@ public class ToppingPoolObj : DragAndDrop
 
         if (hitCollider.tag == "Dish")
         {
-            originalLocalPosition = GetMousePositionInWorldSpace();
+            transform.position = GetMousePos();
+            originalLocalPosition = transform.localPosition;
             revertDefaults();
             return;
         }
@@ -29,5 +31,16 @@ public class ToppingPoolObj : DragAndDrop
 
         revertDefaults();
         return;
+    }
+
+    private Vector3 GetMousePos()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (interactionPlane.Raycast(ray, out float distance))
+        {
+            return ray.GetPoint(distance);
+        }
+        return ray.GetPoint(1000f);
     }
 }

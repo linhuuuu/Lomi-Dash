@@ -7,6 +7,7 @@ public class RoundProfile : ScriptableObject
 
     [Header("Meta")]
     public string roundName;
+    public int level;
     public Locations location;
     public int difficulty;
 

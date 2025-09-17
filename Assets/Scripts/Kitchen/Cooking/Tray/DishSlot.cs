@@ -6,14 +6,14 @@ public class DishSlot : MonoBehaviour
 {
     [SerializeField] public PrepTray tray;
     private bool isOccupied;
-    private Collider2D slotCollider;
+    private Collider slotCollider;
     private int dishPosSortingOrder;
     [SerializeField] public int dishSlotIndex { private set; get; }
     private PrepDish myDish;
 
     void Start()
     {
-        slotCollider = GetComponent<Collider2D>();
+        slotCollider = GetComponent<Collider>();
         dishPosSortingOrder = GetComponent<SpriteRenderer>()?.sortingOrder ?? 0;
     }
 

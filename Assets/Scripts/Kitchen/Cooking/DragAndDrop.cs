@@ -1,20 +1,24 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 //Reusable cript to enable gameobject dragging. Dropping is specific to each entity therefore not included here.
 public class DragAndDrop : MonoBehaviour
 {
-    protected Collider2D col;
+    protected Collider col;
     protected SpriteRenderer sprite;
     public int originalSortingOrder { set; get; }
     public Vector3 originalLocalPosition { set; get; }
     public Transform parent { set; get; }
-    protected Collider2D hitCollider;
+    protected Collider hitCollider;
     private LayerMask interactable;
+    private float zOffset;
 
+ protected Camera mainCamera;
     private void Awake()
     {
-        col = gameObject.GetComponent<Collider2D>();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        col = gameObject.GetComponent<Collider>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
         originalLocalPosition = transform.localPosition;
@@ -25,7 +29,7 @@ public class DragAndDrop : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        transform.position = GetMousePositionInWorldSpace();
+        zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
         sprite.sortingOrder += 30;
         if (transform.childCount > 0)
         {
@@ -39,11 +43,14 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        transform.position = GetMousePositionInWorldSpace();
+        Vector3 screenPos = Input.mousePosition;
+        screenPos.z = zOffset;
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
+        transform.position = worldPos;
     }
     protected Vector3 GetMousePositionInWorldSpace()
     {
-        Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         p.z = 0f;
         return p;
     }
@@ -65,11 +72,20 @@ public class DragAndDrop : MonoBehaviour
     protected void initDraggable()
     {
         col.enabled = false;
-        hitCollider = Physics2D.OverlapPoint(transform.position, interactable);
-        col.enabled = true;
-        
+
+
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, interactable))
+        {
+            hitCollider = hit.collider;
+        }
+
         if (hitCollider)
-            if (Debug.isDebugBuild) Debug.Log(hitCollider.name + " is hit!");
+            if (Debug.isDebugBuild) Debug.Log(hitCollider.tag);
+        col.enabled = true;
     }
 
 

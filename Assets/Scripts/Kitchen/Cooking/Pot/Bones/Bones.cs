@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Bones : MonoBehaviour
 {
-    private Rigidbody2D boneBody;
+    private Rigidbody boneBody;
 
     void Start()
     {
-        boneBody = GetComponent<Rigidbody2D>();
+        boneBody = GetComponent<Rigidbody>();
         StartCoroutine(StaticBone());
 
     }
     public IEnumerator StaticBone()
     {
         yield return new WaitForSeconds(0.5f);
-        boneBody.bodyType = RigidbodyType2D.Static;
+        boneBody.isKinematic = false;
     }
 }

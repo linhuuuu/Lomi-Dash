@@ -20,9 +20,10 @@ public class InstrDish : DragAndDrop
             var newDish = Instantiate(dishPrefab, Vector3.down, Quaternion.identity, dishPos);
 
             newDish.transform.localPosition = Vector3.zero;
+            newDish.transform.localRotation = Quaternion.identity;
             newDish.GetComponent<PrepDish>().originalLocalPosition = Vector3.zero;
 
-            dishPos.GetComponent<Collider2D>().enabled = false;
+            dishPos.GetComponent<Collider>().enabled = false;
 
             revertDefaults();
             return;

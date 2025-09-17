@@ -54,9 +54,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Pot
-    uniqueID: 3811873089
-    locked: 0
-  - name: Wok
+  - name: Dish
     uniqueID: 3509793079
+    locked: 0
+  - name: Toppings
+    uniqueID: 3811873089
     locked: 0

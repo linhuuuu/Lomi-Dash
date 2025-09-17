@@ -45,14 +45,18 @@ public class InstToppings : DragAndDrop
     private void UseTopping(Transform parent)
     {
         if (poolAvailable == 0)
+           
         {
+             Debug.Log(poolAvailable);
             InstNew();
             poolAvailable++;
         }
 
+        Debug.Log(poolMeter + "" + toppingPool[poolMeter].transform);
         Transform topping = toppingPool[poolMeter].transform;
-        topping.position = GetMousePositionInWorldSpace();
         topping.SetParent(parent);
+        topping.position = GetMousePos();
+        topping.localRotation= Quaternion.identity;
 
         //set 
         topping.GetComponent<DragAndDrop>().originalLocalPosition = topping.localPosition;
@@ -61,18 +65,35 @@ public class InstToppings : DragAndDrop
         poolAvailable--;
         poolMeter++;
     }
+    
+    private Vector3 GetMousePos()
+{
+    // Define the plane where interactions happen (e.g., counter top)
+    Plane interactionPlane = new Plane(Vector3.up, new Vector3(0, -18f, 0)); // Y = -18
+
+    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+    if (interactionPlane.Raycast(ray, out float distance))
+    {
+        Vector3 point = ray.GetPoint(distance);
+        return point;
+    }
+
+    // Fallback: use far point along ray
+    return ray.GetPoint(1000f);
+}
 
     public void ReturnTopping()
     {
-
-        Transform topping = toppingPool[poolMeter].transform;
+        Transform topping = toppingPool[poolMeter - 1].transform;
+        topping.SetParent(this.transform);
         topping.localPosition = spawnPos;
-        topping.SetParent(transform);
+
 
         //set 
-        topping.GetComponent<DragAndDrop>().originalLocalPosition = transform.localPosition;
-        topping.GetComponent<DragAndDrop>().parent = transform.parent;
-        
+        topping.GetComponent<DragAndDrop>().originalLocalPosition = spawnPos;
+        topping.GetComponent<DragAndDrop>().parent = this.transform;
+
         poolAvailable++;
         poolMeter--;
     }

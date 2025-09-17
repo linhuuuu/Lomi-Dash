@@ -28,6 +28,7 @@ public class InstBev : DragAndDrop
             //Inst New Bev
             var newBev = Instantiate(bevPrefab, Vector3.zero, Quaternion.identity, slot.transform);
             newBev.GetComponent<PrepBev>().InitBev(bevObj.id, bevObj.sprite, bevObj.size);
+            newBev.transform.localRotation = Quaternion.identity;
 
             slot.RecieveBevToSlot(newBev.GetComponent<PrepBev>());
 

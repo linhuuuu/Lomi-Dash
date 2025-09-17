@@ -1,121 +1,123 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class KitchenDrag : MonoBehaviour
 {
     [SerializeField] private LayerMask interactable;
-    [SerializeField] private float dragSpeed = 60f;
     [SerializeField] private Vector2 kitchenSize;
-    [SerializeField] private Vector3 inPos = new Vector3(13f, 0f);
-    [SerializeField] private Vector3 outPos = new Vector3(40f, 0f);
+    [SerializeField] private Vector3 inPos;
+    [SerializeField] private Vector3 outPos;
+    [SerializeField] private Vector3 maxOut;
+
+    private float interactionDepth;
+
     public bool isDragging = false;
-    private Vector3 dragStart;
     public bool isKitchenFocus = false;
 
-    //Toggle If Kitchen mode or not
+    private Vector3 dragStartOffset; // object position - mouse world
+    private Camera mainCam;
+
+    public float zOffset;
+
+    void Start()
+    { mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        interactionDepth = transform.position.z;
+    }
+
     public void ToggleKitchen()
     {
         isKitchenFocus = !isKitchenFocus;
 
         if (isKitchenFocus)
             LeanTween.move(gameObject, inPos, 0.5f).setEaseOutBounce();
-
         else
             LeanTween.move(gameObject, outPos, 0.5f).setEaseOutBounce();
     }
 
-    public void Update()
+    void Update()
     {
-        if (!isKitchenFocus) return;    //return if not in Kitchen
+        if (!isKitchenFocus) return;
 
-        //if pointer is clicked;
         if (Input.GetMouseButtonDown(0))
         {
-            if (!IsTouchOnInteractable())   //if pointer is touching an interactable object
+            if (!IsTouchOnInteractable())
             {
                 isDragging = true;
-                dragStart = getMousePos();
+                Vector3 mouseWorld = getMousePos();
+                dragStartOffset = transform.position - mouseWorld; // full 3D offset
             }
-
         }
 
         if (Input.GetMouseButton(0) && isDragging)
         {
-            Vector3 currentPos = getMousePos();
-            Vector3 offset = currentPos - dragStart;
+            Vector3 mouseWorld = getMousePos();
+            Vector3 targetPos = mouseWorld + dragStartOffset;
 
-            Vector3 targetPos = transform.position + offset * dragSpeed * Time.deltaTime;
-            dragStart = currentPos;
-
-            transform.position = ClampPositionToCamera(targetPos);
+            transform.position = ClampPosition(targetPos);
         }
 
         if (Input.GetMouseButtonUp(0))
+        {
             isDragging = false;
-
+        }
     }
 
-    private Vector3 ClampPositionToCamera(Vector3 targetPos)
+    private Vector3 ClampPosition(Vector3 target)
     {
-        Vector2 camBounds = getCameraBounds();
-        Vector2 kitchenBounds = kitchenSize / 2;
+        // Define allowed drag range:
+        float minAllowedX = -390f;   // furthest back user can drag
+        float maxAllowedX = outPos.x; // never go past outPos.x (-330)
 
-        float minX = -(kitchenBounds.x - camBounds.x);
-        float maxX = kitchenBounds.x - camBounds.x;
+        // Clamp X to this interactive window
+        float clampedX = Mathf.Clamp(target.x, minAllowedX, maxAllowedX);
 
-        float clampedX = Mathf.Clamp(targetPos.x, minX, maxX);
+        // Now interpolate Z based on X position
+        // From outPos → beyond inPos to -390
+        float t = Mathf.InverseLerp(outPos.x, minAllowedX, clampedX);
+        t = Mathf.Clamp01(t); // 0 = at outPos, 1 = at -390
 
-        return new Vector3(clampedX, 0f, 0f);
+        float z = Mathf.Lerp(outPos.z, 801f, t); // Z at -390 is 801
+
+        return new Vector3(clampedX, transform.position.y, z);
     }
 
-    private Vector2 getCameraBounds() => new Vector2(Camera.main.orthographicSize, Camera.main.aspect * Camera.main.orthographicSize);
-    //Get mouse Position by Input
     private Vector3 getMousePos()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        worldPos.z = 0; 
-        return worldPos;
+        Vector3 screenPos = Input.mousePosition;
+        screenPos.z = mainCam.WorldToScreenPoint(new Vector3(0, 0, interactionDepth)).z;
+        return mainCam.ScreenToWorldPoint(screenPos);
     }
 
+    private RaycastHit hit;
     private bool IsTouchOnInteractable()
     {
-        if (EventSystem.current?.IsPointerOverGameObject() ?? false) return true;   //UI Collision
+        // UI Blocking (still valid)
+        if (EventSystem.current.IsPointerOverGameObject() == false)
+            return true;
 
-         //Checks if mousepoint interacted with collider in layer interactable
-        Vector3 worldPos = getMousePos();
-        Collider2D hit = Physics2D.OverlapPoint(worldPos, interactable);    
+        // Cast a ray from camera through mouse into the world
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
-        if (hit != null)
+        // Do a 3D raycast
+        if (Physics.Raycast(ray, out hit, 1000f, interactable))
         {
-            Physics2D.SyncTransforms();
-            Debug.Log("Hit: " + hit.name + " on layer " + LayerMask.LayerToName(hit.gameObject.layer));
-            Debug.DrawRay(worldPos, Vector2.up * 0.5f, Color.red, 2f);
-        }
-        else
-        {
-            Debug.Log("No hit");
+            // Check if hit object is part of the kitchen/interactable layer
+            Debug.Log("Hit: " + hit.collider.name);
+            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
+            return true;
         }
 
-        return hit != null;
+        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red);
+        return false;
     }
 
-    // //IF outside app
-    // private void OnApplicationFocus(bool hasFocus)
-    // {
-    //     if (!hasFocus)
-    //     {
-    //         isDragging = false; // ✅ Kill drag state
-    //     }
-    // }
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus) isDragging = false;
+    }
 
-    // private void OnApplicationPause(bool paused)
-    // {
-    //     if (paused)
-    //     {
-    //         isDragging = false; // ✅ Pause or quit
-    //     }
-    // }
-
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        isDragging = false;
+    }
 }

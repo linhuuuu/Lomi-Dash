@@ -18,7 +18,7 @@ public class PrepDish : DragAndDrop
     public bool isLarge { set; get; }
     public DishSlot dishSlot { set; get; }
     private Transform dishPos;
-    private Collider2D dishPosCollider;
+    private Collider dishPosCollider;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class PrepDish : DragAndDrop
 
         //Set Parent
         dishPos = transform.parent;
-        dishPosCollider = dishPos.GetComponent<Collider2D>();
+        dishPosCollider = dishPos.GetComponent<Collider>();
 
         toppingSection = transform.Find("Topping Section");
     }

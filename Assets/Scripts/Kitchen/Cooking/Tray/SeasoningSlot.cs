@@ -6,17 +6,19 @@ public class SeasoningSlot : MonoBehaviour
 {
     List<GameObject> seasoningTrays = new List<GameObject>();
     PrepTray tray;
+    Collider col;
     void Awake()
     {
         transform.parent.TryGetComponent(out PrepTray targetTray);
         tray = targetTray;
+        col = transform.GetComponent<Collider>();
 
     }
 
     public void ToggleCollidersOff()
     {
         if (seasoningTrays.Count == 1)
-            transform.GetComponent<Collider2D>().enabled = false;
+            col.enabled = false;
         else
             seasoningTrays[seasoningTrays.Count - 2].GetComponent<Collider2D>().enabled = false;
     }
@@ -24,7 +26,7 @@ public class SeasoningSlot : MonoBehaviour
     public void ToggleCollidersOn()
     {
         if (seasoningTrays.Count == 0)
-            transform.GetComponent<Collider2D>().enabled = true;
+            col.enabled = true;
         else
             seasoningTrays[seasoningTrays.Count - 1].GetComponent<Collider2D>().enabled = true;
     }
@@ -43,8 +45,8 @@ public class SeasoningSlot : MonoBehaviour
 
         // Instantiate
         var newSeasoningTray = Instantiate(obj, transform.position, Quaternion.identity, transform);
+        newSeasoningTray.transform.localRotation = Quaternion.identity;
         newSeasoningTray.transform.localPosition = new Vector3(0f, 5f, 0f);
-        newSeasoningTray.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         seasoningTrays.Add(newSeasoningTray);
 

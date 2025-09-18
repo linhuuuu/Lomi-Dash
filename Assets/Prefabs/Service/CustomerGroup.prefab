@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7746711201745195003}
   - component: {fileID: 4319285907109766641}
-  - component: {fileID: 517165414093523644}
+  - component: {fileID: 7588684468139954876}
+  - component: {fileID: -5156508382088817970}
   m_Layer: 0
-  m_Name: CustomerGroupContainerPrefab
+  m_Name: CustomerGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +55,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 2.87, z: 0.20000152}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &517165414093523644
+--- !u!114 &7588684468139954876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,7 +64,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5881005042807682416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fefd621b26d662499e3c99db095648c, type: 3}
+  m_Script: {fileID: 11500000, guid: 105f04f91005a8f4db6023dbcd73a47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Snapped: 0
+  orderID: 0
+  callPoint: {fileID: 0}
+  timerUIPrefab: {fileID: 3466517528268652384, guid: 8686b24eef0b3b74093fa5bac0f0660f,
+    type: 3}
+  timerloc: {fileID: 0}
+--- !u!114 &-5156508382088817970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881005042807682416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bee0fb78c7ead142a191f7ed4ed1058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalTime: 0
+  elapsedTime: 0
+  chargeBack: 0.3

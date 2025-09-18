@@ -20,7 +20,8 @@ public class KitchenDrag : MonoBehaviour
     public float zOffset;
 
     void Start()
-    { mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+    {
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         interactionDepth = transform.position.z;
     }
 

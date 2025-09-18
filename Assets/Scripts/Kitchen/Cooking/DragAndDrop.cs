@@ -13,11 +13,10 @@ public class DragAndDrop : MonoBehaviour
     protected Collider hitCollider;
     private LayerMask interactable;
     private float zOffset;
-
- protected Camera mainCamera;
+    protected Camera mainCamera;
     private void Awake()
     {
-        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        mainCamera = CameraManager.cam.mainCam;
         col = gameObject.GetComponent<Collider>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
@@ -46,6 +45,7 @@ public class DragAndDrop : MonoBehaviour
         Vector3 screenPos = Input.mousePosition;
         screenPos.z = zOffset;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
+
         transform.position = worldPos;
     }
     protected Vector3 GetMousePositionInWorldSpace()
@@ -72,7 +72,6 @@ public class DragAndDrop : MonoBehaviour
     protected void initDraggable()
     {
         col.enabled = false;
-
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 

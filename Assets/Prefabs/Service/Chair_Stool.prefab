@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6132010849942845744}
   - component: {fileID: 8613121159988601590}
+  - component: {fileID: -6294240753823928130}
   m_Layer: 0
   m_Name: Chair_Stool
   m_TagString: Untagged
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6294240753823928130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847499222726095352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1205d5571bf1f5d4eb704c421415882c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

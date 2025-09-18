@@ -102,14 +102,16 @@ public class PrepTray : DragAndDrop
             seasoningTray.trayCount--;
     }
 
-    public void CompleteTray()
+    public OrderNode CompleteTray()
     {
         foreach (var dish in dishList) trayNode.children.Add(dish);
         foreach (var bev in bevList) trayNode.children.Add(bev);
         trayNode.children.Add(seasoningTray);
+
+        return trayNode;
     }
 
-    public void SubmitTray()
+    public void ClearTray()
     {
         //Clear 
         Array.Clear(dishList, 0, dishList.Length);

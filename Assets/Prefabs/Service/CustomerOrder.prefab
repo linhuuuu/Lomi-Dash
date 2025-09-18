@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.54710746, g: 1, b: 0.20943397, a: 1}
+  m_Color: {r: 0.5904104, g: 0.79622644, b: 0.29295114, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -84,8 +84,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5363529446575885048}
+  - component: {fileID: 3466517528268652384}
   m_Layer: 5
-  m_Name: Order
+  m_Name: CustomerOrder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +113,20 @@ RectTransform:
   m_AnchoredPosition: {x: -49.822426, y: 34.380825}
   m_SizeDelta: {x: 26.0751, y: 24.9484}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3466517528268652384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795079933607720325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6236aee4236733543a9524375a79e954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressBar: {fileID: 1872573117154890358}
+  portrait: {fileID: 9160688489025515016}
 --- !u!1 &8375621167776006796
 GameObject:
   m_ObjectHideFlags: 0

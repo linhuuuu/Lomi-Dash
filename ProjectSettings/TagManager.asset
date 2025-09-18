@@ -17,6 +17,8 @@ TagManager:
   - Beverage
   - Pot
   - Wok
+  - Table
+  - StoolChair
   layers:
   - Default
   - TransparentFX
@@ -27,7 +29,7 @@ TagManager:
   - Collider
   - Non-Collidable
   - Interactable
-  - 
+  - Table
   - 
   - 
   - 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mother
   m_EditorClassIdentifier: 
   customerName: Mother
-  patienceTime: 10
+  patienceTime: 150
   orderComplexity: 1
   paymentRange: 600
   favoriteDish: 

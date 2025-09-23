@@ -47,7 +47,7 @@ public class PrepDishEditor : Editor
 
                 foreach (ToppingNode topping in prepDish.toppingGroup.children)
                 {
-                    EditorGUILayout.LabelField(" | " + topping.id + " x" + topping.toppingCount);
+                    EditorGUILayout.LabelField(" | " + topping.id + " x" + topping.count);
                 }
             }
         }

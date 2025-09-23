@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7030544364996268115}
   - component: {fileID: 8941457274299312711}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Front
   m_TagString: Dish
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4387232741904740205}
   - component: {fileID: 7804596191936004849}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Mask
   m_TagString: Dish
   m_Icon: {fileID: 0}
@@ -352,16 +352,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4127826298494163970}
     m_Modifications:
-    - target: {fileID: 1640762142707532362, guid: b4fb03ccf159ff54d8d8461395392f31,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1640762142707532362, guid: b4fb03ccf159ff54d8d8461395392f31,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     - target: {fileID: 3557108289568476384, guid: b4fb03ccf159ff54d8d8461395392f31,
         type: 3}
       propertyPath: m_Pivot.x
@@ -586,16 +576,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1172750814218948012, guid: f614f15b955e2964c8751d9ee891a144,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1172750814218948012, guid: f614f15b955e2964c8751d9ee891a144,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     - target: {fileID: 5898068871687553728, guid: f614f15b955e2964c8751d9ee891a144,
         type: 3}
       propertyPath: m_Name
@@ -620,16 +600,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4127826298494163970}
     m_Modifications:
-    - target: {fileID: 1171414035758343933, guid: 43e602f862bfb5e4884f3a88a4555f34,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1171414035758343933, guid: 43e602f862bfb5e4884f3a88a4555f34,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     - target: {fileID: 1366487361902303503, guid: 43e602f862bfb5e4884f3a88a4555f34,
         type: 3}
       propertyPath: m_Name
@@ -859,16 +829,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thickener
       objectReference: {fileID: 0}
-    - target: {fileID: 8665702348839222953, guid: cda4a037a8393fb4598c849f94a63e21,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8665702348839222953, guid: cda4a037a8393fb4598c849f94a63e21,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -992,16 +952,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Egg
-      objectReference: {fileID: 0}
-    - target: {fileID: 6503085019864519996, guid: 2c158b4d2b9f3b0448f0682009bf6f98,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6503085019864519996, guid: 2c158b4d2b9f3b0448f0682009bf6f98,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1127,16 +1077,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9121682350963004405, guid: 189d9af4b6efd2b4081516c3c2407dfa,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9121682350963004405, guid: 189d9af4b6efd2b4081516c3c2407dfa,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1156,16 +1096,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4127826298494163970}
     m_Modifications:
-    - target: {fileID: 1084423202026628954, guid: b911e6b3fa3348e44afceb56d22ec944,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1084423202026628954, guid: b911e6b3fa3348e44afceb56d22ec944,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     - target: {fileID: 5160468709302457727, guid: b911e6b3fa3348e44afceb56d22ec944,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1390,16 +1320,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3731916823223660897, guid: 255a6ec9acdeddf418cc5284734c738b,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3731916823223660897, guid: 255a6ec9acdeddf418cc5284734c738b,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
-      objectReference: {fileID: 0}
     - target: {fileID: 8378969771261683699, guid: 255a6ec9acdeddf418cc5284734c738b,
         type: 3}
       propertyPath: m_Name
@@ -1428,16 +1348,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Onion
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276453591979028353, guid: d0c91efa987dcda46a9d168552130749,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276453591979028353, guid: d0c91efa987dcda46a9d168552130749,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -785174217
       objectReference: {fileID: 0}
     - target: {fileID: 4169158340034777164, guid: d0c91efa987dcda46a9d168552130749,
         type: 3}

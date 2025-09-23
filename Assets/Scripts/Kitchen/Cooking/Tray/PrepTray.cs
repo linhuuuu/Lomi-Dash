@@ -1,6 +1,8 @@
 using UnityEngine;
 using PCG;
 using System;
+using System.Linq;
+using System.Data.Common;
 public class PrepTray : DragAndDrop
 {
     public TrayRootNode trayNode { private set; get; }
@@ -11,7 +13,12 @@ public class PrepTray : DragAndDrop
     private int currentDishWeight, currentBevWeight;
     public DishSectionNode[] dishList { private set; get; }
     public BeverageSectionNode[] bevList { private set; get; }
-    public SeasoningTraySection seasoningTray { private set; get; } = new SeasoningTraySection();
+    public SeasoningTraySectionNode seasoningTray { private set; get; } = new SeasoningTraySectionNode();
+
+    //Parts
+    [SerializeField] Transform[] dishes;
+    [SerializeField] Transform[] beverages;
+    [SerializeField] Transform[] seasoningTrays;
 
     void Start()
     {
@@ -26,7 +33,7 @@ public class PrepTray : DragAndDrop
     {
         return dish.isLarge ? 2 : 1;
     }
-    public bool AddDish(DishSectionNode dish, int slot) 
+    public bool AddDish(DishSectionNode dish, int slot)
     {
         int dishWeight = GetDishWeight(dish);
 
@@ -76,7 +83,7 @@ public class PrepTray : DragAndDrop
     {
         // int bevWeight = GetBevWeight(bev);
 
-        bevList[slot] = new BeverageSectionNode("Remove this in the future");
+        bevList[slot] = new BeverageSectionNode();
         // currentDishWeight -= bevWeight;
         return true;
     }
@@ -104,8 +111,24 @@ public class PrepTray : DragAndDrop
 
     public OrderNode CompleteTray()
     {
-        foreach (var dish in dishList) trayNode.children.Add(dish);
-        foreach (var bev in bevList) trayNode.children.Add(bev);
+        int i = 0;
+        foreach (var dish in dishList)
+        {
+            if (dish == null) continue;
+            dish.id += (i+1).ToString();
+            trayNode.children.Add(dish);
+            i++;
+        }
+
+        i = 0;
+        foreach (var bev in bevList)
+        {
+            if (bev == null) continue;
+            bev.id += (i+1).ToString();
+            trayNode.children.Add(bev);
+            i++;
+        }
+
         trayNode.children.Add(seasoningTray);
 
         return trayNode;
@@ -119,6 +142,19 @@ public class PrepTray : DragAndDrop
         currentDishWeight = 0;
         currentBevWeight = 0;
         seasoningTray.trayCount = 0;
+
+        //Imporve the following because they should do pooling and not instantiating
+        foreach (var dish in dishes)
+            foreach(var d in dish.gameObject.GetComponentsInChildren<PrepDish>())
+                Destroy(d.gameObject);
+
+        foreach (var bev in beverages)
+            foreach(var d in bev.gameObject.GetComponentsInChildren<PrepBev>())
+                Destroy(d.gameObject);
+
+        foreach (var tray in seasoningTrays)
+            foreach(var d in tray.gameObject.GetComponentsInChildren<SeasoningTray>())
+                Destroy(d.gameObject);
 
         if (Debug.isDebugBuild) Debug.Log("Cleared Tray");
 

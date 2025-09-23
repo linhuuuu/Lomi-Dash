@@ -62,19 +62,18 @@ public class CookWok : DragAndDrop
             default:
                 if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
         }
-        sauteeNode.satueeCount++; //improve
     }
 
     public void AddSoySauce()
     {
         if (soysauceNode == null) soysauceNode = new SoySauceNode();
-        soysauceNode.sauceCount++;
+        soysauceNode.count++;
         StartCoroutine(animWok.AddSoySauce());
     }
     public void AddNoodles()
     {
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
-        noodlesNode.noodleCount++;
+        noodlesNode.count++;
         animWok.ToggleNoodles();
     }
 
@@ -88,7 +87,7 @@ public class CookWok : DragAndDrop
     public void AddThickener()
     {
         if (thickenerNode == null) thickenerNode = new ThickenerNode();
-        thickenerNode.thickenerCount++;
+        thickenerNode.count++;
     }
 
     public void AddEgg()

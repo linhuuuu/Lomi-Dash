@@ -8,7 +8,7 @@ public class PrepBev : DragAndDrop
 
     public void InitBev(string id, Sprite sprite, int weight)
     {
-        bevNode = new BeverageSectionNode(id);
+        bevNode = new BeverageSectionNode();
         bevNode.weight = weight;
         GetComponent<SpriteRenderer>().sprite = sprite;
     }

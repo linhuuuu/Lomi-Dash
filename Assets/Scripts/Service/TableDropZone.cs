@@ -8,7 +8,7 @@ public class TableDropZone : MonoBehaviour
     public Vector3 offset = new Vector3(0f, 0.6f, 0f);
     public bool TrySitCustomers(Transform customerGroup)
     {
-        //Unparent From SpawnPoint probably put this in another script
+        //Update SpawnPoint probably put this in another script
         RoundManager.roundManager.OnCustomerGroupSit(customerGroup.GetComponent<CustomerGroup>());
 
         customerGroup.SetParent(transform);

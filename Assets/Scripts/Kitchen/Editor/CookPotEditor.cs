@@ -21,7 +21,7 @@ public class CookPotEditor : Editor
         {
             EditorGUILayout.LabelField(cookPot.boilNode.id);
             EditorGUILayout.LabelField("  | Boil Time: " + cookPot.boilNode.time);
-            EditorGUILayout.LabelField("  | Water Held: " + cookPot.boilNode.waterHeld);
+            EditorGUILayout.LabelField("  | Water Held: " + cookPot.boilNode.count);
         }
 
 

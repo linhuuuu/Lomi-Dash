@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Student
   m_EditorClassIdentifier: 
   customerName: Student
-  patienceTime: 10
+  patienceTime: 100
   orderComplexity: 1
   paymentRange: 200
   favoriteDish: 

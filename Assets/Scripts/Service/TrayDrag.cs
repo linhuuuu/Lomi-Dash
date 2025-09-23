@@ -52,7 +52,7 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             //Evaluate
             float score = order.Evaluate(cookedOrder);
-            Debug.Log("Run");
+            Debug.Log(score);
 
             //Clear Out Tray
             tray.ClearTray();

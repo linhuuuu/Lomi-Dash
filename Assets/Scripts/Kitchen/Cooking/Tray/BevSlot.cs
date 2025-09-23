@@ -2,14 +2,14 @@ using UnityEngine;
 public class BevSlot : MonoBehaviour
 {
     [SerializeField] public PrepTray tray;
-    private Collider2D slotCollider;
+    private Collider slotCollider;
     private int bevPosSortingOrder;
     [SerializeField] public int bevSlotIndex { private set; get; }
     private PrepBev myBev;
 
     void Start()
     {
-        slotCollider = GetComponent<Collider2D>();
+        slotCollider = GetComponent<Collider>();
         bevPosSortingOrder = GetComponent<SpriteRenderer>()?.sortingOrder ?? 0;
     }
 

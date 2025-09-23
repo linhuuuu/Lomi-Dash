@@ -12,6 +12,7 @@ public class PrepDish : DragAndDrop
     public List<string> ToppingsUnlocked { private set; get; } = new List<string>() { "Kikiam", "Bola-Bola" };
     public Transform toppingSection { set; get; }
     public AnimDish animDish;
+
     //Groups
     public PotGroup potGroup { set; get; }
     public WokGroup wokGroup { set; get; }
@@ -19,6 +20,8 @@ public class PrepDish : DragAndDrop
     public DishSlot dishSlot { set; get; }
     private Transform dishPos;
     private Collider dishPosCollider;
+
+    public Transform dishTray;
 
     void Start()
     {
@@ -30,6 +33,7 @@ public class PrepDish : DragAndDrop
         currentTopping = new ToppingNode("");
 
         //Set Parent
+        
         dishPos = transform.parent;
         dishPosCollider = dishPos.GetComponent<Collider>();
 
@@ -76,16 +80,16 @@ public class PrepDish : DragAndDrop
 
         if (type == currentTopping.id)
         {
-            currentTopping.toppingCount++;
+            currentTopping.count++;
         }
         else
         {
-            if (currentTopping.toppingCount > 0)
+            if (currentTopping.count > 0)
             {
                 AddTopping(currentTopping);
             }
             currentTopping.id = type;   //if topping does not match prev id, change it to current.
-            currentTopping.toppingCount = 1;    //reset currentTopping count to 1 if new.
+            currentTopping.count = 1;    //reset currentTopping count to 1 if new.
         }
     }
 
@@ -103,7 +107,7 @@ public class PrepDish : DragAndDrop
         {
             if (topping.id == top.id)
             {
-                topping.toppingCount += top.toppingCount;
+                topping.count += top.count;
             }
         }
     }

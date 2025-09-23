@@ -1,29 +1,26 @@
-using Unity.VisualScripting;
-using UnityEngine;
-
 namespace PCG
 {
     public class BeverageSectionNode : OrderNode
     {
         public int size { set; get; }
+        public string name { set; get; }
 
-        public BeverageSectionNode(string id) => this.id = id;
-        public BeverageSectionNode(Beverage beverage)
+        public BeverageSectionNode() => this.id = "BEVERAGE_SECTION_";
+
+        public BeverageSectionNode(Beverage beverage, int id)
         {
-            id = beverage.bevName;
+            this.id = "BEVERAGE_SECTION_"+ id.ToString();
             size = beverage.size;
+            name = beverage.bevName;
         }
-        public override float Evaluate(OrderNode other)
+         public override float EvaluateLeafNode(OrderNode other)
         {
-            // if (!(other is BeverageSectionNode a)) //Checks if Beverage Node
-            // {
-            //     if (Debug.isDebugBuild) Debug.Log("Ordernode is not a BeverageNode");
-            //     return 0f;
-            // }
+            if (other is not SeasoningTraySectionNode player)
+                return 0f;
 
-            // if (a.name == name && a.size == size) return weight;    //Checks if Bev matches and returns full weight
-
-            return 0f;
+            return 1f;
         }
+
+        public override string ToString() => $"[{id} (w={weight:F1})]";
     }
 }

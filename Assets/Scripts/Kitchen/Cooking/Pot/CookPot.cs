@@ -27,9 +27,9 @@ public class CookPot : DragAndDrop
     public void AddWater()
     {
         if (boilNode == null) boilNode = new BoilNode();
-        if (boilNode.waterHeld < 2)
+        if (boilNode.count < 2)
         {
-            boilNode.waterHeld++;
+            boilNode.count++;
             UpdateBoilingState();
             animPot.AddWater();
         }
@@ -66,7 +66,7 @@ public class CookPot : DragAndDrop
 
     private void UpdateBoilingState()
     {
-        if (boilNode != null && boilNode.waterHeld > 0)
+        if (boilNode != null && boilNode.count > 0)
             animPot.ChangeToBrothColor();
 
         if (stove_On)
@@ -90,7 +90,7 @@ public class CookPot : DragAndDrop
         {
             yield return new WaitForSeconds(1);
 
-            if (boilNode.waterHeld > 0 && bonesNode != null)
+            if (boilNode.count > 0 && bonesNode != null)
                 boilNode.time++;
         }
         boilingRoutine = null;

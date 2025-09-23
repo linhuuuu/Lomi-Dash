@@ -50,8 +50,24 @@ public class RoundManager : MonoBehaviour
 
         //Init Round
         GenerateOrders();
+        for(int i = 0; i<orders.Count; i++)
+            PrintTree(orders[i].order, " ");
+        
         StartRound();
     }
+
+    void PrintTree(OrderNode node, string indent)
+        {
+            Debug.Log($"{indent}└─ {node.id} (w={node.weight})");
+            if (node.children != null)
+            {
+                foreach (var child in node.children)
+                {
+                    if (child != null)
+                        PrintTree(child, indent + "  ");
+                }
+            }
+        }
 
     #region Order Generation
     public void GenerateOrders()
@@ -164,6 +180,7 @@ public class RoundManager : MonoBehaviour
         //Set Transform to Loc
         customerGroup.SetParent(spawn.loc);
         customerGroup.localPosition = Vector3.zero;
+        customerGroup.localRotation = Quaternion.identity;
 
         //Start Patience Timer
         customerGroup.GetComponent<CustomerGroup>().StartCustomerTimer();
@@ -177,12 +194,14 @@ public class RoundManager : MonoBehaviour
     public void OnCustomerGroupLeaveStanding(CustomerGroup group)
     {
         currentOrders--;
+        orders[group.orderID].customers =  null;
         group.transform.GetComponentInParent<CustomerSpawnPoint>().occupied = false; //reset Spawn point
     }
 
     public void OnCustomerGroupLeaveSitting(CustomerGroup group)
     {
         currentOrders--;
+        orders[group.orderID].customers = null;
         group.GetComponentInParent<TableDropZone>().occupied = false;   //reset table
     }
 

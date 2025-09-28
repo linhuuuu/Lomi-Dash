@@ -4,25 +4,19 @@ using UnityEngine.EventSystems;
 public class KitchenDrag : MonoBehaviour
 {
     [SerializeField] private LayerMask interactable;
-    [SerializeField] private Vector2 kitchenSize;
     [SerializeField] private Vector3 inPos;
     [SerializeField] private Vector3 outPos;
-    [SerializeField] private Vector3 maxOut;
-
-    private float interactionDepth;
 
     public bool isDragging = false;
     public bool isKitchenFocus = false;
 
-    private Vector3 dragStartOffset; // object position - mouse world
+    private Vector3 dragStartOffset;
     private Camera mainCam;
-
-    public float zOffset;
+    private int activeTouchId = -1; // Track which touch we're using
 
     void Start()
     {
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        interactionDepth = transform.position.z;
     }
 
     public void ToggleKitchen()
@@ -37,23 +31,79 @@ public class KitchenDrag : MonoBehaviour
 
     void Update()
     {
+        // Only run if kitchen is focused
         if (!isKitchenFocus) return;
+
+        Debug.Log("a");
+        HandleTouchInput();
+    }
+
+    private void HandleTouchInput()
+    {
+        // Skip if touching UI
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        // Process all touches
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch touch = Input.GetTouch(i);
+
+            // Convert touch position to world point
+            Vector3 touchWorld = GetWorldPosition(touch.position);
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    // Only start dragging if not blocked by raycast
+                    if (activeTouchId == -1 && !IsTouchOnInteractableLayer(touchWorld))
+                    {
+                        activeTouchId = touch.fingerId;
+                        isDragging = true;
+                        dragStartOffset = transform.position - touchWorld;
+                    }
+                    break;
+
+                case TouchPhase.Moved:
+                    if (touch.fingerId == activeTouchId)
+                    {
+                        Vector3 targetPos = touchWorld + dragStartOffset;
+                        transform.position = ClampPosition(targetPos);
+                    }
+                    break;
+
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    if (touch.fingerId == activeTouchId)
+                    {
+                        EndDrag();
+                    }
+                    break;
+            }
+        }
+
+        // Also handle mouse as fallback (for editor testing)
+        if (Application.isEditor)
+        {
+            HandleMouseInput();
+        }
+    }
+
+    private void HandleMouseInput()
+    {
+        Vector3 mouseWorld = getMousePos();
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (!IsTouchOnInteractable())
+            if (!EventSystem.current.IsPointerOverGameObject() && !IsTouchOnInteractableLayer(mouseWorld))
             {
                 isDragging = true;
-                Vector3 mouseWorld = getMousePos();
-                dragStartOffset = transform.position - mouseWorld; // full 3D offset
+                dragStartOffset = transform.position - mouseWorld;
             }
         }
 
         if (Input.GetMouseButton(0) && isDragging)
         {
-            Vector3 mouseWorld = getMousePos();
             Vector3 targetPos = mouseWorld + dragStartOffset;
-
             transform.position = ClampPosition(targetPos);
         }
 
@@ -63,62 +113,61 @@ public class KitchenDrag : MonoBehaviour
         }
     }
 
-    private Vector3 ClampPosition(Vector3 target)
+    private Vector3 GetWorldPosition(Vector2 screenPos)
     {
-        // Define allowed drag range:
-        float minAllowedX = -390f;   // furthest back user can drag
-        float maxAllowedX = outPos.x; // never go past outPos.x (-330)
-
-        // Clamp X to this interactive window
-        float clampedX = Mathf.Clamp(target.x, minAllowedX, maxAllowedX);
-
-        // Now interpolate Z based on X position
-        // From outPos → beyond inPos to -390
-        float t = Mathf.InverseLerp(outPos.x, minAllowedX, clampedX);
-        t = Mathf.Clamp01(t); // 0 = at outPos, 1 = at -390
-
-        float z = Mathf.Lerp(outPos.z, 801f, t); // Z at -390 is 801
-
-        return new Vector3(clampedX, transform.position.y, z);
+        // Adjust z based on camera and object depth
+        Vector3 screenPoint = new Vector3(screenPos.x, screenPos.y, mainCam.WorldToScreenPoint(transform.position).z);
+        return mainCam.ScreenToWorldPoint(screenPoint);
     }
 
     private Vector3 getMousePos()
     {
         Vector3 screenPos = Input.mousePosition;
-        screenPos.z = mainCam.WorldToScreenPoint(new Vector3(0, 0, interactionDepth)).z;
+        screenPos.z = mainCam.WorldToScreenPoint(transform.position).z;
         return mainCam.ScreenToWorldPoint(screenPos);
     }
 
-    private RaycastHit hit;
-    private bool IsTouchOnInteractable()
+    private bool IsTouchOnInteractableLayer(Vector3 worldPos)
     {
-        // UI Blocking (still valid)
-        if (EventSystem.current.IsPointerOverGameObject() == false)
-            return true;
-
-        // Cast a ray from camera through mouse into the world
-        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-
-        // Do a 3D raycast
-        if (Physics.Raycast(ray, out hit, 1000f, interactable))
+        Ray ray = mainCam.ScreenPointToRay(worldPos);
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, interactable))
         {
-            // Check if hit object is part of the kitchen/interactable layer
             Debug.Log("Hit: " + hit.collider.name);
-            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
+            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green, 0.1f);
             return true;
         }
-
-        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red, 0.1f);
         return false;
+    }
+
+    private Vector3 ClampPosition(Vector3 target)
+    {
+        float minAllowedX = -390f;
+        float maxAllowedX = outPos.x;
+
+        float clampedX = Mathf.Clamp(target.x, minAllowedX, maxAllowedX);
+
+        float t = Mathf.InverseLerp(outPos.x, minAllowedX, clampedX);
+        t = Mathf.Clamp01(t);
+
+        float z = Mathf.Lerp(outPos.z, 801f, t); // Z increases as X goes back
+
+        return new Vector3(clampedX, transform.position.y, z);
+    }
+
+    private void EndDrag()
+    {
+        isDragging = false;
+        activeTouchId = -1;
     }
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        if (!hasFocus) isDragging = false;
+        if (!hasFocus) EndDrag();
     }
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        isDragging = false;
+        EndDrag();
     }
 }

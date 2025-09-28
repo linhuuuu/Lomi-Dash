@@ -143,9 +143,6 @@ PlayerSettings:
   bundleVersion: 0.0.2
   preloadedAssets:
   - {fileID: 11400000, guid: 7b04a7908718ce046b7d47170b12b5e2, type: 2}
-  - {fileID: 8894730373497393107, guid: b03c64b795eb31c488a8ca2e07c7fb12, type: 2}
-  - {fileID: 11400000, guid: 16e125cab7aaa6e4bb67632a1cdc9ae0, type: 2}
-  - {fileID: 11400000, guid: 1c26b1c2f43664c48aab94a8fc727724, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -270,8 +267,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: user.keystore'
-  AndroidKeyaliasName: migraine
+  AndroidKeystoreName: '{inproject}: lomidash.keystore'
+  AndroidKeyaliasName: lomidash
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

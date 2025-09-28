@@ -12,7 +12,20 @@
           "package_name": "com.migraine.lomidash"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "315847960993-45s65nfp31alr4851te34fmbf6e612pi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.migraine.lomidash",
+            "certificate_hash": "f3ee9a394575f608b9dcae3ff89fa0a1aceb6eca"
+          }
+        },
+        {
+          "client_id": "315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBz-SK7rYrQBuHz7_-O_cghODAFoEbfXtI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

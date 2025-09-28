@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
   <string name="gcm_defaultSenderId" translatable="false">315847960993</string>
   <string name="google_storage_bucket" translatable="false">lomi-dash-45a3d.firebasestorage.app</string>
   <string name="project_id" translatable="false">lomi-dash-45a3d</string>
   <string name="google_api_key" translatable="false">AIzaSyBz-SK7rYrQBuHz7_-O_cghODAFoEbfXtI</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBz-SK7rYrQBuHz7_-O_cghODAFoEbfXtI</string>
   <string name="google_app_id" translatable="false">1:315847960993:android:7fecc208578890018d83e0</string>
+  <string name="default_android_client_id" translatable="false">315847960993-45s65nfp31alr4851te34fmbf6e612pi.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com</string>
 </resources>

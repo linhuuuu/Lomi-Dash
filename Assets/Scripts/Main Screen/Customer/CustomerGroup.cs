@@ -1,3 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Threading;
+using PCG;
 using UnityEngine;
 public class CustomerGroup : MonoBehaviour
 {
@@ -15,30 +21,33 @@ public class CustomerGroup : MonoBehaviour
     private float zOffset;
 
     //OrderReference
-    public int orderID;
+    public int orderID { set; get; }
+    public int mainCustomerIdx { set; get; }
+    public List<Customer> customers { set; get; }
+    public TableDropZone tableDropZone { set; get; }
+    public CustomerSpawnPoint spawnPoint { set; get; }
+    private GameObject trayObj { set; get; }
 
     //Patience
     public CustomerGroupTimer timer { set; get; }
-    public CustomerTimerUI timerUIPrefab;
-    public Transform timerloc { set; get; }
+
+    //UI
+    public OrderPrompt prompt { set; get; }
+    public OrderQueueObj orderQueueObj { set; get; }
 
     private void Awake()
     {
-        //Set References
         col = GetComponent<Collider>();
         mainCamera = CameraManager.cam.mainCam;
         tableLayer = 1 << 9; //tables are at layer 9
-
-        //Timer Init and Subscribe
-        timerloc = GameObject.Find("Content").transform;
         timer = GetComponent<CustomerGroupTimer>();
+        customers = new List<Customer>();
         timer.OnTimerEnd += CustomerLeave;
 
         snapped = false;
     }
 
     #region Dragging
-
     private void OnMouseDown()
     {
         if (snapped) return;
@@ -66,55 +75,84 @@ public class CustomerGroup : MonoBehaviour
 
         //Check if Table Exists or Occupied
         if (!hitCollider.TryGetComponent(out TableDropZone table)) { revertDefaults(); return; }
-        if (table.occupied == true) { revertDefaults(); return;}
+        if (table.occupied == true) { revertDefaults(); return; }
 
         //Attempt TrySitCustomers
         if (table.TrySitCustomers(this))
         {
             snapped = true;
+            tableDropZone.occupied = true;
+            spawnPoint.occupied = false;
+
+            CallPrompt();
             StartCoroutine(timer.TimerAdd()); //Timer ChargeBack
             return;
         }
-
         revertDefaults();
         return;
     }
-
 
     private bool RayCast()
     {
         col.enabled = false;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);
-
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, tableLayer))
-        {
             hitCollider = hit.collider;
-        }
-
-        if (hitCollider)
-            if (Debug.isDebugBuild) Debug.Log(hitCollider.tag);
 
         col.enabled = true;
         return hitCollider != null;
     }
 
     private void revertDefaults() => transform.position = originalLocalPosition;
-    
+
     #endregion
-    #region Timer Coroutine
-    public void StartCustomerTimer()
+    #region Inst Prompt, Tray, OrderQueues
+
+    public void InstTray(GameObject trayObjPrefab, RoundManager.Order roundManagerOrder)
     {
-        //Set Time
-        foreach (Customer child in transform.GetComponentsInChildren<Customer>())
-            timer.totalTime += child.patience;
-
-        CustomerTimerUI ui = Instantiate(timerUIPrefab, timerloc);
-        ui.SetTarget(timer, GetComponentInChildren<Customer>().portrait);
-
-        StartCoroutine(timer.StartTimer());
+        trayObj = GameObject.Instantiate(trayObjPrefab, Vector3.zero, Quaternion.identity, transform);
+        trayObj.GetComponent<UIDish>().InitTray(roundManagerOrder.order);
     }
+
+    public void InstPrompt(GameObject promptPrefab, Transform spawnLoc)
+    {
+        mainCustomerIdx = PCG.ProceduralRNG.Range(0, customers.Count - 1);
+
+        prompt = Instantiate(promptPrefab, Vector3.zero, Quaternion.identity, spawnLoc.transform).GetComponent<OrderPrompt>();
+        prompt.SetTarget(timer, orderID, trayObj);
+    }
+
+    public void InstQueueOrder(GameObject orderQueueObjPrefab, Transform spawnLoc)
+    {
+        orderQueueObj = Instantiate(orderQueueObjPrefab, Vector3.zero, Quaternion.identity, spawnLoc.transform).GetComponent<OrderQueueObj>();
+        orderQueueObj.SetTarget(orderID, trayObj);
+    }
+
+    public void CallPrompt()
+    {
+        //Adjust Position of Prompt
+        Transform promptPos = prompt.transform;
+        promptPos.SetParent(RoundManager.roundManager.promptCanvas);
+        promptPos.position = customers[mainCustomerIdx].transform.position;
+
+        Vector3 promptLocalPos = promptPos.localPosition;
+        promptPos.localPosition = new Vector3(promptLocalPos.x + 1.25f, promptLocalPos.y + 1.8f, 0f);
+        promptPos.localEulerAngles = Vector3.zero;
+    }
+
+    public void CallOrderQueue()
+    {
+        Transform orderPos = orderQueueObj.transform;
+        orderPos.SetParent(RoundManager.roundManager.orderQueue);
+
+        orderPos.transform.localEulerAngles = Vector3.zero;
+        orderPos.transform.localPosition = Vector3.zero;
+        orderPos.transform.localScale = Vector3.one;
+    }
+
+    #endregion
+    #region Customer
 
     public void CustomerLeave()
     {
@@ -122,18 +160,19 @@ public class CustomerGroup : MonoBehaviour
             RoundManager.roundManager.OnCustomerGroupLeaveStanding(this);
         else
             RoundManager.roundManager.OnCustomerGroupLeaveSitting(this);
+
+        RemoveAll();
+    }
+
+    public void RemoveAll()
+    {
+        Destroy(orderQueueObj.gameObject);
+        Destroy(prompt.gameObject);
         Destroy(gameObject);
     }
 
-    private void Unsubscribe()
-    {
-        timer.OnTimerEnd -= CustomerLeave;
-    }
-
-    private void OnDestroy()
-    {
-        Unsubscribe();
-    }
+    private void Unsubscribe() => timer.OnTimerEnd -= CustomerLeave;
+    private void OnDestroy() => Unsubscribe();
 
     #endregion
 }

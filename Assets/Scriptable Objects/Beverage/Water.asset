@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: WATER
   bevName: Water
-  sprite: {fileID: 0}
-  weight: 2
+  sprite: {fileID: 21300000, guid: 67ea9adfdf2581040a519007576dd1ef, type: 3}
+  size: 0

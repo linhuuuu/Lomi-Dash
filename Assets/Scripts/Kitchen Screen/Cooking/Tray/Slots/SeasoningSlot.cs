@@ -20,7 +20,7 @@ public class SeasoningSlot : MonoBehaviour
         if (seasoningTrays.Count == 1)
             col.enabled = false;
         else
-            seasoningTrays[seasoningTrays.Count - 2].GetComponent<Collider2D>().enabled = false;
+            seasoningTrays[seasoningTrays.Count - 2].GetComponent<Collider>().enabled = false;
     }
 
     public void ToggleCollidersOn()
@@ -28,7 +28,7 @@ public class SeasoningSlot : MonoBehaviour
         if (seasoningTrays.Count == 0)
             col.enabled = true;
         else
-            seasoningTrays[seasoningTrays.Count - 1].GetComponent<Collider2D>().enabled = true;
+            seasoningTrays[seasoningTrays.Count - 1].GetComponent<Collider>().enabled = true;
     }
 
     public void AddToStack(GameObject obj)

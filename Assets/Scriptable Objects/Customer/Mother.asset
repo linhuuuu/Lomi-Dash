@@ -15,12 +15,8 @@ MonoBehaviour:
   id: MOTHER
   customerName: Mother
   patienceTime: 150
-  orderComplexity: 1
   paymentRange: 600
-  favoriteDish: 
-  dislikedDish: 
   itemDrop: 
   portrait: {fileID: -1483423071, guid: d5e4088724d4fe14a9a60df9e239170d, type: 3}
-  sittingSprite: {fileID: 226208208, guid: 20c9b0029d5ffe14b81b44feb1b092e0, type: 3}
-  pickUpSprite: {fileID: -1666324897, guid: 20c9b0029d5ffe14b81b44feb1b092e0, type: 3}
   standingSprite: {fileID: 112099511, guid: 20c9b0029d5ffe14b81b44feb1b092e0, type: 3}
+  sittingSprite: {fileID: 226208208, guid: 20c9b0029d5ffe14b81b44feb1b092e0, type: 3}

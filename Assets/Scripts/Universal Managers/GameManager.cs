@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
         open,
     }
 
-
-
     private static GameManager _instance;
     public static GameManager Instance => GetInstance();
     public RoundProfile roundProfile = null;
@@ -21,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-
         state = gameState.closed;
         if (_instance != null && _instance != this)
         {
@@ -31,7 +28,6 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
-
     }
 
     private static GameManager GetInstance()

@@ -8,13 +8,12 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Canvas canvas;
     private Vector3 originalPos;
     [SerializeField] private PrepTray tray;
-    private LayerMask tableMask;
+    [SerializeField] private LayerMask mask;
+
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-        tableMask = 1 << 9;
-
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -30,20 +29,30 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         Ray ray = CameraManager.cam.mainCam.ScreenPointToRay(eventData.position);
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, tableMask))
-        {
-            if(Debug.isDebugBuild) Debug.Log("Dropped on table: " + hit.collider.name);
 
-            //Get Customer Group
-            TableDropZone table = hit.collider.GetComponent<TableDropZone>();
-            if (table.occupied == false)
+        //Get CustomerGroup Component from Table or OrderPrompt
+        CustomerGroup group = null;
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, mask))
+        {
+            if (hit.collider.TryGetComponent(out TableDropZone table))
             {
-                Debug.Log(table.occupied);
+                if (table.occupied == false)
+                {
+                    transform.localPosition = originalPos;
+                    return;
+                }
+                group = table.transform.GetComponentInChildren<CustomerGroup>();
+            }
+
+            if (hit.collider.TryGetComponent(out OrderPrompt prompt))
+                group = RoundManager.roundManager.orders[prompt.orderIndex].customers;
+
+            if (group.prompt.isOrderTaken == false)
+            {
                 transform.localPosition = originalPos;
                 return;
             }
-            CustomerGroup group = table.transform.GetComponentInChildren<CustomerGroup>();
-            
+
             //Get Orders
             OrderNode order = RoundManager.roundManager.orders[group.orderID].order;
             OrderNode cookedOrder = tray.CompleteTray();
@@ -55,7 +64,7 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             //Leave
             RoundManager.roundManager.finishedOrders[group.orderID] = cookedOrder;
             RoundManager.roundManager.OnCustomerGroupLeaveDined(group);
-            group.gameObject.SetActive(false);
+            group.RemoveAll();
 
             //Clear Out Tray
             tray.ClearTray();

@@ -15,5 +15,6 @@ public class Recipe : ScriptableObject
     
     public string id;
     public string recipeName;
+    public int basePrice;
     public List<ToppingEntry> toppingList = new List<ToppingEntry>();
 };

@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3094074759697391910}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.17216253, y: 0.59951293, z: 0.022665635, w: 0.78130054}
+  m_LocalRotation: {x: -0.17215937, y: 0.59951574, z: 0.022664748, w: 0.7812992}
   m_LocalPosition: {x: 13295.82, y: 4132.7666, z: 3252.9202}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -17.229, y: 76.567, z: -10.314}
 --- !u!114 &8971493444413596070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,3 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea2246ac3e9efa4789477b00cf4959f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRepo:
+    RecipeRepo: []
+    BeverageRepo: []
+    CustomerRepo: []
+  gameRepo:
+    RecipeRepo:
+    - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+    - {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
+    BeverageRepo:
+    - {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
+    - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+    CustomerRepo:
+    - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
+    - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+    - {fileID: 11400000, guid: d5b49b36d5e77b747b7ebb726ae130bc, type: 2}

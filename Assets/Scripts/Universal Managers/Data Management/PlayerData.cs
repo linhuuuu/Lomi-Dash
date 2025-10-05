@@ -16,7 +16,7 @@ public class PlayerSaveData
 
     [FirestoreProperty]
     public int happiness { get; set; }
-    
+
     [FirestoreProperty]
     public int money { get; set; }
 
@@ -27,11 +27,18 @@ public class PlayerSaveData
     public bool largeTrayUnlocked { get; set; } = false;
 
     [FirestoreProperty]
+    public List<string> unlockedRecipeIds { get; set; } = new List<string>();
+    
+    [FirestoreProperty]
     public List<string> unlockedBeverageIds { get; set; } = new List<string>();
 
     [FirestoreProperty]
-    public List<string> unlockedRecipeIds { get; set; } = new List<string>();
+    public List<string> unlockedCustomerIds { get; set; } = new List<string>();
 
     [FirestoreProperty]
-    public List<string> unlockedCustomerIds { get; set; } = new List<string>();
+    public List<string> unlockedToppingIds { get; set; } = new List<string>();
+
+    [FirestoreProperty]
+    public List<string> unlockedStages { get; set; } = new List<string>();
+
 }

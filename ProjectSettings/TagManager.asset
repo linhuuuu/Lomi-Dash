@@ -30,9 +30,9 @@ TagManager:
   - Non-Collidable
   - Interactable
   - Table
-  - 
-  - 
-  - 
+  - Trash
+  - CustomerPrompts
+  - Tray
   - 
   - 
   - 
@@ -56,9 +56,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Dish
+  - name: Orders
+    uniqueID: 762881813
+    locked: 0
+  - name: Service Ui
+    uniqueID: 3609676165
+    locked: 0
+  - name: Kitchen
+    uniqueID: 3474622409
+    locked: 0
+  - name: Tray Slot
     uniqueID: 3509793079
     locked: 0
   - name: Toppings
+    uniqueID: 3098448821
+    locked: 0
+  - name: Kitchen UI
     uniqueID: 3811873089
     locked: 0

@@ -23,7 +23,9 @@ public class DragAndDrop : MonoBehaviour
         originalLocalPosition = transform.localPosition;
         parent = transform.parent;
 
-        interactable = 1 << 8; //interactables are at layer 8
+        interactable += 1 << 8; //interactables are at layer 8
+        interactable += 1 << 10; //Trash is at layer 10
+        interactable += 1 << 12; //Tray Slots is at layer 10
 
     }
     private void OnMouseDown()

@@ -42,7 +42,7 @@ public class RoundManagerEditor : Editor
                         PrintTree(order.order, "  ");
                         EditorGUILayout.LabelField("Customers");
                         if (order.customers != null)
-                            EditorGUILayout.LabelField(System.String.Join(", ", order.customers.Select(c => c.name)));
+                            EditorGUILayout.LabelField(System.String.Join(", ", order.customers.customers.Select(c => c.name)));
                     }
                     count++;
                 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InstrDish : DragAndDrop
+public class InstDish : DragAndDrop
 {
     [SerializeField] private GameObject dishPrefab;
     [SerializeField] private Transform dishPos;
@@ -20,7 +20,8 @@ public class InstrDish : DragAndDrop
             var newDish = Instantiate(dishPrefab, Vector3.down, Quaternion.identity, dishPos);
 
             newDish.transform.localPosition = Vector3.zero;
-            newDish.transform.localRotation = Quaternion.identity;
+            newDish.transform.localEulerAngles = Vector3.zero;
+            newDish.transform.localScale = Vector3.one;
             newDish.GetComponent<PrepDish>().originalLocalPosition = Vector3.zero;
 
             dishPos.GetComponent<Collider>().enabled = false;

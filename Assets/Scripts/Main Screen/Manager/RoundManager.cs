@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System;
 
-//Component that manages Orders(Instantiate and Store) and Customers(Instantiate, Spawn, Actions)
 public class RoundManager : MonoBehaviour
 {
     //Order Generation and Management
     public class Order
     {
         public OrderNode order;
-        public List<GameObject> customers;
+        public CustomerGroup customers;
+        public float price;
     }
-
     public Dictionary<int, Order> orders { set; get; } = new Dictionary<int, Order>();
     public OrderNode[] finishedOrders { set; get; }
     [SerializeField] private int customersToCall = 0, currentOrders = 0;
@@ -27,74 +25,70 @@ public class RoundManager : MonoBehaviour
     private RoundProfile profile;
 
     [Header("Round References and Objects")]
-    private Transform poolPoint;
-    private List<CustomerSpawnPoint> spawnPoints = new List<CustomerSpawnPoint>();
+
+    //Customer
+    private Transform customerPoolPoint;
+    private List<CustomerSpawnPoint> customerSpawnPoints = new List<CustomerSpawnPoint>();
     [SerializeField] private GameObject customerPrefab;
+
     [SerializeField] private GameObject groupContainerPrefab;
+    [SerializeField] private GameObject dropPrefab;
+    [SerializeField] private GameObject trayObjPrefab;
+
+    //Prompts
+    [SerializeField] private GameObject promptPrefab;
+    [SerializeField] private GameObject orderQueuePrefab;
+    public Transform promptCanvas;
+    public Transform orderQueue;
+    public List<OrderQueueObj> orderQueueList { set; get; } = new List<OrderQueueObj>();
+    private List<CustomerGroupTimer> timer;
+
+    [Header("Round Stats")]
     private float money = 0f;
     private float happiness = 0f;
-
     public event System.Action<float, float> OnCurrencyChange;
 
     public static RoundManager roundManager;
-
     void Awake()
     {
+        roundManager = this;
+
         if (GameManager.Instance.state == GameManager.gameState.open)
             this.enabled = true;
     }
 
     void Start()
     {
-        roundManager = this;
-
-        //Set Available Data
-        // beverages = DataManager.data.playerData.beverages;
-        // recipes = DataManager.data.playerData.recipes;
-        // customerList = DataManager.data.playerData.customerList;
+        // Set Available Data
+        beverages = InventoryManager.inv.gameRepo.BeverageRepo;
+        recipes = InventoryManager.inv.gameRepo.RecipeRepo;
+        customerList =InventoryManager.inv.gameRepo.CustomerRepo;
         profile = GameManager.Instance.roundProfile;
 
         //Set Spawn Points              
         for (int i = 0; i < 3; i++)
         {
             GameObject spawn = GameObject.Find("Spawn_" + (i + 1).ToString());
-            Debug.Log(spawn);
-            spawnPoints.Add(spawn.GetComponent<CustomerSpawnPoint>());
+            if (spawn != null) customerSpawnPoints.Add(spawn.GetComponent<CustomerSpawnPoint>());
         }
 
-        poolPoint = GameObject.Find("PoolPoint").transform;
+        customerPoolPoint = GameObject.Find("customerPoolPoint").transform;
 
-        for (int i = 0; i < spawnPoints.Count; i++)
-            spawnPoints[i].index = i;
+        for (int i = 0; i < customerSpawnPoints.Count; i++)
+            customerSpawnPoints[i].index = i;
 
         //PCG
         ProceduralRNG.Initialize(profile.level);
 
         //Init Round
         GenerateOrders();
-        for (int i = 0; i < orders.Count; i++)
-            PrintTree(orders[i].order, " ");
-
         StartRound();
-    }
-
-    void PrintTree(OrderNode node, string indent)
-    {
-        Debug.Log($"{indent}└─ {node.id} (w={node.weight})");
-        if (node.children != null)
-        {
-            foreach (var child in node.children)
-            {
-                if (child != null)
-                    PrintTree(child, indent + "  ");
-            }
-        }
     }
 
     #region Order Generation
     public void GenerateOrders()
     {
-        //Get group Count based on Round profile data
+        //Get Group Count based on Round profile data
         int customerGroupcount = RoundManagerHelpers.helper.GenerateCustomerGroupCount(profile);
 
         //Generate CustomerGroups
@@ -108,7 +102,11 @@ public class RoundManager : MonoBehaviour
                 headCount = Mathf.Clamp(headCount, 1, 3);
 
             //Generate Orders
-            newOrder.order = OrderGenerator.GenerateTray(profile.difficulty, headCount, DataManager.data.playerData.largeBowlUnlocked, DataManager.data.playerData.largeTrayUnlocked, beverages, recipes);
+            var orderGenerated = OrderGenerator.GenerateTray(profile.difficulty, headCount, DataManager.data.playerData.largeBowlUnlocked, DataManager.data.playerData.largeTrayUnlocked, beverages, recipes);
+            newOrder.order = orderGenerated.Item1;
+
+            //Get Price
+            newOrder.price = orderGenerated.Item2;
 
             //Customer Group
             newOrder.customers = InstCustomerGroups(headCount, i);
@@ -116,19 +114,25 @@ public class RoundManager : MonoBehaviour
             //Update List and Counter
             orders.Add(i, newOrder);    //id, ordergenerated
             customersToCall++;
+
+            // Instantiate Prompts and UITray
+            newOrder.customers.InstTray(trayObjPrefab, orders[i]);
+            newOrder.customers.InstPrompt(promptPrefab, customerPoolPoint);
+            newOrder.customers.InstQueueOrder(orderQueuePrefab, customerPoolPoint);
         }
         finishedOrders = new OrderNode[orders.Count];
     }
 
-    private List<GameObject> InstCustomerGroups(int headCount, int orderID)
+    private CustomerGroup InstCustomerGroups(int headCount, int orderID)
     {
         //Create Container
-        GameObject group = Instantiate(groupContainerPrefab, Vector3.zero, Quaternion.identity, poolPoint);
+        GameObject group = Instantiate(groupContainerPrefab, Vector3.zero, Quaternion.identity, customerPoolPoint);
         group.transform.localRotation = Quaternion.identity;
-        group.GetComponent<CustomerGroup>().orderID = orderID;
 
-        // Generate Customers
-        List<GameObject> customers = new List<GameObject>();
+        //Generate Customers
+        CustomerGroup customerGroup = group.GetComponent<CustomerGroup>();
+        customerGroup.orderID = orderID;
+
         for (int j = 0; j < headCount; j++)
         {
             //Offset
@@ -138,30 +142,34 @@ public class RoundManager : MonoBehaviour
             //Init Customer
             GameObject newCustomer = Instantiate(customerPrefab, group.transform.position + offset, Quaternion.identity, group.transform);
             newCustomer.transform.localRotation = Quaternion.identity;
-            customers.Add(newCustomer);
 
-            //Init Customers
             Customer newCustomerProp = newCustomer.GetComponent<Customer>();
             newCustomerProp.InitCustomer(customerList[ProceduralRNG.Range(0, customerList.Count)]); //Improve
-
+            customerGroup.customers.Add(newCustomerProp);
         }
-        return customers;
+        foreach (Customer customer in customerGroup.customers)
+            customerGroup.timer.totalTime += customer.patience;
+            
+
+        return customerGroup;
     }
     #endregion
     #region Round Routine
+
     private IEnumerator RoundLoop()
     {
         int i = 0;
         while (customersToCall > 0)
         {
-            //Wait Until spawnPoints are available
-            if (spawnPoints.All(c => c.occupied))
-                yield return new WaitWhile(() => spawnPoints.All(c => c.occupied));
+            //Wait Until
+            if (customerSpawnPoints.All(c => c.occupied))
+                yield return new WaitWhile(() => customerSpawnPoints.All(c => c.occupied));
 
-            //Call Customer Group
-            float delay = ProceduralRNG.Range(1f, 5f);
-            yield return new WaitForSeconds(delay); //delays
-            CallCustomerGroup(orders[i].customers[0].transform.parent);
+            //Call Customer Group, Probably Improve
+            float delay = ProceduralRNG.Range(5f, 10f);
+            yield return new WaitForSeconds(delay); 
+
+            CallCustomerGroup(orders[i].customers);
 
             //Update List
             customersToCall--;
@@ -186,86 +194,142 @@ public class RoundManager : MonoBehaviour
     // Round Controls
     // public void PauseRound() => isPaused = true;
     // public void ResumeRound() => isPaused = false;
+
     public void StartRound() => StartCoroutine(RoundLoop());
 
     #endregion
     #region Customer Group Actions
 
-    private void CallCustomerGroup(Transform customerGroup)
+    private void CallCustomerGroup(CustomerGroup customerGroup)
     {
-        //Gets all spawnpoints that are not occupied and lists their index
-        List<int> availableSpawnPoints = spawnPoints.Where(c => c.occupied == false).Select(sp => sp.index).ToList();
-        Debug.Log(String.Join(",", availableSpawnPoints));
+        //Gets All customerSpawnPoints
+        List<int> availableSpawnPoints = customerSpawnPoints.Where(c => c.occupied == false).Select(sp => sp.index).ToList();
 
-        CustomerSpawnPoint spawn = spawnPoints[availableSpawnPoints[ProceduralRNG.Range(0, availableSpawnPoints.Count)]];
+        CustomerSpawnPoint spawn = customerSpawnPoints[availableSpawnPoints[ProceduralRNG.Range(0, availableSpawnPoints.Count)]];
         spawn.occupied = true;
 
         //Set Transform to Loc
-        customerGroup.SetParent(spawn.loc);
-        customerGroup.localPosition = Vector3.zero;
-        customerGroup.localRotation = Quaternion.identity;
+        customerGroup.transform.SetParent(spawn.loc);
+        customerGroup.transform.localPosition = Vector3.zero;
+        customerGroup.transform.localRotation = Quaternion.identity;
 
-        //Start Patience Timer
-        customerGroup.GetComponent<CustomerGroup>().StartCustomerTimer();
-    }
-
-    public void OnCustomerGroupSit(CustomerGroup group)
-    {
-        group.transform.GetComponentInParent<CustomerSpawnPoint>().occupied = false; //reset Spawn point
+        //Set References
+        customerGroup.spawnPoint = spawn;
+        StartCoroutine(customerGroup.timer.StartTimer());
     }
 
     public void OnCustomerGroupLeaveStanding(CustomerGroup group)
     {
         currentOrders--;
         orders[group.orderID].customers = null;
-        group.transform.GetComponentInParent<CustomerSpawnPoint>().occupied = false; //reset Spawn point
+        group.transform.GetComponentInParent<CustomerSpawnPoint>().occupied = false;
     }
 
     public void OnCustomerGroupLeaveSitting(CustomerGroup group)
     {
         currentOrders--;
         orders[group.orderID].customers = null;
-        group.GetComponentInParent<TableDropZone>().occupied = false;   //reset table
+        group.tableDropZone.occupied = false;
     }
 
     public void OnCustomerGroupLeaveDined(CustomerGroup group)
     {
         float totalMoney = 0;
+
         float totalHappiness = 0;
-        float totalPrice = 0;
-        float totalTimeLeft = group.timer.elapsedTime / group.timer.totalTime;
+
+        float finalScore = finishedOrders[group.orderID].weight;
+
+        float finalPrice = orders[group.orderID].price;
+
+        float timeLeft = group.timer.elapsedTime / group.timer.totalTime;
 
         foreach (Customer customer in group.transform.GetComponentsInChildren<Customer>())
-        {
-            totalPrice += customer.price;
             totalHappiness += 5;
-        }
 
-        if (totalTimeLeft >= 0.5f)
+        if (timeLeft >= 0.5f)
         {
-            totalMoney = Mathf.Max(finishedOrders[group.orderID].weight * 0.01f * totalPrice * (1 + totalTimeLeft));
-            totalHappiness *= 1 + totalTimeLeft;
+            totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * (1 + timeLeft));
+            totalHappiness = Mathf.Max(finalScore * 0.01f * (1 + timeLeft));
         }
-
         else
         {
-            totalMoney = Mathf.Max(finishedOrders[group.orderID].weight * 0.01f * totalPrice * totalTimeLeft, 0);
-            totalHappiness *= totalTimeLeft;
+            totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * timeLeft, 0);
+            totalHappiness = Mathf.Max(finalScore * 0.01f * timeLeft);
         }
 
-        Currency currency = group.GetComponentInChildren<Currency>();
-        currency.money = totalMoney;
-        currency.happiness = totalHappiness;
+        //Reset Table if no currency dropped
+        if (!InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness))
+            group.tableDropZone.occupied = false;
+
+
+        // InstToppingsDrop(group);
+        // InstToppingDrop(group);
     }
 
     #endregion
     #region Currency
 
+    public bool InstCurrenciesDrop(CustomerGroup group, float finalScore, float money, float happiness)
+    {
+        bool isCurrencyDropped = false;
+        DropObj drop = null;
+
+        if (money > 0)
+        {
+            GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
+            drop = dropObj.GetComponent<DropObj>();
+
+
+            Drop data = null;
+            if (finalScore >= 75)
+                data = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "MoneyHigh");
+            if (finalScore < 75 && finalScore >= 25)
+                data = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "MoneyMed");
+            if (finalScore < 25)
+                data = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "MoneyLow");
+
+            drop.dropData = data;
+
+            if (drop != null)
+                drop.InitSprite();
+
+            isCurrencyDropped = true;
+        }
+
+        if (happiness > 0)
+        {
+            GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
+            drop = dropObj.GetComponent<DropObj>();
+
+            drop.dropData = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "Happiness");
+
+            if (drop != null)
+                drop.InitSprite();
+
+            isCurrencyDropped = true;
+        }
+
+        return isCurrencyDropped;
+    }
+
+
     public void AddCurrencies(float money, float happiness)
     {
         this.money += money;
         this.happiness += happiness;
-        OnCurrencyChange.Invoke(this.money, this.happiness);
+        OnCurrencyChange?.Invoke(this.money, this.happiness);
     }
+
+    public void AddToppings(string id, int val)
+    {
+        //InventoryManager randomly
+    }
+
+    public void AddCE(string id)
+    {
+        //InventoryManager
+    }
+
     #endregion
 }

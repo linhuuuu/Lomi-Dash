@@ -1,11 +1,16 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 namespace PCG
 {
     public static class OrderGenerator
     {
-        public static OrderNode GenerateTray(int difficulty, int headCount, bool largeBowlUnlocked, bool largeTrayUnlocked, List<Beverage> bevList, List<Recipe> recipeList)
+        public static (OrderNode, float) GenerateTray(int difficulty, int headCount, bool largeBowlUnlocked, bool largeTrayUnlocked, List<Beverage> bevList, List<Recipe> recipeList)
         {
+            //Recipe
+            List<Recipe> recipesUsed = new List<Recipe>();  // Saved for posterity, but this could be just a float to get prices
+
             //Tray Init
             int trayDishSlots = largeTrayUnlocked ? 5 : 3;
             var trayNode = new TrayRootNode() { weight = 100f };
@@ -65,6 +70,7 @@ namespace PCG
             {
                 bool shouldMakeLarge = remainingLarge > 0;
                 var recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count)];
+                recipesUsed.Add(recipe);
 
                 if (shouldMakeLarge && totalSlotsUsed + 2 <= trayDishSlots)
                 {
@@ -79,8 +85,11 @@ namespace PCG
                 }
             }
 
-            // Add Beverage fix
-            int beverageCount = ProceduralRNG.Range(1, 2);
+            // Add Beverage
+            int beverageCount = Mathf.Clamp(headCount, 1, 3);
+
+            //Add shouldmake large logic
+
             for (int i = 0; i < beverageCount; i++)
             {
                 var beverage = bevList[ProceduralRNG.Range(0, bevList.Count)];
@@ -93,7 +102,12 @@ namespace PCG
             //Add Weights
             AddWeights(trayNode, 100f);
 
-            return trayNode;
+            //Get Price
+            float price = 0f;
+            foreach (Recipe recipe in recipesUsed)
+                price += recipe.basePrice;
+
+            return (trayNode, price);
         }
 
         public static OrderNode GenerateDish(int difficulty, bool isLarge, Recipe recipe, int id)

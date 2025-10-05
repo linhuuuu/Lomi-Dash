@@ -67,11 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105f04f91005a8f4db6023dbcd73a47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Snapped: 0
   orderID: 0
   timerUIPrefab: {fileID: 3466517528268652384, guid: 8686b24eef0b3b74093fa5bac0f0660f,
     type: 3}
-  timerloc: {fileID: 0}
+  promptPrefab: {fileID: 3316225175943232436, guid: 76422b8f44b4cce4c96d77691e14318e,
+    type: 3}
 --- !u!114 &-5156508382088817970
 MonoBehaviour:
   m_ObjectHideFlags: 0

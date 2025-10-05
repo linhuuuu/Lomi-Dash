@@ -19,14 +19,14 @@ public class CustomerGroupTimer : MonoBehaviour
     private IEnumerator TimerRoutine()
     {
         elapsedTime = totalTime;
-        
+
         while (elapsedTime > 0)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             if (onPause)
                 yield return new WaitWhile(() => onPause);
-                
-            elapsedTime--;
+
+            elapsedTime -= 0.5f;
             OnTimerTick?.Invoke(elapsedTime);
         }
         OnTimerEnd?.Invoke();
@@ -38,8 +38,14 @@ public class CustomerGroupTimer : MonoBehaviour
         onPause = true;
         elapsedTime = Mathf.Clamp(elapsedTime + (totalTime * chargeBack), 0, totalTime);
         OnTimerTick?.Invoke(elapsedTime);
-       
+
         yield return new WaitForSeconds(3f);
         onPause = false;
+    }
+
+    private void OnDisable()
+    {
+        OnTimerTick = null;
+        OnTimerEnd = null;
     }
 }

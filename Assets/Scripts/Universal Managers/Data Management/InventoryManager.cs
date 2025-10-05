@@ -1,20 +1,35 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    // [SerializeField] private Beverage[] beverages;
-    // [SerializeField] private Recipes[] recipes;
-    // [SerializeField] private CustomerData[] customers;
+    public static InventoryManager inv;
 
-    // public static InventoryManager inv;
+    public VisualState globalVisualState;
 
-    // void Awake()
-    // {
-    //     if (inv == null)
-    //     {
-    //         inv = this;
-    //         DontDestroyOnLoad(gameObject);
-    //     }
-    //     else Destroy(gameObject);
-    // }
+    void Awake()
+    {
+        if (inv == null)
+        {
+            inv = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+    }
+
+    //Repositories
+    [System.Serializable]
+    public class Repositories
+    {
+        public List<Recipe> RecipeRepo;
+        public List<Beverage> BeverageRepo;
+        public List<CustomerData> CustomerRepo;
+        public List<Topping> ToppingRepo;
+        public List<Drop> DropsRepo;
+        // public List<Achievement> AchievementRepo;
+    }
+
+    public Repositories gameRepo;
+    public Repositories playerRepo;
+
 }

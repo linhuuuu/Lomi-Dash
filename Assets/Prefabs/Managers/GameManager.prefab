@@ -44,7 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3255fbece51279b439d8d41444010d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundProfile: {fileID: 11400000, guid: a9a1972313ad369469c0b04cfa8f9995, type: 2}
-  roundManager: {fileID: 6775961854205005102, guid: daa5263e81b8c0a4abe964c9cde38ecf,
-    type: 3}
-  state: 0
+  roundProfile: {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa, type: 2}
+  state: 1

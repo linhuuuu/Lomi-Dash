@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Sink : MonoBehaviour
+public class AnimSink : MonoBehaviour
 {
    [field:SerializeField]  private SpriteRenderer water { set; get; }
    [field:SerializeField]  public SpriteRenderer sink { set; get; }

@@ -10,6 +10,6 @@ public class CameraManager : MonoBehaviour
 
     void Awake()
     {
-            cam = this;
+       cam = this;
     }
 }

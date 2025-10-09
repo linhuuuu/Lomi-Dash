@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-
 public class DragAndDrop : MonoBehaviour
 {
     protected Collider col;
     protected SpriteRenderer sprite;
-    public SortingGroup sortingGroup;
+    public SortingGroup sortingGroup { set; get; }
 
     public int originalSortingOrder { set; get; }
     public int originalSortingGroupOrder { set; get; }
@@ -19,9 +18,16 @@ public class DragAndDrop : MonoBehaviour
     private float zOffset;
     protected Camera mainCamera;
 
+    System.Collections.IEnumerator getCamera()
+    {
+        yield return new WaitForSeconds(0.01f);
+        mainCamera = CameraManager.cam.mainCam;
+    }
+
     private void Awake()
     {
-        mainCamera = CameraManager.cam.mainCam;
+        //mainCamera = CameraManager.cam.mainCam;
+        StartCoroutine(getCamera());
         col = gameObject.GetComponent<Collider>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;

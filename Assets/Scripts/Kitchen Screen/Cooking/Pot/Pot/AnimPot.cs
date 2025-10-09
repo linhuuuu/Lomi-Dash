@@ -24,8 +24,8 @@ public class AnimPot : MonoBehaviour
     public IEnumerator AnimWater(GameObject sink)
     {
         //Reposition Pot Sink
-        Sink sinkObj = sink.GetComponent<Sink>();
-
+        AnimSink sinkObj = sink.GetComponent<AnimSink>();
+        
         pot.transform.SetParent(sinkObj.potPos);
         pot.transform.localPosition = Vector3.zero;
         pot.sortingGroup.sortingLayerName = pot.originalSortingGroup;

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "315847960993-45s65nfp31alr4851te34fmbf6e612pi.apps.googleusercontent.com",
+          "client_id": "315847960993-6gt6p676v2p4bla6ae6fgv1h7o2dcjvc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.migraine.lomidash",
-            "certificate_hash": "f3ee9a394575f608b9dcae3ff89fa0a1aceb6eca"
+            "certificate_hash": "5c12479ba8bba9c3d26cbde0390d629c64ea7262"
           }
         },
         {

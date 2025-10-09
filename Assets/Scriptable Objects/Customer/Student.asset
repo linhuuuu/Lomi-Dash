@@ -15,12 +15,8 @@ MonoBehaviour:
   id: STUDENT
   customerName: Student
   patienceTime: 100
-  orderComplexity: 1
   paymentRange: 200
-  favoriteDish: 
-  dislikedDish: 
   itemDrop: 
-  portrait: {fileID: 1062563838, guid: d5e4088724d4fe14a9a60df9e239170d, type: 3}
-  sittingSprite: {fileID: 1611240195, guid: 4384ff33fbe114f43afc8d5bd95828c5, type: 3}
-  pickUpSprite: {fileID: 1390873330, guid: 4384ff33fbe114f43afc8d5bd95828c5, type: 3}
-  standingSprite: {fileID: -655621953, guid: 4384ff33fbe114f43afc8d5bd95828c5, type: 3}
+  portrait: {fileID: 21300000, guid: 5153ed91b3d8942478c61b21809bfcb0, type: 3}
+  standingSprite: {fileID: -1005221503, guid: e34bcedaee648e442ab4f345f34701f9, type: 3}
+  sittingSprite: {fileID: 365502077, guid: e34bcedaee648e442ab4f345f34701f9, type: 3}

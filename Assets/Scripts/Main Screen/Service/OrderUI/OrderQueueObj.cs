@@ -4,40 +4,20 @@ using UnityEngine.UI;
 
 public class OrderQueueObj : MonoBehaviour
 {
-    private int orderID { set; get; }
-    private List<Sprite> portraits = new List<Sprite>();
     [SerializeField] private Image portraitPrefab;
-    private OrderModal modal;
 
-    public void SetTarget(int orderID, GameObject trayObj)
+    public void SetTarget(UITray trayObj, Sprite portrait)
     {
-        this.orderID = orderID;
-        InitOrderQueueObj(trayObj);
+        InitOrderQueueObj(trayObj, portrait);
     }
 
-    private void InitOrderQueueObj(GameObject trayObj)
+    private void InitOrderQueueObj(UITray trayObj, Sprite portrait)
     {
-        //Tray
-        GameObject tray = Instantiate(trayObj, Vector3.zero, Quaternion.identity, transform);
+        UITray tray = Instantiate(trayObj, Vector3.zero, Quaternion.identity, transform);
         tray.transform.localEulerAngles = Vector3.zero;
         tray.transform.localPosition = Vector3.zero;
         tray.transform.localScale = new Vector3(5f, 5f, 5f);
 
-        //Portraits
-        RoundManager.Order order = RoundManager.roundManager.orders[orderID];
-
-        foreach (Customer customer in order.customers.customers)
-            portraits.Add(customer.portrait);
-        portraitPrefab.sprite = portraits[order.customers.mainCustomerIdx];
-
-        //Modal
-        InitModal();
-        
-        RoundManager.roundManager.orderQueueList.Add(this);
-    }
-
-    private void InitModal()
-    {
-
+        portraitPrefab.sprite = portrait;
     }
 }

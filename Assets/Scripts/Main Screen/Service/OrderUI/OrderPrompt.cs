@@ -12,7 +12,7 @@ public class OrderPrompt : MonoBehaviour, IPointerDownHandler
     public bool isOrderTaken { set; get; } = false;
     public int orderIndex { set; get; }
 
-    public void SetTarget(CustomerGroupTimer timer, int orderIndex, GameObject trayObj)
+    public void SetTarget(CustomerGroupTimer timer, int orderIndex, UITray trayObj)
     {
         this.timer = timer;
         this.orderIndex = orderIndex;
@@ -21,7 +21,7 @@ public class OrderPrompt : MonoBehaviour, IPointerDownHandler
         InitPrompt(trayObj);
     }
 
-    public void InitPrompt(GameObject trayObj)
+    public void InitPrompt(UITray trayObj)
     {
         //Tray
         trayObj.transform.SetParent(phase2.transform);

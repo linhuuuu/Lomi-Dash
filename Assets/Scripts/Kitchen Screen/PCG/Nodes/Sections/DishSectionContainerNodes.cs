@@ -4,6 +4,7 @@ namespace PCG
     public class DishSectionNode : OrderNode
     {
         public bool isLarge { set; get; }
+        public string recipeName { set; get; }
         public int index { set; get; } = 0;
         public DishSectionNode() => this.id = "DISH_SECTION_";
         public DishSectionNode(int id) => this.id = "DISH_SECTION_" + id.ToString();

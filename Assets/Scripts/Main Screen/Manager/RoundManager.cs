@@ -32,22 +32,25 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private GameObject customerPrefab;
 
     [SerializeField] private GameObject groupContainerPrefab;
-    [SerializeField] private GameObject dropPrefab;
     [SerializeField] private GameObject trayObjPrefab;
+    [SerializeField] private GameObject dropPrefab;
 
     //Prompts
     [SerializeField] private GameObject promptPrefab;
     [SerializeField] private GameObject orderQueuePrefab;
     public Transform promptCanvas;
     public Transform orderQueue;
-    public List<OrderQueueObj> orderQueueList { set; get; } = new List<OrderQueueObj>();
-    private List<CustomerGroupTimer> timer;
+    
+    //Prompts
+    [SerializeField] private GameObject modalPrefab;
+    [SerializeField] private GameObject modalCanvas;
 
     [Header("Round Stats")]
     private float money = 0f;
     private float happiness = 0f;
     public event System.Action<float, float> OnCurrencyChange;
 
+    public VisualStateLib lib;
     public static RoundManager roundManager;
     void Awake()
     {
@@ -119,6 +122,7 @@ public class RoundManager : MonoBehaviour
             newOrder.customers.InstTray(trayObjPrefab, orders[i]);
             newOrder.customers.InstPrompt(promptPrefab, customerPoolPoint);
             newOrder.customers.InstQueueOrder(orderQueuePrefab, customerPoolPoint);
+            newOrder.customers.InstModal(modalPrefab, newOrder, modalCanvas);
         }
         finishedOrders = new OrderNode[orders.Count];
     }

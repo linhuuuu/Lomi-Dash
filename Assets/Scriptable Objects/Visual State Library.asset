@@ -23,6 +23,33 @@ MonoBehaviour:
   - id: soySauce
     value: {r: 1, g: 0.7582831, b: 0.12641507, a: 1}
   bawang:
-  - id: 
-    value: {fileID: 0}
-  onion: []
+  - id: 1
+    value: {fileID: 1012921512, guid: 90c781b877352964cb647c27cf26fbf6, type: 3}
+  - id: 2
+    value: {fileID: 2032342978, guid: 90c781b877352964cb647c27cf26fbf6, type: 3}
+  onion:
+  - id: 1
+    value: {fileID: 1721399881, guid: 90c781b877352964cb647c27cf26fbf6, type: 3}
+  - id: 2
+    value: {fileID: 2032342978, guid: 90c781b877352964cb647c27cf26fbf6, type: 3}
+  seasoningTray:
+  - id: 1
+    value: {fileID: 21300000, guid: 40481760aa2faf34ab1a1c7869a65c20, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: f0400659e1d8cd64b9ef30bd57c157bd, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: 15cf9e9d4ee210c4b874c2a3e76823eb, type: 3}
+  - id: 4
+    value: {fileID: 21300000, guid: 26b115167698ec04d83312e6527a5451, type: 3}
+  - id: 5
+    value: {fileID: 21300000, guid: f19b983cefc018e42a212e49c3f728e0, type: 3}
+  sinkWater:
+  - id: 0
+    value: {fileID: 21300000, guid: c4850be222ec30b4dadd57e52e22aa18, type: 3}
+  - id: 1
+    value: {fileID: 21300000, guid: ef912b8e11f98f8428ba7c4fe29b9e2b, type: 3}
+  sink:
+  - id: open
+    value: {fileID: 21300000, guid: f20116563d15611458917b98a5a751c2, type: 3}
+  - id: closed
+    value: {fileID: 21300000, guid: 632016c7cbf5df84c8c44ceaa49355cc, type: 3}

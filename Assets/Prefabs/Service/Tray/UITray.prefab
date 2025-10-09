@@ -647,12 +647,12 @@ PrefabInstance:
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_Name
-      value: UIDish
+      value: Dish_1
       objectReference: {fileID: 0}
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127826298494163970, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
@@ -782,12 +782,12 @@ PrefabInstance:
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_Name
-      value: UIDish
+      value: Dish_3
       objectReference: {fileID: 0}
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127826298494163970, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
@@ -1022,12 +1022,12 @@ PrefabInstance:
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_Name
-      value: UIBev
+      value: UIBev_3
       objectReference: {fileID: 0}
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1162,12 +1162,12 @@ PrefabInstance:
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_Name
-      value: UIBev
+      value: UIBev_2
       objectReference: {fileID: 0}
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1227,12 +1227,12 @@ PrefabInstance:
     - target: {fileID: 3326203864116328635, guid: 0d2e413cfda9e9542bf916246746c95d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1.56
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3326203864116328635, guid: 0d2e413cfda9e9542bf916246746c95d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.4
+      value: 1.68
       objectReference: {fileID: 0}
     - target: {fileID: 3326203864116328635, guid: 0d2e413cfda9e9542bf916246746c95d,
         type: 3}
@@ -1302,7 +1302,7 @@ PrefabInstance:
     - target: {fileID: 7803258289295988597, guid: 0d2e413cfda9e9542bf916246746c95d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1437,12 +1437,12 @@ PrefabInstance:
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_Name
-      value: UIBev
+      value: UIBev_1
       objectReference: {fileID: 0}
     - target: {fileID: 3604406042238750043, guid: fa813fd1f34f2fd4d8cf215ce82c1956,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1472,12 +1472,12 @@ PrefabInstance:
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_Name
-      value: UIDish
+      value: Dish_2
       objectReference: {fileID: 0}
     - target: {fileID: 3327687080924366555, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4127826298494163970, guid: 7af8fe7a3aeb98c449e4d7fbfd1091c9,
         type: 3}

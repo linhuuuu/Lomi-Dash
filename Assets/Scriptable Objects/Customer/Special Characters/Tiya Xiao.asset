@@ -17,6 +17,6 @@ MonoBehaviour:
   patienceTime: 150
   paymentRange: 600
   itemDrop: 
-  portrait: {fileID: 21300000, guid: a69014bf31d56a241b57115ac209472e, type: 3}
-  standingSprite: {fileID: -1975171070, guid: 208f57816700ab141a0d102391c6f286, type: 3}
-  sittingSprite: {fileID: -882049389, guid: 208f57816700ab141a0d102391c6f286, type: 3}
+  portrait: {fileID: 21300000, guid: c7e567822e74855489eced37a11c4728, type: 3}
+  standingSprite: {fileID: -156197539, guid: 3972618fa5e64204c8b289150d85a025, type: 3}
+  sittingSprite: {fileID: -1648085143, guid: 3972618fa5e64204c8b289150d85a025, type: 3}

@@ -21,7 +21,7 @@ public class DropWokSeasoning : DragAndDrop
 
             if (targetWok.potGroup == null)
             {
-                targetWok.SauteePan(seasoningName);
+                // targetWok.SauteePan(seasoningName);
                 revertDefaults();
                 return;
             }

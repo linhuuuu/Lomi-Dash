@@ -1,14 +1,19 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DragAndDrop : MonoBehaviour
 {
     protected Collider col;
     protected SpriteRenderer sprite;
-   
+    public SortingGroup sortingGroup;
+
     public int originalSortingOrder { set; get; }
+    public int originalSortingGroupOrder { set; get; }
+    public string originalSortingGroup { set; get; }
     public Vector3 originalLocalPosition { set; get; }
     public Transform parent { set; get; }
     protected Collider hitCollider;
+
 
     private LayerMask interactable;
     private float zOffset;
@@ -21,23 +26,37 @@ public class DragAndDrop : MonoBehaviour
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
         originalLocalPosition = transform.localPosition;
+
+        if (transform.TryGetComponent(out SortingGroup group))
+        {
+            sortingGroup = group;
+            originalSortingGroup = group.sortingLayerName;
+            originalSortingGroupOrder = group.sortingOrder;
+        }
+
         parent = transform.parent;
 
         interactable += 1 << 8; //interactables are at layer 8
         interactable += 1 << 10; //Trash is at layer 10
         interactable += 1 << 12; //Tray Slots is at layer 10
-
     }
+
     private void OnMouseDown()
     {
         zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
-        sprite.sortingOrder += 30;
+
+        if (sortingGroup != null)
+            sortingGroup.sortingLayerName = "OnDrag";
+
         if (transform.childCount > 0)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 if (transform.GetChild(i).TryGetComponent(out SpriteRenderer sprite))
                     sprite.sortingOrder += 30;
+
+                if (transform.GetChild(i).TryGetComponent(out SpriteMask mask))
+                    mask.frontSortingOrder += 30;
             }
         }
     }
@@ -50,7 +69,7 @@ public class DragAndDrop : MonoBehaviour
 
         transform.position = worldPos;
     }
-    
+
     protected Vector3 GetMousePositionInWorldSpace()
     {
         Vector3 p = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -62,16 +81,28 @@ public class DragAndDrop : MonoBehaviour
     {
         transform.SetParent(parent);
         transform.localPosition = originalLocalPosition;
-        sprite.sortingOrder = originalSortingOrder;
+
+        if (sortingGroup != null)
+        {
+            sortingGroup.sortingLayerName = originalSortingGroup;
+            sortingGroup.sortingOrder = originalSortingGroupOrder;
+        }
+
         if (transform.childCount > 0)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
                 if (transform.GetChild(i).TryGetComponent(out SpriteRenderer sprite))
                     sprite.sortingOrder -= 30;
+
+                if (transform.GetChild(i).TryGetComponent(out SpriteMask mask))
+                {
+                    mask.frontSortingOrder -= 30;
+                }
             }
         }
     }
+
     protected void initDraggable()
     {
         col.enabled = false;

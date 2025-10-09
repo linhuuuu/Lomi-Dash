@@ -1,27 +1,44 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR;
-public class AnimPot : DragAndDrop
+public class AnimPot : MonoBehaviour
 {
     [SerializeField] private GameObject water;
-    private SpriteRenderer waterSprite;
-    [SerializeField] private Transform startSeaPos;
-    [SerializeField] private Transform endSeaPos;
+    [SerializeField] private SpriteRenderer waterSprite;
     [SerializeField] private Vector3 water1LevelOffset;
-    [SerializeField] private Vector3 water2LevelOffset;
-    private bool isShaking = false;
-    private Vector3 waterOriginalLoc;
+    [SerializeField] private Vector3 waterOriginalLoc;
+
+    [SerializeField] public Transform seaExtendedPos;
+    [SerializeField] private Transform seaRetractedPos;
+
+    public CookPot pot { set; get; }
+
     void Start()
     {
-        waterSprite = water.GetComponent<SpriteRenderer>();
         water.SetActive(false);
         waterOriginalLoc = water.transform.localPosition;
     }
 
-    public void AddWater()
+    public IEnumerator AnimWater(GameObject sink)
     {
+        //Reposition Pot Sink
+        Sink sinkObj = sink.GetComponent<Sink>();
+
+        pot.transform.SetParent(sinkObj.potPos);
+        pot.transform.localPosition = Vector3.zero;
+        pot.sortingGroup.sortingLayerName = pot.originalSortingGroup;
+        pot.sortingGroup.sortingOrder = sinkObj.sink.sortingOrder + 1;
+
+        //Add Water
+        float duration = 1f;
+        StartCoroutine(sinkObj.ToggleSink(duration));
+
         water.SetActive(true);
-        LeanTween.moveLocal(water, water1LevelOffset, 1f).setEaseLinear();
+        LeanTween.moveLocal(water, water1LevelOffset, duration).setEaseLinear();
+
+        yield return new WaitForSeconds(duration + 0.2f);
     }
 
     public void ChangeToBrothColor()
@@ -31,37 +48,26 @@ public class AnimPot : DragAndDrop
         waterSprite.color = Color.Lerp(waterSprite.color, brothColor, Mathf.PingPong(Time.time, 1));
     }
 
-    public IEnumerator AddSeasoning(GameObject seasoningObj)
+    public void PlaceSeasoning(DropPotSeasoning seasoningObj)
     {
-        if (isShaking) yield return null;
-
         //SetParent
-        seasoningObj.transform.SetParent(transform);
+        seasoningObj.transform.SetParent(seaExtendedPos);
         seasoningObj.transform.SetLocalPositionAndRotation(
-            startSeaPos.localPosition,
-            startSeaPos.localRotation
+            seaExtendedPos.localPosition,
+            seaExtendedPos.localRotation
         );
 
-        //Do Shaking Animation
-        isShaking = true;
-        for (int i = 0; i < 3; i++)
-        {
-            seasoningObj.transform.localPosition = endSeaPos.localPosition;
-            yield return new WaitForSeconds(0.2f);
-            seasoningObj.transform.localPosition = startSeaPos.localPosition;
-            yield return new WaitForSeconds(0.2f);
-        }
-        isShaking = false;
+    }
 
-        //reverdefaults
-        seasoningObj.transform.localRotation = Quaternion.identity;
-        // seasoningObj.GetComponent<DropPotSeasoning>().revertDefaults();
+    public (Transform, Transform) GetSeasoningPos()
+    {
+        return (seaExtendedPos, seaRetractedPos);
     }
 
     public void ClearPot()
     {
         water.SetActive(false);
-        water.transform.localPosition = originalLocalPosition;
+        water.transform.localPosition = waterOriginalLoc;
 
         //make this better
         foreach (Transform child in transform)

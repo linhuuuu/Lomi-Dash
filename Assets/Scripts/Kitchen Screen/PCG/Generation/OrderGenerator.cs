@@ -88,7 +88,7 @@ namespace PCG
             // Add Beverage
             int beverageCount = Mathf.Clamp(headCount, 1, 3);
 
-            //Add shouldmake large logic
+            //Add shouldMake large logic
 
             for (int i = 0; i < beverageCount; i++)
             {
@@ -114,11 +114,11 @@ namespace PCG
         {
             var dish = new DishSectionNode(id);
             dish.isLarge = isLarge;
+            dish.recipeName = recipe.recipeName;
 
             dish.children.Add(GeneratePotGroup(isLarge));
             dish.children.Add(GenerateWokGroup(isLarge));
             dish.children.Add(GenerateToppingGroup(recipe));
-
             return dish;
         }
 

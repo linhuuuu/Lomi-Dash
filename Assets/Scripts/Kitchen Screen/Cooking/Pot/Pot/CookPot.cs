@@ -15,6 +15,7 @@ public class CookPot : DragAndDrop
     void Start()
     {
         animPot = GetComponent<AnimPot>();
+        animPot.pot = this;
     }
 
     private void InitPot()
@@ -24,15 +25,18 @@ public class CookPot : DragAndDrop
         if (potGroup == null) potGroup = new PotGroup();
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
     }
-    public void AddWater()
+    public IEnumerator AddWater()
     {
         if (boilNode == null) boilNode = new BoilNode();
         if (boilNode.count < 2)
         {
-            boilNode.count++;
             UpdateBoilingState();
-            animPot.AddWater();
+            yield return animPot.AnimWater(hitCollider.gameObject);
+
+            boilNode.count++;
         }
+
+        revertDefaults();
     }
     public void AddBones()  //if theres time add uses meter to the bones used or remove the white scum floating...
     {
@@ -121,8 +125,7 @@ public class CookPot : DragAndDrop
 
         if (hitCollider.tag == "Sink")
         {
-            AddWater();
-            revertDefaults();
+            StartCoroutine(AddWater());
             return;
         }
 
@@ -134,9 +137,9 @@ public class CookPot : DragAndDrop
                 CreatePotNode();
                 targetWok.potGroup = potGroup;
 
-                //Anim
-                targetWok.animWok.ToggleBroth();
-                targetWok.animWok.ToggleSwirl();
+                // //Anim
+                // targetWok.animWok.ToggleBroth();
+                // targetWok.animWok.ToggleSwirl();
                 
                 animPot.ClearPot();
 

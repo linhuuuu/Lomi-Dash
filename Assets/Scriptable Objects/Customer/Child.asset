@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a080680ed67e84ba6fcec03b88ae00, type: 3}
+  m_Name: Child
+  m_EditorClassIdentifier: 
+  id: CHILD
+  customerName: Child
+  patienceTime: 100
+  paymentRange: 200
+  itemDrop: 
+  portrait: {fileID: 21300000, guid: 81967a6c7cd760246bd825dff6c1b786, type: 3}
+  standingSprite: {fileID: 1066090172, guid: 9e8da9a807da8b54abeea6cc2411de64, type: 3}
+  sittingSprite: {fileID: 1378826935, guid: 9e8da9a807da8b54abeea6cc2411de64, type: 3}

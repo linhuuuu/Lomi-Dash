@@ -3,18 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class AnimWok : AnimIngredients
+public class AnimWok : MonoBehaviour
 {
-    [SerializeField] private VisualStateLib lib;
+    private VisualStateLib lib;
     public VisualState state { set; get; }
+    public CookWok cookWok;
 
-    public override void Start()
+    void Start()
     {
-        base.Start();
         state = new VisualState();
-
         state.brothSpriteColor = "original";
         state.swirlSpriteColor = "original";
+
+        lib = RoundManager.roundManager.lib;
     }
 
     public IEnumerator AddSoySauce()
@@ -28,8 +29,8 @@ public class AnimWok : AnimIngredients
             elapsed += Time.deltaTime;
             float t = elapsed / dissolveTime;
 
-            brothSprite.color = Color.Lerp(brothSprite.color, lib.brothColors[colorKey], t);
-            swirlSprite.color = Color.Lerp(swirlSprite.color, lib.swirlColors[colorKey], t);
+            // .color = Color.Lerp(lib.brothColors[], lib.brothColors[colorKey], t);
+            // .color = Color.Lerp(lib.color, lib.swirlColors[colorKey], t);
 
             yield return null;
         }
@@ -43,20 +44,16 @@ public class AnimWok : AnimIngredients
 
     }
 
-    public void CreateWok()
-    {
-        state.objActivity = new Dictionary<string, bool>();
-        //Save State
-        foreach (GameObject obj in ingredientsList)
-            state.objActivity.Add(obj.name, obj.activeSelf);
+    // public void CreateWok()
+    // {
+    //     state.objActivity = new Dictionary<string, bool>();
+    //     //Save State
+    //     foreach (GameObject obj in ingredientsList)
+    //         state.objActivity.Add(obj.name, obj.activeSelf);
 
-        Debug.Log(String.Join(",", ingredientsList));
-        Debug.Log(String.Join(",", state.objActivity.Keys));
-
-        //Reset
-        ToggleActive(false);
-        brothSprite.color = lib.brothColors["original"];
-        swirlSprite.color = lib.swirlColors["original"];
-    }
+    //     //Reset
+    //     lib.brothSprite.color = lib.brothColors["original"];
+    //     lib.swirlSprite.color = lib.swirlColors["original"];
+    // }
 
 }

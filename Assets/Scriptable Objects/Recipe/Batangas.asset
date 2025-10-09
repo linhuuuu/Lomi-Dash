@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: BATANGAS
   recipeName: Batangas
+  basePrice: 0
   toppingList:
   - topping: {fileID: 11400000, guid: 83ed4617437caa84785b007267f627ab, type: 2}
     count: 3
@@ -23,3 +24,5 @@ MonoBehaviour:
     count: 1
   - topping: {fileID: 11400000, guid: 2eb0791d4a31d1f4e8e64814e8d5d3cd, type: 2}
     count: 1
+  toppingVisual: {fileID: 7860515172292930640, guid: ae9e53c93d7e28d459c91ede19b565ed,
+    type: 3}

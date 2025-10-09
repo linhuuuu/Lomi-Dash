@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using PCG;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 public class CustomerGroup : MonoBehaviour
 {
     //Group Components
@@ -26,14 +28,16 @@ public class CustomerGroup : MonoBehaviour
     public List<Customer> customers { set; get; }
     public TableDropZone tableDropZone { set; get; }
     public CustomerSpawnPoint spawnPoint { set; get; }
-    private GameObject trayObj { set; get; }
 
     //Patience
     public CustomerGroupTimer timer { set; get; }
 
     //UI
+    private UITray trayObj;
     public OrderPrompt prompt { set; get; }
-    public OrderQueueObj orderQueueObj { set; get; }
+    private OrderQueueObj orderQueueObj;
+    private UIModal modal;
+    private List<Sprite> portraits;
 
     private void Awake()
     {
@@ -42,6 +46,7 @@ public class CustomerGroup : MonoBehaviour
         tableLayer = 1 << 9; //tables are at layer 9
         timer = GetComponent<CustomerGroupTimer>();
         customers = new List<Customer>();
+        portraits = new List<Sprite>();
         timer.OnTimerEnd += CustomerLeave;
 
         snapped = false;
@@ -111,8 +116,8 @@ public class CustomerGroup : MonoBehaviour
 
     public void InstTray(GameObject trayObjPrefab, RoundManager.Order roundManagerOrder)
     {
-        trayObj = GameObject.Instantiate(trayObjPrefab, Vector3.zero, Quaternion.identity, transform);
-        trayObj.GetComponent<UIDish>().InitTray(roundManagerOrder.order);
+        trayObj = GameObject.Instantiate(trayObjPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<UITray>();
+        trayObj.GetComponent<UITray>().InitTray(roundManagerOrder.order);
     }
 
     public void InstPrompt(GameObject promptPrefab, Transform spawnLoc)
@@ -126,7 +131,20 @@ public class CustomerGroup : MonoBehaviour
     public void InstQueueOrder(GameObject orderQueueObjPrefab, Transform spawnLoc)
     {
         orderQueueObj = Instantiate(orderQueueObjPrefab, Vector3.zero, Quaternion.identity, spawnLoc.transform).GetComponent<OrderQueueObj>();
-        orderQueueObj.SetTarget(orderID, trayObj);
+
+        //Portraits
+        foreach (Customer customer in customers)
+            portraits.Add(customer.portrait);
+
+        orderQueueObj.SetTarget(trayObj, portraits[mainCustomerIdx]);
+    }
+
+    public void InstModal(GameObject modalPrefab, RoundManager.Order roundManagerOrder, GameObject parent)
+    {
+        modal = Instantiate(modalPrefab, Vector3.zero, Quaternion.identity, parent.transform).GetComponent<UIModal>();
+        modal.transform.localPosition = modalPrefab.transform.localPosition;
+        modal.transform.localEulerAngles = Vector3.zero;
+        modal.SetTarget(trayObj, parent, orderQueueObj.GetComponent<Button>(), portraits);
     }
 
     public void CallPrompt()

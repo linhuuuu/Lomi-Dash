@@ -52,6 +52,8 @@ public class RoundManager : MonoBehaviour
 
     public VisualStateLib lib;
     public static RoundManager roundManager;
+
+    
     void Awake()
     {
         roundManager = this;

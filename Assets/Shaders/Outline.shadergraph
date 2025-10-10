@@ -1554,7 +1554,7 @@
     "m_ObjectId": "2edad3a7785f4e1b8a56a465579a8fc3",
     "m_Title": "Outline Sample",
     "m_Position": {
-        "x": -1583.9998779296875,
+        "x": -1584.0,
         "y": 225.5999755859375
     }
 }
@@ -2054,8 +2054,8 @@
     "m_ObjectId": "43efbcdf9ed54f64aa579888506b8ba2",
     "m_Title": "Outline Sample",
     "m_Position": {
-        "x": -1571.9998779296875,
-        "y": 1746.39990234375
+        "x": -1572.0,
+        "y": 1746.4000244140625
     }
 }
 
@@ -2858,7 +2858,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1552.800048828125,
-        "y": 2842.400390625
+        "y": 2842.39990234375
     }
 }
 
@@ -3245,7 +3245,7 @@
     "m_ObjectId": "7b9f301b59e74d11a5cb0ecf57ce0e78",
     "m_Title": "Outline Sample",
     "m_Position": {
-        "x": -1567.9998779296875,
+        "x": -1568.0,
         "y": 1234.4000244140625
     }
 }
@@ -4446,8 +4446,8 @@
     "m_ShaderOutputName": "_Direction",
     "m_StageCapability": 2,
     "m_Value": {
-        "x": 1.0,
-        "y": 1.0
+        "x": -1.0,
+        "y": -1.0
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -4463,7 +4463,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1544.0,
-        "y": 3853.59912109375
+        "y": 3853.60009765625
     }
 }
 
@@ -4760,7 +4760,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1540.0,
-        "y": 3341.599853515625
+        "y": 3341.60009765625
     }
 }
 
@@ -4869,8 +4869,8 @@
     "m_ObjectId": "d5f6ab231a06470f9544c9a40a0404e0",
     "m_Title": "Outline Sample",
     "m_Position": {
-        "x": -1580.7999267578125,
-        "y": 735.199951171875
+        "x": -1580.800048828125,
+        "y": 735.2000122070313
     }
 }
 
@@ -5203,7 +5203,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1556.0,
-        "y": 2332.7998046875
+        "y": 2332.800048828125
     }
 }
 

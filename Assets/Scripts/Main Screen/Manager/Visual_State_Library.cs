@@ -63,6 +63,8 @@ public class VisualStateLib : ScriptableObject
     {
         foreach (var obj in list)
             dictionary.Add(obj.id, obj.value);
+
+        RoundManager.roundManager.GenerateOrders();
     }
 
 }

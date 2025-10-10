@@ -1497,7 +1497,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1584.0,
-        "y": 225.59991455078126
+        "y": 225.5998992919922
     }
 }
 
@@ -2795,7 +2795,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1552.800048828125,
-        "y": 2842.400146484375
+        "y": 2842.39990234375
     }
 }
 
@@ -4330,8 +4330,8 @@
     "m_ShaderOutputName": "_Direction",
     "m_StageCapability": 2,
     "m_Value": {
-        "x": 1.0,
-        "y": 1.0
+        "x": -1.0,
+        "y": -1.0
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -4644,7 +4644,7 @@
     "m_Title": "Outline Sample",
     "m_Position": {
         "x": -1540.0,
-        "y": 3341.599609375
+        "y": 3341.599853515625
     }
 }
 

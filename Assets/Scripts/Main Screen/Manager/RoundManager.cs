@@ -58,7 +58,7 @@ public class RoundManager : MonoBehaviour
     {
         roundManager = this;
 
-        if (GameManager.Instance.state == GameManager.gameState.open)
+        if (GameManager.instance.state == GameManager.gameState.open)
             this.enabled = true;
     }
 
@@ -68,7 +68,7 @@ public class RoundManager : MonoBehaviour
         beverages = InventoryManager.inv.gameRepo.BeverageRepo;
         recipes = InventoryManager.inv.gameRepo.RecipeRepo;
         customerList =InventoryManager.inv.gameRepo.CustomerRepo;
-        profile = GameManager.Instance.roundProfile;
+        profile = GameManager.instance.roundProfile;
 
         //Set Spawn Points              
         for (int i = 0; i < 3; i++)
@@ -87,7 +87,7 @@ public class RoundManager : MonoBehaviour
 
         //Init Round
         GenerateOrders();
-        StartRound();
+        StartCoroutine(StartRound());
     }
 
     #region Order Generation
@@ -103,11 +103,10 @@ public class RoundManager : MonoBehaviour
 
             //Generate Head Count -> Clamp to 3 if large tray is unlocked
             int headCount = RoundManagerHelpers.helper.GenerateHeadCount(profile);
-            if (!DataManager.data.playerData.largeTrayUnlocked)
-                headCount = Mathf.Clamp(headCount, 1, 3);
+                headCount = Mathf.Clamp(headCount, 1, 3);   //check if need large bowl and stuff
 
             //Generate Orders
-            var orderGenerated = OrderGenerator.GenerateTray(profile.difficulty, headCount, DataManager.data.playerData.largeBowlUnlocked, DataManager.data.playerData.largeTrayUnlocked, beverages, recipes);
+            var orderGenerated = OrderGenerator.GenerateTray(profile.difficulty, headCount, true, true, beverages, recipes);    //large bowl and tray unclocked
             newOrder.order = orderGenerated.Item1;
 
             //Get Price
@@ -201,7 +200,17 @@ public class RoundManager : MonoBehaviour
     // public void PauseRound() => isPaused = true;
     // public void ResumeRound() => isPaused = false;
 
-    public void StartRound() => StartCoroutine(RoundLoop());
+    public IEnumerator StartRound()
+    {
+        string roundName = GameManager.instance.roundProfile.roundName.ToString() + "_Before";
+
+        if (DialogueManager.dialogueManager.FindDialogue(roundName))
+        {
+            yield return StartCoroutine(DialogueManager.dialogueManager.PlayDialogue(roundName));
+        }
+
+        StartCoroutine(RoundLoop());
+    }
 
     #endregion
     #region Customer Group Actions

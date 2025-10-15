@@ -77,3 +77,6 @@ TagManager:
   - name: Kitchen UI
     uniqueID: 3811873089
     locked: 0
+  - name: Dialogue UI
+    uniqueID: 3632886815
+    locked: 0

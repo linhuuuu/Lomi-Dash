@@ -22,7 +22,7 @@ public class VisualStateLib : ScriptableObject
     public ColorDict[] broth, swirl;
 
     [Header("Sprite")]
-    public SpriteDict[] bawang, onion, seasoningTray, sinkWater, sink;
+    public SpriteDict[] bawang, onion, seasoningTray, sinkWater, sink, potSeasoning, water;
 
 
     //Dictionaries
@@ -30,6 +30,7 @@ public class VisualStateLib : ScriptableObject
     //Pot
     public Dictionary<string, Sprite> sinkWaterStates = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> sinkStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> waterStates = new Dictionary<string, Sprite>();
     
 
     public Dictionary<string, Color> brothColors = new Dictionary<string, Color>();
@@ -38,6 +39,7 @@ public class VisualStateLib : ScriptableObject
     public Dictionary<string, Sprite> onionStates = new Dictionary<string, Sprite>();
 
     public Dictionary<string, Sprite> seasoningTrayStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> potSeasoningStates = new Dictionary<string, Sprite>();
 
 
     //Add Ditionaries
@@ -50,6 +52,9 @@ public class VisualStateLib : ScriptableObject
         InitDictionary(seasoningTray, seasoningTrayStates);
         InitDictionary(sinkWater, sinkWaterStates);
         InitDictionary(sink, sinkStates);
+        InitDictionary(water, waterStates);
+
+        InitDictionary(potSeasoning, potSeasoningStates);
     }
 
     //Helper Functions
@@ -63,8 +68,6 @@ public class VisualStateLib : ScriptableObject
     {
         foreach (var obj in list)
             dictionary.Add(obj.id, obj.value);
-
-        RoundManager.roundManager.GenerateOrders();
     }
 
 }

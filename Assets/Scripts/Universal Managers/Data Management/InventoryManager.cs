@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -32,4 +33,8 @@ public class InventoryManager : MonoBehaviour
     public Repositories gameRepo;
     public Repositories playerRepo;
 
+    public async Task InitializeAsync()
+    {
+        
+    }
 }

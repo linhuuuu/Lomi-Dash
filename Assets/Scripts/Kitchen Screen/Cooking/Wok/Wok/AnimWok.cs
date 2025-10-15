@@ -3,21 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-public class AnimWok : MonoBehaviour
+public class AnimWok : AnimIngredients
 {
     private VisualStateLib lib;
-    public VisualState state { set; get; }
+    public VisualState state { set; get; } = new VisualState();
     public CookWok cookWok;
 
-    void Start()
+
+    public void Start()
     {
-        state = new VisualState();
+        lib = RoundManager.roundManager.lib;
         state.brothSpriteColor = "original";
         state.swirlSpriteColor = "original";
-
-        lib = RoundManager.roundManager.lib;
     }
-
     public IEnumerator AddSoySauce()
     {
         float elapsed = 0f;
@@ -29,8 +27,8 @@ public class AnimWok : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / dissolveTime;
 
-            // .color = Color.Lerp(lib.brothColors[], lib.brothColors[colorKey], t);
-            // .color = Color.Lerp(lib.color, lib.swirlColors[colorKey], t);
+            brothSprite.color = Color.Lerp(lib.brothColors["original"], lib.brothColors[colorKey], t);
+            swirlSprite.color = Color.Lerp(lib.swirlColors["original"], lib.swirlColors[colorKey], t);
 
             yield return null;
         }
@@ -44,16 +42,16 @@ public class AnimWok : MonoBehaviour
 
     }
 
-    // public void CreateWok()
-    // {
-    //     state.objActivity = new Dictionary<string, bool>();
-    //     //Save State
-    //     foreach (GameObject obj in ingredientsList)
-    //         state.objActivity.Add(obj.name, obj.activeSelf);
+    public void CreateWok()
+    {
+        state.objActivity = new Dictionary<string, bool>();
+        //Save State
+        foreach (GameObject obj in ingredientsList)
+            state.objActivity.Add(obj.name, obj.activeSelf);
 
-    //     //Reset
-    //     lib.brothSprite.color = lib.brothColors["original"];
-    //     lib.swirlSprite.color = lib.swirlColors["original"];
-    // }
+        //Reset
+        brothSprite.color = lib.brothColors["original"];
+        swirlSprite.color = lib.swirlColors["original"];
+    }
 
 }

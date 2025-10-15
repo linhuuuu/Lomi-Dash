@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -10,8 +11,14 @@ public class AnimPot : MonoBehaviour
     [SerializeField] private Vector3 water1LevelOffset;
     [SerializeField] private Vector3 waterOriginalLoc;
 
-    [SerializeField] public Transform seaExtendedPos;
-    [SerializeField] private Transform seaRetractedPos;
+    [SerializeField] private Transform extendedPos;
+    [SerializeField] private Transform retractedPos;
+
+    [field: SerializeField] public ShakePotSeasoning seasoning { set; get; }
+    public bool isSeasoningActive { set; get; }
+
+        public bool isBoiling = false;
+    private float currentSpriteIndex = 0f;
 
     public CookPot pot { set; get; }
 
@@ -19,13 +26,17 @@ public class AnimPot : MonoBehaviour
     {
         water.SetActive(false);
         waterOriginalLoc = water.transform.localPosition;
+
+        pot = GetComponent<CookPot>();
+        seasoning.SetTarget(extendedPos, retractedPos, pot);
+        seasoning.gameObject.SetActive(false);
     }
 
     public IEnumerator AnimWater(GameObject sink)
     {
         //Reposition Pot Sink
         AnimSink sinkObj = sink.GetComponent<AnimSink>();
-        
+
         pot.transform.SetParent(sinkObj.potPos);
         pot.transform.localPosition = Vector3.zero;
         pot.sortingGroup.sortingLayerName = pot.originalSortingGroup;
@@ -41,27 +52,39 @@ public class AnimPot : MonoBehaviour
         yield return new WaitForSeconds(duration + 0.2f);
     }
 
-    public void ChangeToBrothColor()
+    public void OnAddKnorr()
     {
         if (water == null) return;
-        Color brothColor = new Color(0.922f, 0.89f, 0.855f, 0.5f);
-        waterSprite.color = Color.Lerp(waterSprite.color, brothColor, Mathf.PingPong(Time.time, 1));
+        Color brothColor = RoundManager.roundManager.lib.brothColors["knorr"];
+        waterSprite.color = Color.Lerp(waterSprite.color, brothColor, 1f);
     }
 
-    public void PlaceSeasoning(DropPotSeasoning seasoningObj)
+    public void OnBoil()
     {
-        //SetParent
-        seasoningObj.transform.SetParent(seaExtendedPos);
-        seasoningObj.transform.SetLocalPositionAndRotation(
-            seaExtendedPos.localPosition,
-            seaExtendedPos.localRotation
-        );
-
+        if (isBoiling) return; // Prevent re-trigger
+        isBoiling = true;
+        
+        LeanTween.value(gameObject, UpdateSprite, 0f, 1f, 0.5f).setLoopPingPong().setOnUpdate((float val) => currentSpriteIndex = val);
     }
 
-    public (Transform, Transform) GetSeasoningPos()
+    public void StopBoil()
     {
-        return (seaExtendedPos, seaRetractedPos);
+        isBoiling = false;
+        LeanTween.cancel(gameObject); 
+        UpdateSprite(0f);
+    }
+
+    private void UpdateSprite(float value)
+    {
+      
+        string key = ((int)Mathf.Round(value)).ToString();
+        if (RoundManager.roundManager.lib.waterStates.TryGetValue(key, out Sprite sprite))
+        {
+                        waterSprite.sprite = sprite;
+              Debug.Log(sprite);
+        }
+
+        
     }
 
     public void ClearPot()
@@ -69,14 +92,6 @@ public class AnimPot : MonoBehaviour
         water.SetActive(false);
         water.transform.localPosition = waterOriginalLoc;
 
-        //make this better
-        foreach (Transform child in transform)
-        {
-            if (child.TryGetComponent(out Bones bone))
-            {
-                Destroy(bone.gameObject);
-            }
-        }
     }
 
 }

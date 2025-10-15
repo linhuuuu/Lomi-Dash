@@ -2,6 +2,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Firebase.Firestore;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,51 +13,45 @@ public class GameManager : MonoBehaviour
         open,
     }
 
-    private static GameManager _instance;
-    public static GameManager Instance => GetInstance();
-    public RoundProfile roundProfile = null;
+    public static GameManager instance;
+    public string uid { set; get; }
 
-    public gameState state;
+    [field : SerializeField] public RoundProfile roundProfile { set; get; } = null;
+    [field: SerializeField] public gameState state { set; get; }
+    [field : SerializeField] public string prevScene{ set; get; }
 
     void Awake()
     {
         state = gameState.closed;
-        if (_instance != null && _instance != this)
+        if (instance == null)
         {
-            Destroy(gameObject);
-            return;
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private static GameManager GetInstance()
-    {
-        if (_instance == null)
-        {
-            _instance = FindObjectOfType<GameManager>();
-        }
-        return _instance;
+        else
+            Destroy(gameObject);  
     }
 
     #region SceneManagement
 
     public void MainScene()
     {
-        SceneManager.LoadScene("Main Screen");
+        LoadingManager.instance.targetScene = "Main Screen";
+        LoadingManager.instance.LoadNewScene();
         state = gameState.open;
     }
 
-    public void LevelSelect()
+    public void MapScreen()
     {
-        SceneManager.LoadScene("Map Screen");
+        LoadingManager.instance.targetScene = "Map Screen";
+        LoadingManager.instance.LoadNewScene();
     }
 
     public void ResultsScreen(DataManager.LatestRoundResults results)
     {
         DataManager.data.results = results;
-        SceneManager.LoadScene("Results Screen");
+        LoadingManager.instance.targetScene = "Results Screen";
+        LoadingManager.instance.LoadNewScene();
     }
 
     #endregion

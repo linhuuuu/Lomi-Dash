@@ -42,28 +42,28 @@ public class CookWok : DragAndDrop
         if (Debug.isDebugBuild) Debug.Log("Stove is " + stove_On);
     }
 
-    // public void SauteePan(string type)
-    // {
-    //     if (sauteeNode == null) sauteeNode = new SauteeNode();
+    public void SauteePan(string type)
+    {
+        if (sauteeNode == null) sauteeNode = new SauteeNode();
 
-    //     switch (type)
-    //     {
-    //         case "Oil":
-    //             sauteeNode.oilCount++;
-    //             animWok.ToggleOil();
-    //             break;
-    //         case "Bawang":
-    //             sauteeNode.bawangCount++;
-    //             animWok.ToggleBawang();
-    //             break;
-    //         case "Onion":
-    //             sauteeNode.onionCount++;
-    //             animWok.ToggleOnion();
-    //             break;
-    //         default:
-    //             if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
-    //     }
-    // }
+        switch (type)
+        {
+            case "Oil":
+                sauteeNode.oilCount++;
+                animWok.ToggleOil();
+                break;
+            case "Bawang":
+                sauteeNode.bawangCount++;
+                animWok.ToggleBawang();
+                break;
+            case "Onion":
+                sauteeNode.onionCount++;
+                animWok.ToggleOnion();
+                break;
+            default:
+                if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
+        }
+    }
 
     public void AddSoySauce()
     {
@@ -75,7 +75,7 @@ public class CookWok : DragAndDrop
     {
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
         noodlesNode.count++;
-        // animWok.ToggleNoodles();
+        animWok.ToggleNoodles();
     }
 
     public void Mix_1()
@@ -139,7 +139,7 @@ public class CookWok : DragAndDrop
             dish.wokGroup = wokGroup;
 
             //Anim
-            // animWok.CreateWok();
+            animWok.CreateWok();
             dish.animDish.OnRecieve(animWok.state);
 
 

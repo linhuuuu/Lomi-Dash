@@ -17,14 +17,15 @@ public class FadeLoopText : MonoBehaviour
         color.a = 0f;
         text.color = color;
 
-         LeanTween.value(gameObject, 
-        (float alpha) => {
-            Color c = text.color;
-            c.a = alpha;
-            text.color = c;
-        },
-        0f, 1f, 2f)
-        .setEase(LeanTweenType.easeInOutSine)
-        .setLoopPingPong();
+        LeanTween.value(gameObject,
+       (float alpha) =>
+       {
+           Color c = text.color;
+           c.a = alpha;
+           text.color = c;
+       },
+       0f, 1f, 1f)
+       .setEase(LeanTweenType.easeInOutSine)
+       .setLoopPingPong();
     }
 }

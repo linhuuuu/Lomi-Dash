@@ -8,7 +8,7 @@ public class ToMainScreen : MonoBehaviour
     [SerializeField] Button button;
     void Start()
     {
-        button.onClick.AddListener(() => GameManager.Instance.MainScene());
+        button.onClick.AddListener(() => GameManager.instance.MainScene());
     }
 
 }

@@ -22,7 +22,7 @@ public class PrepTray : DragAndDrop
 
     void Start()
     {
-        isLarge = DataManager.data.playerData.largeTrayUnlocked;
+        isLarge = true;
         trayNode = new TrayRootNode();
         dishList = new DishSectionNode[isLarge ? 3 : 2];
         bevList = new BeverageSectionNode[isLarge ? 3 : 2];

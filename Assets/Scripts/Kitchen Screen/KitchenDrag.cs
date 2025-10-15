@@ -16,18 +16,21 @@ public class KitchenDrag : MonoBehaviour
     private int activeTouchId;
     private Camera mainCam;
 
-    [Header("UI")]
-    [SerializeField] private Canvas morningCanvas;
-    [SerializeField] private Canvas kitchenCanvas;
+    public Canvas mainCanvas;
+    public Canvas kitchenCanvas;
 
-    void Awake()
+    void Start()
     {
         mainCam = CameraManager.cam.mainCam;
+
+        mainCanvas = MainScreenManager.main.activeScreen;
+        kitchenCanvas = MainScreenManager.main.kitchenScreen;
+
         originalPos = transform.position;
         isKitchenFocus = false;
         isDragging = false;
         activeTouchId = -1;
-        kitchenCanvas.enabled = false;
+
     }
 
     void Update()
@@ -174,14 +177,14 @@ public class KitchenDrag : MonoBehaviour
         if (isKitchenFocus)
         {
             kitchenCanvas.enabled = true;
-            morningCanvas.enabled = false;
+            mainCanvas.enabled = false;
             LeanTween.move(gameObject, leftBounds, 0.2f).setEaseInSine();
         }
 
         else
         {
             kitchenCanvas.enabled = false;
-            morningCanvas.enabled = true;
+            mainCanvas.enabled = true;
             LeanTween.move(gameObject, originalPos, 0.2f).setEaseOutSine();
         }
 

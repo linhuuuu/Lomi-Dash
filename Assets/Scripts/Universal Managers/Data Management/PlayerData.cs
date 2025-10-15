@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using Firebase.Firestore;
 
 [FirestoreData]
@@ -21,12 +22,6 @@ public class PlayerSaveData
     public int money { get; set; }
 
     [FirestoreProperty]
-    public bool largeBowlUnlocked { get; set; } = false;
-
-    [FirestoreProperty]
-    public bool largeTrayUnlocked { get; set; } = false;
-
-    [FirestoreProperty]
     public List<string> unlockedRecipeIds { get; set; } = new List<string>();
     
     [FirestoreProperty]
@@ -40,5 +35,9 @@ public class PlayerSaveData
 
     [FirestoreProperty]
     public List<string> unlockedStages { get; set; } = new List<string>();
+
+    //Dialogue
+    [FirestoreProperty]
+    public Dictionary<string, bool> dialogueFlags { get; set; } = new();
 
 }

@@ -8,6 +8,6 @@ public class LevelSelect : MonoBehaviour
 
      void Start()
     {
-        button.onClick.AddListener(() => GameManager.Instance.roundProfile = profile);
+        button.onClick.AddListener(() => GameManager.instance.roundProfile = profile);
     }
 }

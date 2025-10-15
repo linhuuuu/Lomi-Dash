@@ -15,6 +15,8 @@ MonoBehaviour:
   broth:
   - id: original
     value: {r: 1, g: 1, b: 1, a: 1}
+  - id: knorr
+    value: {r: 0.90188676, g: 0.79371554, b: 0.6517408, a: 1}
   - id: soySauce
     value: {r: 0.86415094, g: 0.5501882, b: 0.13532923, a: 1}
   swirl:
@@ -53,3 +55,13 @@ MonoBehaviour:
     value: {fileID: 21300000, guid: f20116563d15611458917b98a5a751c2, type: 3}
   - id: closed
     value: {fileID: 21300000, guid: 632016c7cbf5df84c8c44ceaa49355cc, type: 3}
+  potSeasoning:
+  - id: Salt
+    value: {fileID: 21300000, guid: 52455adaac02e364884fe5cf4c243c11, type: 3}
+  - id: Pepper
+    value: {fileID: 21300000, guid: 2ab5c2ee31adc0145b391ae491cf2a51, type: 3}
+  water:
+  - id: 0
+    value: {fileID: 21300000, guid: f31c54b95bb8aeb41b8b420be4a92689, type: 3}
+  - id: 1
+    value: {fileID: 21300000, guid: b9eff32f7ad7d354dbee5fd0bc105136, type: 3}

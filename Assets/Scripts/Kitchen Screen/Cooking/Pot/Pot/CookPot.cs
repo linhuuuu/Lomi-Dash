@@ -15,7 +15,6 @@ public class CookPot : DragAndDrop
     void Start()
     {
         animPot = GetComponent<AnimPot>();
-        animPot.pot = this;
     }
 
     private void InitPot()
@@ -38,14 +37,15 @@ public class CookPot : DragAndDrop
 
         revertDefaults();
     }
-    public void AddBones()  //if theres time add uses meter to the bones used or remove the white scum floating...
+    public void AddKnorr()
     {
         if (bonesNode == null) bonesNode = new BonesNode();
-        if (bonesNode.count < 2)
+        if (bonesNode.count < 2)//maxPot
         {
             bonesNode.count++;
             UpdateBoilingState();
         }
+        animPot.OnAddKnorr();
     }
     public void AddSeasoning(string type)
     {
@@ -71,31 +71,33 @@ public class CookPot : DragAndDrop
     private void UpdateBoilingState()
     {
         if (boilNode != null && boilNode.count > 0)
-            animPot.ChangeToBrothColor();
 
-        if (stove_On)
-        {
-            if (boilingRoutine == null)
+            if (stove_On)
             {
-                boilingRoutine = StartCoroutine(BoilWater());
+                if (boilingRoutine == null)
+                {
+                    boilingRoutine = StartCoroutine(BoilWater());
+                }
             }
-        }
 
-        else if (!stove_On && boilingRoutine != null)
-        {
-            StopCoroutine(boilingRoutine);
-            boilingRoutine = null;
-        }
+            else if (!stove_On && boilingRoutine != null)
+            {
+                animPot.StopBoil();
+                StopCoroutine(boilingRoutine);
+                boilingRoutine = null;
+            }
     }
 
     private IEnumerator BoilWater()
     {
+        animPot.OnBoil();
         while (stove_On && boilNode != null && boilNode.time < 15)
         {
             yield return new WaitForSeconds(1);
 
             if (boilNode.count > 0 && bonesNode != null)
                 boilNode.time++;
+
         }
         boilingRoutine = null;
     }
@@ -137,10 +139,10 @@ public class CookPot : DragAndDrop
                 CreatePotNode();
                 targetWok.potGroup = potGroup;
 
-                // //Anim
-                // targetWok.animWok.ToggleBroth();
-                // targetWok.animWok.ToggleSwirl();
-                
+                //Anim
+                targetWok.animWok.ToggleBroth();
+                targetWok.animWok.ToggleSwirl();
+
                 animPot.ClearPot();
 
                 //Simplified Reset, Does not account for large Bowls;

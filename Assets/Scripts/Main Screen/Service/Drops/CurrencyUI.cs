@@ -8,7 +8,7 @@ public class CurrencyUI : MonoBehaviour
 
     void Start()
     {
-        if (GameManager.Instance.state == GameManager.gameState.closed)
+        if (GameManager.instance.state == GameManager.gameState.closed)
             this.enabled = false;
 
         if (RoundManager.roundManager != null)

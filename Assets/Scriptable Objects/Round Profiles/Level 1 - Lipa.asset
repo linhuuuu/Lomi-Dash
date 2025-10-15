@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50479d1849eebbc4bb68e3bc13621d05, type: 3}
   m_Name: Level 1 - Lipa
   m_EditorClassIdentifier: 
-  roundName: Lipa - Easy
+  roundName: Lipa_Easy
   level: 1
   location: 0
   difficulty: 1

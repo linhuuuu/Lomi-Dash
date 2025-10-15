@@ -2,25 +2,34 @@
 using Firebase.Auth;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class SignInManager : MonoBehaviour
 {
-    public static SignInManager instance;
-    private string uid { set; get; }
-    private FirebaseUser current;
+    private FirebaseUser currentUser;
+    public string uid { set; get; }
+    
+    [SerializeField] private AnimStartScreen anim;
+    [SerializeField] private GameObject buttons;
 
     [SerializeField] private bool isDebug;
-    [SerializeField] AnimStartScreen anim;
 
+    public static SignInManager instance;
     void Awake()
     {
-        current = FirebaseAuth.DefaultInstance.CurrentUser;
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
+        currentUser = FirebaseAuth.DefaultInstance.CurrentUser;
     }
 
     void Start()
     {
-        if (current != null)
-            uid = current.UserId;
+        if (currentUser != null)
+            uid = currentUser.UserId;
 
         //For Debug. Test User ID
         if (isDebug)
@@ -31,24 +40,36 @@ public class SignInManager : MonoBehaviour
     {
         if (!anim.isPressable) return;
 
-        if (Input.GetMouseButton(0) == true || Input.touchCount > 0)
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out _, ~LayerMask.GetMask("Interactable"))) return;
-        }
-        else
-            return;
+            if (IsPointerOverThisButton())
+                return;
 
-        if (uid != null)
-        {
-            anim.isPressable = false;
-            GameManager.instance.uid = this.uid;
-            LoadingManager.instance.targetScene = "Main Screen";
-            LoadingManager.instance.LoadNewScene();
+            if (uid != null)
+            {
+                anim.isPressable = false;
+                LoadingManager.instance.targetScene = "Main Screen";
+                LoadingManager.instance.LoadNewScene();
+            }
+            else
+                anim.ToggleSignInPrompt();
         }
-        else
-        {
-            anim.ToggleSignInPrompt();
-        }
+    }
+
+    private bool IsPointerOverThisButton()
+    {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+            if (result.gameObject == buttons || result.gameObject.transform.IsChildOf(buttons.transform))
+                return true;
+
+        return false;
     }
 }

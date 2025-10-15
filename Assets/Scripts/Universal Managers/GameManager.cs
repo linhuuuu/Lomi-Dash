@@ -9,27 +9,29 @@ public class GameManager : MonoBehaviour
 {
     public enum gameState
     {
-        closed,
-        open,
+        beforeDay,
+        startDay,
+        midDay,
+        endDay,
     }
 
     public static GameManager instance;
     public string uid { set; get; }
 
-    [field : SerializeField] public RoundProfile roundProfile { set; get; } = null;
+    [field: SerializeField] public RoundProfile roundProfile { set; get; } = null;
     [field: SerializeField] public gameState state { set; get; }
-    [field : SerializeField] public string prevScene{ set; get; }
+    [field: SerializeField] public string prevScene { set; get; }
 
     void Awake()
     {
-        state = gameState.closed;
+        state = gameState.beforeDay;
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
-            Destroy(gameObject);  
+            Destroy(gameObject);
     }
 
     #region SceneManagement
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
     {
         LoadingManager.instance.targetScene = "Main Screen";
         LoadingManager.instance.LoadNewScene();
-        state = gameState.open;
+        state = gameState.startDay;
     }
 
     public void MapScreen()
@@ -47,9 +49,8 @@ public class GameManager : MonoBehaviour
         LoadingManager.instance.LoadNewScene();
     }
 
-    public void ResultsScreen(DataManager.LatestRoundResults results)
+    public void ResultsScreen()
     {
-        DataManager.data.results = results;
         LoadingManager.instance.targetScene = "Results Screen";
         LoadingManager.instance.LoadNewScene();
     }

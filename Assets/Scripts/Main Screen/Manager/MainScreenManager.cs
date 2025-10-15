@@ -1,4 +1,5 @@
-using System.Collections;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class MainScreenManager : MonoBehaviour
     {
         main = this;
 
-        activeScreen = GameManager.instance?.state == GameManager.gameState.closed ? closedScreen : openScreen;
+        activeScreen = GameManager.instance?.state == GameManager.gameState.beforeDay ? closedScreen : openScreen;
 
         if (openScreen) openScreen.enabled = false;
         if (closedScreen) closedScreen.enabled = false;
@@ -27,17 +28,43 @@ public class MainScreenManager : MonoBehaviour
 
     async void Start()
     {
-        while(DataManager.data.loaded == false) await Task.Yield();
-
-        if (DataManager.data.playerData.dialogueFlags["intro"] == false)
+        if (DataManager.data == null)
         {
-            StartCoroutine(DialogueManager.dialogueManager.PlayDialogue("Introduction"));
-            DataManager.data.playerData.dialogueFlags["intro"] = true;
+            return;
+        }
+
+        while (DataManager.data.loaded == false) await Task.Yield();
+
+        //Time
+        float day = DataManager.data.playerData.day;
+        float money = DataManager.data.playerData.money;
+        float happiness = DataManager.data.playerData.happiness;
+        StatusUI statusUI = activeScreen.GetComponentInChildren<StatusUI>();
+
+        if (statusUI != null)
+        {
+            statusUI.UpdateDay(day);
+            statusUI.UpdateUI(money, happiness);
+        }
+
+        //Dialogue
+        bool introFlag = DataManager.data.playerData.dialogueFlags["intro"];
+        if (!introFlag)
+        {
+            await DialogueManager.dialogueManager.PlayDialogue("Introduction");
+            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+                {
+                    { "dialogueFlags", new Dictionary<string, object>
+                        {
+                            {"intro", true}
+                        }
+                    }
+                });
         }
     }
 
     public async Task InitializeAsync()
     {
-        
+
     }
 }

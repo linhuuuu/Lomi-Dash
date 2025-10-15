@@ -23,11 +23,20 @@ public class DialogueManager : MonoBehaviour
         dialogueObj.SetActive(false);
     }
 
-    public IEnumerator PlayDialogue(string dialogueName)
+    public async Task PlayDialogue(string dialogueName)
+    {
+        var taskCompletionSource = new TaskCompletionSource<bool>();
+
+        StartCoroutine(RunDialogue(dialogueName, taskCompletionSource));
+
+        await taskCompletionSource.Task;
+    }
+
+    public IEnumerator RunDialogue(string dialogueName, TaskCompletionSource<bool> tcs)
     {
         // add condition if (dialogue exists)
         dialogueObj.SetActive(true);
-        
+
         yield return new WaitForSeconds(0.2f);
         dialogue.StartDialogue(dialogueName);
 
@@ -36,6 +45,8 @@ public class DialogueManager : MonoBehaviour
         dialogueObj.SetActive(false);
 
         ClearDialogue();
+
+        tcs.SetResult(true);
     }
 
     public void ClearDialogue()
@@ -47,8 +58,8 @@ public class DialogueManager : MonoBehaviour
         return true;
     }
 
-     public async Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        
+
     }
 }

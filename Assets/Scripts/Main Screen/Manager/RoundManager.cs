@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class RoundManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private GameObject orderQueuePrefab;
     public Transform promptCanvas;
     public Transform orderQueue;
-    
+
     //Prompts
     [SerializeField] private GameObject modalPrefab;
     [SerializeField] private GameObject modalCanvas;
@@ -53,21 +54,21 @@ public class RoundManager : MonoBehaviour
     public VisualStateLib lib;
     public static RoundManager roundManager;
 
-    
     void Awake()
     {
         roundManager = this;
-
-        if (GameManager.instance.state == GameManager.gameState.open)
+        if (GameManager.instance.state == GameManager.gameState.startDay)
             this.enabled = true;
+        else
+            this.enabled = false;
     }
 
-    void Start()
+    async void Start()
     {
         // Set Available Data
         beverages = InventoryManager.inv.gameRepo.BeverageRepo;
         recipes = InventoryManager.inv.gameRepo.RecipeRepo;
-        customerList =InventoryManager.inv.gameRepo.CustomerRepo;
+        customerList = InventoryManager.inv.gameRepo.CustomerRepo;
         profile = GameManager.instance.roundProfile;
 
         //Set Spawn Points              
@@ -87,7 +88,7 @@ public class RoundManager : MonoBehaviour
 
         //Init Round
         GenerateOrders();
-        StartCoroutine(StartRound());
+        await StartRound();
     }
 
     #region Order Generation
@@ -103,7 +104,7 @@ public class RoundManager : MonoBehaviour
 
             //Generate Head Count -> Clamp to 3 if large tray is unlocked
             int headCount = RoundManagerHelpers.helper.GenerateHeadCount(profile);
-                headCount = Mathf.Clamp(headCount, 1, 3);   //check if need large bowl and stuff
+            headCount = Mathf.Clamp(headCount, 1, 3);   //check if need large bowl and stuff
 
             //Generate Orders
             var orderGenerated = OrderGenerator.GenerateTray(profile.difficulty, headCount, true, true, beverages, recipes);    //large bowl and tray unclocked
@@ -154,7 +155,7 @@ public class RoundManager : MonoBehaviour
         }
         foreach (Customer customer in customerGroup.customers)
             customerGroup.timer.totalTime += customer.patience;
-            
+
 
         return customerGroup;
     }
@@ -172,7 +173,7 @@ public class RoundManager : MonoBehaviour
 
             //Call Customer Group, Probably Improve
             float delay = ProceduralRNG.Range(5f, 10f);
-            yield return new WaitForSeconds(delay); 
+            yield return new WaitForSeconds(delay);
 
             CallCustomerGroup(orders[i].customers);
 
@@ -190,23 +191,37 @@ public class RoundManager : MonoBehaviour
         OnRoundComplete();
     }
 
-    private void OnRoundComplete()
+    private async void OnRoundComplete()
     {
-        SceneManager.LoadScene("Results Screen");
-        Debug.Log("Round Complete!");
+        //Logic Saving which should be at the results screen
+        await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+        {
+            {"day", DataManager.data.playerData.day + 1},
+        });
+
+        //Results Saving
+        DataManager.LatestRoundResults latest = null;
+        DataManager.data.results = latest;
+
+        //Goto
+        GameManager.instance.ResultsScreen();
     }
 
     // Round Controls
     // public void PauseRound() => isPaused = true;
     // public void ResumeRound() => isPaused = false;
 
-    public IEnumerator StartRound()
+    public async Task StartRound()
     {
+        //Dialogue
         string roundName = GameManager.instance.roundProfile.roundName.ToString() + "_Before";
-
         if (DialogueManager.dialogueManager.FindDialogue(roundName))
         {
-            yield return StartCoroutine(DialogueManager.dialogueManager.PlayDialogue(roundName));
+            await DialogueManager.dialogueManager.PlayDialogue(roundName); 
+            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+            {
+                {roundName, true}
+            });
         }
 
         StartCoroutine(RoundLoop());
@@ -280,6 +295,10 @@ public class RoundManager : MonoBehaviour
 
         // InstToppingsDrop(group);
         // InstToppingDrop(group);
+
+        //Update Round
+        currentOrders--;
+        orders[group.orderID].customers = null;
     }
 
     #endregion

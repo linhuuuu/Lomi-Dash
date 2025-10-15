@@ -13,7 +13,7 @@ public class PlayerSaveData
     public string playerName { get; set; }
 
     [FirestoreProperty]
-    public string day { get; set; }
+    public int day { get; set; }
 
     [FirestoreProperty]
     public int happiness { get; set; }

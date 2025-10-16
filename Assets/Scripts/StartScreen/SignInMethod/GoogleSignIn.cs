@@ -7,34 +7,20 @@ using Firebase.Auth;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class LoginWithGoogle1 : MonoBehaviour
+public class GoogleAuth : MonoBehaviour
 {
     public string GoogleAPI = "315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com";
     private GoogleSignInConfiguration configuration;
+    FirebaseAuth auth;
 
-    Firebase.Auth.FirebaseAuth auth;
-    Firebase.Auth.FirebaseUser user;
-
-    public TextMeshProUGUI Username, UserEmail;
     private bool isGoogleSignInInitialized = false;
 
-    private void Start()
+    void Start()
     {
-        InitFirebase();
+        this.auth = SignInManager.instance.auth;
     }
 
-    void InitFirebase()
-    {
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-    }
-
-    public void SignOut()
-    {
-        GoogleSignIn.DefaultInstance.SignOut();
-        auth.SignOut();
-    }
-
-    public void Login()
+    public void GoogleLogin()
     {
         if (!isGoogleSignInInitialized)
         {
@@ -44,9 +30,9 @@ public class LoginWithGoogle1 : MonoBehaviour
                 WebClientId = GoogleAPI,
                 RequestEmail = true
             };
-
             isGoogleSignInInitialized = true;
         }
+
         GoogleSignIn.Configuration = new GoogleSignInConfiguration
         {
             RequestIdToken = true,
@@ -55,19 +41,21 @@ public class LoginWithGoogle1 : MonoBehaviour
         GoogleSignIn.Configuration.RequestEmail = true;
 
         Task<GoogleSignInUser> signIn = GoogleSignIn.DefaultInstance.SignIn();
-
         TaskCompletionSource<FirebaseUser> signInCompleted = new TaskCompletionSource<FirebaseUser>();
+        
         signIn.ContinueWith(task =>
         {
             if (task.IsCanceled)
             {
                 signInCompleted.SetCanceled();
                 Debug.Log("Cancelled");
+                //Warning
             }
             else if (task.IsFaulted)
             {
                 signInCompleted.SetException(task.Exception);
                 Debug.Log("Faulted " + task.Exception);
+                //Warning
             }
             else
             {
@@ -86,41 +74,11 @@ public class LoginWithGoogle1 : MonoBehaviour
                     else
                     {
                         signInCompleted.SetResult(((Task<FirebaseUser>)authTask).Result);
+                        SignInManager.instance.AuthSuccess();
                         Debug.Log("Success");
-                        user = auth.CurrentUser;
-                        Username.text = user.DisplayName;
-                        UserEmail.text = user.Email;
-                        // StartCoroutine(LoadImage(CheckImageUrl(user.PhotoUrl.ToString())));
                     }
                 });
             }
         });
     }
-
-    // private string CheckImageUrl(string url)
-    // {
-    //     if (!string.IsNullOrEmpty(url))
-    //     {
-    //         return url;
-    //     }
-    //     return imageUrl;
-    // }
-
-    // IEnumerator LoadImage(string imageUri)
-    // {
-    //     UnityWebRequest www = UnityWebRequestTexture.GetTexture(imageUri);
-    //     yield return www.SendWebRequest();
-
-    //     if (www.result == UnityWebRequest.Result.Success)
-    //     {
-    //         Texture2D texture = DownloadHandlerTexture.GetContent(www);
-    //         // Use the loaded texture here
-    //         Debug.Log("Image loaded successfully");
-    //         UserProfilePic.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("Error loading image: " + www.error);
-    //     }
-    // }
 }

@@ -7,6 +7,12 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    [field: SerializeField] public string uid { set; get; }
+
+    [field: SerializeField] public RoundProfile roundProfile { set; get; } = null;
+    [field: SerializeField] public string prevScene { set; get; }
+
     public enum gameState
     {
         beforeDay,
@@ -14,14 +20,8 @@ public class GameManager : MonoBehaviour
         midDay,
         endDay,
     }
-
-    public static GameManager instance;
-    public string uid { set; get; }
-
-    [field: SerializeField] public RoundProfile roundProfile { set; get; } = null;
     [field: SerializeField] public gameState state { set; get; }
-    [field: SerializeField] public string prevScene { set; get; }
-
+    
     void Awake()
     {
         state = gameState.beforeDay;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     {
         LoadingManager.instance.targetScene = "Main Screen";
         LoadingManager.instance.LoadNewScene();
-        state = gameState.startDay;
+       
     }
 
     public void MapScreen()

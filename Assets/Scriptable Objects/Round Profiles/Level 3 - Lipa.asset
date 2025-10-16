@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50479d1849eebbc4bb68e3bc13621d05, type: 3}
-  m_Name: Level 2 - Lipa
+  m_Name: Level 3 - Lipa
   m_EditorClassIdentifier: 
-  roundName: Lipa_Med
-  level: 2
+  roundName: Lipa_Hard
+  level: 3
   location: 0
-  difficulty: 2
+  difficulty: 3
   isGroupCountOverriden: 0
   minCustomerGroupCount: 1
   maxCustomerGroupCount: 5

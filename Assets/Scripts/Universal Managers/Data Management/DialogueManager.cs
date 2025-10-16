@@ -58,8 +58,8 @@ public class DialogueManager : MonoBehaviour
         return true;
     }
 
-    public async Task InitializeAsync()
-    {
+    // public async Task InitializeAsync()
+    // {
 
-    }
+    // }
 }

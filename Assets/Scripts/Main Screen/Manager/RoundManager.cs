@@ -5,6 +5,8 @@ using System.Linq;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
+using System;
 
 public class RoundManager : MonoBehaviour
 {
@@ -49,7 +51,15 @@ public class RoundManager : MonoBehaviour
     [Header("Round Stats")]
     private float money = 0f;
     private float happiness = 0f;
+    private int dishesCleared = 0;
+    private int happyCustomers = 0;
+
     public event System.Action<float, float> OnCurrencyChange;
+
+    //Timer
+    private float roundElapsedTime = 0f;
+    private bool isTimerPaused = false;
+    private bool isRoundActive = false;
 
     public VisualStateLib lib;
     public static RoundManager roundManager;
@@ -61,6 +71,8 @@ public class RoundManager : MonoBehaviour
             this.enabled = true;
         else
             this.enabled = false;
+
+        Time.timeScale = 4f;
     }
 
     async void Start()
@@ -164,44 +176,92 @@ public class RoundManager : MonoBehaviour
 
     private IEnumerator RoundLoop()
     {
+        // START TIMER 
+        isRoundActive = true;
+        roundElapsedTime = 0f;
+        isTimerPaused = false;
+
         int i = 0;
         while (customersToCall > 0)
         {
-            //Wait Until
+            // Wait until there's a free spawn point
             if (customerSpawnPoints.All(c => c.occupied))
                 yield return new WaitWhile(() => customerSpawnPoints.All(c => c.occupied));
 
-            //Call Customer Group, Probably Improve
             float delay = ProceduralRNG.Range(5f, 10f);
             yield return new WaitForSeconds(delay);
 
             CallCustomerGroup(orders[i].customers);
 
-            //Update List
             customersToCall--;
             currentOrders++;
-
             i++;
         }
 
-        //Wait until No More Customers
         if (currentOrders > 0)
             yield return new WaitWhile(() => currentOrders > 0);
 
         OnRoundComplete();
+
+        // STOP TIMER 
+        isRoundActive = false;
     }
 
-    private async void OnRoundComplete()
-    {
-        //Logic Saving which should be at the results screen
-        await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
-        {
-            {"day", DataManager.data.playerData.day + 1},
-        });
+    public void ToggleRoundTimer() => isTimerPaused = !isTimerPaused;
 
+    void Update()
+    {
+        if (isRoundActive && !isTimerPaused)
+        {
+            roundElapsedTime += Time.unscaledDeltaTime; 
+        }
+    }
+
+    public async Task StartRound()
+    {
+        //Dialogue
+        string roundName = GameManager.instance.roundProfile.roundName.ToString() + "_Before";
+
+        if (DataManager.data.playerData.dialogueFlags.TryGetValue(roundName, out bool played)) 
+            if (Debug.isDebugBuild) Debug.Log("Key does not exist.");
+
+        if (!played)
+        {
+            await DialogueManager.dialogueManager.PlayDialogue(roundName);
+            Dictionary<string, object> updatedDialogueFlags = new Dictionary<string, object>
+            {
+                {roundName, true}
+            };
+
+            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+            {
+                {"dialogueFlags", updatedDialogueFlags}
+            });
+        }
+        
+        //StartRound
+        StartCoroutine(RoundLoop());
+    }
+
+    private void OnRoundComplete()
+    {
+        // for()
+        
         //Results Saving
-        DataManager.LatestRoundResults latest = null;
-        DataManager.data.results = latest;
+        DataManager.data.results = new RoundResults
+        {
+            userId = GameManager.instance.uid,
+            totalDishes = this.orders.Count(),
+            dishesCleared = this.dishesCleared,
+            happyCustomers = this.happyCustomers,
+            unhappyCustomers = orders.Count - this.happyCustomers,
+            earnedHappiness = this.happiness,
+            earnedMoney = this.money,
+            clearDate = DateTime.Now,
+            clearTime = roundElapsedTime * 1000,
+        
+            starCount = 3,
+        };
 
         //Goto
         GameManager.instance.ResultsScreen();
@@ -210,22 +270,6 @@ public class RoundManager : MonoBehaviour
     // Round Controls
     // public void PauseRound() => isPaused = true;
     // public void ResumeRound() => isPaused = false;
-
-    public async Task StartRound()
-    {
-        //Dialogue
-        string roundName = GameManager.instance.roundProfile.roundName.ToString() + "_Before";
-        if (DialogueManager.dialogueManager.FindDialogue(roundName))
-        {
-            await DialogueManager.dialogueManager.PlayDialogue(roundName); 
-            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
-            {
-                {roundName, true}
-            });
-        }
-
-        StartCoroutine(RoundLoop());
-    }
 
     #endregion
     #region Customer Group Actions
@@ -280,12 +324,12 @@ public class RoundManager : MonoBehaviour
         if (timeLeft >= 0.5f)
         {
             totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * (1 + timeLeft));
-            totalHappiness = Mathf.Max(finalScore * 0.01f * (1 + timeLeft));
+            totalHappiness *= Mathf.Max(finalScore * 0.01f * (1 + timeLeft));
         }
         else
         {
             totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * timeLeft, 0);
-            totalHappiness = Mathf.Max(finalScore * 0.01f * timeLeft);
+            totalHappiness *= Mathf.Max(finalScore * 0.01f * timeLeft);
         }
 
         //Reset Table if no currency dropped
@@ -299,6 +343,10 @@ public class RoundManager : MonoBehaviour
         //Update Round
         currentOrders--;
         orders[group.orderID].customers = null;
+
+        if (((finalPrice * 0.01f) + timeLeft) / 2 >= 0.5f)
+            happyCustomers++;
+        dishesCleared++;
     }
 
     #endregion

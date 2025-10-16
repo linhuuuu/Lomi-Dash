@@ -63,8 +63,8 @@ public class MainScreenManager : MonoBehaviour
         }
     }
 
-    public async Task InitializeAsync()
-    {
-
-    }
+    // public async Task InitializeAsync()
+    // {
+        
+    // }
 }

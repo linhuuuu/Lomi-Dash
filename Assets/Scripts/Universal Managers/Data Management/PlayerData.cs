@@ -16,10 +16,10 @@ public class PlayerSaveData
     public int day { get; set; }
 
     [FirestoreProperty]
-    public int happiness { get; set; }
+    public float happiness { get; set; }
 
     [FirestoreProperty]
-    public int money { get; set; }
+    public float money { get; set; }
 
     [FirestoreProperty]
     public List<string> unlockedRecipeIds { get; set; } = new List<string>();

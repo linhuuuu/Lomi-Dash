@@ -3,21 +3,19 @@ using Firebase.Firestore;
 using System.Threading.Tasks;
 using UnityEngine.SocialPlatforms.Impl;
 using System.Collections.Generic;
+using System;
+using Unity.VisualScripting;
 
 public class DataManager : MonoBehaviour
 {
-    public class LatestRoundResults
-    {
-        int dishesCleared, happyCustomers, unhappyCustomers;
-        float earnedHappiness, earnedMoney;
-    }
-
     private FirebaseFirestore db;
-    public PlayerSaveData playerData;
-    public LatestRoundResults results;
+    public PlayerSaveData playerData { set; get; }
 
-    [field : SerializeField]public bool loaded { set; get; }
+    public RoundResults results { set; get; }
+
+    [field: SerializeField] public bool loaded { set; get; }
     [SerializeField] private bool isDebug = false;
+    [SerializeField] private bool isNewTestUser = false;
 
     public static DataManager data;
 
@@ -32,73 +30,87 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void Start()
+    async void Start()
     {
-        InitPlayerData();
         db = FirebaseFirestore.DefaultInstance;
+        InitPlayerData();
 
-        if (SignInManager.instance == null)
+        //Skipped Auth, load test data;
+        if (SignInManager.instance == null || isNewTestUser == true)
+        {
             isDebug = true;
+            if (isNewTestUser == true)
+                await CreateNewUser("0");
+
+            await InitDataManager();
+        }
     }
 
     private void InitPlayerData()
     {
-        playerData = new PlayerSaveData();
-
-        playerData.dialogueFlags = new Dictionary<string, bool>
+        //Sets Default PlayerData
+        playerData = new PlayerSaveData
         {
-            { "intro", true },
+            day = 1,
+            money = 100,
+            happiness = 0,
+            unlockedBeverageIds = new List<string>() { "WATER" },
+            unlockedRecipeIds = new List<string>() { "BATANGAS" },
+            unlockedCustomerIds = new List<string>() { "MOTHER" },
+            dialogueFlags = new Dictionary<string, bool>
+                {
+                    { "intro", false },
 
+                    { "Lipa_Easy_Before", false },
+                    { "Lipa_Easy_After", false },
+                    { "Lipa_Med_Before", false },
+                    { "Lipa_Med_After", false },
+                    { "Lipa_Hard_Before", false },
+                    { "Lipa_Hard_After", false },
+                },
         };
     }
 
     public async Task InitDataManager()
     {
-        if (isDebug == true)
-            await LoadPlayerData("0");  //Test User   
+        if (isDebug == false)
+            await FetchPlayerDataAsync(GameManager.instance.uid);
         else
-            await LoadPlayerData(GameManager.instance.uid);      
+            await FetchPlayerDataAsync("0");  //Test Data   
+
+        ApplyLoadedData();
     }
 
-    #region Data Handling
 
-    private async Task LoadPlayerData(string uid)
+    #region Data Handling
+    private async Task FetchPlayerDataAsync(string uid)
     {
         try
-        {
-            db = FirebaseFirestore.DefaultInstance;
-            string userId = uid;
-
-            DocumentReference docRef = db.Collection("players").Document(userId);
+        {   //Try Find Player
+            DocumentReference docRef = db.Collection("players").Document(uid);
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
 
+            //If User exists, set playerdata
             if (snapshot.Exists)
             {
                 playerData = snapshot.ConvertTo<PlayerSaveData>();
-                Debug.Log("Loaded: " + playerData.playerName);
+                if (Debug.isDebugBuild) Debug.Log("Loaded: " + playerData.playerName);
                 loaded = true;
             }
-
             else
-            {
-                // Create new player with defaults
-                playerData = new PlayerSaveData
-                {
-                    userId = userId,
-                    money = 100,
-                    happiness = 0,
-                    unlockedBeverageIds = new List<string>() { "WATER" }, // default unlock
-                    unlockedRecipeIds = new List<string>() { "MOTHER" },
-                    unlockedCustomerIds = new List<string>() { "BATANGAS" }
-                };
-
-                await db.Collection("players").Document(userId).SetAsync(playerData);
-            }
+                await CreateNewUser(uid);
         }
         catch (System.Exception e)
         {
             Debug.LogError("Error loading Firestore data: " + e.Message);
         }
+    }
+
+    private async Task CreateNewUser(string uid)
+    {
+        playerData.userId = uid;
+        await db.Collection("players").Document(uid).SetAsync(playerData);
+        loaded = true;
     }
 
     void ApplyLoadedData()
@@ -125,34 +137,76 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public async void SavePlayerData()
-    {
-        string userId = "0"; //FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-
-        await db.Collection("players").Document(userId).SetAsync(playerData);
-    }
-
     public async Task UpdatePlayerDataAsync(Dictionary<string, object> updates)
     {
-                Debug.Log(playerData.userId);
-        Debug.Log(updates);
-
         DocumentReference docRef = db.Collection("players").Document(playerData.userId);
 
         if (docRef == null)
         {
-            Debug.Log("✅ Player not found!");
+            if (Debug.isDebugBuild) Debug.Log("Player not found!");
             return;
         }
 
         try
         {
             await docRef.SetAsync(updates, SetOptions.MergeAll);
-            Debug.Log("✅ Player data updated");
+            ApplyUpdatesToLocalPlayerData(updates);
+            if (Debug.isDebugBuild) Debug.Log("Player data updated");
+
         }
         catch (System.Exception e)
         {
             Debug.LogError("Failed to save data: " + e.Message);
+            // Retry Again Prompt
+        }
+    }
+
+    private void ApplyUpdatesToLocalPlayerData(Dictionary<string, object> updates)
+    {
+        foreach (var entry in updates)
+        {
+            string key = entry.Key;
+            object value = entry.Value;
+
+            if (key == "dialogueFlags")
+            {
+                if (playerData.dialogueFlags == null)
+                    playerData.dialogueFlags = new Dictionary<string, bool>();
+
+                if (value is Dictionary<string, object> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (flags[flag] is bool boolVal)
+                            playerData.dialogueFlags[flag] = boolVal;
+                    }
+                }
+            }
+
+            if (key == "day" && value is int day) playerData.day = day;
+            if (key == "money" && value is float money) playerData.money = money;
+            if (key == "happiness" && value is float happiness) playerData.money = happiness;
+        }
+    }
+
+    public async Task UploadRoundClearData(string level)
+    {
+        CollectionReference colRef = db.Collection($"{level}_Clears");
+
+        if (colRef == null)
+        {
+            if (Debug.isDebugBuild) Debug.Log("Collection not found!");
+            return;
+        }
+
+        try
+        {
+            await colRef.Document().SetAsync(results);
+            if (Debug.isDebugBuild) Debug.Log(level + " Collection Updated");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Failed to upload data: " + e.Message);
             // Retry Again Prompt
         }
     }
@@ -190,14 +244,13 @@ public class DataManager : MonoBehaviour
 
     //         // 4. Create new player using template
     //         await newPlayerRef.SetAsync(templateData);
-    //         Debug.Log($"Player {newPlayerId} created from template.");
+    //         if (Debug.IsDebugBuild) Debug.Log($"Player {newPlayerId} created from template.");
     //     }
     //     catch (System.Exception e)
     //     {
     //         Debug.LogError("Failed to create player from template: " + e.Message);
     //     }
     // }
-
     #endregion
 
 }

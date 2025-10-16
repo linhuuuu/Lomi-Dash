@@ -33,8 +33,8 @@ public class InventoryManager : MonoBehaviour
     public Repositories gameRepo;
     public Repositories playerRepo;
 
-    public async Task InitializeAsync()
-    {
+    // public async Task InitializeAsync()
+    // {
         
-    }
+    // }
 }

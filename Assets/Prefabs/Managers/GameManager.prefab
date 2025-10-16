@@ -44,5 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3255fbece51279b439d8d41444010d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundProfile: {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa, type: 2}
-  state: 0
+  <uid>k__BackingField: 
+  <roundProfile>k__BackingField: {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa,
+    type: 2}
+  <prevScene>k__BackingField: 
+  <state>k__BackingField: 0

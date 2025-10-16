@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelSelect : MonoBehaviour
+public class MapNodes : MonoBehaviour
 {
     [SerializeField] private RoundProfile profile;
     [SerializeField] private Button button;

@@ -44,18 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea2246ac3e9efa4789477b00cf4959f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRepo:
-    RecipeRepo: []
-    BeverageRepo: []
-    CustomerRepo: []
-  gameRepo:
-    RecipeRepo:
-    - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
-    - {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
-    BeverageRepo:
-    - {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
-    - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
-    CustomerRepo:
-    - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
-    - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
-    - {fileID: 11400000, guid: d5b49b36d5e77b747b7ebb726ae130bc, type: 2}
+  <loaded>k__BackingField: 0
+  isDebug: 0
+  isNewTestUser: 0

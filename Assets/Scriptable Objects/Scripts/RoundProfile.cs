@@ -13,7 +13,7 @@ public class RoundProfile : ScriptableObject
 
     [Header("Customer Group Generation Override")]
     public bool isGroupCountOverriden;
-    public int minCustomerGroupCount, maxCustomerGroupCount;
+    [Range(1,30)] public int minCustomerGroupCount, maxCustomerGroupCount;
     public float[] customerCountWeights = new float[5];
     public GameTheme theme;
 }

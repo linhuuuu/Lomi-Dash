@@ -23,10 +23,6 @@ public class LoadingManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        // Optional debug override
-        if (isDebug)
-            targetScene = "Main Screen";
     }
 
     public async void LoadNewScene()
@@ -43,15 +39,18 @@ public class LoadingManager : MonoBehaviour
         var targetOp = SceneManager.LoadSceneAsync(targetScene, new LoadSceneParameters(LoadSceneMode.Additive));
 
         while (!targetOp.isDone) await Task.Yield();
-
         await InitializeManagers();
 
         await UnloadLoadingScreen();
     }
-    
+
     private async Task InitializeManagers()
     {
-        while (DataManager.data.loaded == false) await Task.Yield();
+        if (DataManager.data != null && DataManager.data.loaded == false)
+            await DataManager.data.InitDataManager();
+
+        if (ResultScreenManager.instance != null)
+            await ResultScreenManager.instance.InitResultManager();
     }
 
     private async Task UnloadLoadingScreen()
@@ -60,7 +59,7 @@ public class LoadingManager : MonoBehaviour
         await Task.Delay(1000);
 
         var unloadOp = SceneManager.UnloadSceneAsync("Loading Screen");
-        
+
         while (!unloadOp.isDone)
             await Task.Yield();
 

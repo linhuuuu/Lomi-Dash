@@ -13,6 +13,10 @@ public class PlayerSaveData
     public string playerName { get; set; }
 
     [FirestoreProperty]
+    public int icon
+    { get; set; }
+
+    [FirestoreProperty]
     public int day { get; set; }
 
     [FirestoreProperty]
@@ -36,6 +40,17 @@ public class PlayerSaveData
     [FirestoreProperty]
     public List<string> unlockedStages { get; set; } = new List<string>();
 
+    [FirestoreProperty] public List<string> unlockedLocationIds { get; set; } = new List<string>();
+
+    [FirestoreProperty] public List<string> unlockedTermIds { get; set; } = new List<string>();
+
+    [FirestoreProperty] public List<string> unlockedSpecialCustomerIds { get; set; } = new List<string>();
+
+    [FirestoreProperty] public List<string> unlockedAchievementIds { get; set; } = new List<string>();
+
+    [FirestoreProperty]
+    public Dictionary<string, List<bool>> characterEvents { get; set; } = new();
+    
     //Dialogue
     [FirestoreProperty]
     public Dictionary<string, bool> dialogueFlags { get; set; } = new();

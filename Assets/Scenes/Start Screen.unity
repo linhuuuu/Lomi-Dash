@@ -6998,7 +6998,6 @@ MonoBehaviour:
   buttons: {fileID: 1930915911}
   savedUID: {fileID: 637808968}
   savedUIDPrompt: {fileID: 522303664}
-  signInMethod: {fileID: 1691039036}
   email: {fileID: 1575305675}
   isDebug: 0
 --- !u!1660057539 &9223372036854775807

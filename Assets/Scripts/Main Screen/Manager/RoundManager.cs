@@ -246,7 +246,7 @@ public class RoundManager : MonoBehaviour
     private void OnRoundComplete()
     {
         // for()
-        
+
         //Results Saving
         DataManager.data.results = new RoundResults
         {
@@ -258,10 +258,11 @@ public class RoundManager : MonoBehaviour
             earnedHappiness = this.happiness,
             earnedMoney = this.money,
             clearDate = DateTime.Now,
-            clearTime = roundElapsedTime * 1000,
-        
-            starCount = 3,
+            clearTime = roundElapsedTime,
+            starCount = 3, //adjust
         };
+
+        Debug.Log(DataManager.data.results);
 
         //Goto
         GameManager.instance.ResultsScreen();

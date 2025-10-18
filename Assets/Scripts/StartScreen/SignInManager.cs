@@ -16,7 +16,6 @@ public class SignInManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI savedUID;
     [SerializeField] private TextMeshProUGUI savedUIDPrompt;
-    [SerializeField] private TextMeshProUGUI signInMethod;
     [SerializeField] private TextMeshProUGUI email;
 
     [SerializeField] private bool isDebug;
@@ -36,7 +35,6 @@ public class SignInManager : MonoBehaviour
 
     void Start()
     {
-        signInMethod.text = "";
         savedUID.text = "";
         savedUIDPrompt.text = "";
         email.text = "";
@@ -116,7 +114,7 @@ public class SignInManager : MonoBehaviour
 
         if (currentUser == null) return;
 
-        if (currentUser.ProviderId == "google.com")
+        if (currentUser.Email != null)
             GoogleSignIn.DefaultInstance.SignOut();
 
         auth.SignOut();
@@ -130,8 +128,6 @@ public class SignInManager : MonoBehaviour
     #region  PlayerPrefs
     private void SetAccountPlayerPrefs()
     {
-        if (currentUser.ProviderId != null)
-            PlayerPrefs.SetString("signInMethod", auth.CurrentUser.ProviderId);
         if (currentUser.UserId != null)
             PlayerPrefs.SetString("uid", auth.CurrentUser.UserId);
         if (currentUser.Email != null)
@@ -141,11 +137,6 @@ public class SignInManager : MonoBehaviour
 
     private void LoadAccountPlayerPrefs()
     {
-        if (PlayerPrefs.HasKey("signInMethod"))
-            if (PlayerPrefs.GetString("signInMethod") == "Firebase")
-                signInMethod.text = "Guest";
-            else //if (PlayerPrefs.GetString("signInMethod") == "google.com")
-                signInMethod.text = PlayerPrefs.GetString("signInMethod");  //"Google";
         if (PlayerPrefs.HasKey("uid"))
             savedUID.text = "UID:" + PlayerPrefs.GetString("uid");
         if (PlayerPrefs.HasKey("uid"))
@@ -156,14 +147,11 @@ public class SignInManager : MonoBehaviour
 
     private void DeleteAccountPlayerPrefs()
     {
-        if (PlayerPrefs.HasKey("signInMethod"))
-            PlayerPrefs.DeleteKey("signInMethod");
         if (PlayerPrefs.HasKey("uid"))
             PlayerPrefs.DeleteKey("uid");
         if (PlayerPrefs.HasKey("email"))
             PlayerPrefs.DeleteKey("email");
 
-        signInMethod.text = "";
         savedUID.text = "";
         savedUIDPrompt.text = "";
         email.text = "";

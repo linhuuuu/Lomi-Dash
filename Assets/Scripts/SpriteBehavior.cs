@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Yarn.Unity;
 
 public class SpriteBehavior : MonoBehaviour
 {
@@ -23,6 +24,15 @@ public class SpriteBehavior : MonoBehaviour
 
     private Coroutine currentTransition;
     private string currentCharacterName; // 👈 track who’s showing now
+
+    // void Awake()
+    // {
+    //     var runner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+    //     if (runner != null)
+    //     {
+    //         runner.AddCommandHandler(this);
+    //     }
+    // }
 
     public void ShowCharacter(string characterName)
     {
@@ -147,4 +157,44 @@ public class SpriteBehavior : MonoBehaviour
     {
         chibiImage.enabled = false;
     }
+
+
+    #region Background
+
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Sprite defaultBackground;
+
+    public void SetBackground(Sprite bg = null)
+    {
+        if (bg == null)
+            bg = defaultBackground;
+
+        if (bg == null)
+        {
+            backgroundImage.enabled = false;
+            return;
+        }
+
+        backgroundImage.sprite = bg;
+        backgroundImage.enabled = true;
+    }
+
+    // <<hide_background>>
+    [YarnCommand("hide_background")]
+    public void HideBackground()
+    {
+        backgroundImage.enabled = false;
+    }
+
+     [YarnCommand("show_background")]
+    public void ShowBackground(string backgroundName)
+    {
+        Sprite bg = Resources.Load<Sprite>($"Backgrounds/{backgroundName}");
+        SetBackground(bg);
+    }
+
+
+    
+
+    #endregion
 }

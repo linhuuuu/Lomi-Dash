@@ -6,6 +6,8 @@ position: -224,-258
 /// The player's name. The player chooses this. It starts empty.
 <<declare $player_name = "" as string>>
 
+<<hide_background>>
+
 Tiya: Hello, I am The Lomi Judger.
 Protag: Hello, I am the protag, Let's ignore the fact that the choices suddenly broke for no reason. falallallalalallallallalalallalal aslalsalslalslaslasl alslalsfdglkdfgd dlfgjldkfg dlkfgjlkdfjg jflgdjdflkgj 
 Tiya: hihi again

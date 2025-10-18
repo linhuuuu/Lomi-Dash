@@ -11,9 +11,6 @@ public class RoundResults
     public string userId { get; set; }
 
     [FirestoreProperty]
-    public int day { get; set; }
-
-    [FirestoreProperty]
     public int totalDishes { get; set; }
 
     [FirestoreProperty]

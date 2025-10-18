@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3496957577766199328
 Transform:
   m_ObjectHideFlags: 0
@@ -284,6 +284,8 @@ MonoBehaviour:
   moveOffset: 30
   sizeMultiplier: 0.5
   chibiSizeMultiplier: 0.65
+  backgroundImage: {fileID: 3758462321588499596}
+  defaultBackground: {fileID: 0}
 --- !u!1 &7232491421126324747
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +448,7 @@ GameObject:
   - component: {fileID: 3192462067735674233}
   - component: {fileID: 7813642151446742168}
   m_Layer: 0
-  m_Name: Border (1)
+  m_Name: BorderBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

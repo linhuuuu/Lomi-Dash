@@ -15,9 +15,9 @@ MonoBehaviour:
   characters:
   - name: Tiya
     portrait: {fileID: 21300000, guid: 3bb175ee8bba9c5459dcbd33c4d64470, type: 3}
-    anchoredPosition: {x: 450, y: 250}
+    anchoredPosition: {x: 2000, y: -20}
     chibiPortrait: {fileID: 21300000, guid: e5b7c6fc98bd76a4d9f94e7ea09bc077, type: 3}
   - name: Protag
     portrait: {fileID: 21300000, guid: e939b4c5cf30a5344bc5fcd1c509040e, type: 3}
-    anchoredPosition: {x: -450, y: 250}
+    anchoredPosition: {x: 600, y: -20}
     chibiPortrait: {fileID: 21300000, guid: 2c757b09c06f05142bce2e6d2d35d680, type: 3}

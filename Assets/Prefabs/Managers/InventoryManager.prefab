@@ -70,9 +70,26 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9b2b2b8976b6e6a46bf2c5fcceb03783, type: 2}
     - {fileID: 11400000, guid: 231740b2306892b41b3a46e20fa63ac3, type: 2}
     - {fileID: 11400000, guid: 9e6f4cd1e320be7448fdcf7096e88605, type: 2}
+    Icons:
+    - {fileID: 21300000, guid: 81967a6c7cd760246bd825dff6c1b786, type: 3}
+    - {fileID: 21300000, guid: 1442da97c2eafa24285d72c5e1d991c4, type: 3}
+    - {fileID: 21300000, guid: c7e567822e74855489eced37a11c4728, type: 3}
+    LocationRepo:
+    - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
+    TermRepo:
+    - {fileID: 11400000, guid: 7a338cb56c0a39f47bb8b9c9a494d6a4, type: 2}
+    SpecialNPCRepo:
+    - {fileID: 11400000, guid: 8674b83095ba69f4db99fcb99749389b, type: 2}
+    AchievementRepo:
+    - {fileID: 11400000, guid: a12054250c3cfb64a941b2e5f5ec138d, type: 2}
   playerRepo:
     RecipeRepo: []
     BeverageRepo: []
     CustomerRepo: []
     ToppingRepo: []
     DropsRepo: []
+    Icons: []
+    LocationRepo: []
+    TermRepo: []
+    SpecialNPCRepo: []
+    AchievementRepo: []

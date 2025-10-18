@@ -5,6 +5,9 @@ using UnityEngine.SocialPlatforms.Impl;
 using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
+using System.Net;
+using Firebase;
+using Firebase.Auth;
 
 public class DataManager : MonoBehaviour
 {
@@ -16,6 +19,8 @@ public class DataManager : MonoBehaviour
     [field: SerializeField] public bool loaded { set; get; }
     [SerializeField] private bool isDebug = false;
     [SerializeField] private bool isNewTestUser = false;
+
+    FirebaseAuth auth;
 
     public static DataManager data;
 
@@ -32,12 +37,14 @@ public class DataManager : MonoBehaviour
 
     async void Start()
     {
+        
         db = FirebaseFirestore.DefaultInstance;
         InitPlayerData();
 
         //Skipped Auth, load test data;
         if (SignInManager.instance == null || isNewTestUser == true)
         {
+            auth = FirebaseAuth.DefaultInstance;
             isDebug = true;
             if (isNewTestUser == true)
                 await CreateNewUser("0");
@@ -68,6 +75,18 @@ public class DataManager : MonoBehaviour
                     { "Lipa_Hard_Before", false },
                     { "Lipa_Hard_After", false },
                 },
+            unlockedLocationIds = new List<string>() { "LIPA" },
+            unlockedTermIds = new List<string>() { "LOMI" },
+            unlockedSpecialCustomerIds = new List<string>() { "JUAN" },
+            unlockedAchievementIds = new List<string>() { },
+
+            //UPDATE IN DATABASE
+            characterEvents = new Dictionary<string, List<bool>>()
+            {
+                {"JUAN", new List<bool> {false, false, false}},
+                {"TIYA_XIAO", new List<bool> {false, false, false}},
+                {"FATHER", new List<bool> {false, false, false}},
+            }
         };
     }
 
@@ -76,7 +95,7 @@ public class DataManager : MonoBehaviour
         if (isDebug == false)
             await FetchPlayerDataAsync(GameManager.instance.uid);
         else
-            await FetchPlayerDataAsync("0");  //Test Data   
+            await FetchPlayerDataAsync(auth.CurrentUser.UserId);  //Test Data   
 
         ApplyLoadedData();
     }
@@ -135,7 +154,37 @@ public class DataManager : MonoBehaviour
             if (cus != null)
                 InventoryManager.inv.playerRepo.CustomerRepo.Add(cus);
         }
+
+        //Almanac
+        foreach (string locationId in playerData.unlockedLocationIds)
+        {
+            LocationData cus = InventoryManager.inv.gameRepo.LocationRepo.Find(b => b.entryID == locationId);
+            if (cus != null)
+                InventoryManager.inv.playerRepo.LocationRepo.Add(cus);
+        }
+
+        foreach (string termId in playerData.unlockedTermIds)
+        {
+            TermData term = InventoryManager.inv.gameRepo.TermRepo.Find(b => b.entryID == termId);
+            if (term != null)
+                InventoryManager.inv.playerRepo.TermRepo.Add(term);
+        }
+
+        foreach (string specialNPCId in playerData.unlockedSpecialCustomerIds)
+        {
+            SpecialNPCData npc = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(b => b.entryID == specialNPCId);
+            if (npc != null)
+                InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(npc);
+        }
+
+        foreach (string achId in playerData.unlockedAchievementIds)
+        {
+            AchievementData ach = InventoryManager.inv.gameRepo.AchievementRepo.Find(b => b.entryID == achId);
+            if (ach != null)
+                InventoryManager.inv.playerRepo.AchievementRepo.Add(ach);
+        }
     }
+
 
     public async Task UpdatePlayerDataAsync(Dictionary<string, object> updates)
     {
@@ -210,6 +259,130 @@ public class DataManager : MonoBehaviour
             // Retry Again Prompt
         }
     }
+
+    #region Queries
+
+    public class PlayerLeaderBoardData
+    {
+        public string userId;
+        public string name;
+        public int icon;
+    }
+    public class MoneyLeaderBoardData
+    {
+        public PlayerLeaderBoardData ply;
+        public float money;
+    }
+
+    public class HappinessLeaderBoardData
+    {
+        public PlayerLeaderBoardData ply;
+        public float happiness;
+    }
+
+    public List<MoneyLeaderBoardData> moneylbData { set; get; } = new();
+    public List<HappinessLeaderBoardData> happinesslbData { set; get; } = new();
+
+    [SerializeField] private int queryCount = 5;
+
+    public async Task FetchLeaderBoardData(string collectionRefName)
+    {
+        CollectionReference colRef = db.Collection(collectionRefName + "_Clears");
+
+        QuerySnapshot moneyQuerySnap = await colRef.OrderByDescending("earnedMoney").Limit(queryCount).GetSnapshotAsync();
+        foreach (DocumentSnapshot snap in moneyQuerySnap)
+        {
+            string uid = snap.GetValue<string>("userId");
+            float mny = snap.GetValue<float>("earnedMoney");
+
+            if (mny == 0)
+                continue;
+
+            //Check Duplicates
+            MoneyLeaderBoardData duplicate = moneylbData.Find(c => c.ply.userId == uid);
+            if (duplicate != null)
+            {
+                if (mny > duplicate.money)
+                    moneylbData.Remove(duplicate);
+                else
+                    continue;
+            }
+
+            DocumentSnapshot snapPlayer = await db.Collection("players").Document(uid).GetSnapshotAsync();
+            if (snapPlayer == null)
+            {
+                if (Debug.isDebugBuild) Debug.Log("Player not found!");
+                return;
+            }
+
+            try
+            {
+                PlayerSaveData playerdata = snapPlayer.ConvertTo<PlayerSaveData>();
+                moneylbData.Add(new MoneyLeaderBoardData
+                {
+                    ply = new PlayerLeaderBoardData
+                    {
+                        userId = uid,
+                        name = playerdata.playerName,
+                        icon = playerdata.icon,
+
+                    },
+                    money = mny,
+                });
+            }
+
+            catch (System.Exception e)
+            {
+                Debug.LogError("Failed to fetch data: " + e.Message);
+            }
+        }
+
+        QuerySnapshot happinessQuerySnap = await colRef.OrderByDescending("earnedHappiness").Limit(queryCount).GetSnapshotAsync();
+        foreach (DocumentSnapshot snap in happinessQuerySnap)
+        {
+            string uid = snap.GetValue<string>("userId");
+            float hp = snap.GetValue<float>("earnedHappiness");
+
+            //Check Duplicates
+            HappinessLeaderBoardData duplicate = happinesslbData.Find(c => c.ply.userId == uid);
+            if (duplicate != null)
+            {
+                if (hp > duplicate.happiness)
+                    happinesslbData.Remove(duplicate);
+                else
+                    continue;
+            }
+
+            DocumentSnapshot snapPlayer = await db.Collection("players").Document(uid).GetSnapshotAsync();
+            if (snapPlayer == null)
+            {
+                if (Debug.isDebugBuild) Debug.Log("Player not found!");
+                return;
+            }
+
+            try
+            {
+                PlayerSaveData playerdata = snapPlayer.ConvertTo<PlayerSaveData>();
+                happinesslbData.Add(new HappinessLeaderBoardData
+                {
+                    ply = new PlayerLeaderBoardData
+                    {
+                        userId = uid,
+                        name = playerdata.playerName,
+                        icon = playerdata.icon,
+                    },
+                    happiness = hp,
+                });
+            }
+
+            catch (System.Exception e)
+            {
+                Debug.LogError("Failed to fetch data: " + e.Message);
+            }
+        }
+    }
+
+    #endregion
 
     // public async Task CreatePlayerFromTemplate(string newPlayerId)
     // {

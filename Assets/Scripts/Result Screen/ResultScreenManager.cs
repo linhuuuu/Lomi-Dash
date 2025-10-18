@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.Rendering;
 
 public class ResultScreenManager : MonoBehaviour
 {
@@ -18,6 +19,14 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TotalMoney;
     [SerializeField] private TextMeshProUGUI TotalHappiness;
     [SerializeField] private TextMeshProUGUI ClearTime;
+    [SerializeField] private TextMeshProUGUI errorMessage;
+
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private Transform moneyLeaderboardContent;
+    [SerializeField] private Transform happinessLeaderboardContent;
+    [SerializeField] private AnimResults anim;
+
+    [SerializeField] private bool isDebug = false;
 
     private int nextDay;
     private float totalMoney;
@@ -37,10 +46,9 @@ public class ResultScreenManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void Start()
+    async void Start()
     {
         results = DataManager.data.results;
-
         if (results == null)
         {
             if (Debug.isDebugBuild) Debug.Log("No Results Found!");
@@ -54,27 +62,33 @@ public class ResultScreenManager : MonoBehaviour
         totalHappiness = playerData.happiness + results.earnedHappiness;
 
         GameManager.instance.state = GameManager.gameState.beforeDay;
+
+        await InitResultManager();
     }
 
     public async Task InitResultManager()
     {
-        if (results == null)
+        if (results != null)
         {
-            if (Debug.isDebugBuild) Debug.Log("No Results Found!");
-            return;
+            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+                {
+                    {"day", nextDay},
+                    {"money", totalMoney},
+                    {"happiness", totalHappiness},
+                    //await ingredients
+                });
+
+            await DataManager.data.UploadRoundClearData(GameManager.instance.roundProfile.roundName);
+            ReflectChanges();
         }
+        else
 
-        await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
-        {
-            {"day", nextDay},
-            {"money", totalMoney},
-            {"happiness", totalHappiness},
-        //await ingredients
-        });
+        if (Debug.isDebugBuild) Debug.Log("No Results Found!");
 
-        await DataManager.data.UploadRoundClearData(GameManager.instance.roundProfile.roundName);
+        await DataManager.data.FetchLeaderBoardData(GameManager.instance.roundProfile.roundName);
+        ReflectLeaderBoardChanges();
 
-        ReflectChanges();
+        StartCoroutine(anim.StartSequence());
     }
 
     public void ReflectChanges()
@@ -91,5 +105,34 @@ public class ResultScreenManager : MonoBehaviour
         ClearTime.text = results.clearTime.ToString();
 
         DataManager.data.results = new RoundResults();
+    }
+
+    public void ReflectLeaderBoardChanges()
+    {
+        List<DataManager.MoneyLeaderBoardData> moneyLB = DataManager.data.moneylbData;
+        List<DataManager.HappinessLeaderBoardData> happinessLB = DataManager.data.happinesslbData;
+
+        if (Debug.isDebugBuild) Debug.Log(moneyLB.Count);
+        if (Debug.isDebugBuild) Debug.Log(happinessLB.Count);
+
+        for (int i = 0; i < happinessLB.Count; i++)
+        {
+            var happinessItem = happinessLB[i];
+            GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity, happinessLeaderboardContent);
+            item.GetComponent<LeaderBoardItem>().InitLeaderboardItem(i + 1, happinessItem.ply.name, happinessItem.happiness, happinessItem.ply.icon);
+            item.transform.localScale = Vector3.one;
+        }
+
+        for (int i = 0; i < moneyLB.Count; i++)
+        {
+            var moneyItem = moneyLB[i];
+            GameObject item = Instantiate(prefab, Vector3.zero, Quaternion.identity, moneyLeaderboardContent);
+            item.GetComponent<LeaderBoardItem>().InitLeaderboardItem(i + 1, moneyItem.ply.name, moneyItem.money, moneyItem.ply.icon);
+            item.transform.localScale = Vector3.one;
+        }
+
+        //Reset Data
+        DataManager.data.moneylbData = new();
+        DataManager.data.happinesslbData = new();
     }
 }

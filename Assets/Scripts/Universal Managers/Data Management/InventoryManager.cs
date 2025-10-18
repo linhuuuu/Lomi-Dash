@@ -27,7 +27,12 @@ public class InventoryManager : MonoBehaviour
         public List<CustomerData> CustomerRepo;
         public List<Topping> ToppingRepo;
         public List<Drop> DropsRepo;
-        // public List<Achievement> AchievementRepo;
+        public List<Sprite> Icons;
+
+        public List<LocationData> LocationRepo;
+        public List<TermData> TermRepo;
+        public List<SpecialNPCData> SpecialNPCRepo;
+        public List<AchievementData> AchievementRepo;
     }
 
     public Repositories gameRepo;

@@ -213,7 +213,7 @@ public class RoundManager : MonoBehaviour
     {
         if (isRoundActive && !isTimerPaused)
         {
-            roundElapsedTime += Time.unscaledDeltaTime; 
+            roundElapsedTime += Time.unscaledDeltaTime;
         }
     }
 
@@ -222,7 +222,7 @@ public class RoundManager : MonoBehaviour
         //Dialogue
         string roundName = GameManager.instance.roundProfile.roundName.ToString() + "_Before";
 
-        if (DataManager.data.playerData.dialogueFlags.TryGetValue(roundName, out bool played)) 
+        if (!DataManager.data.playerData.dialogueFlags.TryGetValue(roundName, out bool played))
             if (Debug.isDebugBuild) Debug.Log("Key does not exist.");
 
         if (!played)
@@ -238,7 +238,7 @@ public class RoundManager : MonoBehaviour
                 {"dialogueFlags", updatedDialogueFlags}
             });
         }
-        
+
         //StartRound
         StartCoroutine(RoundLoop());
     }
@@ -265,7 +265,7 @@ public class RoundManager : MonoBehaviour
         Debug.Log(DataManager.data.results);
 
         //Goto
-        GameManager.instance.ResultsScreen();
+        GameManager.instance.NextScene("Results Screen");
     }
 
     // Round Controls
@@ -337,14 +337,16 @@ public class RoundManager : MonoBehaviour
         if (!InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness))
             group.tableDropZone.occupied = false;
 
+        InstCEDrop(group, finalScore);
+        // if (!InstCEDrop(group, finalScore))
+        //     group.tableDropZone.occupied = false;
 
-        // InstToppingsDrop(group);
-        // InstToppingDrop(group);
 
         //Update Round
         currentOrders--;
         orders[group.orderID].customers = null;
 
+        //Update Stats
         if (((finalPrice * 0.01f) + timeLeft) / 2 >= 0.5f)
             happyCustomers++;
         dishesCleared++;
@@ -353,6 +355,29 @@ public class RoundManager : MonoBehaviour
     #endregion
     #region Currency
 
+    public bool InstCEDrop(CustomerGroup group, float finalScore)
+    {
+        if (finalScore >= 0.5f) return false;
+
+        foreach (Customer customer in group.customers)
+        {
+            if (InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(c => c.entryID == customer.name))
+            {
+                GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
+                DropObj drop = dropObj.GetComponent<DropObj>();
+
+                // drop.dropData = data;
+
+                if (drop != null)
+                    drop.InitSprite();
+
+                return true;
+            }
+
+            // if (InventoryManager.inv.playerRepo.SpecialNPCRepo.Find())
+        }
+        return false;
+    }
     public bool InstCurrenciesDrop(CustomerGroup group, float finalScore, float money, float happiness)
     {
         bool isCurrencyDropped = false;
@@ -399,6 +424,7 @@ public class RoundManager : MonoBehaviour
 
     public void AddCurrencies(float money, float happiness)
     {
+        Debug.Log("Added" + money);
         this.money += money;
         this.happiness += happiness;
         OnCurrencyChange?.Invoke(this.money, this.happiness);

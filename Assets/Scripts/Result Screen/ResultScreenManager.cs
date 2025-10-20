@@ -26,7 +26,10 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Transform happinessLeaderboardContent;
     [SerializeField] private AnimResults anim;
 
-    [SerializeField] private bool isDebug = false;
+    
+        [SerializeField] private Button next;
+
+    // [SerializeField] private bool isDebug = false;
 
     private int nextDay;
     private float totalMoney;
@@ -64,6 +67,9 @@ public class ResultScreenManager : MonoBehaviour
         GameManager.instance.state = GameManager.gameState.beforeDay;
 
         await InitResultManager();
+            GameManager gameManager = GameObject.FindAnyObjectByType<GameManager>();
+
+           next.onClick.AddListener(() => gameManager.NextScene("Main Screen"));
     }
 
     public async Task InitResultManager()
@@ -88,7 +94,7 @@ public class ResultScreenManager : MonoBehaviour
         await DataManager.data.FetchLeaderBoardData(GameManager.instance.roundProfile.roundName);
         ReflectLeaderBoardChanges();
 
-        StartCoroutine(anim.StartSequence());
+        // StartCoroutine(anim.StartSequence());
     }
 
     public void ReflectChanges()

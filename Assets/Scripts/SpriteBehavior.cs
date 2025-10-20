@@ -2,12 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 using Yarn.Unity;
+using System.Collections.Generic;
 
 public class SpriteBehavior : MonoBehaviour
 {
     [Header("Main Portrait References")]
     [SerializeField] private Image portraitImage;
-    [SerializeField] private RectTransform portraitTransform;
+    [SerializeField] private RectTransform portraitContainer;
 
     [Header("Chibi Portrait References")]
     [SerializeField] private Image chibiImage;
@@ -23,16 +24,8 @@ public class SpriteBehavior : MonoBehaviour
     [SerializeField, Range(0.3f, 1f)] private float chibiSizeMultiplier = 0.8f; // separate chibi scale
 
     private Coroutine currentTransition;
-    private string currentCharacterName; // 👈 track who’s showing now
-
-    // void Awake()
-    // {
-    //     var runner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
-    //     if (runner != null)
-    //     {
-    //         runner.AddCommandHandler(this);
-    //     }
-    // }
+    private string currentCharacterName;
+    private Dictionary<string, Image> activePortraits = new Dictionary<string, Image>();
 
     public void ShowCharacter(string characterName)
     {
@@ -76,10 +69,10 @@ public class SpriteBehavior : MonoBehaviour
 
         // --- MAIN PORTRAIT ---
         portraitImage.sprite = data.portrait;
-        portraitTransform.anchoredPosition = data.anchoredPosition;
+        portraitContainer.anchoredPosition = data.anchoredPosition;
         portraitImage.preserveAspect = true;
         portraitImage.SetNativeSize();
-        portraitTransform.localScale = Vector3.one * sizeMultiplier;
+        portraitContainer.localScale = Vector3.one * sizeMultiplier;
         portraitImage.enabled = true;
 
         // --- CHIBI PORTRAIT ---
@@ -93,7 +86,7 @@ public class SpriteBehavior : MonoBehaviour
         Color c = portraitImage.color;
         c.a = 0f;
         portraitImage.color = c;
-        portraitTransform.anchoredPosition = startPos;
+        portraitContainer.anchoredPosition = startPos;
 
         while (elapsed < fadeDuration)
         {
@@ -102,13 +95,13 @@ public class SpriteBehavior : MonoBehaviour
 
             c.a = t;
             portraitImage.color = c;
-            portraitTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, Mathf.SmoothStep(0, 1, t));
+            portraitContainer.anchoredPosition = Vector2.Lerp(startPos, endPos, Mathf.SmoothStep(0, 1, t));
             yield return null;
         }
 
         c.a = 1f;
         portraitImage.color = c;
-        portraitTransform.anchoredPosition = endPos;
+        portraitContainer.anchoredPosition = endPos;
         currentTransition = null;
     }
 
@@ -132,7 +125,7 @@ public class SpriteBehavior : MonoBehaviour
     {
         float elapsed = 0f;
         Color c = portraitImage.color;
-        Vector2 originalPos = portraitTransform.anchoredPosition;
+        Vector2 originalPos = portraitContainer.anchoredPosition;
         Vector2 endPos = originalPos - new Vector2(moveOffset, 0);
 
         while (elapsed < fadeDuration)
@@ -142,14 +135,14 @@ public class SpriteBehavior : MonoBehaviour
 
             c.a = 1f - t;
             portraitImage.color = c;
-            portraitTransform.anchoredPosition = Vector2.Lerp(originalPos, endPos, Mathf.SmoothStep(0, 1, t));
+            portraitContainer.anchoredPosition = Vector2.Lerp(originalPos, endPos, Mathf.SmoothStep(0, 1, t));
             yield return null;
         }
 
         c.a = 0f;
         portraitImage.color = c;
         portraitImage.enabled = false;
-        portraitTransform.anchoredPosition = originalPos;
+        portraitContainer.anchoredPosition = originalPos;
         currentTransition = null;
     }
 
@@ -159,11 +152,96 @@ public class SpriteBehavior : MonoBehaviour
     }
 
 
-    #region Background
+    // <<showCharacter "Luna" at 200 -50>>
+    [YarnCommand("showCharacter")]
+    public void ShowCharacterAt(string characterName, string atKeyword, float x, float y)
+    {
+        var data = database.GetCharacter(characterName);
+        if (data == null) return;
+
+        // Remove if already exists
+        if (activePortraits.TryGetValue(characterName, out Image existing))
+        {
+            Destroy(existing.gameObject);
+            activePortraits.Remove(characterName);
+        }
+
+        // Create new
+        GameObject go = Instantiate(portraitPrefab, portraitContainer);
+        Image img = go.GetComponent<Image>();
+        img.sprite = data.portrait;
+        img.preserveAspect = true;
+        img.SetNativeSize();
+        img.color = new Color(1, 1, 1, 0); // start transparent
+        img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
+        img.transform.localScale = Vector3.one * sizeMultiplier;
+
+        activePortraits[characterName] = img;
+        StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+    }
+
+    // <<showChibi "Kai" at -150 -60>>
+    [YarnCommand("showChibi")]
+    public void ShowChibiAt(string characterName, string atKeyword, float x, float y)
+    {
+        var data = database.GetCharacter(characterName);
+        if (data == null || data.chibiPortrait == null) return;
+
+        if (activePortraits.TryGetValue(characterName, out Image existing))
+        {
+            Destroy(existing.gameObject);
+            activePortraits.Remove(characterName);
+        }
+
+        GameObject go = Instantiate(portraitPrefab, portraitContainer);
+        Image img = go.GetComponent<Image>();
+        img.sprite = data.chibiPortrait;
+        img.preserveAspect = true;
+        img.SetNativeSize();
+        img.color = new Color(1, 1, 1, 0);
+        img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
+        img.transform.localScale = Vector3.one * chibiSizeMultiplier;
+
+        activePortraits[characterName] = img;
+        StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+    }
+
+    // <<clearCharacters>>
+    [YarnCommand("clearCharacters")]
+    public void ClearCharacters()
+    {
+        foreach (var img in activePortraits.Values)
+            Destroy(img.gameObject);
+        activePortraits.Clear();
+    }
+
+    // Reuse your fade logic for new portraits
+    private IEnumerator FadeInAndMove(Image img, Vector2 targetPos)
+    {
+        float elapsed = 0;
+        Color c = img.color;
+        Vector2 startPos = img.rectTransform.anchoredPosition;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+            c.a = t;
+            img.color = c;
+            img.rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, Mathf.SmoothStep(0, 1, t));
+            yield return null;
+        }
+        c.a = 1;
+        img.color = c;
+    }
+
+
+    #region BG
 
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Sprite defaultBackground;
 
+    [YarnCommand("setBackground")]
     public void SetBackground(Sprite bg = null)
     {
         if (bg == null)
@@ -179,22 +257,11 @@ public class SpriteBehavior : MonoBehaviour
         backgroundImage.enabled = true;
     }
 
-    // <<hide_background>>
-    [YarnCommand("hide_background")]
+    [YarnCommand("hideBackground")]
     public void HideBackground()
     {
         backgroundImage.enabled = false;
     }
-
-     [YarnCommand("show_background")]
-    public void ShowBackground(string backgroundName)
-    {
-        Sprite bg = Resources.Load<Sprite>($"Backgrounds/{backgroundName}");
-        SetBackground(bg);
-    }
-
-
-    
 
     #endregion
 }

@@ -9,6 +9,7 @@ public class UpdateFirestore : MonoBehaviour
     async void Start()
     {
         FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+        
         await AddFieldToAllDocuments();
     }
     public async Task AddFieldToAllDocuments()
@@ -25,10 +26,11 @@ public class UpdateFirestore : MonoBehaviour
         foreach (DocumentSnapshot doc in snapshot.Documents)
         {
 
-            batch.Update(doc.Reference, "unlockedLocationIds", new List<string> { "LIPA" });
-            batch.Update(doc.Reference, "unlockedTermIds", new List<string> { "LOMI" });
-            batch.Update(doc.Reference, "unlockedSpecialCustomerIds", new List<string> { "JUAN" });
-            batch.Update(doc.Reference, "unlockedAchievementIds", new List<string> { });
+            batch.Update(doc.Reference, "unlockedSpecialCustomerIds", new Dictionary<string, List<bool>>
+            {
+                {"JUAN", new List<bool> {false, false, false}},
+            });
+
 
             // Firestore batch max: 500 ops
             if (updateCount % 500 == 0)

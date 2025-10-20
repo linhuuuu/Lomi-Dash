@@ -9,8 +9,11 @@ public class CookPot : DragAndDrop
     public SeasoningNode seasoningNode { private set; get; }
     public BonesNode bonesNode { private set; get; }
     public PotGroup potGroup { private set; get; }
-    private Coroutine boilingRoutine;
+
     public AnimPot animPot { private set; get; }
+    private Coroutine boilingRoutine;
+
+    public int maxCount { set; get; } = 2;
 
     void Start()
     {
@@ -24,10 +27,12 @@ public class CookPot : DragAndDrop
         if (potGroup == null) potGroup = new PotGroup();
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
     }
+
+    #region AddNodes
     public IEnumerator AddWater()
     {
         if (boilNode == null) boilNode = new BoilNode();
-        if (boilNode.count < 2)
+        if (boilNode.count < maxCount)
         {
             UpdateBoilingState();
             yield return animPot.AnimWater(hitCollider.gameObject);
@@ -39,16 +44,30 @@ public class CookPot : DragAndDrop
     }
     public void AddKnorr()
     {
+        if (boilNode == null)
+        {
+            if (Debug.isDebugBuild) Debug.Log("No BoilNode Yet!");
+            return;
+        }
+
         if (bonesNode == null) bonesNode = new BonesNode();
-        if (bonesNode.count < 2)//maxPot
+        if (bonesNode.count < maxCount)//maxPot
         {
             bonesNode.count++;
             UpdateBoilingState();
         }
+
         animPot.OnAddKnorr();
     }
+
     public void AddSeasoning(string type)
     {
+        if (boilNode == null)
+        {
+            if (Debug.isDebugBuild) Debug.Log("No BoilNode Yet!");
+            return;
+        }
+        
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
         switch (type)
         {
@@ -56,12 +75,14 @@ public class CookPot : DragAndDrop
                 seasoningNode.saltCount++; break;
             case "Pepper":
                 seasoningNode.pepperCount++; break;
-            case "Bawang":
-                seasoningNode.bawangCount++; break;
             default:
                 break;
         }
     }
+
+    #endregion
+    #region Boiling
+
     public void ToggleStove()
     {
         stove_On = !stove_On;
@@ -71,7 +92,6 @@ public class CookPot : DragAndDrop
     private void UpdateBoilingState()
     {
         if (boilNode != null && boilNode.count > 0)
-
             if (stove_On)
             {
                 if (boilingRoutine == null)
@@ -101,6 +121,8 @@ public class CookPot : DragAndDrop
         }
         boilingRoutine = null;
     }
+
+    #endregion
 
     public void CreatePotNode()
     {
@@ -133,7 +155,7 @@ public class CookPot : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            if (targetWok.mix_1_Node == null && boilNode != null)   //must have water before transferring
+            if (targetWok.mix_1_Node == null && boilNode != null)
             {
                 //Create and Transfer
                 CreatePotNode();
@@ -157,9 +179,6 @@ public class CookPot : DragAndDrop
             revertDefaults();
             return;
         }
-
-
-
         revertDefaults();
     }
 }

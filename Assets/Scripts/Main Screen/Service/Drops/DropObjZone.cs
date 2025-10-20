@@ -24,6 +24,7 @@ public class DropObjZone : MonoBehaviour
             child.prompt.localEulerAngles = Vector3.zero;
             Destroy(child.gameObject);
         }
+        
         StartCoroutine(ReadAllPrompts());
         tableDropZone.occupied = false;
     }

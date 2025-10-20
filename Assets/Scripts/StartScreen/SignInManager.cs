@@ -112,10 +112,16 @@ public class SignInManager : MonoBehaviour
         //UI
         anim.ToggleSignInPrompt();
 
+        Debug.Log("Current User");
         if (currentUser == null) return;
 
-        if (currentUser.Email != null)
+        if (currentUser.Email != "")
+        {
+            Debug.Log("Run");
             GoogleSignIn.DefaultInstance.SignOut();
+
+        }
+
 
         auth.SignOut();
         currentUser = null;

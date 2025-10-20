@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         endDay,
     }
     [field: SerializeField] public gameState state { set; get; }
-    
+
     void Awake()
     {
         state = gameState.beforeDay;
@@ -36,24 +36,11 @@ public class GameManager : MonoBehaviour
 
     #region SceneManagement
 
-    public void MainScene()
+    public void NextScene(string targetScene)
     {
-        LoadingManager.instance.targetScene = "Main Screen";
-        LoadingManager.instance.LoadNewScene();
-       
-    }
-
-    public void MapScreen()
-    {
-        LoadingManager.instance.targetScene = "Map Screen";
+        LoadingManager.instance.targetScene = targetScene;
         LoadingManager.instance.LoadNewScene();
     }
-
-    public void ResultsScreen()
-    {
-        LoadingManager.instance.targetScene = "Results Screen";
-        LoadingManager.instance.LoadNewScene();
-    }
-
+    
     #endregion
 }

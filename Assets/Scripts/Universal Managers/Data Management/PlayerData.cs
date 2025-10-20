@@ -44,12 +44,9 @@ public class PlayerSaveData
 
     [FirestoreProperty] public List<string> unlockedTermIds { get; set; } = new List<string>();
 
-    [FirestoreProperty] public List<string> unlockedSpecialCustomerIds { get; set; } = new List<string>();
+    [FirestoreProperty] public Dictionary<string, List<bool>> unlockedSpecialCustomerIds { get; set; } = new Dictionary<string, List<bool>>();
 
     [FirestoreProperty] public List<string> unlockedAchievementIds { get; set; } = new List<string>();
-
-    [FirestoreProperty]
-    public Dictionary<string, List<bool>> characterEvents { get; set; } = new();
     
     //Dialogue
     [FirestoreProperty]

@@ -29,7 +29,6 @@ public class CookPotEditor : Editor
         {
             EditorGUILayout.LabelField(cookPot.seasoningNode.id);
             EditorGUILayout.LabelField("  | Salt Count: " + cookPot.seasoningNode.saltCount);
-            EditorGUILayout.LabelField("  | Bawang Count: " + cookPot.seasoningNode.bawangCount);
             EditorGUILayout.LabelField("  | Pepper Count: " + cookPot.seasoningNode.pepperCount);
         }
 

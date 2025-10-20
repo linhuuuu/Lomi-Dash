@@ -37,7 +37,7 @@ public class DataManager : MonoBehaviour
 
     async void Start()
     {
-        
+
         db = FirebaseFirestore.DefaultInstance;
         InitPlayerData();
 
@@ -48,9 +48,9 @@ public class DataManager : MonoBehaviour
             isDebug = true;
             if (isNewTestUser == true)
                 await CreateNewUser("0");
-
-            await InitDataManager();
+             await InitDataManager();
         }
+        
     }
 
     private void InitPlayerData()
@@ -77,16 +77,12 @@ public class DataManager : MonoBehaviour
                 },
             unlockedLocationIds = new List<string>() { "LIPA" },
             unlockedTermIds = new List<string>() { "LOMI" },
-            unlockedSpecialCustomerIds = new List<string>() { "JUAN" },
-            unlockedAchievementIds = new List<string>() { },
-
-            //UPDATE IN DATABASE
-            characterEvents = new Dictionary<string, List<bool>>()
+            unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>()
             {
                 {"JUAN", new List<bool> {false, false, false}},
-                {"TIYA_XIAO", new List<bool> {false, false, false}},
-                {"FATHER", new List<bool> {false, false, false}},
-            }
+            },
+
+            unlockedAchievementIds = new List<string>() { },
         };
     }
 
@@ -134,11 +130,17 @@ public class DataManager : MonoBehaviour
 
     void ApplyLoadedData()
     {
+        InventoryManager.inv.playerRepo = new();
+
         foreach (string bevId in playerData.unlockedBeverageIds)
         {
             Beverage bev = InventoryManager.inv.gameRepo.BeverageRepo.Find(b => b.id == bevId);
+            InventoryManager.inv.playerRepo.BeverageRepo = new();
             if (bev != null)
+            {
                 InventoryManager.inv.playerRepo.BeverageRepo.Add(bev);
+            }
+    
         }
 
         foreach (string recipeId in playerData.unlockedRecipeIds)
@@ -170,11 +172,20 @@ public class DataManager : MonoBehaviour
                 InventoryManager.inv.playerRepo.TermRepo.Add(term);
         }
 
-        foreach (string specialNPCId in playerData.unlockedSpecialCustomerIds)
+        foreach (var specialNPCId in playerData.unlockedSpecialCustomerIds)
         {
-            SpecialNPCData npc = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(b => b.entryID == specialNPCId);
+            SpecialNPCData npc = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(b => b.entryID == specialNPCId.Key);
             if (npc != null)
+            {
+                for (int i = 0; i < specialNPCId.Value.Count - 1; i++)
+                {
+                    if (specialNPCId.Value[i] == true)
+                        npc.starCount++;
+                }
+
                 InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(npc);
+            }
+
         }
 
         foreach (string achId in playerData.unlockedAchievementIds)

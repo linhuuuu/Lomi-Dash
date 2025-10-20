@@ -126,19 +126,19 @@ namespace PCG
         {
             PotGroup pot = new PotGroup();
 
-            int boilTime = 15, waterHeld = 1, bonesCount = 1, saltCount = 1, pepperCount = 1, bawangCount = 1;
+            int boilTime = 15, waterHeld = 1, bonesCount = 1, saltCount = 1, pepperCount = 1;
 
             if (isLarge)
             {
                 waterHeld = 2;
                 saltCount = 2;
                 pepperCount = 2;
-                bawangCount = 2;
+                // bawangCount = 2;
             }
 
             pot.children.Add(new BoilNode(waterHeld, boilTime));
             pot.children.Add(new BonesNode(bonesCount, boilTime));
-            pot.children.Add(new SeasoningNode(saltCount, pepperCount, bawangCount));
+            pot.children.Add(new SeasoningNode(saltCount, pepperCount));
 
             return pot;
         }

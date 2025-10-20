@@ -11,6 +11,6 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         GameManager.instance.state = GameManager.gameState.startDay;
-        startButton.onClick.AddListener(() => GameManager.instance.MainScene());
+        startButton.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
     }
 }

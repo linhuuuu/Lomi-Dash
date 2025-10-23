@@ -3,11 +3,14 @@ using UnityEngine.UI;
 using System.Collections;
 using Yarn.Unity;
 using System.Collections.Generic;
+using System;
 
 public class SpriteBehavior : MonoBehaviour
 {
     [Header("Main Portrait References")]
+
     [SerializeField] private Image portraitImage;
+    [SerializeField] private GameObject portraitPrefab;
     [SerializeField] private RectTransform portraitContainer;
 
     [Header("Chibi Portrait References")]
@@ -16,6 +19,7 @@ public class SpriteBehavior : MonoBehaviour
 
     [Header("Data Source")]
     [SerializeField] private CharacterDatabase database;
+    [SerializeField] private BackgroundDatabase backgroundDB;
 
     [Header("Animation Settings")]
     [SerializeField] private float fadeDuration = 0.3f;
@@ -152,6 +156,15 @@ public class SpriteBehavior : MonoBehaviour
     }
 
 
+    #region Characters
+
+    // For shadow/highlight effect
+    [SerializeField] private Color activeColor = Color.white;      // full brightness
+    [SerializeField] private Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 1f); // dimmed
+
+    // Tracks who is currently speaking (for chibi + highlight)
+    private string currentSpeaker = null;
+
     // <<showCharacter "Luna" at 200 -50>>
     [YarnCommand("showCharacter")]
     public void ShowCharacterAt(string characterName, string atKeyword, float x, float y)
@@ -159,40 +172,45 @@ public class SpriteBehavior : MonoBehaviour
         var data = database.GetCharacter(characterName);
         if (data == null) return;
 
-        // Remove if already exists
-        if (activePortraits.TryGetValue(characterName, out Image existing))
+        // Set as current speaker
+        currentSpeaker = characterName;
+
+        // Ensure portrait exists (create or update position)
+        if (!activePortraits.TryGetValue(characterName, out Image img))
         {
-            Destroy(existing.gameObject);
-            activePortraits.Remove(characterName);
+            GameObject go = Instantiate(portraitPrefab, portraitContainer);
+            img = go.GetComponent<Image>();
+            img.sprite = data.portrait;
+            img.preserveAspect = true;
+            img.SetNativeSize();
+            img.transform.localScale = Vector3.one * sizeMultiplier;
+            activePortraits[characterName] = img;
         }
 
-        // Create new
-        GameObject go = Instantiate(portraitPrefab, portraitContainer);
-        Image img = go.GetComponent<Image>();
-        img.sprite = data.portrait;
-        img.preserveAspect = true;
-        img.SetNativeSize();
-        img.color = new Color(1, 1, 1, 0); // start transparent
-        img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
-        img.transform.localScale = Vector3.one * sizeMultiplier;
+        // Animate in (if not already visible)
+        if (img.color.a < 1f)
+        {
+            img.color = new Color(1, 1, 1, 0);
+            img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
+            StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+        }
+        else
+        {
+            // Just update position instantly if already visible
+            img.rectTransform.anchoredPosition = new Vector2(x, y);
+        }
 
-        activePortraits[characterName] = img;
-        StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+        // Highlight this character, dim others
+        UpdatePortraitHighlights();
     }
 
-    // <<showChibi "Kai" at -150 -60>>
     [YarnCommand("showChibi")]
     public void ShowChibiAt(string characterName, string atKeyword, float x, float y)
     {
         var data = database.GetCharacter(characterName);
         if (data == null || data.chibiPortrait == null) return;
 
-        if (activePortraits.TryGetValue(characterName, out Image existing))
-        {
-            Destroy(existing.gameObject);
-            activePortraits.Remove(characterName);
-        }
-
+        // Create new chibi
         GameObject go = Instantiate(portraitPrefab, portraitContainer);
         Image img = go.GetComponent<Image>();
         img.sprite = data.chibiPortrait;
@@ -202,19 +220,91 @@ public class SpriteBehavior : MonoBehaviour
         img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
         img.transform.localScale = Vector3.one * chibiSizeMultiplier;
 
-        activePortraits[characterName] = img;
+        // Store as chibi (only one allowed)
+        currentChibi = img;
+        currentSpeaker = characterName;
+
         StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+        UpdatePortraitHighlights(); // in case main portraits exist
     }
 
-    // <<clearCharacters>>
+    // Helper: hide chibi
+    private Image currentChibi = null;
+    private void HideChibi()
+    {
+        if (currentChibi != null)
+        {
+            Destroy(currentChibi.gameObject);
+            currentChibi = null;
+        }
+    }
+
+    // Call this when a character starts speaking
+    public void SetActiveSpeaker(string speakerName)
+    {
+        // If speaker is null/empty, dim all
+        currentSpeaker = string.IsNullOrEmpty(speakerName) ? null : speakerName;
+        currentSpeaker = currentSpeaker.Replace(" ", "_");
+        UpdatePortraitHighlights(); // your existing method
+    }
+
+
+    private void UpdatePortraitHighlights()
+    {
+        if (activePortraits.Count == 0) return;
+
+        foreach (var kvp in activePortraits)
+        {
+            bool isActive = kvp.Key == currentSpeaker;
+            kvp.Value.color = Color.Lerp(
+                inactiveColor,
+                activeColor,
+                isActive ? 1f : 0f
+            );
+        }
+    }
+
+    //All - HighLightAll //None - Highlight None //Character[] Highlight Specific Characters
+    [YarnCommand("overridePortraitHighlight")]
+    public void OverridePortraitHighlight(string[] character)
+    {
+        
+
+        if (activePortraits.Count == 0) return;
+
+        if (character[0] == "All")
+            foreach (var kvp in activePortraits)
+            { kvp.Value.color = Color.Lerp(inactiveColor, activeColor, 1f); return; }
+
+        if (character[0] == "None")
+            foreach (var kvp in activePortraits)
+            { kvp.Value.color = Color.Lerp(inactiveColor, activeColor, 0f); return; }
+
+
+        foreach (var kvp in activePortraits)
+        {
+            string current = kvp.Key;
+            current.Replace(" ", "_");
+            bool isActive = System.Array.Exists(character, c => c == current);
+            kvp.Value.color = Color.Lerp(
+                inactiveColor,
+                activeColor,
+                isActive ? 1f : 0f
+            );
+        }
+    }
+
     [YarnCommand("clearCharacters")]
     public void ClearCharacters()
     {
         foreach (var img in activePortraits.Values)
             Destroy(img.gameObject);
         activePortraits.Clear();
-    }
 
+        HideChibi();
+        currentSpeaker = null;
+    }
+    
     // Reuse your fade logic for new portraits
     private IEnumerator FadeInAndMove(Image img, Vector2 targetPos)
     {
@@ -235,25 +325,37 @@ public class SpriteBehavior : MonoBehaviour
         img.color = c;
     }
 
-
+    #endregion
     #region BG
 
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Sprite defaultBackground;
 
     [YarnCommand("setBackground")]
-    public void SetBackground(Sprite bg = null)
+    public void SetBackground(string bg)
     {
-        if (bg == null)
-            bg = defaultBackground;
-
         if (bg == null)
         {
             backgroundImage.enabled = false;
             return;
         }
 
-        backgroundImage.sprite = bg;
+        if (bg == "defaultBackground")
+        {
+            backgroundImage.sprite = defaultBackground;
+            backgroundImage.enabled = true;
+            return;
+        }
+
+        Sprite sprite = backgroundDB.bgs.Find(c => c.name == bg).image;
+
+        if (sprite == null)
+        {
+            backgroundImage.enabled = false;
+            return;
+        }
+
+        backgroundImage.sprite = sprite;
         backgroundImage.enabled = true;
     }
 

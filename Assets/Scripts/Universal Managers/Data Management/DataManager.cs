@@ -48,9 +48,9 @@ public class DataManager : MonoBehaviour
             isDebug = true;
             if (isNewTestUser == true)
                 await CreateNewUser("0");
-             await InitDataManager();
+            await InitDataManager();
         }
-        
+
     }
 
     private void InitPlayerData()
@@ -83,6 +83,17 @@ public class DataManager : MonoBehaviour
             },
 
             unlockedAchievementIds = new List<string>() { },
+
+            unlockedKitchenTools = new Dictionary<string, int>
+                {
+                    { "Pot_1", 2 },
+                    { "Wok_1", 1 },
+                    { "Wok_2", 2 }, //Add
+                },
+            unlockedBuffs = new Dictionary<string, int>
+            {
+                {"BARAKO", 3},
+            }
         };
     }
 
@@ -140,7 +151,7 @@ public class DataManager : MonoBehaviour
             {
                 InventoryManager.inv.playerRepo.BeverageRepo.Add(bev);
             }
-    
+
         }
 
         foreach (string recipeId in playerData.unlockedRecipeIds)
@@ -193,6 +204,15 @@ public class DataManager : MonoBehaviour
             AchievementData ach = InventoryManager.inv.gameRepo.AchievementRepo.Find(b => b.entryID == achId);
             if (ach != null)
                 InventoryManager.inv.playerRepo.AchievementRepo.Add(ach);
+        }
+
+        //Buffs
+
+          foreach (string buffID in playerData.unlockedBuffs.Keys)
+        {
+            BuffData buff = InventoryManager.inv.gameRepo.BuffsRepo.Find(b => b.id  == buffID);
+            if (buff != null)
+                InventoryManager.inv.playerRepo.OwnedBuffs.Add(buffID, playerData.unlockedBuffs[buffID]);
         }
     }
 

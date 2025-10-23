@@ -6791,7 +6791,7 @@ MonoBehaviour:
   text: {fileID: 692823205}
   signInPrompt: {fileID: 438544701}
   signOutPrompt: {fileID: 332914072}
-  isDebug: 1
+  isDebug: 0
 --- !u!1001 &2039158293
 PrefabInstance:
   m_ObjectHideFlags: 0

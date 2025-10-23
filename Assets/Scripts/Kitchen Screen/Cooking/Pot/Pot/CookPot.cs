@@ -34,10 +34,11 @@ public class CookPot : DragAndDrop
         if (boilNode == null) boilNode = new BoilNode();
         if (boilNode.count < maxCount)
         {
+            boilNode.count = maxCount;
             UpdateBoilingState();
-            yield return animPot.AnimWater(hitCollider.gameObject);
 
-            boilNode.count++;
+            //Anim
+            yield return animPot.AnimWater(hitCollider.gameObject);
         }
 
         revertDefaults();
@@ -67,14 +68,16 @@ public class CookPot : DragAndDrop
             if (Debug.isDebugBuild) Debug.Log("No BoilNode Yet!");
             return;
         }
-        
+
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
         switch (type)
         {
             case "Salt":
-                seasoningNode.saltCount++; break;
+                if (seasoningNode.saltCount < maxCount)
+                    seasoningNode.saltCount++; break;
             case "Pepper":
-                seasoningNode.pepperCount++; break;
+                if (seasoningNode.pepperCount < maxCount)
+                    seasoningNode.pepperCount++; break;
             default:
                 break;
         }
@@ -157,22 +160,38 @@ public class CookPot : DragAndDrop
         {
             if (targetWok.mix_1_Node == null && boilNode != null)
             {
-                //Create and Transfer
+                //Block Transfer if
+                if (boilNode == null) { revertDefaults(); return; }
+                if (boilNode.count == 0) { revertDefaults(); return; }
+
+                if (targetWok.potGroup != null) { revertDefaults(); return; }
+                if (targetWok?.noodlesNode != null && targetWok.noodlesNode.count != 0) { revertDefaults(); return; }
+
+
+                //Create Pot Group
                 CreatePotNode();
                 targetWok.potGroup = potGroup;
 
-                //Anim
-                targetWok.animWok.ToggleBroth();
-                targetWok.animWok.ToggleSwirl();
+                //Anim Wok
+                targetWok.animWok.ToggleBroth(true);
+                targetWok.animWok.ToggleSwirl(true);
 
-                animPot.ClearPot();
 
-                //Simplified Reset, Does not account for large Bowls;
-                potGroup = null;
-                boilNode = null;
-                bonesNode = null;
-                seasoningNode = null;
+                //Reduce Count
+                if (boilNode.count > 0)
+                    boilNode.count--;
 
+                if (bonesNode.count > 0)
+                    bonesNode.count--;
+
+                if (seasoningNode.saltCount > 0)
+                    seasoningNode.saltCount--;
+
+                if (seasoningNode.pepperCount > 0)
+                    seasoningNode.pepperCount--;
+
+                //Anim Reduction
+                animPot.OnReduceWater();
                 if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
             }
 

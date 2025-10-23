@@ -16,9 +16,20 @@ public class RoundManager : MonoBehaviour
         public OrderNode order;
         public CustomerGroup customers;
         public float price;
+        public BuffData buff;
     }
     public Dictionary<int, Order> orders { set; get; } = new Dictionary<int, Order>();
     public OrderNode[] finishedOrders { set; get; }
+
+
+    //Buff
+    List<BuffData.Buff> moneyBuffs = new();
+    List<BuffData.Buff> happinessBuffs = new();
+    List<BuffData.Buff> timeBuffs = new();
+    List<BuffData.Buff> priceBuffs = new();
+    List<BuffData.Buff> scoreBuffs = new();
+    public BuffData activeBuffData { set; get; } = null;
+
     [SerializeField] private int customersToCall = 0, currentOrders = 0;
 
     [Header("Round Profile")]
@@ -47,6 +58,9 @@ public class RoundManager : MonoBehaviour
     //Prompts
     [SerializeField] private GameObject modalPrefab;
     [SerializeField] private GameObject modalCanvas;
+
+    //Dialogue
+    private List<string> eventsToPlay;
 
     [Header("Round Stats")]
     private float money = 0f;
@@ -262,10 +276,47 @@ public class RoundManager : MonoBehaviour
             starCount = 3, //adjust
         };
 
-        Debug.Log(DataManager.data.results);
+        string afterDialogue = $"{GameManager.instance.roundProfile.roundName}_After";
+        if (DataManager.data.playerData.dialogueFlags[afterDialogue])
+            AddToDialogueToPlay(afterDialogue);
+
+        PlayDialogue();
 
         //Goto
         GameManager.instance.NextScene("Results Screen");
+    }
+
+    public async void PlayDialogue()
+    {
+        foreach (string play in eventsToPlay)
+        {
+            if (!DataManager.data.playerData.dialogueFlags.TryGetValue(play, out bool played))
+                if (Debug.isDebugBuild) Debug.Log("Key does not exist.");
+
+            if (!played)
+            {
+                await DialogueManager.dialogueManager.PlayDialogue(play);
+
+                if (play.StartsWith("CE"))
+                {
+                    string charaName = "";
+                    Dictionary<string, object> updatedUnlockedSpecialNPC = new Dictionary<string, object> { { charaName, new List<bool> { true, true, true } } };
+                    await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object> { { "unlockedSpecialNPC", updatedUnlockedSpecialNPC } });
+
+                    Dictionary<string, object> updatedDialogueFlags = new Dictionary<string, object> { { play, true } };
+                    await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object> { { "dialogueFlags", updatedDialogueFlags } });
+
+                }
+                else
+                {
+                    Dictionary<string, object> updatedDialogueFlags = new Dictionary<string, object> { { play, true } };
+                    await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object> { { "dialogueFlags", updatedDialogueFlags } });
+
+                }
+
+            }
+        }
+
     }
 
     // Round Controls
@@ -309,29 +360,119 @@ public class RoundManager : MonoBehaviour
 
     public void OnCustomerGroupLeaveDined(CustomerGroup group)
     {
+        if (activeBuffData != null)
+        {
+            moneyBuffs = activeBuffData.buffs.FindAll(c => c.type == BuffData.BuffType.moneyBuff);
+            happinessBuffs = activeBuffData.buffs.FindAll(c => c.type == BuffData.BuffType.happinessBuff);
+            timeBuffs = activeBuffData.buffs.FindAll(c => c.type == BuffData.BuffType.energyBuff);
+            priceBuffs = activeBuffData.buffs.FindAll(c => c.type == BuffData.BuffType.priceBuff);
+            scoreBuffs = activeBuffData.buffs.FindAll(c => c.type == BuffData.BuffType.scoreBuff);
+        }
+
+
         float totalMoney = 0;
 
         float totalHappiness = 0;
 
         float finalScore = finishedOrders[group.orderID].weight;
 
+        //Apply Price Buffs
+        if (scoreBuffs != null)
+        {
+            foreach (var scoreBuff in scoreBuffs)
+            {
+                if (scoreBuff.addend > 0)
+                    finalScore += scoreBuff.addend;
+                if (scoreBuff.factor > 0f)
+                    finalScore += finalScore * scoreBuff.factor;
+                if (scoreBuff.subtrahend > 0f)
+                    finalScore -= scoreBuff.subtrahend;
+            }
+        }
+
         float finalPrice = orders[group.orderID].price;
 
-        float timeLeft = group.timer.elapsedTime / group.timer.totalTime;
+        //Apply Price Buffs
+        if (priceBuffs != null)
+        {
+            foreach (var priceBuff in priceBuffs)
+            {
+                if (priceBuff.addend > 0)
+                    finalPrice += priceBuff.addend;
+                if (priceBuff.factor > 0f)
+                    finalPrice += finalPrice * priceBuff.factor;
+                if (priceBuff.subtrahend > 0f)
+                    finalPrice -= priceBuff.subtrahend;
+            }
+        }
+
+        float elapsedTime = group.timer.elapsedTime;
+
+        //Apply Energy Buffs
+        if (timeBuffs != null)
+        {
+            foreach (var timeBuff in timeBuffs)
+            {
+                if (timeBuff.addend > 0)
+                    elapsedTime += timeBuff.addend;
+                if (timeBuff.factor > 0f)
+                    elapsedTime += elapsedTime * timeBuff.factor;
+                if (timeBuff.subtrahend > 0f)
+                    elapsedTime -= timeBuff.subtrahend;
+            }
+        }
+
+        float timeLeft = elapsedTime / group.timer.totalTime;
 
         foreach (Customer customer in group.transform.GetComponentsInChildren<Customer>())
             totalHappiness += 5;
 
         if (timeLeft >= 0.5f)
         {
-            totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * (1 + timeLeft));
+            totalMoney += Mathf.Max(finalScore * 0.01f * finalPrice * (1 + timeLeft));
             totalHappiness *= Mathf.Max(finalScore * 0.01f * (1 + timeLeft));
         }
         else
         {
-            totalMoney = Mathf.Max(finalScore * 0.01f * finalPrice * timeLeft, 0);
+            totalMoney += Mathf.Max(finalScore * 0.01f * finalPrice * timeLeft, 0);
             totalHappiness *= Mathf.Max(finalScore * 0.01f * timeLeft);
         }
+
+        //Apply Money Buffs
+        if (moneyBuffs != null)
+        {
+            foreach (var moneyBuff in moneyBuffs)
+            {
+                if (moneyBuff.addend > 0)
+                    totalMoney += moneyBuff.addend;
+                if (moneyBuff.factor > 0f)
+                    totalMoney += elapsedTime * moneyBuff.factor;
+                if (moneyBuff.subtrahend > 0f)
+                    totalMoney -= moneyBuff.subtrahend;
+            }
+        }
+
+        //Apply Happiness Buffs
+        if (happinessBuffs != null)
+        {
+            foreach (var happinessBuff in happinessBuffs)
+            {
+                if (happinessBuff.addend > 0)
+                    totalHappiness += happinessBuff.addend;
+                if (happinessBuff.factor > 0f)
+                    totalHappiness += elapsedTime * happinessBuff.factor;
+                if (happinessBuff.subtrahend > 0f)
+                    totalHappiness -= happinessBuff.subtrahend;
+            }
+        }
+
+        //Reset Buffs
+        moneyBuffs = new();
+        happinessBuffs =  new();
+        timeBuffs =  new();
+        priceBuffs =  new();
+        scoreBuffs = new();
+        activeBuffData = null;
 
         //Reset Table if no currency dropped
         if (!InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness))
@@ -340,7 +481,6 @@ public class RoundManager : MonoBehaviour
         InstCEDrop(group, finalScore);
         // if (!InstCEDrop(group, finalScore))
         //     group.tableDropZone.occupied = false;
-
 
         //Update Round
         currentOrders--;
@@ -430,6 +570,8 @@ public class RoundManager : MonoBehaviour
         OnCurrencyChange?.Invoke(this.money, this.happiness);
     }
 
+    public void AddToDialogueToPlay(string dialogueName) => eventsToPlay.Add(dialogueName);
+
     public void AddToppings(string id, int val)
     {
         //InventoryManager randomly
@@ -437,8 +579,14 @@ public class RoundManager : MonoBehaviour
 
     public void AddCE(string id)
     {
-        //InventoryManager
+        AddToDialogueToPlay(id);
     }
+
+    #endregion
+
+    #region Buff
+
+    public void AddCurrentBuff(BuffData buff) => activeBuffData = buff;
 
     #endregion
 }

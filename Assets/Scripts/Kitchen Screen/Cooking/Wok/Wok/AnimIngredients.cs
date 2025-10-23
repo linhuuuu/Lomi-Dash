@@ -34,14 +34,14 @@ public class AnimIngredients : MonoBehaviour
         ToggleActive(false);
     }
 
-    public void ToggleBawang() => bawang.SetActive(!bawang.activeSelf);
-    public void ToggleOnion() => onion.SetActive(!onion.activeSelf);
-    public void ToggleOil() => oil.SetActive(!oil.activeSelf);
-    public void ToggleNoodles() => noodles.SetActive(!noodles.activeSelf);
-    public void ToggleBroth() => broth.SetActive(!broth.activeSelf);
-    public void ToggleSwirl() => swirl.SetActive(!swirl.activeSelf);
-    public void ToggleEgg() => egg.SetActive(!egg.activeSelf);
-    public void ToggleThickener() => thickener.SetActive(!thickener.activeSelf);
+    public void ToggleBawang(bool val) => bawang.SetActive(val);
+    public void ToggleOnion(bool val) => onion.SetActive(val);
+    public void ToggleOil(bool val) => oil.SetActive(val);
+    public void ToggleBroth(bool val) => broth.SetActive(val);
+    public void ToggleNoodles(bool val) => noodles.SetActive(val);
+    public void ToggleSwirl(bool val) => swirl.SetActive(val);
+    public void ToggleEgg(bool val) => egg.SetActive(val);
+    public void ToggleThickener(bool val) => thickener.SetActive(val);
     public void ToggleActive(bool state)
     {
         foreach (GameObject obj in ingredientsList)

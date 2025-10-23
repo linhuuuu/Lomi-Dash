@@ -40,6 +40,8 @@ public class PlayerSaveData
     [FirestoreProperty]
     public List<string> unlockedStages { get; set; } = new List<string>();
 
+    [FirestoreProperty] public Dictionary<string, int> unlockedKitchenTools { get; set; } = new Dictionary<string, int>();
+
     [FirestoreProperty] public List<string> unlockedLocationIds { get; set; } = new List<string>();
 
     [FirestoreProperty] public List<string> unlockedTermIds { get; set; } = new List<string>();
@@ -47,6 +49,8 @@ public class PlayerSaveData
     [FirestoreProperty] public Dictionary<string, List<bool>> unlockedSpecialCustomerIds { get; set; } = new Dictionary<string, List<bool>>();
 
     [FirestoreProperty] public List<string> unlockedAchievementIds { get; set; } = new List<string>();
+
+    [FirestoreProperty] public Dictionary<string, int> unlockedBuffs { get; set; } = new Dictionary<string, int>();
     
     //Dialogue
     [FirestoreProperty]

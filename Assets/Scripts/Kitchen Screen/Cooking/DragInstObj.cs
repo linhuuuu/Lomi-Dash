@@ -9,6 +9,7 @@ public class DragInstObj : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = false;
     }
+    
     public void OnMouseDown()
     {
         sprite.enabled = true;

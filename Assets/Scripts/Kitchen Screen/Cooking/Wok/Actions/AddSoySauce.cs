@@ -14,10 +14,15 @@ public class AddSoySauce : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            targetWok.AddSoySauce();
-            revertDefaults();
-            return;
+            if (targetWok.mix_1_Node == null)
+            {
+                targetWok.AddSoySauce();
+                revertDefaults();
+                return;
+            }
+
         }
         revertDefaults();
+        return;
     }
 }

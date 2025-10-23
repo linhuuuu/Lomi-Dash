@@ -20,6 +20,10 @@ public class PrepTray : DragAndDrop
     [SerializeField] Transform[] beverages;
     [SerializeField] Transform[] seasoningTrays;
 
+    //Effects
+
+   
+
     void Start()
     {
         isLarge = true;

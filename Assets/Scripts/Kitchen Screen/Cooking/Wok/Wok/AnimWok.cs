@@ -7,15 +7,42 @@ public class AnimWok : AnimIngredients
 {
     private VisualStateLib lib;
     public VisualState state { set; get; } = new VisualState();
+    public int wokTier { set; get; }
+    [SerializeField] private Transform wokContentContainer;
     public CookWok cookWok;
+
 
 
     public void Start()
     {
+        //Check Availability
+        string wokObj = DataManager.data.playerData.unlockedKitchenTools.Keys.ToList().Find(c => c == gameObject.name);
+
+        if (wokObj == null) { gameObject.SetActive(false); return; }
+
+        //UpdatePot Tier
+        wokTier = DataManager.data.playerData.unlockedKitchenTools[wokObj];
+        if (wokTier > 1)
+            UpdateWokTier(wokTier);
+
+
+        //Library
         lib = RoundManager.roundManager.lib;
         state.brothSpriteColor = "original";
         state.swirlSpriteColor = "original";
     }
+
+    public void UpdateWokTier(int tier)
+    {
+        if (tier == 2)
+        {
+            transform.localScale = Vector3.one;
+
+            //Increase Capacity
+            cookWok.maxCount = 2;
+        }
+    }
+    
     public IEnumerator AddSoySauce()
     {
         float elapsed = 0f;
@@ -32,6 +59,7 @@ public class AnimWok : AnimIngredients
 
             yield return null;
         }
+
         //Upd State
         state.brothSpriteColor = colorKey;
         state.swirlSpriteColor = colorKey;
@@ -40,6 +68,17 @@ public class AnimWok : AnimIngredients
     public void MixWok()
     {
 
+    }
+
+    public void ResetBroth()
+    {
+
+    }
+
+    public void ReduceWokCount()
+    {
+        foreach (Transform t in wokContentContainer)
+            t.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
     }
 
     public void CreateWok()
@@ -53,5 +92,4 @@ public class AnimWok : AnimIngredients
         brothSprite.color = lib.brothColors["original"];
         swirlSprite.color = lib.swirlColors["original"];
     }
-
 }

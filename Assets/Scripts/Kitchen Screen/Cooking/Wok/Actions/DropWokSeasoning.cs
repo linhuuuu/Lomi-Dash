@@ -13,19 +13,14 @@ public class DropWokSeasoning : DragAndDrop
 
         if (hitCollider.tag == "Wok")
         {
-            if (hitCollider.TryGetComponent(out CookWok targetWok))
-            {
-                revertDefaults();
-                return;
-            }
+            if (!hitCollider.TryGetComponent(out CookWok targetWok)) {revertDefaults(); return;}
 
             if (targetWok.potGroup == null)
             {
-                // targetWok.SauteePan(seasoningName);
+                targetWok.SauteePan(seasoningName);
                 revertDefaults();
                 return;
             }
-
         }
         revertDefaults();
     }

@@ -48,6 +48,8 @@ public class MainScreenManager : MonoBehaviour
         }
 
         //Dialogue
+
+        //  DialogueManager.dialogueManager.dialogueObj.GetComponent<Canvas>().worldCamera = CameraManager.cam.mainCam;
         bool introFlag = DataManager.data.playerData.dialogueFlags["intro"];
         if (!introFlag)
         {

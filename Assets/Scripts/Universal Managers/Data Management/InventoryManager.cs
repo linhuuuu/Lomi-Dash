@@ -28,11 +28,18 @@ public class InventoryManager : MonoBehaviour
         public List<Topping> ToppingRepo = new();
         public List<Drop> DropsRepo = new();
         public List<Sprite> Icons = new();
+        public List<BuffData> BuffsRepo = new();
+
+      
 
         public List<LocationData> LocationRepo = new();
         public List<TermData> TermRepo = new();
         public List<SpecialNPCData> SpecialNPCRepo = new();
         public List<AchievementData> AchievementRepo = new();
+
+        // //Inventory
+        // public Dictionary<string, int> OwnedBuffs = new();
+       
     }
 
     public Repositories gameRepo;

@@ -6,7 +6,7 @@ public class DropPotSeasoning : DragAndDrop
     [SerializeField] private ReturnSeasoning returnButton;
     [SerializeField] private string seasoningName;
     private ShakePotSeasoning shakePotSeasoning;
-    
+
     void Start()
     {
         returnButton.SetTarget(this);
@@ -24,7 +24,7 @@ public class DropPotSeasoning : DragAndDrop
 
         if (hitCollider.tag == "Pot")
         {
-            if (!hitCollider.TryGetComponent(out CookPot targetPot)) return;
+            if (!hitCollider.TryGetComponent(out CookPot targetPot)) { revertDefaults(); return; }
 
             if (!targetPot.animPot.isSeasoningActive)
             {
@@ -43,5 +43,7 @@ public class DropPotSeasoning : DragAndDrop
             revertDefaults();
             return;
         }
+        revertDefaults();
+        return;
     }
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc4744366c1b574b9fbc6b666548027, type: 3}
+  m_Name: Kapeng Barako
+  m_EditorClassIdentifier: 
+  id: BARAKO
+  buffName: Name
+  description: Gives you 5 plus energy
+  sprite: {fileID: 2044697575, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
+  buffs:
+  - type: 2
+    factor: 0
+    subtrahend: 0
+    addend: 20
+  - type: 3
+    factor: 0
+    subtrahend: 100
+    addend: 0

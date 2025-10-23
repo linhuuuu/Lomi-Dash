@@ -25,12 +25,12 @@ public class LineReader : DialoguePresenterBase
 
         if (!string.IsNullOrEmpty(speakerName))
         {
-            spriteBehavior.ShowCharacter(speakerName);
+            spriteBehavior.SetActiveSpeaker(speakerName);
         }
 
         Debug.Log($"LineReader: {speakerName} says \"{text}\"");
 
-        // Instantly return so dialogue continues
+        // // Instantly return so dialogue continues
         return YarnTask.CompletedTask;
     }
 

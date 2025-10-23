@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using Yarn.Unity;
 
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private DialogueRunner dialogue;
     [SerializeField] private GameObject dialogueObj;
+    // [SerializeField] private Button DebugButton;
 
     public static DialogueManager dialogueManager;
 
@@ -16,12 +18,16 @@ public class DialogueManager : MonoBehaviour
         if (dialogueManager == null)
         {
             dialogueManager = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
-        else
-            Destroy(this.gameObject);
+        // else
+        //     // Destroy(gameObject);
+
+        // dialogueObj.SetActive(false);
+        // dialogueObj.GetComponent<Canvas>().worldCamera = CameraManager.cam.mainCam;
         dialogueObj.SetActive(false);
     }
+
 
     public async Task PlayDialogue(string dialogueName)
     {

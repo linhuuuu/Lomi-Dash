@@ -16,6 +16,7 @@ MonoBehaviour:
   level: 3
   location: 0
   difficulty: 3
+  requiredFame: 50
   isGroupCountOverriden: 0
   minCustomerGroupCount: 1
   maxCustomerGroupCount: 5

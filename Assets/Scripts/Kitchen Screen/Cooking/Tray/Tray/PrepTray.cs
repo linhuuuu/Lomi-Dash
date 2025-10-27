@@ -1,9 +1,8 @@
 using UnityEngine;
 using PCG;
 using System;
-using System.Linq;
-using System.Data.Common;
-public class PrepTray : DragAndDrop
+
+public class PrepTray : MonoBehaviour
 {
     public TrayRootNode trayNode { private set; get; }
     public bool isLarge { private set; get; }
@@ -19,10 +18,6 @@ public class PrepTray : DragAndDrop
     [SerializeField] Transform[] dishes;
     [SerializeField] Transform[] beverages;
     [SerializeField] Transform[] seasoningTrays;
-
-    //Effects
-
-   
 
     void Start()
     {

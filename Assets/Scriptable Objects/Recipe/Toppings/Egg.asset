@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea49fc41c2caf4bbf2327e095afaf9, type: 3}
   m_Name: Egg
   m_EditorClassIdentifier: 
-  id: 0
-  toppingName: Egg
-  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  id: 
+  toppingName: EGG
+  sprite: {fileID: 2055679956, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}

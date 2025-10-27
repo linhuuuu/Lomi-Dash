@@ -1,5 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 public class DragAndDrop : MonoBehaviour
 {
     protected Collider col;
@@ -9,10 +13,12 @@ public class DragAndDrop : MonoBehaviour
     public int originalSortingOrder { set; get; }
     public int originalSortingGroupOrder { set; get; }
     public string originalSortingGroup { set; get; }
+    public string originalSortingLayer { set; get; }
     public Vector3 originalLocalPosition { set; get; }
     public Transform parent { set; get; }
     protected Collider hitCollider;
 
+    private bool isDragged = false;
 
     private LayerMask interactable;
     private float zOffset;
@@ -40,6 +46,8 @@ public class DragAndDrop : MonoBehaviour
             originalSortingGroupOrder = group.sortingOrder;
         }
 
+        originalSortingLayer = sprite.sortingLayerName;
+
         parent = transform.parent;
 
         interactable += 1 << 8; //interactables are at layer 8
@@ -47,12 +55,20 @@ public class DragAndDrop : MonoBehaviour
         interactable += 1 << 12; //Tray Slots is at layer 10
     }
 
+
     private void OnMouseDown()
     {
+        if (UIUtils.IsPointerOverUI()) { revertDefaults(); return; }
+
+        CameraDragZoomControl.isCameraDraggingEnabled = false;
+
         zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
 
         if (sortingGroup != null)
             sortingGroup.sortingLayerName = "OnDrag";
+
+        if (sortingGroup == null)
+            sprite.sortingLayerName = "OnDrag";
 
         if (transform.childCount > 0)
         {
@@ -67,13 +83,35 @@ public class DragAndDrop : MonoBehaviour
         }
     }
 
+
     private void OnMouseDrag()
     {
+        if (UIUtils.IsPointerOverUI() && !isDragged) { revertDefaults(); return; }
+
         Vector3 screenPos = Input.mousePosition;
         screenPos.z = zOffset;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
 
         transform.position = worldPos;
+
+        AutoNudgeKitchen(screenPos);
+        isDragged = true;
+    }
+
+    private void AutoNudgeKitchen(Vector3 screenPos)
+    {
+        if (KitchenDrag.Instance == null) return;
+
+        float edgeThreshold = 200f;
+
+        if (screenPos.x < edgeThreshold)
+        {
+            KitchenDrag.Instance.NudgeKitchen(1f); // move kitchen left  
+        }
+        else if (screenPos.x > Screen.width - edgeThreshold)
+        {
+            KitchenDrag.Instance.NudgeKitchen(-1f); // move kitchen right
+        }
     }
 
     protected Vector3 GetMousePositionInWorldSpace()
@@ -85,14 +123,19 @@ public class DragAndDrop : MonoBehaviour
 
     protected void revertDefaults()
     {
+        CameraDragZoomControl.isCameraDraggingEnabled = false;
         transform.SetParent(parent);
         transform.localPosition = originalLocalPosition;
+        isDragged = false;
 
         if (sortingGroup != null)
         {
             sortingGroup.sortingLayerName = originalSortingGroup;
             sortingGroup.sortingOrder = originalSortingGroupOrder;
         }
+
+        if (sortingGroup == null)
+            sprite.sortingLayerName = originalSortingLayer;
 
         if (transform.childCount > 0)
         {

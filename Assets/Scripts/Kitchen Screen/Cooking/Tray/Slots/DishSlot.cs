@@ -1,6 +1,7 @@
 using PCG;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Rendering;
 
 public class DishSlot : MonoBehaviour
 {
@@ -36,13 +37,14 @@ public class DishSlot : MonoBehaviour
         incomingDish.transform.localPosition = new Vector3(0f, 0f, 0f);
 
         // Sorting order
-        SpriteRenderer dishRenderer = incomingDish.GetComponent<SpriteRenderer>();
+        SortingGroup dishRenderer = incomingDish.GetComponent<SortingGroup>();
         dishRenderer.sortingOrder = dishPosSortingOrder + 1;
 
         // Store positions
         incomingDish.originalLocalPosition = new Vector3(0f, 0f, 0f);
         myDish.parent = transform;
         incomingDish.originalSortingOrder = dishRenderer.sortingOrder;
+        incomingDish.originalSortingGroupOrder = dishRenderer.sortingOrder;
 
         //toggle collider
         slotCollider.enabled = false;

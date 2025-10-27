@@ -86,7 +86,7 @@ public class RoundManager : MonoBehaviour
         else
             this.enabled = false;
 
-        Time.timeScale = 4f;
+        // Time.timeScale = 4f;
     }
 
     async void Start()

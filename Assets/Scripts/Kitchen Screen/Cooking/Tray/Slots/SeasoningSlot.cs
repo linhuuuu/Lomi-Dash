@@ -4,85 +4,56 @@ using UnityEngine;
 
 public class SeasoningSlot : MonoBehaviour
 {
-    List<GameObject> seasoningTrays = new List<GameObject>();
-    PrepTray tray;
-    Collider col;
+    public int seasoningTrayCount { set; get; }
+    private PrepTray tray;
+    private Collider col;
+    [SerializeField] private SpriteRenderer seasoningTrayObj;
+
     void Awake()
     {
         transform.parent.TryGetComponent(out PrepTray targetTray);
         tray = targetTray;
         col = transform.GetComponent<Collider>();
-
     }
 
-    public void ToggleCollidersOff()
+    public void AddToStack()
     {
-        if (seasoningTrays.Count == 1)
-            col.enabled = false;
-        else
-            seasoningTrays[seasoningTrays.Count - 2].GetComponent<Collider>().enabled = false;
-    }
 
-    public void ToggleCollidersOn()
-    {
-        if (seasoningTrays.Count == 0)
-            col.enabled = true;
-        else
-            seasoningTrays[seasoningTrays.Count - 1].GetComponent<Collider>().enabled = true;
-    }
-
-    public void AddToStack(GameObject obj)
-    {
         // Add Seasoning
         tray.AddSeasoningTray();
+        seasoningTrayCount++;
 
-        // Final Pos
-        Vector3 finalLocalPos = Vector3.zero;
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            finalLocalPos += new Vector3(0f, 0.5f, 0f);
-        }
+        if (seasoningTrayCount == 1)
+            col.enabled = false;
 
-        // Instantiate
-        var newSeasoningTray = Instantiate(obj, transform.position, Quaternion.identity, transform);
-        newSeasoningTray.transform.localRotation = Quaternion.identity;
-        newSeasoningTray.transform.localPosition = new Vector3(0f, 5f, 0f);
-
-        seasoningTrays.Add(newSeasoningTray);
-
-        // Animate down
-        LeanTween.moveLocal(newSeasoningTray, finalLocalPos, 0.2f).setEaseInOutBounce();
-
-        // Init
-        var sr = newSeasoningTray.GetComponent<SpriteRenderer>();
-        var pt = newSeasoningTray.GetComponent<SeasoningTray>();
-
-        if (sr != null)
-        {
-            sr.sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder + transform.childCount;
-        }
-
-        if (pt != null)
-        {
-            pt.originalLocalPosition = finalLocalPos;
-            pt.originalSortingOrder = sr.sortingOrder;
-            pt.seasoningSlot = this;
-        }
-
-        ToggleCollidersOff();
+        //Anim
+        seasoningTrayObj.sprite = RoundManager.roundManager.lib.seasoningTrayStates[seasoningTrayCount.ToString()];
     }
 
     public void RemoveStack()
     {
-        //Remove Stack
-        GameObject toRemove = seasoningTrays[seasoningTrays.Count-1];
-        seasoningTrays.Remove(toRemove);
-        Destroy(toRemove);
-        ToggleCollidersOn();
-
         //Remove Seasoning 
         tray.RemoveSeasoningTray();
+        seasoningTrayCount--;
 
+        if (seasoningTrayCount == 0)
+        {
+            seasoningTrayObj.sprite = null;
+            col.enabled = true;
+        }
+        else
+            seasoningTrayObj.sprite = RoundManager.roundManager.lib.seasoningTrayStates[seasoningTrayCount.ToString()];
+    }
+
+    public void RemoveAllStack()
+    {
+        //Remove Seasoning 
+        for (int i = 0; i < seasoningTrayCount; i++)
+            tray.RemoveSeasoningTray();
+
+        seasoningTrayCount = 0;
+        seasoningTrayObj.sprite = null;
+        col.enabled = true;
     }
 
 }

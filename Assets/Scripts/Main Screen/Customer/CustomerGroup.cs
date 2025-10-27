@@ -14,6 +14,7 @@ public class CustomerGroup : MonoBehaviour
     public Vector3 originalLocalPosition { set; get; }
     public bool snapped { set; get; }
 
+
     //Collider To Be Hit
     private Collider hitCollider;
     private LayerMask tableLayer;
@@ -38,6 +39,7 @@ public class CustomerGroup : MonoBehaviour
     private OrderQueueObj orderQueueObj;
     private UIModal modal;
     private List<Sprite> portraits;
+    
 
     private void Awake()
     {
@@ -55,10 +57,16 @@ public class CustomerGroup : MonoBehaviour
     #region Dragging
     private void OnMouseDown()
     {
+
         if (snapped) return;
+
+        CameraDragZoomControl.isCameraDraggingEnabled = false;
 
         zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
         originalLocalPosition = transform.position;
+
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -15);
+
     }
 
     private void OnMouseDrag()
@@ -70,10 +78,13 @@ public class CustomerGroup : MonoBehaviour
 
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
         transform.position = worldPos;
+
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -15);
     }
 
     private void OnMouseUp()
     {
+        CameraDragZoomControl.isCameraDraggingEnabled = true;
         //Validate and Fire Raycast
         if (snapped) return;
         if (!RayCast()) { revertDefaults(); return; }

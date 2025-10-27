@@ -3,19 +3,24 @@ using UnityEngine.UI;
 using System.Collections;
 using Yarn.Unity;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 
 public class SpriteBehavior : MonoBehaviour
 {
-    [Header("Main Portrait References")]
 
-    [SerializeField] private Image portraitImage;
+    [Header("Main Portrait References")]
     [SerializeField] private GameObject portraitPrefab;
     [SerializeField] private RectTransform portraitContainer;
+    [SerializeField] private TextMeshProUGUI characterName;
 
     [Header("Chibi Portrait References")]
     [SerializeField] private Image chibiImage;
-    [SerializeField] private RectTransform chibiTransform;
+
+    [Header("Background References")]
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Sprite defaultBackground;
 
     [Header("Data Source")]
     [SerializeField] private CharacterDatabase database;
@@ -24,230 +29,262 @@ public class SpriteBehavior : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float fadeDuration = 0.3f;
     [SerializeField] private float moveOffset = 30f;
-    [SerializeField, Range(0.5f, 1f)] private float sizeMultiplier = 0.9f; // scale for main portrait
-    [SerializeField, Range(0.3f, 1f)] private float chibiSizeMultiplier = 0.8f; // separate chibi scale
+    [SerializeField, Range(0.5f, 1f)] private float sizeMultiplier = 0.9f;
 
-    private Coroutine currentTransition;
-    private string currentCharacterName;
-    private Dictionary<string, Image> activePortraits = new Dictionary<string, Image>();
+    [Header("Visual States")]
+    [SerializeField] private Color activeColor = Color.white;
+    [SerializeField] private Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 1f);
 
-    public void ShowCharacter(string characterName)
-    {
-        var data = database.GetCharacter(characterName);
-        if (data == null)
-        {
-            Debug.LogWarning($"Character '{characterName}' not found in database!");
-            return;
-        }
+    //Curent Data
+    private string currentSpeaker = null;
+    private Dictionary<string, Image> activePortraits = new();
 
-        // 👇 If it's the same character, skip fade/transition
-        if (currentCharacterName == characterName)
-        {
-            UpdateChibi(data);
-            return;
-        }
 
-        // 👇 Otherwise, transition to new one
-        if (currentTransition != null)
-            StopCoroutine(currentTransition);
-
-        currentTransition = StartCoroutine(TransitionToCharacter(data));
-        currentCharacterName = characterName; // remember who’s active
-    }
+    #region Runtime Control
 
     public void HidePortraits()
     {
-        if (currentTransition != null)
-            StopCoroutine(currentTransition);
-
-        currentCharacterName = null; // reset
-        currentTransition = StartCoroutine(FadeOutMainOnly());
-        HideChibiInstantly();
+        FadeOutAllMainPortraits();
+        HideChibi();
+        currentSpeaker = null;
     }
 
-    private IEnumerator TransitionToCharacter(CharacterDatabase.CharacterData data)
+    public void ShowPortraits()
     {
-        // Fade out main portrait only if something is visible
-        if (portraitImage.sprite != null && portraitImage.enabled)
-            yield return FadeOutMainOnly();
-
-        // --- MAIN PORTRAIT ---
-        portraitImage.sprite = data.portrait;
-        portraitContainer.anchoredPosition = data.anchoredPosition;
-        portraitImage.preserveAspect = true;
-        portraitImage.SetNativeSize();
-        portraitContainer.localScale = Vector3.one * sizeMultiplier;
-        portraitImage.enabled = true;
-
-        // --- CHIBI PORTRAIT ---
-        UpdateChibi(data);
-
-        // --- MAIN PORTRAIT TRANSITION ---
-        Vector2 startPos = data.anchoredPosition + new Vector2(moveOffset, 0);
-        Vector2 endPos = data.anchoredPosition;
-
-        float elapsed = 0f;
-        Color c = portraitImage.color;
-        c.a = 0f;
-        portraitImage.color = c;
-        portraitContainer.anchoredPosition = startPos;
-
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / fadeDuration);
-
-            c.a = t;
-            portraitImage.color = c;
-            portraitContainer.anchoredPosition = Vector2.Lerp(startPos, endPos, Mathf.SmoothStep(0, 1, t));
-            yield return null;
-        }
-
-        c.a = 1f;
-        portraitImage.color = c;
-        portraitContainer.anchoredPosition = endPos;
-        currentTransition = null;
+        FadeInAllMainPortraits();
+        if (!string.IsNullOrEmpty(currentSpeaker))
+            UpdateChibi(currentSpeaker);
     }
 
-    private void UpdateChibi(CharacterDatabase.CharacterData data)
+    public void SetActiveSpeaker(string speakerName)
     {
-        if (data.chibiPortrait != null)
+        currentSpeaker = speakerName;
+
+        if (currentSpeaker.Contains("_"))
+            characterName.text = currentSpeaker.Replace("_", " ");
+
+        if (currentSpeaker.EndsWith("?"))
         {
-            chibiImage.sprite = data.chibiPortrait;
-            chibiImage.preserveAspect = true;
-            chibiImage.SetNativeSize();
-            chibiTransform.localScale = Vector3.one * chibiSizeMultiplier;
-            chibiImage.enabled = true;
+            currentSpeaker = currentSpeaker.TrimEnd("?");
+            characterName.text = $"???";
         }
+
+        UpdatePortraitHighlights();
+
+        if (!string.IsNullOrEmpty(currentSpeaker))
+            UpdateChibi(currentSpeaker);
         else
-        {
-            chibiImage.enabled = false;
-        }
+            HideChibi();
     }
 
-    private IEnumerator FadeOutMainOnly()
-    {
-        float elapsed = 0f;
-        Color c = portraitImage.color;
-        Vector2 originalPos = portraitContainer.anchoredPosition;
-        Vector2 endPos = originalPos - new Vector2(moveOffset, 0);
+    #endregion
+    #region Command Portrait Control
 
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / fadeDuration);
-
-            c.a = 1f - t;
-            portraitImage.color = c;
-            portraitContainer.anchoredPosition = Vector2.Lerp(originalPos, endPos, Mathf.SmoothStep(0, 1, t));
-            yield return null;
-        }
-
-        c.a = 0f;
-        portraitImage.color = c;
-        portraitImage.enabled = false;
-        portraitContainer.anchoredPosition = originalPos;
-        currentTransition = null;
-    }
-
-    private void HideChibiInstantly()
-    {
-        chibiImage.enabled = false;
-    }
-
-
-    #region Characters
-
-    // For shadow/highlight effect
-    [SerializeField] private Color activeColor = Color.white;      // full brightness
-    [SerializeField] private Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 1f); // dimmed
-
-    // Tracks who is currently speaking (for chibi + highlight)
-    private string currentSpeaker = null;
-
-    // <<showCharacter "Luna" at 200 -50>>
     [YarnCommand("showCharacter")]
     public void ShowCharacterAt(string characterName, string atKeyword, float x, float y)
     {
         var data = database.GetCharacter(characterName);
         if (data == null) return;
 
-        // Set as current speaker
         currentSpeaker = characterName;
 
-        // Ensure portrait exists (create or update position)
         if (!activePortraits.TryGetValue(characterName, out Image img))
         {
             GameObject go = Instantiate(portraitPrefab, portraitContainer);
             img = go.GetComponent<Image>();
-            img.sprite = data.portrait;
+            img.sprite = data.defaultSprite;
             img.preserveAspect = true;
             img.SetNativeSize();
             img.transform.localScale = Vector3.one * sizeMultiplier;
-            activePortraits[characterName] = img;
-        }
-
-        // Animate in (if not already visible)
-        if (img.color.a < 1f)
-        {
             img.color = new Color(1, 1, 1, 0);
             img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
-            StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
+            activePortraits[characterName] = img;
+
+            FadeInAndMove(img, new Vector2(x, y));
         }
         else
         {
-            // Just update position instantly if already visible
             img.rectTransform.anchoredPosition = new Vector2(x, y);
         }
 
-        // Highlight this character, dim others
+        UpdateChibi(characterName);
         UpdatePortraitHighlights();
     }
 
-    [YarnCommand("showChibi")]
-    public void ShowChibiAt(string characterName, string atKeyword, float x, float y)
+    [YarnCommand("changeCharacterSprite")]
+    public void ChangeCharacterSprite(string character, string emotion)
     {
-        var data = database.GetCharacter(characterName);
-        if (data == null || data.chibiPortrait == null) return;
+        var data = database.GetCharacter(character);
+        activePortraits.TryGetValue(character, out Image img);
+        Sprite newSprite = data.sprites.Find(c => c.id == emotion).sprite;
 
-        // Create new chibi
-        GameObject go = Instantiate(portraitPrefab, portraitContainer);
-        Image img = go.GetComponent<Image>();
-        img.sprite = data.chibiPortrait;
-        img.preserveAspect = true;
-        img.SetNativeSize();
-        img.color = new Color(1, 1, 1, 0);
-        img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
-        img.transform.localScale = Vector3.one * chibiSizeMultiplier;
-
-        // Store as chibi (only one allowed)
-        currentChibi = img;
-        currentSpeaker = characterName;
-
-        StartCoroutine(FadeInAndMove(img, new Vector2(x, y)));
-        UpdatePortraitHighlights(); // in case main portraits exist
+        if (newSprite != null)
+            img.sprite = newSprite;
     }
 
-    // Helper: hide chibi
-    private Image currentChibi = null;
-    private void HideChibi()
+    [YarnCommand("clearCharacters")]
+    public void ClearCharacters(string[] targets)
     {
-        if (currentChibi != null)
+        if (targets == null || targets.Length == 0)
         {
-            Destroy(currentChibi.gameObject);
-            currentChibi = null;
+            Debug.LogWarning("No target provided to <<clearCharacters>>");
+            return;
+        }
+
+        string command = targets[0].Trim();
+
+        if (command.Equals("All", System.StringComparison.OrdinalIgnoreCase))
+        {
+            FadeOutAllMainPortraits();
+            activePortraits.Clear();
+            HideChibi();
+            currentSpeaker = null;
+            return;
+        }
+
+        // Handle one or more specific characters
+        foreach (string name in targets)
+        {
+            string cleanName = name.Trim();
+            if (activePortraits.TryGetValue(cleanName, out Image img))
+            {
+                StartCoroutine(FadeOutAndRemove(img));
+                activePortraits.Remove(cleanName);
+
+                if (currentSpeaker == cleanName)
+                {
+                    currentSpeaker = null;
+                    HideChibi();
+                }
+            }
+        }
+
+        UpdatePortraitHighlights();
+    }
+
+    [YarnCommand("moveCharacter")]
+    public void MoveCharacterTo(string characterName, string toKeyword, float x, float y)
+    {
+        if (activePortraits.TryGetValue(characterName, out Image img))
+        {
+            RectTransform rt = img.rectTransform;
+
+            LeanTween.cancel(rt.gameObject);
+
+            LeanTween.value(rt.gameObject,
+                (Vector2 val) => { rt.anchoredPosition = val; },
+                rt.anchoredPosition,
+                new Vector2(x, y),
+                fadeDuration)
+                .setEase(LeanTweenType.easeInOutSine);
         }
     }
 
-    // Call this when a character starts speaking
-    public void SetActiveSpeaker(string speakerName)
+    [YarnCommand("overridePortraitHighlight")]
+    public void OverridePortraitHighlight(string[] characters)
     {
-        // If speaker is null/empty, dim all
-        currentSpeaker = string.IsNullOrEmpty(speakerName) ? null : speakerName;
-        currentSpeaker = currentSpeaker.Replace(" ", "_");
-        UpdatePortraitHighlights(); // your existing method
+        if (activePortraits.Count == 0) return;
+
+        if (characters[0] == "All")
+        {
+            foreach (var kvp in activePortraits)
+                kvp.Value.color = activeColor;
+            return;
+        }
+
+        if (characters[0] == "None")
+        {
+            foreach (var kvp in activePortraits)
+                kvp.Value.color = inactiveColor;
+            return;
+        }
+
+        foreach (var kvp in activePortraits)
+        {
+            string key = kvp.Key.Replace(" ", "_");
+            bool isActive = System.Array.Exists(characters, c => c == key);
+            kvp.Value.color = isActive ? activeColor : inactiveColor;
+        }
     }
 
+    #endregion
+    #region  Portrait Helpers
+
+    private void FadeOutAllMainPortraits()
+    {
+        foreach (var img in activePortraits.Values)
+        {
+            if (img != null)
+            {
+                LeanTween.cancel(img.rectTransform);
+                LeanTween.alpha(img.rectTransform, 0f, fadeDuration);
+            }
+        }
+    }
+    private void FadeInAllMainPortraits()
+    {
+        foreach (var img in activePortraits.Values)
+        {
+            if (img != null)
+            {
+                Color c = img.color;
+                c.a = 0f;
+                img.color = c;
+                img.enabled = true;
+
+                LeanTween.cancel(img.rectTransform);
+                LeanTween.alpha(img.rectTransform, 1f, fadeDuration);
+            }
+        }
+    }
+
+    private void FadeInAndMove(Image img, Vector2 targetPos)
+    {
+        if (img == null) return;
+
+        LeanTween.cancel(img.rectTransform);
+
+        Color color = img.color;
+        color.a = 0f;
+        img.color = color;
+        img.rectTransform.anchoredPosition += new Vector2(moveOffset, 0);
+
+        LeanTween.alpha(img.rectTransform, 1f, fadeDuration);
+        LeanTween.value(img.rectTransform.gameObject,
+            (float t) => { },
+            0f, 1f, fadeDuration)
+            .setOnUpdate((float t) =>
+            {
+                float easeT = Mathf.SmoothStep(0, 1, t);
+                img.rectTransform.anchoredPosition = Vector2.Lerp(
+                    img.rectTransform.anchoredPosition,
+                    targetPos,
+                    easeT
+                );
+            });
+    }
+
+    private IEnumerator FadeOutAndRemove(Image img)
+    {
+        float elapsed = 0f;
+        Vector2 startPos = img.rectTransform.anchoredPosition;
+        Vector2 endPos = startPos - new Vector2(moveOffset, 0);
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+            float easeT = Mathf.SmoothStep(0, 1, t);
+
+            Color c = img.color;
+            c.a = 1f - t;
+            img.color = c;
+            img.rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, easeT);
+            yield return null;
+        }
+
+        img.enabled = false;
+    }
 
     private void UpdatePortraitHighlights()
     {
@@ -256,107 +293,87 @@ public class SpriteBehavior : MonoBehaviour
         foreach (var kvp in activePortraits)
         {
             bool isActive = kvp.Key == currentSpeaker;
-            kvp.Value.color = Color.Lerp(
-                inactiveColor,
-                activeColor,
-                isActive ? 1f : 0f
-            );
+            kvp.Value.color = isActive ? activeColor : inactiveColor;
         }
-    }
-
-    //All - HighLightAll //None - Highlight None //Character[] Highlight Specific Characters
-    [YarnCommand("overridePortraitHighlight")]
-    public void OverridePortraitHighlight(string[] character)
-    {
-        
-
-        if (activePortraits.Count == 0) return;
-
-        if (character[0] == "All")
-            foreach (var kvp in activePortraits)
-            { kvp.Value.color = Color.Lerp(inactiveColor, activeColor, 1f); return; }
-
-        if (character[0] == "None")
-            foreach (var kvp in activePortraits)
-            { kvp.Value.color = Color.Lerp(inactiveColor, activeColor, 0f); return; }
-
-
-        foreach (var kvp in activePortraits)
-        {
-            string current = kvp.Key;
-            current.Replace(" ", "_");
-            bool isActive = System.Array.Exists(character, c => c == current);
-            kvp.Value.color = Color.Lerp(
-                inactiveColor,
-                activeColor,
-                isActive ? 1f : 0f
-            );
-        }
-    }
-
-    [YarnCommand("clearCharacters")]
-    public void ClearCharacters()
-    {
-        foreach (var img in activePortraits.Values)
-            Destroy(img.gameObject);
-        activePortraits.Clear();
-
-        HideChibi();
-        currentSpeaker = null;
-    }
-    
-    // Reuse your fade logic for new portraits
-    private IEnumerator FadeInAndMove(Image img, Vector2 targetPos)
-    {
-        float elapsed = 0;
-        Color c = img.color;
-        Vector2 startPos = img.rectTransform.anchoredPosition;
-
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / fadeDuration);
-            c.a = t;
-            img.color = c;
-            img.rectTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, Mathf.SmoothStep(0, 1, t));
-            yield return null;
-        }
-        c.a = 1;
-        img.color = c;
     }
 
     #endregion
-    #region BG
+    #region  Chibi
 
-    [SerializeField] private Image backgroundImage;
-    [SerializeField] private Sprite defaultBackground;
+    private void UpdateChibi(string characterName)
+    {
+        var data = database.GetCharacter(characterName);
+        if (data != null && data.chibiPortrait != null)
+        {
+            chibiImage.sprite = data.chibiPortrait;
+            chibiImage.SetNativeSize();
+            chibiImage.preserveAspect = true;
+            chibiImage.enabled = true;
+        }
+        else
+        {
+            chibiImage.enabled = false;
+        }
+    }
+
+    [YarnCommand("showChibi")]
+    public void ShowChibi(string characterName)
+    {
+        currentSpeaker = characterName;
+        UpdateChibi(characterName);
+    }
+
+    [YarnCommand("hideChibi")]
+    public void HideChibi()
+    {
+        chibiImage.enabled = false;
+    }
+
+    // [YarnCommand("overrideChibi")]
+    // public void OverrideChibi(string characterName)
+    // {
+    //     var data = database.GetCharacter(characterName);
+    //     if (data != null && data.chibiPortrait != null)
+    //     {
+    //         chibiImage.sprite = data.chibiPortrait;
+    //         chibiImage.SetNativeSize();
+    //         chibiImage.preserveAspect = true;
+    //         chibiImage.enabled = true;
+    //     }
+    //     else
+    //         chibiImage.enabled = false;
+    // }
+
+    #endregion
+    #region Background
 
     [YarnCommand("setBackground")]
     public void SetBackground(string bg)
     {
-        if (bg == null)
+        if (string.IsNullOrEmpty(bg) || bg == null)
         {
             backgroundImage.enabled = false;
             return;
         }
 
-        if (bg == "defaultBackground")
+        if (bg == "Default")
         {
             backgroundImage.sprite = defaultBackground;
             backgroundImage.enabled = true;
             return;
         }
 
-        Sprite sprite = backgroundDB.bgs.Find(c => c.name == bg).image;
-
-        if (sprite == null)
+        var entry = backgroundDB.bgs.Find(c => c.name == bg);
+        if (entry != null && entry.image != null)
+        {
+            backgroundImage.sprite = entry.image;
+            backgroundImage.enabled = true;
+        }
+        else
         {
             backgroundImage.enabled = false;
-            return;
+           
         }
-
-        backgroundImage.sprite = sprite;
-        backgroundImage.enabled = true;
     }
 
     [YarnCommand("hideBackground")]

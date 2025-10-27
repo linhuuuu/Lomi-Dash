@@ -8,6 +8,7 @@ public class InstToppings : DragAndDrop
     [SerializeField] private GameObject objPrefab; //Get From Prefs
     [SerializeField] private bool available; //Get From Prefs
     [SerializeField] private Vector3 spawnPos = new Vector3(100f, 20f, 0f);
+    private SpriteRenderer spriteRenderer;
     private int poolAvailable;
     private int poolMeter;
 

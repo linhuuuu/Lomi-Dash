@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainScreenManager : MonoBehaviour
 {
     [SerializeField] private Canvas openScreen;
     [SerializeField] private Canvas closedScreen;
+  
     [field: SerializeField] public Canvas kitchenScreen { private set; get; }
     public Canvas activeScreen;
 
@@ -24,7 +26,10 @@ public class MainScreenManager : MonoBehaviour
 
         if (activeScreen)
             activeScreen.enabled = true;
+
+      
     }
+
 
     async void Start()
     {

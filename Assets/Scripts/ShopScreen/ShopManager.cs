@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ShopScreenManager : MonoBehaviour
@@ -49,6 +50,39 @@ public class ShopScreenManager : MonoBehaviour
     private bool activeCurrency = false; //0 Money, 1 Voucher
 
 
+
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            PointerEventData eventData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+
+            if (results.Count == 0)
+            {
+                Debug.Log("<color=red>[UI Debug] No UI elements hit!</color>");
+                return;
+            }
+
+            Debug.Log($"<color=green>[UI Debug] {results.Count} UI element(s) under cursor:</color>");
+            for (int i = 0; i < results.Count; i++)
+            {
+                var go = results[i].gameObject;
+                bool raycastTarget = false;
+                var graphic = go.GetComponent<UnityEngine.UI.Graphic>();
+                if (graphic != null) raycastTarget = graphic.raycastTarget;
+
+                Debug.Log($"  [{i}] {go.name} | RaycastTarget: {raycastTarget} | Component: {go.GetComponent<Component>()?.GetType().Name}", go);
+            }
+        }
+    }
+
     void Awake()
     {
         buffsAvailable = DataManager.data.playerData.unlockedBuffs;
@@ -72,23 +106,24 @@ public class ShopScreenManager : MonoBehaviour
 
         //SetInit
         activeScreen.SetActive(false);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(activeScreen.GetComponent<RectTransform>());
     }
 
-    public async void OnPurchaseSingle(float amount)
-    {
-        UpdateCurrency(amount, 1);
-        await OnPurchase();
-    }
+    // public async void OnPurchaseSingle(float amount)
+    // {
+    //     // UpdateCurrency(amount, 1);
+    //     // await OnPurchase();
+    // }
 
-    async Task OnPurchase()
-    {
-        //Load waiting Screen
-        //await Add to Database then playerData
+    // async Task OnPurchase()
+    // {
+    //     //Load waiting Screen
+    //     //await Add to Database then playerData
 
-        //Update Screens
-        totalCost = 0;
-        totalVouchers = 0;
-    }
+    //     //Update Screens
+    //     totalCost = 0;
+    //     totalVouchers = 0;
+    // }
 
     void UpdateCurrency(float cost, int amount)
     {

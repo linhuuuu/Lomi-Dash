@@ -93,7 +93,16 @@ public class DataManager : MonoBehaviour
             unlockedBuffs = new Dictionary<string, int>
             {
                 {"BARAKO", 3},
-            }
+            },
+            clearStars = new Dictionary<string, int>
+            {
+                {"Lipa_Easy", 0},
+                {"Lipa_Med", 0},
+                {"Lipa_Hard", 0},
+                // {"Batangas_Easy", 0},
+            },
+            accountCreated = System.DateTime.Now,
+            highestLevelCleared = 1,    //Start at Level 1
         };
     }
 
@@ -105,6 +114,10 @@ public class DataManager : MonoBehaviour
             await FetchPlayerDataAsync(auth.CurrentUser.UserId);  //Test Data   
 
         ApplyLoadedData();
+        await UpdatePlayerDataAsync(new Dictionary<string, object>
+        {
+            {"lastLogin", System.DateTime.Now}
+        });
     }
 
 
@@ -208,11 +221,11 @@ public class DataManager : MonoBehaviour
 
         //Buffs
 
-          foreach (string buffID in playerData.unlockedBuffs.Keys)
+        foreach (string buffID in playerData.unlockedBuffs.Keys)
         {
-            BuffData buff = InventoryManager.inv.gameRepo.BuffsRepo.Find(b => b.id  == buffID);
+            BuffData buff = InventoryManager.inv.gameRepo.BuffsRepo.Find(b => b.id == buffID);
             if (buff != null)
-                InventoryManager.inv.playerRepo.OwnedBuffs.Add(buffID, playerData.unlockedBuffs[buffID]);
+                InventoryManager.inv.playerRepo.BuffsRepo.Add(buff);
         }
     }
 
@@ -266,6 +279,7 @@ public class DataManager : MonoBehaviour
             if (key == "day" && value is int day) playerData.day = day;
             if (key == "money" && value is float money) playerData.money = money;
             if (key == "happiness" && value is float happiness) playerData.money = happiness;
+            if (key == "lastLogin" && value is System.DateTime lastLogin) playerData.lastLogin = lastLogin;
         }
     }
 

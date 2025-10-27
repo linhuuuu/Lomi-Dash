@@ -13,8 +13,13 @@ public class PlayerSaveData
     public string playerName { get; set; }
 
     [FirestoreProperty]
-    public int icon
-    { get; set; }
+    public int icon { get; set; }
+
+    [FirestoreProperty]
+    public System.DateTime accountCreated { get; set; }
+
+    [FirestoreProperty]
+    public System.DateTime lastLogin { get; set; }
 
     [FirestoreProperty]
     public int day { get; set; }
@@ -27,7 +32,7 @@ public class PlayerSaveData
 
     [FirestoreProperty]
     public List<string> unlockedRecipeIds { get; set; } = new List<string>();
-    
+
     [FirestoreProperty]
     public List<string> unlockedBeverageIds { get; set; } = new List<string>();
 
@@ -38,7 +43,10 @@ public class PlayerSaveData
     public List<string> unlockedToppingIds { get; set; } = new List<string>();
 
     [FirestoreProperty]
-    public List<string> unlockedStages { get; set; } = new List<string>();
+    public List<string> unlockedIcons { get; set; } = new List<string>();
+
+    [FirestoreProperty]
+    public int highestLevelCleared { set; get; } 
 
     [FirestoreProperty] public Dictionary<string, int> unlockedKitchenTools { get; set; } = new Dictionary<string, int>();
 
@@ -51,9 +59,12 @@ public class PlayerSaveData
     [FirestoreProperty] public List<string> unlockedAchievementIds { get; set; } = new List<string>();
 
     [FirestoreProperty] public Dictionary<string, int> unlockedBuffs { get; set; } = new Dictionary<string, int>();
-    
+
     //Dialogue
     [FirestoreProperty]
     public Dictionary<string, bool> dialogueFlags { get; set; } = new();
+
+    [FirestoreProperty]
+    public Dictionary<string, int> clearStars { set; get; } = new();
 
 }

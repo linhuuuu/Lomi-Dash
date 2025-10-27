@@ -29,6 +29,7 @@ public class InventoryManager : MonoBehaviour
         public List<Drop> DropsRepo = new();
         public List<Sprite> Icons = new();
         public List<BuffData> BuffsRepo = new();
+        public List<RoundProfile> roundProfiles = new();
 
       
 

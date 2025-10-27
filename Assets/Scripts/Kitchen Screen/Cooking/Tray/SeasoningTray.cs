@@ -12,9 +12,9 @@ public class SeasoningTray : DragAndDrop
             return;
         }
 
-        if (hitCollider.tag == "Seasoning Tray" || hitCollider.tag == "Trash")
+        if (hitCollider.tag == "Trash")
         {
-            seasoningSlot.RemoveStack();
+            seasoningSlot.RemoveAllStack();
             revertDefaults();
             return;
         }

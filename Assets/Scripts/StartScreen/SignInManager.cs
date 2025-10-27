@@ -116,12 +116,7 @@ public class SignInManager : MonoBehaviour
         if (currentUser == null) return;
 
         if (currentUser.Email != "")
-        {
-            Debug.Log("Run");
             GoogleSignIn.DefaultInstance.SignOut();
-
-        }
-
 
         auth.SignOut();
         currentUser = null;
@@ -148,7 +143,8 @@ public class SignInManager : MonoBehaviour
         if (PlayerPrefs.HasKey("uid"))
             savedUIDPrompt.text = "UID:" + PlayerPrefs.GetString("uid");
         if (PlayerPrefs.HasKey("email"))
-            email.text = "Email:" + PlayerPrefs.GetString("email");
+            if (PlayerPrefs.GetString("email") == "")
+                email.text = PlayerPrefs.GetString("email");
     }
 
     private void DeleteAccountPlayerPrefs()

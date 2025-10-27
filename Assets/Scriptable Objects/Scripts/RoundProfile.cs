@@ -10,6 +10,7 @@ public class RoundProfile : ScriptableObject
     public int level;
     public Locations location;
     public int difficulty;
+    public float requiredFame;
 
     [Header("Customer Group Generation Override")]
     public bool isGroupCountOverriden;

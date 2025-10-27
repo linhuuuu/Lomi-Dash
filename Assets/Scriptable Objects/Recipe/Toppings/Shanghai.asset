@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea49fc41c2caf4bbf2327e095afaf9, type: 3}
   m_Name: Shanghai
   m_EditorClassIdentifier: 
-  id: 0
+  id: SHANGHAI
   toppingName: Shanghai
-  sprite: {fileID: 0}
+  sprite: {fileID: -435273219, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}

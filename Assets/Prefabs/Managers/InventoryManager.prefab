@@ -74,6 +74,11 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 81967a6c7cd760246bd825dff6c1b786, type: 3}
     - {fileID: 21300000, guid: 1442da97c2eafa24285d72c5e1d991c4, type: 3}
     - {fileID: 21300000, guid: c7e567822e74855489eced37a11c4728, type: 3}
+    BuffsRepo: []
+    roundProfiles:
+    - {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa, type: 2}
+    - {fileID: 11400000, guid: a9a1972313ad369469c0b04cfa8f9995, type: 2}
+    - {fileID: 11400000, guid: 6c43b8ccf078fad47a5db0bef07fb926, type: 2}
     LocationRepo:
     - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
     TermRepo:
@@ -89,6 +94,8 @@ MonoBehaviour:
     ToppingRepo: []
     DropsRepo: []
     Icons: []
+    BuffsRepo: []
+    roundProfiles: []
     LocationRepo: []
     TermRepo: []
     SpecialNPCRepo: []

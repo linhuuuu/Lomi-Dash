@@ -9,23 +9,18 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private DialogueRunner dialogue;
     [SerializeField] private GameObject dialogueObj;
-    // [SerializeField] private Button DebugButton;
+    [SerializeField] private bool isDebug;
 
     public static DialogueManager dialogueManager;
+    
 
     void Awake()
     {
         if (dialogueManager == null)
-        {
             dialogueManager = this;
-            // DontDestroyOnLoad(gameObject);
-        }
-        // else
-        //     // Destroy(gameObject);
-
-        // dialogueObj.SetActive(false);
-        // dialogueObj.GetComponent<Canvas>().worldCamera = CameraManager.cam.mainCam;
-        dialogueObj.SetActive(false);
+    
+        if (isDebug == false)
+            dialogueObj.SetActive(false);
     }
 
 
@@ -50,22 +45,6 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         dialogueObj.SetActive(false);
 
-        ClearDialogue();
-
         tcs.SetResult(true);
     }
-
-    public void ClearDialogue()
-    {
-        Debug.Log("");
-    }
-    public bool FindDialogue(string dialogueName)
-    {
-        return true;
-    }
-
-    // public async Task InitializeAsync()
-    // {
-
-    // }
 }

@@ -8,12 +8,20 @@ public class CharacterDatabase : ScriptableObject
     public class CharacterData
     {
         public string name;
-        public Sprite portrait;
-        public Vector2 anchoredPosition;
+        public Sprite defaultSprite;
+        public List<CharacterEmotion> sprites;
         public Sprite chibiPortrait;
 
     }
+    
+    [System.Serializable]
+    public class CharacterEmotion
+    {
+        public string id;
+        public Sprite sprite;
+    }
 
+  
     public List<CharacterData> characters = new List<CharacterData>();
 
     public CharacterData GetCharacter(string name)

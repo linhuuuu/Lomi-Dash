@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class DragInstObj : MonoBehaviour
 {
     private SpriteRenderer sprite;
@@ -12,6 +11,7 @@ public class DragInstObj : MonoBehaviour
     
     public void OnMouseDown()
     {
+        if (UIUtils.IsPointerOverUI()) return;
         sprite.enabled = true;
     }
 

@@ -26,7 +26,7 @@ public class BuffData : ScriptableObject
 
     public string id;
     public string buffName;
-    public string description;
+    [TextArea(3, 10)]public string effect;
     public Sprite sprite;
     public List<Buff> buffs;
 }

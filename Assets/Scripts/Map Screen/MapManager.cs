@@ -20,6 +20,8 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        activeNode = mapNodes[0];
+        
         float totalFame = DataManager.data.playerData.happiness;
         int highestLevel = DataManager.data.playerData.highestLevelCleared;
 
@@ -54,7 +56,7 @@ public class MapManager : MonoBehaviour
         Vector3 velocity = Vector3.zero;
 
         CameraDragZoomControl.instance.CenterOnTarget(node.transform);
-        Vector3 targetPos = node.transform.position + new Vector3(0f, 2.5f, 0f);
+        Vector3 targetPos = node.transform.position + new Vector3(0f, 0.5f, 0f);
         marker.transform.position = targetPos;
     }
 

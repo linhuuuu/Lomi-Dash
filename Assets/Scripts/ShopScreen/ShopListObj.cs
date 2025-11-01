@@ -1,13 +1,14 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopListObj : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI listObjName; 
     [SerializeField] private TextMeshProUGUI listObjPrice; 
     [SerializeField] private TextMeshProUGUI listObjOwned;
-    [SerializeField] private SpriteRenderer listObjIcon; 
+    [SerializeField] private Image listObjIcon; 
 
     public int buffDataID { set; get; }
     

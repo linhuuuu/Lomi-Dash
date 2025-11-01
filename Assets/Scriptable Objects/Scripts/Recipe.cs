@@ -13,10 +13,22 @@ public class Recipe : ScriptableObject
         [Min(1)] public int count = 1;
     }
 
+    public enum Region
+    {
+        Lipa,
+        Padre_Garcia,
+        Batangas,
+        Mabini,
+        Taal
+    }
+
+
     public string id;
     public string recipeName;
     public int basePrice;
+    public Region region;
 
     public List<ToppingEntry> toppingList = new List<ToppingEntry>();
     public GameObject toppingVisual;
+
 };

@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
         public List<RoundProfile> roundProfiles = new();
 
       
-
+        //ALAMANAC
         public List<LocationData> LocationRepo = new();
         public List<TermData> TermRepo = new();
         public List<SpecialNPCData> SpecialNPCRepo = new();

@@ -321,8 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae0d7c7491acd74e8e1a273e27d66a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countObj: {fileID: 0}
-  number: {fileID: 0}
+  countObj: {fileID: 2696563007311310645}
+  number: {fileID: 1595660622483249165}
   buffData: {fileID: 11400000, guid: d076242b0afbd6a47949874eb2ba9543, type: 2}
   canvas: {fileID: 0}
   mask:

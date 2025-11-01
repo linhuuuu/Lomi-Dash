@@ -64,7 +64,7 @@ public class UITray : MonoBehaviour
         Recipe _rec = null;
         if (order is not DishSectionNode node) return;
 
-        _rec = InventoryManager.inv.gameRepo.RecipeRepo.Find(c => c.recipeName == node.recipeName);    //!!! CHANGE TO PLAYEREPO ONCE 
+        _rec = InventoryManager.inv.gameRepo.RecipeRepo.Find(c => c.recipeName == node.recipeName); 
         if (_rec == null) return;
 
         int dishId = order.id[^1] - '0' - 1;
@@ -72,6 +72,7 @@ public class UITray : MonoBehaviour
         GameObject currentDish = dish[dishId];
         currentDish.SetActive(true);
 
+    //Visual
         GameObject toppingGroup = Instantiate(_rec.toppingVisual, Vector3.zero, Quaternion.identity, currentDish.transform);
         toppingGroup.transform.SetSiblingIndex(1);
         toppingGroup.transform.localEulerAngles = Vector3.zero;

@@ -18,6 +18,7 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalPos = transform.localPosition;
+        CameraDragZoomControl.isCameraDraggingEnabled = false;
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -70,6 +71,7 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             tray.ClearTray();
         }
         transform.localPosition = originalPos;
+                CameraDragZoomControl.isCameraDraggingEnabled = true;
     }
 
 }

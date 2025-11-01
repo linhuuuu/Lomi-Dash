@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea49fc41c2caf4bbf2327e095afaf9, type: 3}
   m_Name: Bola-Bola
   m_EditorClassIdentifier: 
-  id: 
+  id: BOLA-BOLA
   toppingName: Bola-Bola
   sprite: {fileID: -1641549464, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
+  containerSprite: {fileID: -1613519272, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
+  garnishSprite: {fileID: 0}
+  type: 0

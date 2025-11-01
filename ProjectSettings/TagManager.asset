@@ -19,6 +19,7 @@ TagManager:
   - Wok
   - Table
   - StoolChair
+  - Topping
   layers:
   - Default
   - TransparentFX

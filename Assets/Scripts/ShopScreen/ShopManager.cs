@@ -36,77 +36,56 @@ public class ShopScreenManager : MonoBehaviour
     //Active Screen
     [SerializeField] private TextMeshProUGUI activeName;
     [SerializeField] private TextMeshProUGUI activePrice;
-    [SerializeField] private Sprite activeIcon;
-    [SerializeField] private Text activeEffects;
-    [SerializeField] private Text activeDesc;
+    [SerializeField] private Image activeIcon;
+    [SerializeField] private TextMeshProUGUI activeEffects;
+    [SerializeField] private TextMeshProUGUI activeDesc;
 
     [SerializeField] private Dictionary<string, int> buffsAvailable = new();
     List<BuffData> buffDatas = new();
-    List<ShopListObj> shopObjs;
+    List<ShopListObj> shopObjs = new();
 
     private string active;
     private float totalCost;
     private float totalVouchers;
     private bool activeCurrency = false; //0 Money, 1 Voucher
 
-
-
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            PointerEventData eventData = new PointerEventData(EventSystem.current)
-            {
-                position = Input.mousePosition
-            };
-
-            List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventData, results);
-
-            if (results.Count == 0)
-            {
-                Debug.Log("<color=red>[UI Debug] No UI elements hit!</color>");
-                return;
-            }
-
-            Debug.Log($"<color=green>[UI Debug] {results.Count} UI element(s) under cursor:</color>");
-            for (int i = 0; i < results.Count; i++)
-            {
-                var go = results[i].gameObject;
-                bool raycastTarget = false;
-                var graphic = go.GetComponent<UnityEngine.UI.Graphic>();
-                if (graphic != null) raycastTarget = graphic.raycastTarget;
-
-                Debug.Log($"  [{i}] {go.name} | RaycastTarget: {raycastTarget} | Component: {go.GetComponent<Component>()?.GetType().Name}", go);
-            }
-        }
-    }
-
     void Awake()
     {
         buffsAvailable = DataManager.data.playerData.unlockedBuffs;
-
         returnButton.onClick.AddListener(() => ShopReturnToMainScreen());
     }
 
     void Start()
     {
+
+        //SetInit
+
+        InitBuffList();
+        activeScreen.SetActive(false);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(activeScreen.GetComponent<RectTransform>());
+    }
+    
+    void InitBuffList()
+    {
+        if (buffsAvailable == null || buffsAvailable.Count == 0) return;
+        
         int i = 0;
         foreach (string buff in buffsAvailable.Keys)
         {
-            ShopListObj shop = Instantiate(shopListObjPrefab, listContainer).GetComponent<ShopListObj>();
-            BuffData buffData = InventoryManager.inv.playerRepo.BuffsRepo.Find(c => c.id == buff);
+            BuffData buffData = InventoryManager.inv.gameRepo.BuffsRepo.Find(c => c.id == buff);
+            if (buffData == null)
+            {
+                Debug.Log("Buff not found!");
+                continue; 
+            }
 
+            ShopListObj shop = Instantiate(shopListObjPrefab, listContainer).GetComponent<ShopListObj>();
             shopObjs.Add(shop);
 
             shop.InstShopListObj(buffData, i, buffsAvailable[buff]);
             i++;
         }
 
-        //SetInit
-        activeScreen.SetActive(false);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(activeScreen.GetComponent<RectTransform>());
     }
 
     // public async void OnPurchaseSingle(float amount)

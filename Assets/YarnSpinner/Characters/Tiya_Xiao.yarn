@@ -1,0 +1,84 @@
+﻿title: TiyoXiaoScene
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+Tiyo Xiao: Hmm... Ok, hindi pwede. Hindi talaga ito pwede.
+[Protag]: Huh...?
+Tiyo Xiao: Yung loming areh. Di 'lasang Pinoy. Higit pa kung pang-Batangenyo.
+[Protag]: Ano pong ibig sabihin niyan—
+Tiyo Xiao: Ang ibig kong sabihin, sinubukan mo ba talagang magluto ng lomi?
+[Protag]: Mawalang galaang na po, pero medyo nagiging rude po kayo.
+Tiyo Xiao: Di hamak na mas nakakabastos ang luto mo sa puso ng lomi.
+Tiyo Xiao: Para 'gang binasta nalaang.
+[Protag]: The recipe was passed down to me galing po kay tito. Special po kaya—
+Tiyo Xiao: Kalasa niya naman ang luto ng tito mo.
+Tiyo Xiao: Pero parang may kulang kasi talaga...
+Tiyo Xiao: Ugh— okay babalik ako. Pag-isipan mo nalang kung ano ang pagkukulang mo.
+[Protag]: ???
+[Protag]: What was that about...?
+Narrator: You feel oddly frustrated. Missing something? In the recipe maybe? Practice? You sit on it.
+[Protag]: The recipe books... I need to read through them again...
+
+---
+
+Tiyo Xiao: Hmmm okay... Medyo katanggap-tanggap naman na.
+Narrator: You tried very hard this time, trying your best to remember how your Tito made it.
+Tiyo Xiao: Mukhang may pag-asa ka pa naman kahit papaano, iho.
+Tiyo Xiao: May talento ka pero ka liit-liit ng katawan mo, nakain ka pa ga?
+Tiyo Xiao: Hays, hayaan na nga, alam ko na ang sagot d'yan.
+[Protag]: M-ma'am—
+Tiyo Xiao: Ano, iho? Lakasan mo ga ang boses mo, wag mokong dismayahin ngayon kung kelang nagsisimula palaang ako sa lomi mo.
+[Protag]: Ma'am, sa tingin ko po ay wala naman po akong binago sa recipe last time?!
+Tiyo Xiao: Hangal.
+Tiyo Xiao: Kahit ga ako'y matanda na at malabo na ang aking mata ay mas matalas pa are sa mata ng iba.
+Tiyo Xiao: At mas nakatikim na ako ng iba't ibang bersyon ng lomi kesa sa mga nagawa mong lomi sa buong buhay mo.
+Tiyo Xiao: Alam mo ga na ang unang gumawa ng lomi ay dine laang din sa Lipa, at isa syang Chinese immigrant, at ang pangalan nya ay si Tom Kim Eng?
+Tiyo Xiao: Mabuti pa naman ang iyong ginagawa, hindi pa naman kahiya-hiya para sa kanya.
+[Protag]: Sa tingin ko naman po ay wala naman po akong iniba...?
+Tiyo Xiao: Iho, tingnan mo nang mabuti ang sarili mo at yung sarili mo nung nakaraan.
+Tiyo Xiao: Yung lomi mo na mismo ang nagsasabi.
+Tiyo Xiao: Yung kupiyansa mo... Ay hindi, kumbaga ay ang memorya nito.
+Tiyo Xiao: Nahanap mo na kung ano ang nawawala sa lomi mo.
+[Protag]: P-pero, binasa ko lamang po ang mga lumang recipes...?
+Tiyo Xiao: Hmm, medyo nagbubulag-bulagan ka parin pero...
+[Protag]: Ma'am, hindi ko po kayo maintindihan.
+Tiyo Xiao: Maiintindihan mo din iyan, iho. Sa tamang panahon.
+[Protag]: ...
+[Protag]: There she goes.
+JUAN: Huy, feeling ko talaga kailangan ko magtanong pero, hindi ba't si Tiya Xiao iyon? Like si TIYA XIAO? Yung nag-establish mismo ng lomihan?
+[Protag]: A-ano?
+JUAN: Boi...
+[Protag]: Dude...
+
+---
+
+Tiyo Xiao: ...
+[Protag]: Ma'am...
+Tiyo Xiao: ...
+[Protag]: Ma'am... Okay po ba...?
+Tiyo Xiao: Iho...
+Tiyo Xiao: Alam mo ga nung panahon ko pa, 8 years old palang ako noon nung una kong nakita kung ano ang lugar sa Lipa.
+[Protag]: Po?...
+Tiyo Xiao: Ang Lipa, Batangas... Okay walang halong biro ito, pero kung ipagkukumpara mo talaga ang kayamanan sa capital at sa daang libong isla pa, napaka simple laang talaga ang binibigay naten.
+Tiyo Xiao: Ang ating pilosopiya, ang buhay naten na magiging bahagi sa atin sa pagkain, ang pagiging simple.
+[Protag]: ...
+Tiyo Xiao: Iho... Pag mayroong nagsabi sa iyo na ang lomi mo ay parang bang kalasa ng kanilang tahanan,
+Tiyo Xiao: Yun na kumbaga ang pinaka magandang puna ang matatanggap mo.
+Tiyo Xiao: Ala eh, masasabi nating may mga kategorya ‘yan, 'diga? Eh ikaw nga mismo, kahit kakaunti palang ang alam mo, sabihin mo nga sa’kin iho, ano ‘yung mga ‘yon? Anong mga prinsipyo ng pagluluto iyon?
+[Protag]: Planning, Preparation, Presentation, Passion, and Pride.
+Tiyo Xiao: Ayan, tama iyan, iho. Dapat nga'y tumpak ang iyong pagpplano, ang iyong preparasyon, at ang iyong presentasyon... At siyempre, ‘wag mong kalilimutan, ang passion and pride. ‘Yan ang tunay na sangkap, hindi mo matatagpuan sa kahit anong resipe, kundi sa puso.
+[Protag]: Y-yung tito ko. Proud na proud po ako sa tito ko. Napaka galing nya po talaga magluto.
+Tiyo Xiao: Paano ka ba magpasya ng isang pagkain, iho?
+[Protag]: Sa panlasa, sa itsura, sa texture, sa aroma, sa senses...
+Tiyo Xiao: Tama, diba ang isang pagkain ay may kanya-kanyang natatangi? Lahat ng kategoryang iyon, paano ka nakakagawa ng pagkain na kalasa ng isang tahanan?
+Tiyo Xiao: Kakaunti lamang ang nakakagawa nan, iho.
+Tiyo Xiao: Napaka buti talaga siguro ng tito mo.
+Tiyo Xiao: Kwentuhan mo nga ako tungkol sa tito mo, iho.
+Narrator: And you do. More than you'd expect to share with this grumpy old lady.
+[Protag]: Nakakalungkot po talaga ng wala sya.
+Tiyo Xiao: Anong pinagsasasabi mo, iho. Nandyan lang sya, nandito lang sya sa atin.
+Narrator: You look down on the bowl, taking a bite yourself.
+Narrator: You remember.
+-> END
+===

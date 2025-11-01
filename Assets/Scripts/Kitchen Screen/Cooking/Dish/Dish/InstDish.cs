@@ -17,12 +17,13 @@ public class InstDish : DragAndDrop
 
         if (hitCollider.tag == "DishPos")
         {
+            if (hitCollider.transform.childCount > 0) { revertDefaults();  return; }
             var newDish = Instantiate(dishPrefab, Vector3.down, Quaternion.identity, dishPos);
 
-            newDish.transform.localPosition = Vector3.zero;
+            newDish.transform.localPosition = new Vector3(0f, 0.75f, 0f);
             newDish.transform.localEulerAngles = Vector3.zero;
-            newDish.transform.localScale = Vector3.one;
-            newDish.GetComponent<PrepDish>().originalLocalPosition = Vector3.zero;
+            newDish.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            newDish.GetComponent<PrepDish>().originalLocalPosition = newDish.transform.localPosition;
 
             dishPos.GetComponent<Collider>().enabled = false;
 

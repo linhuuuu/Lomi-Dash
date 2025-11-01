@@ -672,12 +672,6 @@ PrefabInstance:
       propertyPath: m_VertexColorAlwaysGammaSpace
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8309902628685535410, guid: 52571f68872914e24837210513edea1d,
-        type: 3}
-      propertyPath: yarnProject
-      value: 
-      objectReference: {fileID: 7545569452688597077, guid: 634fd4c6898f0114f82369d7d293f175,
-        type: 3}
     - target: {fileID: 9078442560890639579, guid: 52571f68872914e24837210513edea1d,
         type: 3}
       propertyPath: m_Layer

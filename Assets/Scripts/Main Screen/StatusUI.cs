@@ -12,9 +12,15 @@ public class StatusUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI happiness;
 
     void Start()
-    {   
+    {
         if (RoundManager.roundManager.enabled == true)
+        {
             RoundManager.roundManager.OnCurrencyChange += UpdateUI;
+            UpdateUI(0, 0);
+        }
+
+    
+
     }
 
     public void UpdateTime(GameManager.gameState state)

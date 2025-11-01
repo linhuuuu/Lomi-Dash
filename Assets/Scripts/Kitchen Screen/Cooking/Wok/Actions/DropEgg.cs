@@ -15,9 +15,10 @@ public class DropEgg : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
+            if (targetWok.potGroup == null || targetWok.noodlesNode == null) { revertDefaults(); return; }
+
+            Debug.Log("Added Egg");
             targetWok.AddEgg();
-            revertDefaults();
-            return;
         }
         revertDefaults();
     }

@@ -1,0 +1,72 @@
+﻿title: Lipa_Juan_Scene
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+
+<<showCharacter SpriteBehaviour Juan at 400 -100>>
+JUAN: Hiii! Nandine laang ako as your normal customer!
+
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+[Protag]: Nothing better than getting my usual after a long day's work.
+[Protag]: You've only been here once...
+
+JUAN: Yeah, and yun lang din ang kailangan ko!
+JUAN: Ah~ That hits the spot.
+JUAN: You know, never mo pa talaga sinasabi sa akin kung bakit ka nasa States.
+[Protag]: Like you never told me what you're up to right now?
+JUAN: ...
+[Protag]: ...
+JUAN: Exactly...
+[Protag]: ...
+[Protag]: It's actually so lonely in there.
+[Protag]: I didn't even graduate with honors like I always wanted to. If you've ever been curious.
+JUAN: Well, I didn't either.
+JUAN: So, edi ano na tayo ngayon, mga members na ng Broken Dreams Club?
+[Protag]: Hahaha, grabe ka naman...
+JUAN: What~ A little dark humor never hurt anyone. Wait, akala ko may papakasalan ka na? Si Sara nga ba iyon? Lara?
+[Protag]: Well, we didn't even work out.
+JUAN: Mmm... None of mine worked out either.
+[Protag]: How about your business?
+JUAN: Nothing....
+[Protag]: ...I'm really sorry about that.
+JUAN: Hey, don't worry about it. Come here, pal.
+JUAN: A toast.
+JUAN: We may have had some failed dreams, but that ain't stopping us from what we have right now as buddies.
+
+-> Juan_Wedding_Invite
+===
+
+title: Juan_Wedding_Invite
+---
+JUAN: Ay, bale meron nga pala akong kasal na pupuntahan, gusto mo ga sumama? Need ko talaga ng plus one~
+JUAN: Pleaaaaseee? Gustong-gusto ka na talaga makita ni titaaaa~
+[Protag]: Hmmm... Sige, pwede naman maybe....
+JUAN: Sige ha, sabi mo yan ah! Do not let me down on this one... Hmph!
+[Protag]: When is the wedding by the way?
+JUAN: Bukas.
+[Protag]: B-bukas..? Agad?
+JUAN: Oo nga. Kaya nga need ko ng kasama eh...
+[Protag]: Gah... Fine.
+JUAN: Yehey! Kaya lab na lab kita eh!
+[Protag]: Ugh shut up. I'll see you tomorrow, then.
+JUAN: Okay! Ba-byeee! Sunduin nalang kita bukas, okay?
+
+Narrator: Time passed. The next day, Juan picked up [Protag] and they headed to a *baysanan* wedding.
+Narrator: Since [Protag] was still new around here, he could not help but curiously observe how different this wedding was from what he knew.
+
+[Protag]: Hmm.. Juan, bakit ganito ang ginagawa sa wedding na 'to? Bakit napakadaming... karne?
+[Protag]: Bakit doon sa dulong iyon, bat nagsasabitan sila?
+JUAN: Ganito talaga ang tradition nila dito. Alam mo ba, bibihira nalang din talaga ang nagkakaroon ng ganitong klaseng wedding traditions.
+JUAN: Depende nalang kasi talaga 'yan sa paniniwala ng isang pamilya, kaya kapag nakakita ka ng mga ganito sa Batangas, masanay ka na.
+JUAN: Pero honestly, mas gusto ko talaga makakita ng mga ganito kasi nga, iilan nalang talaga ang gumagawa ng mga ganitong kasal.
+[Protag]: Ohhh, I see. You know, I actually get curious about this wedding thing. Nasanay na din kasi talaga ako sa weddings na palagi nating nakikita—minsan grande, minsan simple, pero hindi katulad ng ganitong klaseng wedding.
+[Protag]: Ano ba ang tawag sa ganitong klaseng wedding, Juan?
+JUAN: It's called *Baysanan.*
+[Protag]: Ohhh wait! Okay, narerecall ko na. 'Yan din kasi ang palagi kong naririnig sa pamilya ko noon eh.
+JUAN: Teka, umupo na tayo doon. Malapit na magsimula ang wedding ceremony.
+[Protag]: Oh right, I almost forgot. Okay sige, umupo na tayo doon.
+
+Narrator: They found a seat near the aisle, immersing themselves in the warmth and noise of a true Batangueño celebration.
+-> END
+===

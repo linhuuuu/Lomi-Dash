@@ -6,12 +6,8 @@ using UnityEngine;
 public class AnimWok : AnimIngredients
 {
     private VisualStateLib lib;
-    public VisualState state { set; get; } = new VisualState();
     public int wokTier { set; get; }
-    [SerializeField] private Transform wokContentContainer;
     public CookWok cookWok;
-
-
 
     public void Start()
     {
@@ -28,8 +24,6 @@ public class AnimWok : AnimIngredients
 
         //Library
         lib = RoundManager.roundManager.lib;
-        state.brothSpriteColor = "original";
-        state.swirlSpriteColor = "original";
     }
 
     public void UpdateWokTier(int tier)
@@ -42,7 +36,7 @@ public class AnimWok : AnimIngredients
             cookWok.maxCount = 2;
         }
     }
-    
+
     public IEnumerator AddSoySauce()
     {
         float elapsed = 0f;
@@ -54,42 +48,36 @@ public class AnimWok : AnimIngredients
             elapsed += Time.deltaTime;
             float t = elapsed / dissolveTime;
 
-            brothSprite.color = Color.Lerp(lib.brothColors["original"], lib.brothColors[colorKey], t);
-            swirlSprite.color = Color.Lerp(lib.swirlColors["original"], lib.swirlColors[colorKey], t);
+            brothSprite.color = Color.Lerp(brothSprite.color, lib.brothColors[colorKey], t);
 
             yield return null;
         }
-
-        //Upd State
-        state.brothSpriteColor = colorKey;
-        state.swirlSpriteColor = colorKey;
+        brothColorState = "soySauce";
     }
 
     public void MixWok()
     {
+        foreach (var item in ingredientsList)
+        {
+            item.GetComponent<IngredientFlipper>().OnStir();
+        }
 
     }
 
-    public void ResetBroth()
+    public void AnimPotGroup(Color color)
     {
-
+        ToggleBroth(true);
+        brothSprite.color = color;
     }
 
     public void ReduceWokCount()
     {
-        foreach (Transform t in wokContentContainer)
+        foreach (var t in ingredientsList)
             t.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
     }
 
-    public void CreateWok()
+    public void TransferWok(PrepDish dish)
     {
-        state.objActivity = new Dictionary<string, bool>();
-        //Save State
-        foreach (GameObject obj in ingredientsList)
-            state.objActivity.Add(obj.name, obj.activeSelf);
-
-        //Reset
-        brothSprite.color = lib.brothColors["original"];
-        swirlSprite.color = lib.swirlColors["original"];
+        dish.animDish.OnRecieve(GetActiveStates(), bawangState, onionState, oilState, brothState, brothColorState, eggState, thickenerState);
     }
 }

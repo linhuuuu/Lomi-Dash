@@ -1,21 +1,39 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimDish : AnimIngredients
 {
-    [SerializeField] private VisualStateLib lib;
-
-    public void OnRecieve(VisualState state)
+    [SerializeField] private Transform container;
+    public void OnRecieve(List<bool> activeStates, string bawang, string onion, string oil, string broth, string brothColors, string egg, string thickener)
     {
-        foreach (GameObject obj in ingredientsList)
-        {
-            Debug.Log(obj);
-            obj.SetActive(state.objActivity[obj.name]);
+        //Bug here apparently
+        for (int i = 0; i < activeStates.Count; i++)
+            ingredientsList[i].SetActive(activeStates[i]);
 
+        if (this.bawang.activeSelf != false)
+        {
+            Debug.Log(bawang);
+                        bawangSprite.sprite = RoundManager.roundManager.lib.bawangStates[bawang];
         }
 
-        //Update Broth and Swirl Color
-        brothSprite.color = lib.brothColors[state.brothSpriteColor];
-        swirlSprite.color = lib.swirlColors[state.swirlSpriteColor];
+
+        if (this.onion.activeSelf != false)
+            onionSprite.sprite = RoundManager.roundManager.lib.onionStates[onion];
+
+        if (this.oil.activeSelf != false)
+            oilSprite.sprite = RoundManager.roundManager.lib.oilStates[oil];
+
+        if (this.broth.activeSelf != false)
+        {
+            brothSprite.sprite = RoundManager.roundManager.lib.brothStates[broth];
+            brothSprite.color = RoundManager.roundManager.lib.brothColors[brothColors];
+        }
+
+        if (this.egg.activeSelf != false)
+            eggSprite.sprite = RoundManager.roundManager.lib.eggStates[egg];
+
+        if (this.thickener.activeSelf != false)
+            thickenerSprite.sprite = RoundManager.roundManager.lib.thickenerStates[thickener];
     }
 }

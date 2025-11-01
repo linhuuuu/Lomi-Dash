@@ -3,34 +3,29 @@ using UnityEngine;
 
 public class InstToppings : DragAndDrop
 {
-    private List<GameObject> toppingPool;
-    [SerializeField] private Topping topping;   //Get From Prefs
+    private List<ToppingPoolObj> toppingPool = new();
+    public Topping topping { set; get; }
     [SerializeField] private GameObject objPrefab; //Get From Prefs
-    [SerializeField] private bool available; //Get From Prefs
-    [SerializeField] private Vector3 spawnPos = new Vector3(100f, 20f, 0f);
-    private SpriteRenderer spriteRenderer;
+    private Vector3 spawnPos = new Vector3(100f, 20f, 0f);
     private int poolAvailable;
     private int poolMeter;
 
-    void Start()
+    public void InitTopping()
     {
+        parent.GetComponent<SpriteRenderer>().sprite = topping.containerSprite;
         objPrefab.GetComponent<SpriteRenderer>().sprite = topping.sprite;
         this.GetComponent<SpriteRenderer>().sprite = topping.sprite;
-
-        toppingPool = new List<GameObject>();
         InstPool();
     }
 
     #region Pool
     private void InstPool()
     {
-        if (!available) return;
-
         for (int i = 0; i < 10; i++)
         {
             InstNew();
         }
-        
+
         poolAvailable = toppingPool.Count;
         poolMeter = 0;
     }
@@ -38,58 +33,65 @@ public class InstToppings : DragAndDrop
     private void InstNew()
     {
         var newObj = Instantiate(objPrefab, spawnPos, Quaternion.identity, transform);
-        newObj.GetComponent<ToppingPoolObj>().section = this;
-        toppingPool.Add(newObj);
+        var newToppingPoolObj = newObj.GetComponent<ToppingPoolObj>();
+        newToppingPoolObj.section = this;
+        toppingPool.Add(newToppingPoolObj);
 
     }
 
-    private void UseTopping(Transform parent)
+    private void UseTopping(PrepDish dish)
     {
         if (poolAvailable == 0)
-           
+
         {
-             Debug.Log(poolAvailable);
+            Debug.Log(poolAvailable);
             InstNew();
             poolAvailable++;
         }
 
         Debug.Log(poolMeter + "" + toppingPool[poolMeter].transform);
-        Transform topping = toppingPool[poolMeter].transform;
-        topping.SetParent(parent);
-        topping.position = GetMousePos();
-        topping.localRotation= Quaternion.identity;
+        ToppingPoolObj topping = toppingPool[poolMeter];
+        topping.transform.SetParent(dish.toppingSection);
+        topping.transform.position = GetMousePos();
+        Vector3 localPos = topping.transform.localPosition;
+        topping.transform.localPosition = new Vector3(localPos.x, localPos.y, -0.6f);
+        topping.transform.localRotation = Quaternion.identity;
+
+        //Set Detail Prompt
+        ActiveTopping activeTopping = topping.GetComponent<ActiveTopping>();
+        activeTopping.SetPanel(dish.toppingObjDetail);
+        activeTopping.InitActiveTopping();
 
         //set 
-        topping.GetComponent<DragAndDrop>().originalLocalPosition = topping.localPosition;
-        topping.GetComponent<DragAndDrop>().parent = topping.parent;
+        topping.GetComponent<DragAndDrop>().originalLocalPosition = topping.transform.localPosition;
+        topping.GetComponent<DragAndDrop>().parent = dish.toppingSection;
 
         poolAvailable--;
         poolMeter++;
     }
-    
+
     private Vector3 GetMousePos()
-{
-    // Define the plane where interactions happen (e.g., counter top)
-    Plane interactionPlane = new Plane(Vector3.up, new Vector3(0, -18f, 0)); // Y = -18
-
-    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-    if (interactionPlane.Raycast(ray, out float distance))
     {
-        Vector3 point = ray.GetPoint(distance);
-        return point;
+        // Define the plane where interactions happen (e.g., counter top)
+        Plane interactionPlane = new Plane(Vector3.up, new Vector3(0, -18f, 0)); // Y = -18
+
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (interactionPlane.Raycast(ray, out float distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+            return point;
+        }
+
+        // Fallback: use far point along ray
+        return ray.GetPoint(1000f);
     }
 
-    // Fallback: use far point along ray
-    return ray.GetPoint(1000f);
-}
-
-    public void ReturnTopping()
+    public void ReturnTopping(ToppingPoolObj topping)
     {
-        Transform topping = toppingPool[poolMeter - 1].transform;
-        topping.SetParent(this.transform);
-        topping.localPosition = spawnPos;
-
+        topping.GetComponent<ActiveTopping>().RemovePanel();
+        topping.transform.SetParent(this.transform);
+        topping.transform.localPosition = spawnPos;
 
         //set 
         topping.GetComponent<DragAndDrop>().originalLocalPosition = spawnPos;
@@ -114,13 +116,28 @@ public class InstToppings : DragAndDrop
 
         if (hitCollider.TryGetComponent(out PrepDish targetDish))
         {
-
-            UseTopping(targetDish.toppingSection);
-
+            UseTopping(targetDish);
             targetDish.PlaceTopping(topping.toppingName);
             revertDefaults();
             return;
         }
+
+        if (hitCollider.tag == "Topping")
+        {
+            Debug.Log("RUn");
+            if (!hitCollider.TryGetComponent(out ToppingPoolObj top)) return;
+
+            if (top.transform.parent.parent.TryGetComponent(out PrepDish dish))
+            {
+                UseTopping(dish);
+                dish.PlaceTopping(topping.toppingName);
+            }
+            revertDefaults();
+            return;
+        }
+
+        revertDefaults();
+        return;
     }
 
     #endregion

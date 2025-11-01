@@ -18,8 +18,7 @@ namespace PCG
             if (id != other.id)
                 return 0f;
 
-            //Check if child is leaf node;
-            if (other.children.Count == 0)
+            if (other.children == null || other.children.Count == 0)
                 return EvaluateLeafNode(other);
 
             //Iterate over children

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="VisualStateLib", menuName ="ScriptableObjects/VisualStateLib")]
+[CreateAssetMenu(fileName = "VisualStateLib", menuName = "ScriptableObjects/VisualStateLib")]
 public class VisualStateLib : ScriptableObject
 {
     [System.Serializable]
@@ -19,10 +19,10 @@ public class VisualStateLib : ScriptableObject
     }
 
     [Header("Color")]
-    public ColorDict[] broth, swirl;
+    public ColorDict[] brothcolor, noodlescolor;
 
     [Header("Sprite")]
-    public SpriteDict[] bawang, onion, seasoningTray, sinkWater, sink, potSeasoning, water;
+    public SpriteDict[] bawang, oil, onion, broth, egg, thickener, seasoningTray, sinkWater, sink, potSeasoning, water;
 
 
     //Dictionaries
@@ -31,12 +31,17 @@ public class VisualStateLib : ScriptableObject
     public Dictionary<string, Sprite> sinkWaterStates = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> sinkStates = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> waterStates = new Dictionary<string, Sprite>();
-    
+
 
     public Dictionary<string, Color> brothColors = new Dictionary<string, Color>();
-    public Dictionary<string, Color> swirlColors = new Dictionary<string, Color>();
+    public Dictionary<string, Color> noodlesColors = new Dictionary<string, Color>();
+
     public Dictionary<string, Sprite> bawangStates = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> onionStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> oilStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> eggStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> thickenerStates = new Dictionary<string, Sprite>();
+    public Dictionary<string, Sprite> brothStates = new Dictionary<string, Sprite>();
 
     public Dictionary<string, Sprite> seasoningTrayStates = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> potSeasoningStates = new Dictionary<string, Sprite>();
@@ -45,10 +50,15 @@ public class VisualStateLib : ScriptableObject
     //Add Ditionaries
     void OnEnable()
     {
-        InitDictionary(broth, brothColors);
-        InitDictionary(swirl, swirlColors);
+        InitDictionary(brothcolor, brothColors);
         InitDictionary(bawang, bawangStates);
+        InitDictionary(onion, onionStates);
+        InitDictionary(oil, oilStates);
+        InitDictionary(egg, eggStates);
+        InitDictionary(thickener, thickenerStates);
+        InitDictionary(broth, brothStates);
 
+        InitDictionary(noodlescolor, noodlesColors);
         InitDictionary(seasoningTray, seasoningTrayStates);
         InitDictionary(sinkWater, sinkWaterStates);
         InitDictionary(sink, sinkStates);

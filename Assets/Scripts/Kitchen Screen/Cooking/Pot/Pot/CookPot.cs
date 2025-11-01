@@ -165,17 +165,12 @@ public class CookPot : DragAndDrop
                 if (boilNode.count == 0) { revertDefaults(); return; }
 
                 if (targetWok.potGroup != null) { revertDefaults(); return; }
-                if (targetWok?.noodlesNode != null && targetWok.noodlesNode.count != 0) { revertDefaults(); return; }
 
+                // if (targetWok?.noodlesNode != null && targetWok.noodlesNode.count != 0) { revertDefaults(); return; } noodles and
 
-                //Create Pot Group
+                //Transfer Pot Group
                 CreatePotNode();
-                targetWok.potGroup = potGroup;
-
-                //Anim Wok
-                targetWok.animWok.ToggleBroth(true);
-                targetWok.animWok.ToggleSwirl(true);
-
+                targetWok.TransferPot(potGroup, animPot.GetBrothColor());
 
                 //Reduce Count
                 if (boilNode.count > 0)
@@ -192,6 +187,7 @@ public class CookPot : DragAndDrop
 
                 //Anim Reduction
                 animPot.OnReduceWater();
+                
                 if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
             }
 

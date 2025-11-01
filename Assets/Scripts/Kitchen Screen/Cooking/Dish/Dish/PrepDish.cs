@@ -18,6 +18,8 @@ public class PrepDish : DragAndDrop
     public WokGroup wokGroup { set; get; }
     public bool isLarge { set; get; }
     public DishSlot dishSlot { set; get; }
+
+    [field: SerializeField] public ToppingDetailCanvas toppingObjDetail { set; get; }
     private Transform dishPos;
     private Collider dishPosCollider;
 
@@ -33,7 +35,7 @@ public class PrepDish : DragAndDrop
         currentTopping = new ToppingNode("");
 
         //Set Parent
-        
+
         dishPos = transform.parent;
         dishPosCollider = dishPos.GetComponent<Collider>();
 
@@ -115,7 +117,18 @@ public class PrepDish : DragAndDrop
     #region Dropping
     public void OnMouseUp()
     {
+        foreach (Transform top in toppingSection)
+            top.GetComponent<Collider>().enabled = false;
+
         initDraggable();
+
+        foreach (Transform top in toppingSection)
+            top.GetComponent<Collider>().enabled = true;
+
+        if (toppingSection.childCount > 0)
+        {
+
+        }
 
         if (hitCollider == null)
         {
@@ -162,7 +175,7 @@ public class PrepDish : DragAndDrop
             dishPosCollider.enabled = true;
 
             foreach (ToppingPoolObj obj in toppingSection.GetComponentsInChildren<ToppingPoolObj>())
-                obj.section.ReturnTopping();
+                obj.section.ReturnTopping(obj);
 
             Destroy(this.gameObject);
         }
@@ -179,14 +192,22 @@ public class PrepDish : DragAndDrop
 
         hitCollider.TryGetComponent(out DishSlot slot);
         slot.RecieveDishToSlot(gameObject.GetComponent<PrepDish>());
+        
+            foreach (Transform top in toppingSection)
+                top.GetComponent<Collider>().enabled = false;
 
         if (Debug.isDebugBuild) Debug.Log("Placed in Tray at slot");
     }
 
     private void OnDishPosActions()
     {
+        if (dishSlot == null) return;
+
         dishSlot.RemoveDishFromSlot();
         DishToDishPos(this);
+        
+            foreach (Transform top in toppingSection)
+                top.GetComponent<Collider>().enabled = false;
     }
 
     private bool OnDishActions()
@@ -200,10 +221,13 @@ public class PrepDish : DragAndDrop
             return true;
         }
 
-        if (dishSlot != null && otherDish.dishSlot == null) //if this is On Pos and The hit Dish is On Tray
+        if (dishSlot != null && otherDish.dishSlot == null) //if otherdish is on pos and The this Dish is On Tray
         {
             dishSlot.RecieveDishToSlot(otherDish);  // Add The OtherDish to This Slot
             DishToDishPos(this);    //Place This Dish to DishPos
+
+            foreach (Transform top in toppingSection)
+                top.GetComponent<Collider>().enabled = true;
             return true;
         }
 
@@ -211,6 +235,9 @@ public class PrepDish : DragAndDrop
         {
             otherDish.dishSlot.RecieveDishToSlot(this);
             DishToDishPos(otherDish);
+            
+            foreach (Transform top in toppingSection)
+                top.GetComponent<Collider>().enabled = false;
             return true;
         }
         return false;

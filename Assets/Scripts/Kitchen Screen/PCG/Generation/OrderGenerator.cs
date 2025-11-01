@@ -6,13 +6,13 @@ namespace PCG
 {
     public static class OrderGenerator
     {
-        public static (OrderNode, float) GenerateTray(int difficulty, int headCount, bool largeBowlUnlocked, bool largeTrayUnlocked, List<Beverage> bevList, List<Recipe> recipeList)
+        public static (OrderNode, float) GenerateTray(int difficulty, int headCount, bool largeBowlUnlocked, List<Beverage> bevList, List<Recipe> recipeList)
         {
             //Recipe
             List<Recipe> recipesUsed = new List<Recipe>();  // Saved for posterity, but this could be just a float to get prices
 
             //Tray Init
-            int trayDishSlots = largeTrayUnlocked ? 5 : 3;
+            int trayDishSlots = 5;
             var trayNode = new TrayRootNode() { weight = 100f };
 
             //Large Dish Init
@@ -69,7 +69,8 @@ namespace PCG
             for (int i = 0; i < dishCount; i++)
             {
                 bool shouldMakeLarge = remainingLarge > 0;
-                var recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count)];
+                Recipe recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count-1)];
+
                 recipesUsed.Add(recipe);
 
                 if (shouldMakeLarge && totalSlotsUsed + 2 <= trayDishSlots)
@@ -168,6 +169,7 @@ namespace PCG
 
         public static OrderNode GenerateToppingGroup(Recipe recipe)
         {
+            
             var toppingsSection = new ToppingGroup();
             var toppingList = recipe.toppingList;
 

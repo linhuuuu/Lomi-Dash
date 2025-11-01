@@ -15,12 +15,9 @@ public class DropWokSeasoning : DragAndDrop
         {
             if (!hitCollider.TryGetComponent(out CookWok targetWok)) {revertDefaults(); return;}
 
-            if (targetWok.potGroup == null)
-            {
-                targetWok.SauteePan(seasoningName);
-                revertDefaults();
-                return;
-            }
+            if (targetWok.potGroup != null || targetWok.noodlesNode != null) { revertDefaults(); return; }
+                
+            targetWok.SauteePan(seasoningName);
         }
         revertDefaults();
     }

@@ -13,7 +13,7 @@ public class BuffDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Image image;
     [SerializeField] private GameObject countObj;
     [SerializeField] private TextMeshProUGUI number;
-    [SerializeField] private BuffData buffData; //Buff Manager
+    [SerializeField] private BuffData buffData;
     [SerializeField] private Canvas canvas;
     [SerializeField] private LayerMask mask;
 

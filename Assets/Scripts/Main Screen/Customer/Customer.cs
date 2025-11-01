@@ -7,6 +7,7 @@ public class Customer : MonoBehaviour
     public Sprite standingSprite { set; get; }
     public Sprite sittingSprite { set; get; }
     public float patience { set; get; }
+    public CustomerData data { set; get;}
    
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class Customer : MonoBehaviour
 
     public void InitCustomer(CustomerData data)
     {
+        this.data = data;
         this.name = data.name;
 
         standingSprite = data.standingSprite;

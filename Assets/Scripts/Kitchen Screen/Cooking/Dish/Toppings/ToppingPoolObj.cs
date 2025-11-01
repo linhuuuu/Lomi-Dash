@@ -1,9 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ToppingPoolObj : DragAndDrop
 {
     public InstToppings section { set; get; }
+
     Plane interactionPlane = new Plane(Vector3.up, new Vector3(0, -18f, 0));
+
     public void OnMouseUp()
     {
         initDraggable();
@@ -14,17 +18,22 @@ public class ToppingPoolObj : DragAndDrop
             return;
         }
 
-        if (hitCollider.tag == "Dish")
+        if (hitCollider.tag == "Dish" || hitCollider.tag == "Topping")
         {
             transform.position = GetMousePos();
+            Vector3 localPos = transform.localPosition;
+            transform.localPosition = new Vector3(localPos.x, localPos.y, -0.6f);
             originalLocalPosition = transform.localPosition;
+
             revertDefaults();
             return;
         }
 
+
         if (hitCollider.tag == "Trash")
         {
-            section.ReturnTopping();
+            section.ReturnTopping(this);
+            
             revertDefaults();
             return;
         }

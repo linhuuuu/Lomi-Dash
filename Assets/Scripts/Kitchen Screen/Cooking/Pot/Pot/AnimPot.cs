@@ -100,9 +100,11 @@ public class AnimPot : MonoBehaviour
 
         Color brothColor = RoundManager.roundManager.lib.brothColors["knorr"];
         Color waterColor = RoundManager.roundManager.lib.brothColors["original"];
-         
+
         waterSprite.color = Color.Lerp(waterColor, brothColor, blendvalue);
     }
+
+    public Color GetBrothColor() {return waterSprite.color;}
 
     public void OnBoil()
     {

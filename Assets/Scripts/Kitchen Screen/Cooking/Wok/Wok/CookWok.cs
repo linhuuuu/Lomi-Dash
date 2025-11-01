@@ -1,8 +1,6 @@
 using PCG;
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CookWok : DragAndDrop
@@ -92,12 +90,20 @@ public class CookWok : DragAndDrop
         animWok.ToggleNoodles(true);
     }
 
+    public void TransferPot(PotGroup potGroup, Color color)
+    {
+        if (this.potGroup != null) return;
+
+        this.potGroup = potGroup;
+        animWok.AnimPotGroup(color);
+    }
+
     public void Mix_1()
     {
-        if (mix_1_Node == null) mix_1_Node = new Mix_1_Node();
+        // if (mix_1_Node == null) mix_1_Node = new Mix_1_Node();
 
-        if (mix_1_Node.isMixed == true) return;
-        mix_1_Node.isMixed = true;
+        // if (mix_1_Node.isMixed == true) return;
+        // mix_1_Node.isMixed = true;
         animWok.MixWok();
     }
 
@@ -132,6 +138,46 @@ public class CookWok : DragAndDrop
         //animMix_2;
     }
 
+    //CookRoutine
+
+    public IEnumerator CookRoutine()
+    {
+        while (stove_On)
+        {
+            yield return new WaitForSeconds(1f);
+
+            if (sauteeNode != null)
+            {
+                if (sauteeNode.onionCount > 0)
+                {
+                    sauteeNode.onionCount++;
+                    //StartCoroutine();
+                }
+
+                if (sauteeNode.bawangCount > 0)
+                {
+                    sauteeNode.bawangTime++;
+                    //StartCoroutine();
+                }
+
+                if (sauteeNode.oilCount > 0)
+                {
+                    sauteeNode.oilTime++;
+                    //StartCoroutine();
+                }
+            }
+
+            if (noodlesNode != null)
+            {
+                if (noodlesNode.time < 15)
+                {
+                    noodlesNode.time++;
+                }
+            }
+            
+        }
+    }
+
     public void CreateWokGroup()
     {
         initWok();
@@ -147,6 +193,7 @@ public class CookWok : DragAndDrop
             mix_2_Node
         };
     }
+
 
     //Dropping
     public void OnMouseUp()
@@ -239,11 +286,10 @@ public class CookWok : DragAndDrop
             dish.wokGroup = wokGroup;
 
             //Anim Visuals
-            animWok.CreateWok();
-            dish.animDish.OnRecieve(animWok.state);
+            animWok.TransferWok(dish);
 
             //Empty List
-            wokGroup.children = null;
+            wokGroup = new WokGroup();
 
             // Clear 1 instance — safely decrement and clamp at 0
             if (sauteeNode != null)
@@ -284,12 +330,11 @@ public class CookWok : DragAndDrop
                 potGroup = null;
                 mix_1_Node = null;
                 mix_2_Node = null;
+                potGroup = null;
                 wokGroup = new WokGroup();
 
                 //Clear 
-                
                 animWok.ToggleActive(false);
-
                 if (Debug.isDebugBuild) Debug.Log("Cleared WokNODE");
             }
             else

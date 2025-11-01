@@ -63,7 +63,8 @@ public class DataManager : MonoBehaviour
             happiness = 0,
             unlockedBeverageIds = new List<string>() { "WATER" },
             unlockedRecipeIds = new List<string>() { "BATANGAS" },
-            unlockedCustomerIds = new List<string>() { "MOTHER" },
+            unlockedCustomerIds = new List<string>() { "MOTHER", "CHILD" },
+            unlockedToppingIds = new List<string>() { "LIVER", "KIKIAM", "BOLA-BOLA", "EGG" },
             dialogueFlags = new Dictionary<string, bool>
                 {
                     { "intro", false },
@@ -92,14 +93,19 @@ public class DataManager : MonoBehaviour
                 },
             unlockedBuffs = new Dictionary<string, int>
             {
-                {"BARAKO", 3},
+                {"LIVER", 0},
+                {"BOLA-BOLA", 0},
+                {"EGG", 0 },
+                {"PORK_MEAT", 0},
+                {"KIKIAM", 0}
             },
             clearStars = new Dictionary<string, int>
             {
                 {"Lipa_Easy", 0},
                 {"Lipa_Med", 0},
                 {"Lipa_Hard", 0},
-                // {"Batangas_Easy", 0},
+//improve this somehow
+
             },
             accountCreated = System.DateTime.Now,
             highestLevelCleared = 1,    //Start at Level 1
@@ -159,10 +165,19 @@ public class DataManager : MonoBehaviour
         foreach (string bevId in playerData.unlockedBeverageIds)
         {
             Beverage bev = InventoryManager.inv.gameRepo.BeverageRepo.Find(b => b.id == bevId);
-            InventoryManager.inv.playerRepo.BeverageRepo = new();
             if (bev != null)
             {
                 InventoryManager.inv.playerRepo.BeverageRepo.Add(bev);
+            }
+
+        }
+
+        foreach (string topId in playerData.unlockedToppingIds)
+        {
+            Topping top = InventoryManager.inv.gameRepo.ToppingRepo.Find(b => b.id == topId);
+            if (top != null)
+            {
+                InventoryManager.inv.playerRepo.ToppingRepo.Add(top);
             }
 
         }
@@ -209,7 +224,6 @@ public class DataManager : MonoBehaviour
 
                 InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(npc);
             }
-
         }
 
         foreach (string achId in playerData.unlockedAchievementIds)
@@ -270,9 +284,126 @@ public class DataManager : MonoBehaviour
                 {
                     foreach (var flag in flags.Keys)
                     {
-                        if (flags[flag] is bool boolVal)
-                            playerData.dialogueFlags[flag] = boolVal;
+                        if (playerData.dialogueFlags.TryGetValue(flag, out bool val))
+                            playerData.dialogueFlags[flag] = val;
+                        else
+                            playerData.dialogueFlags.Add(flag, val);
                     }
+                }
+            }
+
+            if (key == "unlockedSpecialCustomerIds")
+            {
+                if (playerData.unlockedSpecialCustomerIds == null)
+                    playerData.unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>();
+
+                if (value is Dictionary<string, object> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (playerData.unlockedSpecialCustomerIds.TryGetValue(flag, out List<bool> val))
+                            playerData.unlockedSpecialCustomerIds[flag] = val;
+
+                        else
+                            playerData.unlockedSpecialCustomerIds.Add(flag, val);
+
+                        //Update INV, if npc found, update, if not, add.
+                        SpecialNPCData npc = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == flag);
+                        if (npc != null)
+                        {
+                            int starCount = 0;
+                            foreach (var star in val)
+                                if (star == true)
+                                    starCount++;
+                            npc.starCount = starCount;
+                        }
+                        else
+                        {
+                            SpecialNPCData newNPC = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(c => c.entryID == flag);
+                            if (newNPC != null)
+                                InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(newNPC);
+                        }
+                    }
+                }
+            }
+
+            if (key == "unlockedTermIds")
+            {
+                if (playerData.unlockedTermIds == null)
+                    playerData.unlockedTermIds = new List<string>();
+
+                if (value is string val)
+                {
+                    playerData.unlockedTermIds.Add(val);
+
+                    if (!InventoryManager.inv.playerRepo.TermRepo.Find(c => c.entryID == val))
+                    {
+                        TermData newTerm = InventoryManager.inv.gameRepo.TermRepo.Find(c => c.entryID == val);
+                        if (newTerm != null)
+                            InventoryManager.inv.playerRepo.TermRepo.Add(newTerm);
+                    }
+                }
+            }
+
+            if (key == "unlockedLocationIds")
+            {
+                if (playerData.unlockedLocationIds == null)
+                    playerData.unlockedLocationIds = new List<string>();
+
+                if (value is string val)
+                {
+                    playerData.unlockedLocationIds.Add(val);
+
+                    if (!InventoryManager.inv.playerRepo.LocationRepo.Find(c => c.entryID == val))
+                    {
+                        LocationData newLoc = InventoryManager.inv.gameRepo.LocationRepo.Find(c => c.entryID == val);
+                        if (newLoc != null)
+                            InventoryManager.inv.playerRepo.LocationRepo.Add(newLoc);
+                    }
+                }
+            }
+
+            if (key == "unlockedBuffs")
+            {
+                if (playerData.unlockedBuffs == null)
+                    playerData.unlockedBuffs = new();
+
+                if (value is Dictionary<string, int> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (playerData.unlockedBuffs.ContainsKey(flag))
+                            playerData.unlockedBuffs[flag] = flags[flag];
+                        else
+                            playerData.unlockedBuffs.Add(flag, flags[flag]);
+                    }
+                }
+            }
+
+            if (key == "unlockedRecipeIds")
+            {
+                if (value is Recipe rec)
+                {
+                    playerData.unlockedRecipeIds.Add(rec.id);
+                    InventoryManager.inv.playerRepo.RecipeRepo.Add(rec);
+                }
+            }
+
+            if (key == "unlockedBeverageIds")
+            {
+                if (value is Beverage bev)
+                {
+                    playerData.unlockedBeverageIds.Add(bev.id);
+                    InventoryManager.inv.playerRepo.BeverageRepo.Add(bev);
+                }
+            }
+
+            if (key == "unlockedCustomerIds")
+            {
+                if (value is CustomerData cus)
+                {
+                    playerData.unlockedCustomerIds.Add(cus.id);
+                    InventoryManager.inv.playerRepo.CustomerRepo.Add(cus);
                 }
             }
 
@@ -280,6 +411,7 @@ public class DataManager : MonoBehaviour
             if (key == "money" && value is float money) playerData.money = money;
             if (key == "happiness" && value is float happiness) playerData.money = happiness;
             if (key == "lastLogin" && value is System.DateTime lastLogin) playerData.lastLogin = lastLogin;
+
         }
     }
 

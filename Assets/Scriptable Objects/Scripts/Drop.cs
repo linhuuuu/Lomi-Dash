@@ -6,6 +6,7 @@ public enum DropType
     Topping,
     CE
 }
+
 [CreateAssetMenu(fileName = "Drop", menuName = "ScriptableObjects/Drop")]
 public class Drop : ScriptableObject
 {
@@ -20,7 +21,5 @@ public class Drop : ScriptableObject
     [Header("Value")]
     public int intVal;
     public float floatVal;
-    public string stringVal;
-
-
+    public CharacterEvent ceVal;
 }

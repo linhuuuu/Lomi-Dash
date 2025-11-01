@@ -1,11 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DropObj : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Transform prompt;
-    public TextMeshPro promptLabel;
+    public TextMeshProUGUI promptLabel;
+    public Image image;
     public Drop dropData;
 
     void Awake()
@@ -17,13 +19,15 @@ public class DropObj : MonoBehaviour
     {
         transform.GetComponentInParent<DropObjZone>().CollectAll();
     }
+    
     public void InitSprite()
     {
         Debug.Log(dropData);
         spriteRenderer.sprite = dropData.sprite;
+        image.sprite = dropData.sprite;
 
         Vector2 circle = Random.insideUnitCircle * 0.5f;
-        Vector3 offset = new Vector3(circle.x, circle.y, 0f);
+        Vector3 offset = new Vector3(circle.x, circle.y, -30f);
         transform.localPosition = Vector3.zero + offset;
         transform.localEulerAngles = Vector3.zero;
 
@@ -37,7 +41,6 @@ public class DropObj : MonoBehaviour
             string label = dropData.id.Replace("_", ": ");
             dropData.promptLabel = $"New Character Event: {label}";
         }
-        CollectCE();
     }
 
     public void Collect()
@@ -58,7 +61,7 @@ public class DropObj : MonoBehaviour
             RoundManager.roundManager.AddCurrencies(0, dropData.floatVal);
     }
 
-    public void CollectTopping() => RoundManager.roundManager.AddToppings(dropData.id, dropData.intVal);
+    public void CollectTopping() => Debug.Log("Not Implemented");
 
-    public void CollectCE() => RoundManager.roundManager.AddCE(dropData.id);
+    public void CollectCE() => RoundManager.roundManager.AddCE(dropData.ceVal);
 }

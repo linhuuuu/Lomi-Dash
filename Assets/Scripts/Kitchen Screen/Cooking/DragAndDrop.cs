@@ -102,7 +102,7 @@ public class DragAndDrop : MonoBehaviour
     {
         if (KitchenDrag.Instance == null) return;
 
-        float edgeThreshold = 200f;
+        float edgeThreshold = 100f;
 
         if (screenPos.x < edgeThreshold)
         {
@@ -145,9 +145,10 @@ public class DragAndDrop : MonoBehaviour
                     sprite.sortingOrder -= 30;
 
                 if (transform.GetChild(i).TryGetComponent(out SpriteMask mask))
-                {
                     mask.frontSortingOrder -= 30;
-                }
+
+                if (transform.GetChild(i).TryGetComponent(out Collider childCol))
+                    childCol.enabled = true;
             }
         }
     }
@@ -155,6 +156,7 @@ public class DragAndDrop : MonoBehaviour
     protected void initDraggable()
     {
         col.enabled = false;
+        
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);

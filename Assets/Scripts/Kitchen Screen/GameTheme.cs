@@ -7,6 +7,9 @@ public enum GameTheme
 public enum Locations
 {
     Lipa,
-    Tanuan,
-    
+    PadreGarcia,
+    Batangas,
+    Mabini,
+    Taal
+
 }

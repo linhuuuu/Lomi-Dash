@@ -13,16 +13,15 @@ MonoBehaviour:
   m_Name: Batangas
   m_EditorClassIdentifier: 
   id: BATANGAS
-  recipeName: Batangas
-  basePrice: 0
+  recipeName: LOMI BATANGAS
+  basePrice: 80
+  region: 0
   toppingList:
   - topping: {fileID: 11400000, guid: 83ed4617437caa84785b007267f627ab, type: 2}
     count: 3
   - topping: {fileID: 11400000, guid: 437dd4ada1a99ad4fa2ff0462313e7ea, type: 2}
-    count: 2
-  - topping: {fileID: 11400000, guid: 3338a4512fa028d47a7aae52ded5e0d5, type: 2}
-    count: 1
-  - topping: {fileID: 11400000, guid: 2eb0791d4a31d1f4e8e64814e8d5d3cd, type: 2}
-    count: 1
-  toppingVisual: {fileID: 7860515172292930640, guid: ae9e53c93d7e28d459c91ede19b565ed,
+    count: 3
+  - topping: {fileID: 11400000, guid: d88bbf3554de75a46aabe20cb7053da9, type: 2}
+    count: 3
+  toppingVisual: {fileID: 5597419501941907907, guid: d58b876ac9b0b3f4b87d073b18352227,
     type: 3}

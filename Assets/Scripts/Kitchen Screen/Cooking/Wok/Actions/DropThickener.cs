@@ -13,9 +13,9 @@ public class DropThickener : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
+            if (targetWok.potGroup == null || targetWok.noodlesNode == null) { revertDefaults(); return; }
+            
             targetWok.AddThickener();
-            revertDefaults();
-            return;
         }
         revertDefaults();
     }

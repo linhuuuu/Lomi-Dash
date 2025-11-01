@@ -22,6 +22,7 @@ public class KitchenDrag : MonoBehaviour
     //Object References
     private Canvas mainCanvas;
     private Canvas kitchenCanvas;
+
     private Camera mainCam;
     [field: SerializeField] public Slider zoomSlider { set; get; }
 

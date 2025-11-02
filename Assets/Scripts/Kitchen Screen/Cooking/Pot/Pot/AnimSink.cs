@@ -3,9 +3,12 @@ using UnityEngine;
 
 public class AnimSink : MonoBehaviour
 {
-   [field:SerializeField]  private SpriteRenderer water { set; get; }
-   [field:SerializeField]  public SpriteRenderer sink { set; get; }
-   [field:SerializeField]  public Transform potPos { set; get; }
+    [field: SerializeField] private SpriteRenderer water { set; get; }
+    [field: SerializeField] public SpriteRenderer sink { set; get; }
+    [field: SerializeField] public Transform potPos { set; get; }
+    [SerializeField] private AudioSource src;
+    [SerializeField] private AudioClip placePotOnSink;
+    [SerializeField] private AudioClip addWaterOnPot;
 
     private VisualStateLib lib;
 
@@ -32,10 +35,10 @@ public class AnimSink : MonoBehaviour
 
             count += rate;
 
-            if (state < lib.sinkWaterStates.Count-1)
-             state++;
+            if (state < lib.sinkWaterStates.Count - 1)
+                state++;
             else
-             state = 0;
+                state = 0;
         }
 
         sink.sprite = lib.sinkStates["closed"];

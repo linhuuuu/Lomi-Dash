@@ -30,6 +30,9 @@ public class PlayerSaveData
     [FirestoreProperty]
     public float money { get; set; }
 
+     [FirestoreProperty]
+    public float voucher { get; set; }
+
     [FirestoreProperty]
     public List<string> unlockedRecipeIds { get; set; } = new List<string>();
 

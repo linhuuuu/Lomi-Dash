@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: EGG
   buffName: Egg of Perfection
+  price: 50
   effect: Adds +10% Points to the Total Score earned.
   sprite: {fileID: -1128299693, guid: 88c5a33a296a7a847a591bf39b7fbe99, type: 3}
   buffs:

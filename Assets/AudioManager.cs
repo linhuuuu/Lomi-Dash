@@ -3,26 +3,74 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[System.Serializable]
-public class Clip
+public enum BGM
 {
-    public string id;
-    public AudioClip clip;
+    TITLE,
+    MAIN,
+    LIPA,
+    PADRE_GARICA,
+    BATANGAS,
+    MABINI,
+    TAAL,
+}
+
+public enum UI
+{
+    CLICK,
+    PAGEFLIP,
+    KITCHENTOGGLE,
+    PURCHASE,
+}
+
+public enum SFX
+{
+    MISTAKE,
+    CUSTOMER_SPAWN,
+    CUSTOMER_PICKUP,
+    CUSTOMER_PLACE,
+    CUSTOMER_ANGRY,
+    CUSTOMER_HAPPY,
+    CUSTOMER_NEUTRAL,
+    CUSTOMER_CHATTER,
+    DROP_PICKUP
+
 }
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private List<Clip> BGMClips;
-    [SerializeField] private List<Clip> SFXClips;
-    [SerializeField] private List<Clip> UIClips;
-    private Dictionary<string, AudioClip> BGMDict;
-    private Dictionary<string, AudioClip> SFXDict;
-    private Dictionary<string, AudioClip> UIDict;
-    [SerializeField] private AudioSource BGM;
-    [SerializeField] private AudioSource SFX;
-    [SerializeField] private AudioSource UI;
+    [SerializeField] private AudioSource BGMSource;
+    [SerializeField] private AudioSource UISource;
+    public List<AudioSource> SFXSources;
 
     public static AudioManager instance;
+
+    [System.Serializable]
+    public class SoundSettings
+    {
+        public AudioClip BGM_TITLE;
+        public AudioClip BGM_MAIN;
+        public AudioClip BGM_LIPA;
+        public AudioClip BGM_PADREGARCIA;
+        public AudioClip BGM_BATANGAS;
+
+        public AudioClip UI_CLICK;
+        public AudioClip UI_PAGEFLIP;
+        public AudioClip UI_KITCHENTOGGLE;
+        public AudioClip UI_PURCHASE;
+
+        public AudioClip SFX_MISTAKE;
+        public AudioClip SFX_CUSTOMER_SPAWN;
+        public AudioClip SFX_CUSTOMER_PICKUP;
+        public AudioClip SFX_CUSTOMER_PLACE;
+        public AudioClip SFX_CUSTOMER_ANGRY;
+        public AudioClip SFX_CUSTOMER_HAPPY;
+        public AudioClip SFX_CUSTOMER_NEUTRAL;
+        public AudioClip SFX_CUSTOMER_CHATTER;
+        public AudioClip SFX_DROP_PICKUP;
+    }
+
+    [SerializeField] private SoundSettings settings;
+
     void Awake()
     {
         if (instance == null)
@@ -34,56 +82,68 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        PopulateDictionary(SFXDict, SFXClips);
-        PopulateDictionary(BGMDict, BGMClips);
-        PopulateDictionary(UIDict, UIClips);
     }
 
     #region AudioControl
-    public void PlayBGM(string clipName)
+    public void PlayBGM(BGM bgm)
     {
-        if (BGM.isPlaying)
-            BGM.Stop();
+        if (BGMSource.isPlaying)
+            BGMSource.Stop();
 
-        if (!BGMDict.TryGetValue(clipName, out AudioClip clip)) return;
-        BGM.clip = clip;
-        BGM.loop = true;
-        BGM.Play();
+        AudioClip audioClip = bgm switch
+        {
+            BGM.TITLE => settings.BGM_TITLE,
+            BGM.MAIN => settings.BGM_MAIN,
+            BGM.LIPA => settings.BGM_LIPA,
+            BGM.PADRE_GARICA => settings.BGM_PADREGARCIA,
+            BGM.BATANGAS => settings.BGM_BATANGAS,
+            // BGM.MABINI => settings.BGM_MABINI,
+            // BGM.TAAL => settings.BGM_TAAL,
+            _ => null
+        };
+
+        if (audioClip == null) return;
+
+        BGMSource.clip = audioClip;
+        BGMSource.Play();
     }
 
-    public void PlaySFX(string clipName)
+    public void PlayUI(UI ui)
     {
-        if (SFX.isPlaying)
-            SFX.Stop();
-        if (!SFXDict.TryGetValue(clipName, out AudioClip clip)) return;
-        SFX.clip = clip;
-        SFX.PlayOneShot(clip, 1f);
+        AudioClip audioClip = ui switch
+        {
+            UI.CLICK => settings.UI_CLICK,
+            UI.PAGEFLIP => settings.UI_PAGEFLIP,
+            UI.KITCHENTOGGLE => settings.UI_KITCHENTOGGLE,
+            UI.PURCHASE => settings.UI_PURCHASE,
+            _ => null
+        };
+
+        if (audioClip == null) return;
+
+        UISource.PlayOneShot(audioClip);
     }
 
-    public void PlayAudioSource(AudioSource source) => source.Play();
-    public void StopAudioSource(AudioSource source) => source.Stop();
-
-    public void PlayUI(string clipName)
+    public void PlaySFX(SFX sfx)
     {
-        if (UI.isPlaying)
-            UI.Stop();
-        if (!UIDict.TryGetValue(clipName, out AudioClip clip)) return;
-        UI.clip = clip;
-        UI.PlayOneShot(clip, 1f);
+        AudioClip audioClip = sfx switch
+        {
+            SFX.DROP_PICKUP => settings.SFX_DROP_PICKUP,
+            SFX.CUSTOMER_SPAWN => settings.SFX_CUSTOMER_SPAWN,
+            SFX.CUSTOMER_PICKUP => settings.SFX_CUSTOMER_PICKUP,
+            SFX.CUSTOMER_CHATTER => settings.SFX_CUSTOMER_CHATTER,
+            _ => null
+        };
+
+        if (audioClip == null) return;
+
+        UISource.PlayOneShot(audioClip);
     }
 
-    public void StopBGM() => BGM.Stop();
-    public void ChangeBGMVolume(float vol) => BGM.volume = vol;
-    public void ChangeUIVolume(float vol) => UI.volume = vol;
-    public void ChangeSFXVolume(float vol) => SFX.volume = vol;
 
-    #endregion
-    #region Helpers
-    void PopulateDictionary(Dictionary<string, AudioClip> dict, List<Clip> clips)
-    {
-        foreach (Clip clip in clips)
-            dict.Add(clip.id, clip.clip);
-    }
+    public void StopBGM() => BGMSource.Stop();
+    public void ChangeBGMVolume(float vol) => BGMSource.volume = vol;
+    public void ChangeUIVolume(float vol) => UISource.volume = vol;
+
     #endregion
 }

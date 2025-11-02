@@ -23,7 +23,10 @@ namespace PCG
             float waterRatio = Mathf.Clamp(player.count / count, 0, 1);
             float timeRatio = Mathf.Clamp(player.time / time, 0, 1);
 
-            return (waterRatio * (weightRatio * weight)) + (timeRatio * (weightRatio * weight));
+            float score = (waterRatio * (weightRatio * weight)) + (timeRatio * (weightRatio * weight));
+            if (Debug.isDebugBuild) Debug.Log(score);
+            
+            return score;
         }
 
         public override string ToString() => $"[{id}: Water x{count}, Time: {time}s (w={weight:F1})]";

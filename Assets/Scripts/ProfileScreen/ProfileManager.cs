@@ -56,6 +56,7 @@ public class ProfileManager : MonoBehaviour
             emailText.text = user.Email;
 
         returnButton.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
+        editPanel.SetActive(false);
     }
     void Start()
     {

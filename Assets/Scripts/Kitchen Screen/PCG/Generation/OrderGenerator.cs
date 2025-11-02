@@ -69,7 +69,7 @@ namespace PCG
             for (int i = 0; i < dishCount; i++)
             {
                 bool shouldMakeLarge = remainingLarge > 0;
-                Recipe recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count-1)];
+                Recipe recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count - 1)];
 
                 recipesUsed.Add(recipe);
 
@@ -108,6 +108,7 @@ namespace PCG
             foreach (Recipe recipe in recipesUsed)
                 price += recipe.basePrice;
 
+            Debug.Log($"Price: {price}");
             return (trayNode, price);
         }
 
@@ -127,18 +128,17 @@ namespace PCG
         {
             PotGroup pot = new PotGroup();
 
-            int boilTime = 15, waterHeld = 1, bonesCount = 1, saltCount = 1, pepperCount = 1;
+            int boilTime = 15, waterHeld = 1, bonesCount = 1, saltCount = 2, pepperCount = 2;
 
             if (isLarge)
             {
                 waterHeld = 2;
-                saltCount = 2;
-                pepperCount = 2;
-                // bawangCount = 2;
+                saltCount = 4;
+                pepperCount = 4;
             }
 
             pot.children.Add(new BoilNode(waterHeld, boilTime));
-            pot.children.Add(new BonesNode(bonesCount, boilTime));
+            pot.children.Add(new BonesNode(bonesCount));
             pot.children.Add(new SeasoningNode(saltCount, pepperCount));
 
             return pot;
@@ -147,29 +147,28 @@ namespace PCG
         public static OrderNode GenerateWokGroup(bool isLarge)
         {
             var wok = new WokGroup();
-            int oilCount = 1, onionCount = 1, bawangCount = 1, sauteeCount = 1;
+            int oilCount = 1, onionCount = 1, bawangCount = 1, soySauceCount = 1;
             int noodleCount = 1, cookTime = 15, eggCount = 1, thickenerCount = 1;
             bool isMixed = true;
 
             if (isLarge)
             {
-                oilCount = 2; onionCount = 2; bawangCount = 2; sauteeCount = 2;
+                oilCount = 2; onionCount = 2; bawangCount = 2; soySauceCount = 2;
                 noodleCount = 2; eggCount = 2; thickenerCount = 2;
             }
 
-            wok.children.Add(new SauteeNode(oilCount, onionCount, bawangCount, sauteeCount));
+            wok.children.Add(new SauteeNode(oilCount, onionCount, bawangCount, cookTime));
             wok.children.Add(new NoodlesNode(noodleCount, cookTime));
-            wok.children.Add(new Mix_1_Node(isMixed));
-            wok.children.Add(new EggNode(eggCount));
-            wok.children.Add(new ThickenerNode(thickenerCount));
-            wok.children.Add(new Mix_2_Node(isMixed));
+            wok.children.Add(new SoySauceNode(soySauceCount));
+            wok.children.Add(new ThickenerNode(thickenerCount, isMixed));
+            wok.children.Add(new EggNode(eggCount, isMixed));
 
             return wok;
         }
 
         public static OrderNode GenerateToppingGroup(Recipe recipe)
         {
-            
+
             var toppingsSection = new ToppingGroup();
             var toppingList = recipe.toppingList;
 

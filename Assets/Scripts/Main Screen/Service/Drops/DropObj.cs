@@ -18,6 +18,7 @@ public class DropObj : MonoBehaviour
     private void OnMouseDown()
     {
         transform.GetComponentInParent<DropObjZone>().CollectAll();
+        AudioManager.instance.PlaySFX(SFX.DROP_PICKUP);
     }
     
     public void InitSprite()

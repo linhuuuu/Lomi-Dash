@@ -23,7 +23,10 @@ namespace PCG
             float saltRatio = Mathf.Clamp(player.saltCount / saltCount, 0, 1);
             float pepperRatio = Mathf.Clamp(player.pepperCount / pepperCount, 0, 1);
 
-            return (saltRatio * (weight * weightRatio)) + (pepperRatio * (weight * weightRatio));
+            float score = (saltRatio * (weight * weightRatio)) + (pepperRatio * (weight * weightRatio));
+            if (Debug.isDebugBuild) Debug.Log(score);
+            
+            return score;
         }
 
         public override string ToString()

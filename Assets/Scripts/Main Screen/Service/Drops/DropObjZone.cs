@@ -27,12 +27,15 @@ public class DropObjZone : MonoBehaviour
         
         StartCoroutine(ReadAllPrompts());
         tableDropZone.occupied = false;
+
+        if (Debug.isDebugBuild) Debug.Log($"Collected Buffs, Cleared Table {tableDropZone}. Occupancy: {tableDropZone.occupied}");
     }
 
     private IEnumerator ReadAllPrompts()
     {
         foreach (var prompt in prompts)
         {
+            prompt.gameObject.SetActive(true);
             LeanTween.move(prompt.gameObject, prompt.position + new Vector3(0f, 1f, 0f), 1f).setEaseLinear();
             yield return new WaitForSeconds(1f);
             Destroy(prompt.gameObject);

@@ -49,8 +49,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
     - {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
     BeverageRepo:
-    - {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
     - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+    - {fileID: 11400000, guid: 883bbbb3071ffcc4ab9cf47d09efe994, type: 2}
+    - {fileID: 11400000, guid: 3fc6c0e0a09d37241b9b9653ff08eb0d, type: 2}
+    - {fileID: 11400000, guid: f72ce9708bfe0ba4d9cfa54723d31714, type: 2}
+    - {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
+    - {fileID: 11400000, guid: 27bf320b22a1e7144b55a30cede74344, type: 2}
+    - {fileID: 11400000, guid: c8b16658051947e499c3166d4edd7d0a, type: 2}
+    - {fileID: 11400000, guid: 24c6823f85678a040999f890b99b944e, type: 2}
     CustomerRepo:
     - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
     - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}

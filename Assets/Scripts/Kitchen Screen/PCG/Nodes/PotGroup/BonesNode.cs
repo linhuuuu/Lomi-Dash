@@ -1,31 +1,28 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 namespace PCG
 {
     public class BonesNode : OrderNode
     {
         public int count { set; get; } = 0;
-        public int time { set; get; } = 0;
-        private float weightRatio = 0.5f;
 
-        public BonesNode() => id = "BONES_NDOE";
-        public BonesNode(int count, int time)
+        public BonesNode() => id = "BONES_NODE";
+        public BonesNode(int count)
         {
-            id = "BONES_NDOE";
+            id = "BONES_NODE";
             this.count = count;
-            this.time = time;
         }
 
         public override float EvaluateLeafNode(OrderNode other)
         {
-            if (other is not BoilNode player)
+            if (other is not BonesNode player)
                 return 0f;
 
-            float countRatio = Mathf.Clamp(player.count / count, 0, 1);
-            float timeRatio = Mathf.Clamp(player.time / time, 0, 1);
-
-            return (countRatio * (weightRatio * weight)) + (timeRatio * (weightRatio * weight));
+            float score = Mathf.Clamp(player.count / count, 0f, 1f) * weight;
+            if (Debug.isDebugBuild) Debug.Log(score);
+            return score;
         }
 
-        public override string ToString() => $"[{id}: Count x{count}s  Time: {time}s (w={weight:F1})]";
+        public override string ToString() => $"[{id}: Count x{count}s (w={weight:F1})]";
     }
 }

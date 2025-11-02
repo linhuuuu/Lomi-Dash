@@ -19,6 +19,7 @@ public class ReturnSeasoning : MonoBehaviour
 
     void OnMouseDown()
     {
+        pot.PlayShakeSeasoning(2);
         dropPot.gameObject.SetActive(true);
         shakePot.gameObject.SetActive(false);
         this.gameObject.SetActive(false);

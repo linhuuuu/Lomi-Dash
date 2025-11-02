@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class AnimIngredients : MonoBehaviour
 {
     protected GameObject bawang, onion, oil, broth, noodles, egg, thickener;
     protected SpriteRenderer bawangSprite, onionSprite, oilSprite, brothSprite, noodlesSprite, eggSprite, thickenerSprite;
+    protected JitterEffect bawangJitter, onionJitter, oilJitter, brothJitter, noodlesJitter, eggJitter, thickenerJitter;
     protected string bawangState, onionState, oilState, brothState, brothColorState, eggState, thickenerState;
     protected List<GameObject> ingredientsList = new();
+    protected List<JitterEffect> jitterList = new();
     protected List<bool> activeStates = new();
 
     public virtual void Awake()
@@ -32,9 +33,22 @@ public class AnimIngredients : MonoBehaviour
             ingredientsList.Add(obj.gameObject);
         }
 
-         bawangState = "1"; onionState = "1"; oilState = "1"; brothState = "1";  brothColorState = "original"; thickenerState = "1"; eggState = "1";
+        jitterList.Clear();
+        foreach (GameObject go in ingredientsList)
+        {
+            if (go.TryGetComponent<JitterEffect>(out JitterEffect jitter))
+                jitterList.Add(jitter);
+        }
+
+        bawangState = "1"; 
+        onionState = "1"; 
+        oilState = "1"; 
+        brothState = "1"; 
+        brothColorState = "original"; 
+        eggState = "1"; 
+        thickenerState = "1";
+        
         ToggleActive(false);
-       
     }
 
     public void ToggleBawang(bool val) => bawang.SetActive(val);
@@ -44,43 +58,45 @@ public class AnimIngredients : MonoBehaviour
     public void ToggleNoodles(bool val) => noodles.SetActive(val);
     public void ToggleEgg(bool val) => egg.SetActive(val);
     public void ToggleThickener(bool val) => thickener.SetActive(val);
+
     public void ToggleActive(bool state)
     {
-        foreach (GameObject obj in ingredientsList)
+        for (int i = 0; i < ingredientsList.Count; i++)
         {
-            obj.SetActive(state);
+            if (ingredientsList[i] != null)
+                ingredientsList[i].SetActive(state);
         }
     }
 
     public List<bool> GetActiveStates()
     {
+        activeStates.Clear();
         foreach (GameObject obj in ingredientsList)
             activeStates.Add(obj.activeSelf);
-
         return activeStates;
     }
 
     public void ResetStates()
     {
-        if (this.bawang.activeSelf != false)
+        if (bawang != null && bawang.activeSelf)
             bawangSprite.sprite = RoundManager.roundManager.lib.bawangStates["1"];
 
-        if (this.onion.activeSelf != false)
+        if (onion != null && onion.activeSelf)
             onionSprite.sprite = RoundManager.roundManager.lib.onionStates["1"];
 
-        if (this.oil.activeSelf != false)
+        if (oil != null && oil.activeSelf)
             oilSprite.sprite = RoundManager.roundManager.lib.oilStates["1"];
 
-        if (this.broth.activeSelf != false)
+        if (broth != null && broth.activeSelf)
         {
             brothSprite.sprite = RoundManager.roundManager.lib.brothStates["1"];
-            brothSprite.color = RoundManager.roundManager.lib.brothColors["1"];
+            brothSprite.color = RoundManager.roundManager.lib.brothColors["original"];
         }
 
-        if (this.egg.activeSelf != false)
+        if (egg != null && egg.activeSelf)
             eggSprite.sprite = RoundManager.roundManager.lib.eggStates["1"];
 
-        if (this.thickener.activeSelf != false)
+        if (thickener != null && thickener.activeSelf)
             thickenerSprite.sprite = RoundManager.roundManager.lib.thickenerStates["1"];
 
         ToggleActive(false);

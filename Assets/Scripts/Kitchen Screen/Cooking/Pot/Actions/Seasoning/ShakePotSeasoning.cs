@@ -54,6 +54,19 @@ public class ShakePotSeasoning : MonoBehaviour
             if (!hasTriggeredSeasoning)
             {
                 pot.AddSeasoning(seasoningName);
+                if (pot.seasoningNode.saltCount < pot.maxCount && pot.seasoningNode.pepperCount < pot.maxCount)
+                {
+                    pot.animPot.PlayShakeSeasoning(0);
+                }
+                else
+                {
+                    if (pot.seasoningNode.saltCount == pot.maxCount && seasoningName == "Salt")
+                        pot.animPot.PlayShakeSeasoning(1);
+
+                    if (pot.seasoningNode.pepperCount == pot.maxCount && seasoningName == "Pepper")
+                        pot.animPot.PlayShakeSeasoning(1);
+
+                }
                 hasTriggeredSeasoning = true;
             }
         }

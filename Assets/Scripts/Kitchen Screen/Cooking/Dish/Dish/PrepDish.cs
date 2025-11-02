@@ -117,13 +117,13 @@ public class PrepDish : DragAndDrop
     #region Dropping
     public void OnMouseUp()
     {
-        foreach (Transform top in toppingSection)
-            top.GetComponent<Collider>().enabled = false;
+        foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+            top.enabled = false;
 
         initDraggable();
 
-        foreach (Transform top in toppingSection)
-            top.GetComponent<Collider>().enabled = true;
+        foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+            top.enabled = true;
 
         if (toppingSection.childCount > 0)
         {
@@ -192,9 +192,9 @@ public class PrepDish : DragAndDrop
 
         hitCollider.TryGetComponent(out DishSlot slot);
         slot.RecieveDishToSlot(gameObject.GetComponent<PrepDish>());
-        
-            foreach (Transform top in toppingSection)
-                top.GetComponent<Collider>().enabled = false;
+
+        foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+            top.enabled = false;
 
         if (Debug.isDebugBuild) Debug.Log("Placed in Tray at slot");
     }
@@ -205,9 +205,10 @@ public class PrepDish : DragAndDrop
 
         dishSlot.RemoveDishFromSlot();
         DishToDishPos(this);
-        
-            foreach (Transform top in toppingSection)
-                top.GetComponent<Collider>().enabled = false;
+
+        foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+            top.enabled = false;
+
     }
 
     private bool OnDishActions()
@@ -226,8 +227,9 @@ public class PrepDish : DragAndDrop
             dishSlot.RecieveDishToSlot(otherDish);  // Add The OtherDish to This Slot
             DishToDishPos(this);    //Place This Dish to DishPos
 
-            foreach (Transform top in toppingSection)
-                top.GetComponent<Collider>().enabled = true;
+            foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+                top.enabled = true;
+
             return true;
         }
 
@@ -235,9 +237,9 @@ public class PrepDish : DragAndDrop
         {
             otherDish.dishSlot.RecieveDishToSlot(this);
             DishToDishPos(otherDish);
-            
-            foreach (Transform top in toppingSection)
-                top.GetComponent<Collider>().enabled = false;
+
+            foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())
+                top.enabled = false;
             return true;
         }
         return false;

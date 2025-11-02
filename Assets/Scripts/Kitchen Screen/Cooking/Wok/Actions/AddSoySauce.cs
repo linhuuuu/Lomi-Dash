@@ -14,7 +14,7 @@ public class AddSoySauce : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            if (targetWok.mix_1_Node == null)
+            if (targetWok.potGroup != null)
             {
                 targetWok.AddSoySauce();
                 revertDefaults();

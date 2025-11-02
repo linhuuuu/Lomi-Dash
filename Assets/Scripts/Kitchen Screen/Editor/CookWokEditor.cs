@@ -28,6 +28,32 @@ public class CookWokEditor : Editor
             if (cookWok.sauteeNode != null)
             {
                 EditorGUILayout.LabelField(cookWok.sauteeNode.id);
+                EditorGUILayout.LabelField("  | Onion Count: " + cookWok.sauteeNode.onionCount);
+                EditorGUILayout.LabelField("  | Bawang Count: " + cookWok.sauteeNode.bawangCount);
+                EditorGUILayout.LabelField("  | Oil Count: " + cookWok.sauteeNode.oilCount);
+                EditorGUILayout.LabelField("  | Onion Time: " + cookWok.sauteeNode.onionTime);
+                EditorGUILayout.LabelField("  | Bawang Time: " + cookWok.sauteeNode.bawangTime);
+                EditorGUILayout.LabelField("  | Oil Time: " + cookWok.sauteeNode.oilTime);
+            }
+
+            if (cookWok.soysauceNode != null)
+            {
+                EditorGUILayout.LabelField("  | SoySauce Count: " + cookWok.soysauceNode.count);
+            }
+
+            if (cookWok.noodlesNode != null)
+            {
+                EditorGUILayout.LabelField("  | Noodles Count: " + cookWok.noodlesNode.count);
+            }
+
+            if (cookWok.eggNode != null)
+            {
+                EditorGUILayout.LabelField("  | Egg Count: " + cookWok.eggNode.count);
+            }
+
+            if (cookWok.thickenerNode != null)
+            {
+                EditorGUILayout.LabelField("  | Thickener Count: " + cookWok.thickenerNode.count);
             }
         }
 
@@ -35,17 +61,17 @@ public class CookWokEditor : Editor
             Repaint();
     }
     void PrintTree(OrderNode node, string indent)
+    {
+        EditorGUILayout.LabelField(node.ToString());
+        if (node.children != null)
         {
-            EditorGUILayout.LabelField(node.ToString());
-            if (node.children != null)
+            foreach (var child in node.children)
             {
-                foreach (var child in node.children)
-                {
-                    if (child != null)
-                        PrintTree(child, indent + "  ");
-                }
+                if (child != null)
+                    PrintTree(child, indent + "  ");
             }
         }
+    }
 }
 #endif
 

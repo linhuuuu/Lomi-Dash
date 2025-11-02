@@ -81,7 +81,6 @@ public class PrepTray : MonoBehaviour
     public bool RemoveBev(BeverageSectionNode dish, int slot)
     {
         // int bevWeight = GetBevWeight(bev);
-
         bevList[slot] = new BeverageSectionNode();
         // currentDishWeight -= bevWeight;
         return true;
@@ -142,7 +141,6 @@ public class PrepTray : MonoBehaviour
         currentBevWeight = 0;
         seasoningTray.trayCount = 0;
 
-        //Imporve the following because they should do pooling and not instantiating
         foreach (var dish in dishes)
             foreach(var d in dish.gameObject.GetComponentsInChildren<PrepDish>())
                 Destroy(d.gameObject);

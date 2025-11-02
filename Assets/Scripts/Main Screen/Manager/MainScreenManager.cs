@@ -26,13 +26,12 @@ public class MainScreenManager : MonoBehaviour
 
         if (activeScreen)
             activeScreen.enabled = true;
-
-      
     }
 
 
     async void Start()
     {
+          AudioManager.instance.PlayBGM(BGM.MAIN);
         if (DataManager.data == null)
         {
             return;
@@ -52,9 +51,6 @@ public class MainScreenManager : MonoBehaviour
             statusUI.UpdateUI(money, happiness);
         }
 
-        //Dialogue
-
-        //  DialogueManager.dialogueManager.dialogueObj.GetComponent<Canvas>().worldCamera = CameraManager.cam.mainCam;
         bool introFlag = DataManager.data.playerData.dialogueFlags["intro"];
         if (!introFlag)
         {
@@ -68,10 +64,6 @@ public class MainScreenManager : MonoBehaviour
                     }
                 });
         }
+      
     }
-
-    // public async Task InitializeAsync()
-    // {
-        
-    // }
 }

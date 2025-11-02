@@ -9,6 +9,7 @@ public class KitchenDrag : MonoBehaviour
     [SerializeField] private Vector3 leftBounds;
     [SerializeField] private Vector3 rightBounds;
     private Vector3 originalPos, worldPos, targetPos, dragStartOffset;
+    private float cameraPos;
 
     [Header("Dragging References")]
     [SerializeField] private LayerMask interactable;
@@ -36,6 +37,7 @@ public class KitchenDrag : MonoBehaviour
         mainCam = CameraManager.cam.mainCam;
         mainCanvas = MainScreenManager.main.activeScreen;
         kitchenCanvas = MainScreenManager.main.kitchenScreen;
+        cameraPos = mainCam.transform.position.y;
 
         originalPos = transform.position;
         isKitchenFocus = false;
@@ -168,19 +170,23 @@ public class KitchenDrag : MonoBehaviour
 
     public void ToggleKitchen()
     {
-        isKitchenFocus = !isKitchenFocus;
+        //SFX
+        AudioManager.instance.PlayUI(UI.KITCHENTOGGLE);
 
+        isKitchenFocus = !isKitchenFocus;
         if (isKitchenFocus)
         {
             CameraDragZoomControl.isCameraDraggingEnabled = false;
             kitchenCanvas.enabled = true;
             mainCanvas.enabled = false;
             LeanTween.move(gameObject, leftBounds, 0.2f).setEaseInSine();
-            mainCam.orthographicSize = maxOrtho;
 
-            // Optional: reset zoom to default when opening
-            if (zoomSlider != null)
-                zoomSlider.value = 0; // middle
+            //Camera POS
+            mainCam.orthographicSize = maxOrtho;
+            Vector3 revertCameraPos = new Vector3(mainCam.transform.position.x, cameraPos, mainCam.transform.position.z);
+            LeanTween.move(mainCam.gameObject, revertCameraPos, 0.2f).setEaseOutSine();
+
+            if (zoomSlider != null) zoomSlider.value = 0;
         }
         else
         {

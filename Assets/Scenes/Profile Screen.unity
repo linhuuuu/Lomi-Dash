@@ -1508,6 +1508,7 @@ GameObject:
   - component: {fileID: 460192073}
   - component: {fileID: 460192075}
   - component: {fileID: 460192074}
+  - component: {fileID: 460192076}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1572,6 +1573,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460192072}
   m_CullTransparentMesh: 1
+--- !u!114 &460192076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460192072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 460192074}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &472158714
 GameObject:
   m_ObjectHideFlags: 0
@@ -5327,16 +5372,16 @@ MonoBehaviour:
   userName: {fileID: 1107515159}
   accountCreated: {fileID: 1407684907}
   lastLogin: {fileID: 1398988873}
-  returnButton: {fileID: 0}
+  returnButton: {fileID: 460192076}
   uidText: {fileID: 515563061}
   emailHeader: {fileID: 1219792109}
   emailText: {fileID: 855470938}
   totalPlayTime: {fileID: 0}
-  editPanel: {fileID: 0}
-  nameInput: {fileID: 0}
-  icons: {fileID: 0}
-  cancel: {fileID: 0}
-  save: {fileID: 0}
+  editPanel: {fileID: 1277588961}
+  nameInput: {fileID: 2115998459}
+  icons: {fileID: 721039276}
+  cancel: {fileID: 855621466}
+  save: {fileID: 1096056160}
 --- !u!4 &1773981806
 Transform:
   m_ObjectHideFlags: 0
@@ -5974,7 +6019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2017769675
 RectTransform:
   m_ObjectHideFlags: 0

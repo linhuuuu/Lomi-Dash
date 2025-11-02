@@ -91,6 +91,8 @@ public class AlmanacLogic : MonoBehaviour
     // ============================================================
     public void OnButtonClicked(MoveButton clickedButton)
     {
+        AudioManager.instance.PlayUI(UI.PAGEFLIP);
+        
         foreach (var btn in tabButtons)
         {
             bool isActive = (btn == clickedButton);

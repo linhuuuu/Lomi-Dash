@@ -70,7 +70,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private GameObject modalCanvas;
 
     //Dialogue
-    private List<string> eventsToPlay;
+    private List<string> eventsToPlay = new List<string>();
 
     [Header("Round Stats")]
     private float money = 0f;
@@ -159,7 +159,7 @@ public class RoundManager : MonoBehaviour
 
         //SPECIAL CUSTOMER DESIGNATION
         specialCustomer = ChooseSpecialCustomer();
-        Debug.Log(specialCustomer);
+        if (Debug.isDebugBuild) Debug.Log(specialCustomer);
         // Choose Position
         int specialIndex = -1;
         if (specialCustomer != null)
@@ -351,6 +351,18 @@ public class RoundManager : MonoBehaviour
             });
         }
 
+        //BGM 
+        BGM bgm = profile.location switch
+        {
+            Locations.Lipa => BGM.LIPA,
+            Locations.PadreGarcia => BGM.PADRE_GARICA,
+            Locations.Batangas => BGM.BATANGAS,
+            Locations.Mabini => BGM.MABINI,
+            Locations.Taal => BGM.TAAL,
+            _ => BGM.LIPA
+        };
+        AudioManager.instance.PlayBGM(bgm);
+
         //StartRound
         StartCoroutine(RoundLoop());
     }
@@ -385,7 +397,7 @@ public class RoundManager : MonoBehaviour
 
         //DIALOGUE
         string afterDialogue = $"{GameManager.instance.roundProfile.roundName}_After";
-        if (DataManager.data.playerData.dialogueFlags[afterDialogue] == false)
+        if (DataManager.data.playerData.dialogueFlags.TryGetValue(afterDialogue, out bool dialogue) && dialogue == false)
         {
             AddToDialogueToPlay(afterDialogue);
             Dictionary<string, object> updatedDialogueFlags = new Dictionary<string, object> { { afterDialogue, true } };
@@ -441,6 +453,8 @@ public class RoundManager : MonoBehaviour
         //Set References
         customerGroup.spawnPoint = spawn;
         StartCoroutine(customerGroup.timer.StartTimer());
+
+        AudioManager.instance.PlaySFX(SFX.CUSTOMER_SPAWN);
     }
 
     public void OnCustomerGroupLeaveStanding(CustomerGroup group)
@@ -570,16 +584,15 @@ public class RoundManager : MonoBehaviour
         scoreBuffs = new();
         activeBuffData = null;
 
-        //Reset Table if no currency dropped. 
-        Debug.Log(totalHappiness);
-        bool isCurrencyDropped = InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness);
+        if (Debug.isDebugBuild) Debug.Log($"Total Money: {totalMoney}");
+        if (Debug.isDebugBuild) Debug.Log($"Total Happiness: {totalHappiness}");
 
+        bool isCurrencyDropped = InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness);
         bool isCEDropped = InstCEDrop(group, finalScore);
 
         if (isCurrencyDropped || isCEDropped)
         {
             group.tableDropZone.occupied = true;
-
             if (!isCEDropped)     //If specialcustomer has not been served well. reset specialcustomer unlock.
                 specialCustomer = null;
         }
@@ -602,7 +615,7 @@ public class RoundManager : MonoBehaviour
         //Skip if specialcustomer is not found or score is low
         if (specialCustomer == null) return false;
         if (!group.customers.Exists(c => c.data.id == specialCustomer.id)) return false;
-        if (finalScore >= 0.5f) return false;
+        if (finalScore < 50f) return false;
 
         //If custumer is new. Skip PlayerRepo Find.
         int starsCollected = 0;
@@ -684,7 +697,6 @@ public class RoundManager : MonoBehaviour
         if (money > 0)
         {
             GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
-
             drop = dropObj.GetComponent<DropObj>();
 
 
@@ -697,6 +709,7 @@ public class RoundManager : MonoBehaviour
                 data = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "MoneyLow");
 
             drop.dropData = data;
+            drop.dropData.floatVal = money;
 
             if (drop != null)
                 drop.InitSprite();
@@ -710,20 +723,21 @@ public class RoundManager : MonoBehaviour
             drop = dropObj.GetComponent<DropObj>();
 
             drop.dropData = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "Happiness");
+            drop.dropData.floatVal = happiness;
 
             if (drop != null)
                 drop.InitSprite();
 
             isCurrencyDropped = true;
         }
-
         return isCurrencyDropped;
     }
 
     public void AddCurrencies(float money, float happiness)
     {
-        Debug.Log("Added" + money);
-        Debug.Log("Added" + happiness);
+        if (Debug.isDebugBuild) Debug.Log("Added" + money);
+        if (Debug.isDebugBuild) Debug.Log("Added" + happiness);
+
         this.money += money;
         this.happiness += happiness;
         OnCurrencyChange?.Invoke(this.money, this.happiness);

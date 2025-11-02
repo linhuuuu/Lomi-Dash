@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: BOLA-BOLA
   buffName: Bola-Bola of Joy
+  price: 50
   effect: Adds +5 Happiness to the Total Happiness earned.
   sprite: {fileID: 1390020673, guid: 88c5a33a296a7a847a591bf39b7fbe99, type: 3}
   buffs:

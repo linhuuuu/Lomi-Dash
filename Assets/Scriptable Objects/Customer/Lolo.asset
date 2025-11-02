@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: LOLO
   customerName: Lolo
-  patienceTime: 100
+  patienceTime: 200
   paymentRange: 200
-  itemDrop: 
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
   portrait: {fileID: 21300000, guid: a4d8ce0ceefb5864cae897755bfb3b0b, type: 3}
   standingSprite: {fileID: 1666454598, guid: cc0a67762df181c43a7fbc492b49c544, type: 3}
   sittingSprite: {fileID: 865163507, guid: cc0a67762df181c43a7fbc492b49c544, type: 3}

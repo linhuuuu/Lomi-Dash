@@ -1,4 +1,5 @@
 using PCG;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,14 +19,19 @@ public class CookPot : DragAndDrop
     void Start()
     {
         animPot = GetComponent<AnimPot>();
-    }
 
-    private void InitPot()
-    {
-        if (boilNode == null) boilNode = new BoilNode();
-        if (bonesNode == null) bonesNode = new BonesNode();
-        if (potGroup == null) potGroup = new PotGroup();
-        if (seasoningNode == null) seasoningNode = new SeasoningNode();
+        //Create Pot Node
+        boilNode = new();
+        seasoningNode = new();
+        bonesNode = new();
+        potGroup = new();
+
+        potGroup.children = new List<OrderNode>
+        {
+            boilNode,
+            bonesNode,
+            seasoningNode
+        };
     }
 
     #region AddNodes
@@ -39,45 +45,49 @@ public class CookPot : DragAndDrop
 
             //Anim
             yield return animPot.AnimWater(hitCollider.gameObject);
+            
+
         }
 
         revertDefaults();
     }
     public void AddKnorr()
     {
-        if (boilNode == null)
-        {
-            if (Debug.isDebugBuild) Debug.Log("No BoilNode Yet!");
-            return;
-        }
+
+        if (boilNode.count == 0 || boilNode == null) return;
 
         if (bonesNode == null) bonesNode = new BonesNode();
-        if (bonesNode.count < maxCount)//maxPot
+        if (bonesNode.count < maxCount)
         {
             bonesNode.count++;
-            UpdateBoilingState();
-        }
 
-        animPot.OnAddKnorr();
+            UpdateBoilingState();
+            animPot.OnAddKnorr();
+        }
     }
 
     public void AddSeasoning(string type)
     {
-        if (boilNode == null)
-        {
-            if (Debug.isDebugBuild) Debug.Log("No BoilNode Yet!");
-            return;
-        }
-
+        if (boilNode == null) boilNode = new BoilNode();
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
+
         switch (type)
         {
             case "Salt":
-                if (seasoningNode.saltCount < maxCount)
-                    seasoningNode.saltCount++; break;
+                if (seasoningNode.saltCount < maxCount * 2)
+                {
+                    seasoningNode.saltCount++;
+                    animPot.UpdateSeasoning();
+                }
+                break;
+
             case "Pepper":
-                if (seasoningNode.pepperCount < maxCount)
-                    seasoningNode.pepperCount++; break;
+                if (seasoningNode.pepperCount < maxCount * 2)
+                {
+                    seasoningNode.pepperCount++;
+                    animPot.UpdateSeasoning();
+                }
+                break;
             default:
                 break;
         }
@@ -98,9 +108,8 @@ public class CookPot : DragAndDrop
             if (stove_On)
             {
                 if (boilingRoutine == null)
-                {
                     boilingRoutine = StartCoroutine(BoilWater());
-                }
+                
             }
 
             else if (!stove_On && boilingRoutine != null)
@@ -117,26 +126,18 @@ public class CookPot : DragAndDrop
         while (stove_On && boilNode != null && boilNode.time < 15)
         {
             yield return new WaitForSeconds(1);
-
             if (boilNode.count > 0 && bonesNode != null)
                 boilNode.time++;
 
+            if (boilNode.time == 1)
+                animPot.PlayBoilSFX(0);
+            else if (boilNode.time == 7)
+                animPot.PlayBoilSFX(1);
+            else if (boilNode.time == 15)
+                animPot.PlayBoilSFX(2);
         }
-        boilingRoutine = null;
     }
-
     #endregion
-
-    public void CreatePotNode()
-    {
-        InitPot();
-        potGroup.children = new List<OrderNode>
-        {
-            boilNode,
-            bonesNode,
-            seasoningNode
-        };
-    }
 
     //Dropping
     public void OnMouseUp()
@@ -145,7 +146,7 @@ public class CookPot : DragAndDrop
 
         if (hitCollider == null)
         {
-            if (Debug.isDebugBuild) Debug.Log("Got Nothing");
+            if (Debug.isDebugBuild) Debug.Log("Pot hit nothing.");
             revertDefaults();
             return;
         }
@@ -158,36 +159,50 @@ public class CookPot : DragAndDrop
 
         if (hitCollider.TryGetComponent(out CookWok targetWok))
         {
-            if (targetWok.mix_1_Node == null && boilNode != null)
+            if (boilNode != null)
             {
                 //Block Transfer if
                 if (boilNode == null) { revertDefaults(); return; }
                 if (boilNode.count == 0) { revertDefaults(); return; }
-
                 if (targetWok.potGroup != null) { revertDefaults(); return; }
 
-                // if (targetWok?.noodlesNode != null && targetWok.noodlesNode.count != 0) { revertDefaults(); return; } noodles and
-
                 //Transfer Pot Group
-                CreatePotNode();
-                targetWok.TransferPot(potGroup, animPot.GetBrothColor());
+                PotGroup newPotGroup = new();
+                int wokMaxCount = targetWok.maxCount;
+
+                if (boilNode != null && boilNode.count > 0)
+                    newPotGroup.children.Add(new BoilNode { count = Mathf.Min(boilNode.count, wokMaxCount), time = boilNode.time });
+                else
+                    newPotGroup.children.Add(new BoilNode());
+
+                if (bonesNode != null && bonesNode.count > 0)
+                    newPotGroup.children.Add(new BonesNode { count = Mathf.Min(boilNode.count, wokMaxCount)});
+                else
+                    newPotGroup.children.Add(new BonesNode());
+
+                if (seasoningNode != null && seasoningNode.saltCount > 0 || seasoningNode.pepperCount > 0)
+                    newPotGroup.children.Add(new SeasoningNode { pepperCount = Mathf.Min(seasoningNode.pepperCount, wokMaxCount * 2), saltCount = Mathf.Min(seasoningNode.saltCount, wokMaxCount * 2) });
+                else
+                    newPotGroup.children.Add(new SeasoningNode());
+
+                targetWok.TransferPot(newPotGroup, animPot.GetBrothColor());
 
                 //Reduce Count
                 if (boilNode.count > 0)
-                    boilNode.count--;
+                    boilNode.count-=wokMaxCount;
 
                 if (bonesNode.count > 0)
-                    bonesNode.count--;
+                    bonesNode.count-=wokMaxCount;
 
                 if (seasoningNode.saltCount > 0)
-                    seasoningNode.saltCount--;
+                    seasoningNode.saltCount-=wokMaxCount * 2;
 
                 if (seasoningNode.pepperCount > 0)
-                    seasoningNode.pepperCount--;
+                    seasoningNode.pepperCount-=wokMaxCount * 2;
 
+                
                 //Anim Reduction
                 animPot.OnReduceWater();
-                
                 if (Debug.isDebugBuild) Debug.Log("Cleared POTNODE");
             }
 

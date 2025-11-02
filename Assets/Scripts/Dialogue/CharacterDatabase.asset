@@ -23,3 +23,11 @@ MonoBehaviour:
     defaultSprite: {fileID: 21300000, guid: e939b4c5cf30a5344bc5fcd1c509040e, type: 3}
     sprites: []
     chibiPortrait: {fileID: 21300000, guid: 2c757b09c06f05142bce2e6d2d35d680, type: 3}
+  - name: JUAN
+    defaultSprite: {fileID: 21300000, guid: e939b4c5cf30a5344bc5fcd1c509040e, type: 3}
+    sprites: []
+    chibiPortrait: {fileID: 21300000, guid: 2c757b09c06f05142bce2e6d2d35d680, type: 3}
+  - name: FATHER
+    defaultSprite: {fileID: 21300000, guid: e939b4c5cf30a5344bc5fcd1c509040e, type: 3}
+    sprites: []
+    chibiPortrait: {fileID: 21300000, guid: 2c757b09c06f05142bce2e6d2d35d680, type: 3}

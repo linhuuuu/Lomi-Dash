@@ -5,6 +5,7 @@ public class DropPotSeasoning : DragAndDrop
 {
     [SerializeField] private ReturnSeasoning returnButton;
     [SerializeField] private string seasoningName;
+    
     private ShakePotSeasoning shakePotSeasoning;
 
     void Start()

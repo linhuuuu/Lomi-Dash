@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: PORK_MEAT
   buffName: Pork Meat of Trade
+  price: 50
   effect: Adds +5% Price to the Final Price
   sprite: {fileID: -1363883169, guid: 88c5a33a296a7a847a591bf39b7fbe99, type: 3}
   buffs:

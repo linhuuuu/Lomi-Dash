@@ -3,13 +3,17 @@ namespace PCG
 {
     public class EggNode : OrderNode
     {
-        public int eggCount {get; set;}
-        
+        public int count { get; set; }
+        public bool isMixed { get; set; }
+
+        private float weightRatio = 0.5f;
+
         public EggNode() => id = "EGG_NODE";
-        public EggNode(int eggCount)
+        public EggNode(int count, bool isMixed)
         {
             id = "EGG_NODE";
-            this.eggCount = eggCount;
+            this.count = count;
+            this.isMixed = isMixed;
         }
 
         public override float EvaluateLeafNode(OrderNode other)
@@ -17,12 +21,16 @@ namespace PCG
             if (other is not EggNode player)
                 return 0;
 
-            float eggRatio = Mathf.Clamp(player.eggCount / eggCount, 0, 1);
+            float eggRatio = Mathf.Clamp(player.count / count, 0, 1);
+            float mixedRatio = isMixed ? 1 : 0;
 
-            return eggRatio * weight;
+            float score = (eggRatio * (weightRatio * weight)) + (mixedRatio * (weightRatio * weight));
+            if (Debug.isDebugBuild) Debug.Log(score);
+
+            return score;
         }
 
         public override string ToString()
-           => $"[{id}: Count x{eggCount} (w={weight:F1})]";
+           => $"[{id}: Count x{count} (w={weight:F1})]";
     }
 }

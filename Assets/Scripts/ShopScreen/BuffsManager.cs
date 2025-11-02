@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class BuffsManager : MonoBehaviour
 {
-    [SerializeField] private GameObject panel;
-    [SerializeField] private Button button;
     [SerializeField] private Button buffChoicePanelButton;
     [SerializeField] private GameObject buffChoicePanel;
     [SerializeField] private List<BuffDrag> buffDrags;
@@ -15,7 +13,6 @@ public class BuffsManager : MonoBehaviour
     {
         buffChoicePanel.gameObject.SetActive(false);
         buffChoicePanelButton.onClick.AddListener(() => ToggleBuffChoicePanel());
-        button.onClick.AddListener(() => TogglePanel());
         
         //If closed
         if (GameManager.instance.state == GameManager.gameState.beforeDay)
@@ -26,21 +23,16 @@ public class BuffsManager : MonoBehaviour
 
     void InitClosed()
     {
-        button.enabled = false;
+        buffChoicePanelButton.enabled = false;
     }
 
     void InitOpen()
     {
-        panel.SetActive(false);
+        buffChoicePanel.SetActive(false);
     }
-
 
     private void ToggleBuffChoicePanel()
     {
         buffChoicePanel.gameObject.SetActive(!buffChoicePanel.gameObject.activeSelf);
-    }
-    private void TogglePanel()
-    {
-        panel.SetActive(!panel.activeSelf);
     }
 }

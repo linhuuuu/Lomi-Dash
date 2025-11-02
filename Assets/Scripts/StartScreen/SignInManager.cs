@@ -64,6 +64,7 @@ public class SignInManager : MonoBehaviour
 
             if (currentUser != null)
             {
+                AudioManager.instance.PlaySFX(SFX.CUSTOMER_SPAWN);
                 anim.isPressable = false;
                 LoadingManager.instance.targetScene = "Main Screen";
                 LoadingManager.instance.LoadNewScene();

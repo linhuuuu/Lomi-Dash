@@ -67,6 +67,8 @@ public class CustomerGroup : MonoBehaviour
 
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -15);
 
+        AudioManager.instance.PlaySFX(SFX.CUSTOMER_PICKUP);
+
     }
 
     private void OnMouseDrag()
@@ -102,6 +104,7 @@ public class CustomerGroup : MonoBehaviour
 
             CallPrompt();
             StartCoroutine(timer.TimerAdd()); //Timer ChargeBack
+             AudioManager.instance.PlaySFX(SFX.CUSTOMER_PLACE);
             return;
         }
         revertDefaults();

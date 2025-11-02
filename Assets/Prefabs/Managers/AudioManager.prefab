@@ -47,12 +47,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39069217de7e4748a099e47227ae1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGMClips: []
-  SFXClips: []
-  UIClips: []
-  BGM: {fileID: 7450630020173570085}
-  SFX: {fileID: 5331505189748024195}
-  UI: {fileID: 3574787089572552820}
+  BGMSource: {fileID: 7450630020173570085}
+  UISource: {fileID: 5331505189748024195}
+  SFXSources:
+  - {fileID: 3574787089572552820}
+  settings:
+    BGM_TITLE: {fileID: 8300000, guid: bbfd53733dc729b41b6530cf991d1e8b, type: 3}
+    BGM_MAIN: {fileID: 8300000, guid: 4105554267d6b2e4ebc0c2eb078afeb9, type: 3}
+    BGM_LIPA: {fileID: 8300000, guid: e70b1ee6c8253c9449505e652efc8882, type: 3}
+    BGM_PADREGARCIA: {fileID: 8300000, guid: 306ad1f8c58e2564da288f4d5b306596, type: 3}
+    BGM_BATANGAS: {fileID: 8300000, guid: 0eefb23f5cab51d48a50ba3cacd6647b, type: 3}
+    UI_CLICK: {fileID: 8300000, guid: 20b8a414d70c11641a365023a87473e2, type: 3}
+    UI_PAGEFLIP: {fileID: 8300000, guid: 8aea952260c800e45b2850a9b1f05009, type: 3}
+    UI_KITCHENTOGGLE: {fileID: 8300000, guid: c228dc30ff4a20144b9d5cc9a31416de, type: 3}
+    UI_PURCHASE: {fileID: 8300000, guid: 31888b1bd1f988c4697c412c4c44cfa0, type: 3}
+    SFX_MISTAKE: {fileID: 8300000, guid: d5c460a28d4d12b4fad55d92409bd94c, type: 3}
+    SFX_CUSTOMER_SPAWN: {fileID: 8300000, guid: c5d0cc3fc8a05a34ca422f093ea740e3,
+      type: 3}
+    SFX_CUSTOMER_PICKUP: {fileID: 8300000, guid: eb43c1ab9f24be54eaff3f230d6ae11f,
+      type: 3}
+    SFX_CUSTOMER_PLACE: {fileID: 8300000, guid: eb43c1ab9f24be54eaff3f230d6ae11f,
+      type: 3}
+    SFX_CUSTOMER_ANGRY: {fileID: 0}
+    SFX_CUSTOMER_HAPPY: {fileID: 0}
+    SFX_CUSTOMER_NEUTRAL: {fileID: 0}
+    SFX_CUSTOMER_CHATTER: {fileID: 0}
+    SFX_DROP_PICKUP: {fileID: 8300000, guid: a09fe1ac40c2aa749a8d77bb973f223d, type: 3}
 --- !u!82 &7450630020173570085
 AudioSource:
   m_ObjectHideFlags: 0
@@ -67,7 +87,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

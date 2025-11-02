@@ -35,6 +35,8 @@ public class AnimStartScreen : MonoBehaviour
         {
 
         }
+
+        AudioManager.instance.PlayBGM(BGM.TITLE);
         
         //Set
         signInPrompt.SetActive(false);

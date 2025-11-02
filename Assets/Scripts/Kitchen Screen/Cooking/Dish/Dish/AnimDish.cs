@@ -12,12 +12,8 @@ public class AnimDish : AnimIngredients
             ingredientsList[i].SetActive(activeStates[i]);
 
         if (this.bawang.activeSelf != false)
-        {
-            Debug.Log(bawang);
-                        bawangSprite.sprite = RoundManager.roundManager.lib.bawangStates[bawang];
-        }
-
-
+            bawangSprite.sprite = RoundManager.roundManager.lib.bawangStates[bawang];
+        
         if (this.onion.activeSelf != false)
             onionSprite.sprite = RoundManager.roundManager.lib.onionStates[onion];
 
@@ -35,5 +31,8 @@ public class AnimDish : AnimIngredients
 
         if (this.thickener.activeSelf != false)
             thickenerSprite.sprite = RoundManager.roundManager.lib.thickenerStates[thickener];
+        if (thickener == "2")
+            thickenerSprite.gameObject.SetActive(false);
+        
     }
 }

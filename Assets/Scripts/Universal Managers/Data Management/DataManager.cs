@@ -93,11 +93,11 @@ public class DataManager : MonoBehaviour
                 },
             unlockedBuffs = new Dictionary<string, int>
             {
-                {"LIVER", 0},
-                {"BOLA-BOLA", 0},
-                {"EGG", 0 },
-                {"PORK_MEAT", 0},
-                {"KIKIAM", 0}
+                {"LIVER", 1},
+                {"BOLA-BOLA", 1},
+                {"EGG", 1},
+                {"PORK_MEAT", 1},
+                {"KIKIAM", 1}
             },
             clearStars = new Dictionary<string, int>
             {
@@ -409,6 +409,7 @@ public class DataManager : MonoBehaviour
 
             if (key == "day" && value is int day) playerData.day = day;
             if (key == "money" && value is float money) playerData.money = money;
+            if (key == "voucher" && value is float voucher) playerData.voucher = voucher;
             if (key == "happiness" && value is float happiness) playerData.money = happiness;
             if (key == "lastLogin" && value is System.DateTime lastLogin) playerData.lastLogin = lastLogin;
 
@@ -561,46 +562,6 @@ public class DataManager : MonoBehaviour
 
     #endregion
 
-    // public async Task CreatePlayerFromTemplate(string newPlayerId)
-    // {
-    //     DocumentReference templateRef = db.Collection("players").Document("player_template");
-    //     DocumentReference newPlayerRef = db.Collection("players").Document(newPlayerId);
-
-    //     try
-    //     {
-    //         // 1. Load the template document
-    //         DocumentSnapshot snapshot = await templateRef.GetSnapshotAsync();
-
-    //         if (!snapshot.Exists)
-    //         {
-    //             Debug.LogError("Template document 'player_template' not found!");
-    //             return;
-    //         }
-
-    //         // 2. Get all data (including nested maps like flags, tools, etc.)
-    //         Dictionary<string, object> templateData = snapshot.ToDictionary();
-
-    //         // 3. Optionally modify values (e.g., set displayName, timestamp)
-    //         if (templateData.ContainsKey("profile") && 
-    //             templateData["profile"] is Dictionary<string, object> profile)
-    //         {
-    //             // Example: Set default name or personalize
-    //             profile["displayName"] = "a"; 
-    //         }
-
-    //         // // Update metadata
-    //         // templateData["createdAt"] = FieldValue.ServerTimestamp();
-    //         // templateData["lastLoginAt"] = FieldValue.ServerTimestamp();
-
-    //         // 4. Create new player using template
-    //         await newPlayerRef.SetAsync(templateData);
-    //         if (Debug.IsDebugBuild) Debug.Log($"Player {newPlayerId} created from template.");
-    //     }
-    //     catch (System.Exception e)
-    //     {
-    //         Debug.LogError("Failed to create player from template: " + e.Message);
-    //     }
-    // }
     #endregion
 
 }

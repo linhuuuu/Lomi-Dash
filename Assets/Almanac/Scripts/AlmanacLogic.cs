@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting;
 
 public class AlmanacLogic : MonoBehaviour
 {
@@ -12,26 +13,12 @@ public class AlmanacLogic : MonoBehaviour
     [Header("Tabs")]
     [SerializeField] private List<MoveButton> tabButtons = new List<MoveButton>();
 
-
-
-
     // ============================================================
     // SHARED ENTRY LIST
     // ============================================================
     [Header("Shared Entry List")]
-    [SerializeField] private Transform entryListParent;  
-    [SerializeField] private GameObject entryButtonPrefab;  
-
-
-    // // ============================================================
-    // // DATA COLLECTIONS
-    // // ============================================================
-    // [Header("Data Sets")]
-    // [SerializeField] private List<LocationData> allLocations = new List<LocationData>();
-    // [SerializeField] private List<TermData> allTerms = new List<TermData>();
-    // [SerializeField] private List<SpecialNPCData> allCustomers = new List<SpecialNPCData>();
-    // [SerializeField] private List<AchievementData> allAchievements = new List<AchievementData>();
-
+    [SerializeField] private Transform entryListParent;
+    [SerializeField] private GameObject entryButtonPrefab;
 
     // ============================================================
     // DETAIL PANEL REFERENCES
@@ -69,6 +56,8 @@ public class AlmanacLogic : MonoBehaviour
     [SerializeField] private Button achievementClaimButton;
     [SerializeField] private GameObject achievementUnlockedIndicator;
 
+    [SerializeField] private Button backButton;
+
     private List<LocationData> allLocations;
     private List<TermData> allTerms;
     private List<SpecialNPCData> allCustomers;
@@ -84,6 +73,8 @@ public class AlmanacLogic : MonoBehaviour
         allCustomers = InventoryManager.inv.playerRepo.SpecialNPCRepo;
         allAchs = InventoryManager.inv.playerRepo.AchievementRepo;
         ShowCategory("Location"); // Default tab
+
+        backButton.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
     }
 
     // ============================================================
@@ -92,7 +83,7 @@ public class AlmanacLogic : MonoBehaviour
     public void OnButtonClicked(MoveButton clickedButton)
     {
         AudioManager.instance.PlayUI(UI.PAGEFLIP);
-        
+
         foreach (var btn in tabButtons)
         {
             bool isActive = (btn == clickedButton);
@@ -152,107 +143,107 @@ public class AlmanacLogic : MonoBehaviour
     // ============================================================
     // ENTRY LIST MANAGEMENT
     // ============================================================
-private void ClearEntryList()
-{
-    foreach (Transform child in entryListParent)
-        Destroy(child.gameObject);
-}
-
-private void PopulateEntryList<T>(List<T> entries) where T : AlmanacEntryData
-{
-    foreach (var entry in entries)
+    private void ClearEntryList()
     {
-        var button = Instantiate(entryButtonPrefab, entryListParent);
-        button.GetComponent<EntryAlmanac>().Setup(entry, this);
-    }
-}
-
-
-// ============================================================
-// DETAIL DISPLAY HANDLER
-// ============================================================
-public void ShowEntryDetail(AlmanacEntryData data)
-{
-    if (data is LocationData loc)
-    {
-        locationImage.sprite = loc.mainImage;
-        locationName.text = loc.entryName;
-        locationDescription.text = loc.description;
-        locationTrivia.text = loc.trivia;
-
-        foreach (Transform child in locationLomiParent)
+        foreach (Transform child in entryListParent)
             Destroy(child.gameObject);
+    }
 
-        foreach (var img in loc.lomiImages)
+    private void PopulateEntryList<T>(List<T> entries) where T : AlmanacEntryData
+    {
+        foreach (var entry in entries)
         {
-            var newImg = Instantiate(locationLomiPrefab, locationLomiParent);
-            newImg.GetComponent<Image>().sprite = img;
+            var button = Instantiate(entryButtonPrefab, entryListParent);
+            button.GetComponent<EntryAlmanac>().Setup(entry, this);
         }
     }
 
-    else if (data is TermData term)
+
+    // ============================================================
+    // DETAIL DISPLAY HANDLER
+    // ============================================================
+    public void ShowEntryDetail(AlmanacEntryData data)
     {
-        termImage.sprite = term.mainImage;
-        termName.text = term.entryName;
-        termDescription.text = term.description;
-    }
-
-    else if (data is SpecialNPCData cust)
-    {
-        customerImage.sprite = cust.mainImage;
-        customerName.text = cust.entryName;
-        customerLocation.text = cust.customerLocation;
-        customerDescription.text = cust.description;
-
-        foreach (Transform child in customerStarsParent)
-            Destroy(child.gameObject);
-
-        for (int i = 0; i < cust.starCount; i++)
+        if (data is LocationData loc)
         {
-            var newStar = Instantiate(customerStarPrefab, customerStarsParent);
-            newStar.SetActive(true);
+            locationImage.sprite = loc.mainImage;
+            locationName.text = loc.entryName;
+            locationDescription.text = loc.description;
+            locationTrivia.text = loc.trivia;
+
+            foreach (Transform child in locationLomiParent)
+                Destroy(child.gameObject);
+
+            foreach (var img in loc.lomiImages)
+            {
+                var newImg = Instantiate(locationLomiPrefab, locationLomiParent);
+                newImg.GetComponent<Image>().sprite = img;
+            }
+        }
+
+        else if (data is TermData term)
+        {
+            termImage.sprite = term.mainImage;
+            termName.text = term.entryName;
+            termDescription.text = term.description;
+        }
+
+        else if (data is SpecialNPCData cust)
+        {
+            customerImage.sprite = cust.mainImage;
+            customerName.text = cust.entryName;
+            customerLocation.text = cust.customerLocation;
+            customerDescription.text = cust.description;
+
+            foreach (Transform child in customerStarsParent)
+                Destroy(child.gameObject);
+
+            for (int i = 0; i < cust.starCount; i++)
+            {
+                var newStar = Instantiate(customerStarPrefab, customerStarsParent);
+                newStar.SetActive(true);
+            }
+        }
+
+        else if (data is AchievementData ach)
+        {
+            achievementImage.sprite = ach.mainImage;
+            achievementName.text = ach.entryName;
+            achievementDescription.text = ach.description;
+
+            if (achievementClaimButton != null)
+            {
+                achievementClaimButton.onClick.RemoveAllListeners();
+                achievementClaimButton.onClick.AddListener(() => ClaimAchievement(ach));
+            }
+
+            if (achievementUnlockedIndicator != null)
+                achievementUnlockedIndicator.SetActive(ach.unlockedByDefault);
         }
     }
 
-    else if (data is AchievementData ach)
-    {
-        achievementImage.sprite = ach.mainImage;
-        achievementName.text = ach.entryName;
-        achievementDescription.text = ach.description;
 
-        if (achievementClaimButton != null)
-        {
-            achievementClaimButton.onClick.RemoveAllListeners();
-            achievementClaimButton.onClick.AddListener(() => ClaimAchievement(ach));
-        }
+    // ============================================================
+    // ACHIEVEMENT CLAIM
+    // ============================================================
+    private void ClaimAchievement(AchievementData ach)
+    {
+        Debug.Log($"Achievement claimed: {ach.entryName}");
+        ach.unlockedByDefault = true;
 
         if (achievementUnlockedIndicator != null)
-            achievementUnlockedIndicator.SetActive(ach.unlockedByDefault);
+            achievementUnlockedIndicator.SetActive(true);
     }
-}
 
 
-// ============================================================
-// ACHIEVEMENT CLAIM
-// ============================================================
-private void ClaimAchievement(AchievementData ach)
-{
-    Debug.Log($"Achievement claimed: {ach.entryName}");
-    ach.unlockedByDefault = true;
-
-    if (achievementUnlockedIndicator != null)
-        achievementUnlockedIndicator.SetActive(true);
-}
-
-
-// ============================================================
-// UTILITY
-// ============================================================
-private void HideAllPanels()
-{
-    locationPanel.SetActive(false);
-    termPanel.SetActive(false);
-    customerPanel.SetActive(false);
-    achievementPanel.SetActive(false);
-}
+    // ============================================================
+    // UTILITY
+    // ============================================================
+    private void HideAllPanels()
+    {
+        locationPanel.SetActive(false);
+        termPanel.SetActive(false);
+        customerPanel.SetActive(false);
+        achievementPanel.SetActive(false);
+    }
 }

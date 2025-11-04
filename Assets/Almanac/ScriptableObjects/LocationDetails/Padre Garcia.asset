@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf22dcf565a10a4a8d19c95e0d021bd, type: 3}
+  m_Name: Padre Garcia
+  m_EditorClassIdentifier: 
+  entryID: PADRE_GARCIA
+  entryName: Padre Garcia
+  description: "\"Known for their strong agricultural roots and thriving livestock
+    trade,  this place clearly showcases the hardworking and close-knit community
+    of the Batangue\xF1os. \n\nThe fields... they're so vast. It's so different from
+    my cold apartment. Also cows! So many of them... Just there, grazing. I heard
+    a lot about the agricultural and livestock trade, but seeing it in person? I
+    feel a bit awestruck honestly. Padre Garcia, home of the cows... or something...
+    Also I should be used to the hospitality by now, but the community is so close,
+    so welcoming... But beyond that? 4am.. 5am... until the sun has completely set,
+    the people work, they plan, and they live. There's always something to do, a
+    new challenge to face, and no one ever backs down. I feel out of place sometimes,
+    I wonder if I'm just a coward... No- I have to try, that's where it begins right?
+    I have to try. "
+  mainImage: {fileID: 0}
+  lomiImages: []
+  trivia: 

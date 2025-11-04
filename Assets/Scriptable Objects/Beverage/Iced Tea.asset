@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ICED_TEA
   bevName: Iced Tea
-  sprite: {fileID: 1259532510, guid: 2bed3632fae52c645adb3278ca49e849, type: 3}
+  sprite: {fileID: -1547779646, guid: 2bed3632fae52c645adb3278ca49e849, type: 3}
   size: 1

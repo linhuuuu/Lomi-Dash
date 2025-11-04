@@ -6,10 +6,9 @@ public class PrepBev : DragAndDrop
     public BeverageSectionNode bevNode { set; get; }
     public BevSlot bevSlot;
 
-    public void InitBev(string id, Sprite sprite, int weight)
+    public void InitBev(string id, Sprite sprite, Beverage beverage)
     {
-        bevNode = new BeverageSectionNode();
-        bevNode.weight = weight;
+        bevNode = new BeverageSectionNode(beverage);
         GetComponent<SpriteRenderer>().sprite = sprite;
     }
     public void OnMouseUp()

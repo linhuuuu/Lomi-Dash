@@ -93,7 +93,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateButton: {fileID: 4765963020997057982}
   flipButton: {fileID: 8652108848695001124}
-  topping: {fileID: 0}
 --- !u!65 &356553454132214620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -353,6 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35444c2b45aa9342b6d21d65ac9b51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dishSRC: {fileID: 0}
+  placeDishOnPosSFX: {fileID: 0}
   container: {fileID: 1682439047598655881}
 --- !u!65 &-1946470141506591676
 BoxCollider:
@@ -994,6 +995,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.02
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &6064292087769409632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1202,6 +1204,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.02
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &6604851365448340400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,6 +1424,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.02
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &3351523283864614258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,6 +1628,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.02
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &7834616401399722652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,6 +1838,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.2
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &7284889900163496774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,6 +2037,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.2
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &529165042661354026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2244,6 +2251,7 @@ MonoBehaviour:
   maxJitter: {x: 0.01, y: 0.01}
   updateRate: 0.02
   slowDownDuration: 0.4
+  jitterAtStart: 0
 --- !u!114 &7515702694610569600
 MonoBehaviour:
   m_ObjectHideFlags: 0

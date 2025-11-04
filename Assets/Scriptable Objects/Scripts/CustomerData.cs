@@ -11,7 +11,6 @@ public class CustomerData : ScriptableObject
 
     [Header("Behavior")]
     public float patienceTime;
-    public int paymentRange; //Placeholder, Remove
 
     [Header("Special Customer")]
     [Max(4)] public List<CustomerData> companions = new();

@@ -1,4 +1,5 @@
 using PCG;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class CookWok : DragAndDrop
 {
     public SauteeNode sauteeNode { private set; get; }
     public NoodlesNode noodlesNode { private set; get; }
-    public SoySauceNode soysauceNode { private set; get; }
+    public SoySauceNode soySauceNode { private set; get; }
     public EggNode eggNode { private set; get; }
     public ThickenerNode thickenerNode { private set; get; }
 
@@ -32,7 +33,7 @@ public class CookWok : DragAndDrop
         if (wokGroup == null) wokGroup = new WokGroup();
         if (sauteeNode == null) sauteeNode = new SauteeNode();
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
-        if (soysauceNode == null) soysauceNode = new SoySauceNode();
+        if (soySauceNode == null) soySauceNode = new SoySauceNode();
         if (thickenerNode == null) thickenerNode = new ThickenerNode();
         if (eggNode == null) eggNode = new EggNode();
         //potGroup = null;
@@ -41,7 +42,7 @@ public class CookWok : DragAndDrop
         {
             sauteeNode,
             noodlesNode,
-            soysauceNode,
+            soySauceNode,
             thickenerNode,
             eggNode,
         };
@@ -64,17 +65,25 @@ public class CookWok : DragAndDrop
 
     private void UpdateSauteeState()
     {
-        if (sauteeNode != null && (sauteeNode.onionTime < 15 || sauteeNode.oilCount < 15 || sauteeNode.bawangCount < 15))
+        if (sauteeNode != null &&
+            (sauteeNode.onionTime < 15 || sauteeNode.oilTime < 15 || sauteeNode.bawangTime < 15))
+        {
             if (stove_On)
+            {
                 if (sauteeRoutine == null)
                     sauteeRoutine = StartCoroutine(OnSautee());
-
-                else if (!stove_On && sauteeRoutine != null)
-                {
-                    // animPot.StopBoil();
-                    StopCoroutine(sauteeRoutine);
-                    sauteeRoutine = null;
-                }
+            }
+            else if (!stove_On && sauteeRoutine != null)
+            {
+                StopCoroutine(sauteeRoutine);
+                sauteeRoutine = null;
+            }
+        }
+        else if (!stove_On && sauteeRoutine != null) // Safety
+        {
+            StopCoroutine(sauteeRoutine);
+            sauteeRoutine = null;
+        }
     }
 
     private IEnumerator OnSautee()
@@ -105,25 +114,37 @@ public class CookWok : DragAndDrop
                 animWok.IngredientChangeState("Bawang", 0);
             if (sauteeNode.bawangTime == 15)
                 animWok.IngredientChangeState("Bawang", 1);
+
+            if (sauteeNode.oilTime == 7 || sauteeNode.onionTime == 7 || sauteeNode.bawangTime == 7)
+                animWok.PlaceSizzleSFX(2);
+
+            if (sauteeNode.oilTime == 15 && sauteeNode.onionTime == 15 && sauteeNode.bawangTime == 15)
+                animWok.PlaceSizzleSFX(3);
         }
     }
 
     private void UpdateNoodleState()
     {
         if (noodlesNode != null && noodlesNode.time < 15)
+        {
             if (stove_On)
             {
                 if (noodlesRoutine == null)
                     noodlesRoutine = StartCoroutine(OnNoodles());
             }
-
             else if (!stove_On && noodlesRoutine != null)
             {
-                // animPot.StopBoil();
                 StopCoroutine(noodlesRoutine);
                 noodlesRoutine = null;
             }
+        }
+        else if (!stove_On && noodlesRoutine != null) 
+        {
+            StopCoroutine(noodlesRoutine);
+            noodlesRoutine = null;
+        }
     }
+    
 
     private IEnumerator OnNoodles()
     {
@@ -134,9 +155,17 @@ public class CookWok : DragAndDrop
                 noodlesNode.time++;
 
             if (noodlesNode.time == 7)
+            {
                 animWok.IngredientChangeState("Noodles", 0);
+                animWok.PlaceSizzleSFX(2);
+            }
+
             if (noodlesNode.time == 15)
-                animWok.IngredientChangeState("Noodles", 0);
+            {
+                animWok.IngredientChangeState("Noodles", 1);
+                animWok.PlaceSizzleSFX(2);
+            }
+
         }
     }
 
@@ -172,10 +201,10 @@ public class CookWok : DragAndDrop
 
     public void AddSoySauce()
     {
-        if (soysauceNode == null) soysauceNode = new SoySauceNode();
-        if (soysauceNode.count == maxCount) return;
+        if (soySauceNode == null) soySauceNode = new SoySauceNode();
+        if (soySauceNode.count == maxCount) return;
 
-        soysauceNode.count += maxCount;
+        soySauceNode.count += maxCount;
         StartCoroutine(animWok.AddSoySauce());
     }
 
@@ -229,8 +258,8 @@ public class CookWok : DragAndDrop
 
             if (thickenerNode.count > 0 && thickenerNode.isMixed == false)
                 thickenerNode.isMixed = true;
-                
-            StartCoroutine(animWok.MixSlurry());   
+
+            StartCoroutine(animWok.MixSlurry());
         }
     }
 
@@ -244,6 +273,7 @@ public class CookWok : DragAndDrop
         if (hitCollider == null)
         {
             if (Debug.isDebugBuild) Debug.Log("Wok Got Nothing");
+            animWok.PlayReturnToStoveSFX();
             revertDefaults();
             return;
         }
@@ -253,126 +283,130 @@ public class CookWok : DragAndDrop
             if (!hitCollider.TryGetComponent(out PrepDish dish)) { revertDefaults(); return; }
             if (dish.wokGroup != null) { revertDefaults(); return; }
 
-            wokGroup.children = new List<OrderNode>();
+            int dishMaxCount = dish.isLarge ? 2 : 1;
 
-            SauteeNode _sauteeNode = new SauteeNode();
-            if (sauteeNode != null)
+            // Create new WokGroup for transfer
+            var transferGroup = new WokGroup();
+            var children = new List<OrderNode>();
+
+            // Transfer Sautee
+            if (sauteeNode != null && (sauteeNode.oilCount > 0 || sauteeNode.onionCount > 0 || sauteeNode.bawangCount > 0))
             {
-                if (sauteeNode.oilCount >= 1)
+                var _sautee = new SauteeNode
                 {
-                    _sauteeNode.oilCount++;
-                    _sauteeNode.oilTime = sauteeNode.oilTime;
-                }
+                    oilCount = Mathf.Min(sauteeNode.oilCount, dishMaxCount),
+                    oilTime = sauteeNode.oilTime,
+                    onionCount = Mathf.Min(sauteeNode.onionCount, dishMaxCount),
+                    onionTime = sauteeNode.onionTime,
+                    bawangCount = Mathf.Min(sauteeNode.bawangCount, dishMaxCount),
+                    bawangTime = sauteeNode.bawangTime
+                };
+                children.Add(_sautee);
+            }
 
-                if (sauteeNode.onionCount >= 1)
+            // Transfer Noodles
+            if (noodlesNode != null && noodlesNode.count > 0)
+            {
+                var _noodles = new NoodlesNode
                 {
-                    _sauteeNode.onionCount++;
-                    _sauteeNode.onionTime = sauteeNode.onionTime;
-                }
+                    count = Mathf.Min(noodlesNode.count, dishMaxCount),
+                    time = noodlesNode.time
+                };
+                children.Add(_noodles);
+            }
 
-                if (sauteeNode.bawangCount >= 1)
+            // Transfer Soy Sauce
+            if (soySauceNode != null && soySauceNode.count > 0)
+            {
+                var _soy = new SoySauceNode { count = Mathf.Min(soySauceNode.count, dishMaxCount) };
+                children.Add(_soy);
+            }
+
+            // Transfer Thickener
+            if (thickenerNode != null && thickenerNode.count > 0)
+            {
+                var _thick = new ThickenerNode
                 {
-                    _sauteeNode.bawangCount++;
-                    _sauteeNode.bawangTime = sauteeNode.bawangTime;
-                }
+                    count = Mathf.Min(thickenerNode.count, dishMaxCount),
+                    isMixed = thickenerNode.isMixed,
+                };
+                children.Add(_thick);
             }
-            wokGroup.children.Add(_sauteeNode);
 
-            NoodlesNode _noodlesNode = new NoodlesNode();
-            if (noodlesNode != null && noodlesNode.count >= 1)
+            // Transfer Egg
+            if (eggNode != null && eggNode.count > 0)
             {
-                _noodlesNode.count++;
-                _noodlesNode.time = noodlesNode.time;
+                var _egg = new EggNode
+                {
+                    count = Mathf.Min(eggNode.count, dishMaxCount),
+                    isMixed = eggNode.isMixed,
+                };
+                children.Add(_egg);
             }
-            wokGroup.children.Add(_noodlesNode);
 
-            SoySauceNode _soySauceNode = new SoySauceNode();
-            if (soysauceNode != null && soysauceNode.count >= 1)
-            {
-                _soySauceNode.count++;
-            }
-            wokGroup.children.Add(_soySauceNode);
-
-            ThickenerNode _thickenerNode = new ThickenerNode();
-            if (thickenerNode != null && thickenerNode.count >= 1)
-            {
-                _thickenerNode.count++;
-                _thickenerNode.isMixed = true;
-            }
-            wokGroup.children.Add(_thickenerNode);
-
-            EggNode _eggNode = new EggNode();
-            if (eggNode != null && eggNode.count >= 1)
-            {
-                _eggNode.count++;
-                _eggNode.isMixed = true;
-            }
-            wokGroup.children.Add(_eggNode);
-
-            //Transfer Components
+            transferGroup.children = children;
             dish.potGroup = potGroup;
-            dish.wokGroup = wokGroup;
+            dish.wokGroup = transferGroup;
 
-            //Anim Visuals
+            // Anim Visuals
             animWok.TransferWok(dish);
 
-            //Empty List
-            wokGroup = new WokGroup();
-
-            // Clear 1 instance — safely decrement and clamp at 0
+            // Reduce local counts
             if (sauteeNode != null)
             {
-                sauteeNode.oilCount = Mathf.Max(0, sauteeNode.oilCount - 1);
-                sauteeNode.onionCount = Mathf.Max(0, sauteeNode.onionCount - 1);
-                sauteeNode.bawangCount = Mathf.Max(0, sauteeNode.bawangCount - 1);
+                sauteeNode.oilCount = Mathf.Max(0, sauteeNode.oilCount - dishMaxCount);
+                sauteeNode.onionCount = Mathf.Max(0, sauteeNode.onionCount - dishMaxCount);
+                sauteeNode.bawangCount = Mathf.Max(0, sauteeNode.bawangCount - dishMaxCount);
             }
 
             if (noodlesNode != null)
-                noodlesNode.count = Mathf.Max(0, noodlesNode.count - 1);
+                noodlesNode.count = Mathf.Max(0, noodlesNode.count - dishMaxCount);
 
-            if (soysauceNode != null)
-                soysauceNode.count = Mathf.Max(0, soysauceNode.count - 1);
+            if (soySauceNode != null)
+                soySauceNode.count = Mathf.Max(0, soySauceNode.count - dishMaxCount);
 
             if (thickenerNode != null)
-                thickenerNode.count = Mathf.Max(0, thickenerNode.count - 1);
+                thickenerNode.count = Mathf.Max(0, thickenerNode.count - dishMaxCount);
 
             if (eggNode != null)
-                eggNode.count = Mathf.Max(0, eggNode.count - 1);
+                eggNode.count = Mathf.Max(0, eggNode.count - dishMaxCount);
 
+            // Check if all ingredients are now zero
+            bool hasRemaining =
+                (sauteeNode?.oilCount ?? 0) > 0 ||
+                (sauteeNode?.onionCount ?? 0) > 0 ||
+                (sauteeNode?.bawangCount ?? 0) > 0 ||
+                (noodlesNode?.count ?? 0) > 0 ||
+                (soySauceNode?.count ?? 0) > 0 ||
+                (thickenerNode?.count ?? 0) > 0 ||
+                (eggNode?.count ?? 0) > 0;
 
-            // Clear All instances if everything is zero
-            bool allZero =
-                (sauteeNode == null || (sauteeNode.oilCount == 0 && sauteeNode.onionCount == 0 && sauteeNode.bawangCount == 0)) &&
-                (noodlesNode == null || noodlesNode.count == 0) &&
-                (soysauceNode == null || soysauceNode.count == 0) &&
-                (thickenerNode == null || thickenerNode.count == 0) &&
-                (eggNode == null || eggNode.count == 0);
-
-            if (allZero)
-            {
-                sauteeNode = null;
-                noodlesNode = null;
-                soysauceNode = null;
-                thickenerNode = null;
-                eggNode = null;
-                potGroup = null;
-                wokGroup = new WokGroup();
-
-                //Clear 
-                animWok.ToggleActive(false);
-                if (Debug.isDebugBuild) Debug.Log("Cleared WokNODE");
-            }
-            else
+            if (hasRemaining)
             {
                 animWok.ReduceWokCount();
                 if (Debug.isDebugBuild) Debug.Log("Cleared 1 instance of WokNODE");
             }
+            else
+            {
+                // Reset state completely
+                sauteeNode.oilTime = 0;
+                sauteeNode.onionTime = 0;
+                sauteeNode.bawangTime = 0;
+                noodlesNode.time = 0;
+                thickenerNode.isMixed = false;
+                eggNode.isMixed = false;
+                potGroup = null;
 
-            revertDefaults();
-            return;
+                // Reset visuals
+                animWok.ResetStates();
+                sauteeRoutine = null;
+                noodlesRoutine = null;
+
+                if (Debug.isDebugBuild) Debug.Log("Cleared ALL instances of WokNODE");
+            }
+            animWok.PlayTransferToDishSFX();
         }
         revertDefaults();
-        return;
     }
     #endregion
 }

@@ -15,4 +15,4 @@ MonoBehaviour:
   id: COFFEE_BIG
   bevName: Kapeng Barako Thermos
   sprite: {fileID: -2098716743, guid: 2bed3632fae52c645adb3278ca49e849, type: 3}
-  size: 0
+  size: 2

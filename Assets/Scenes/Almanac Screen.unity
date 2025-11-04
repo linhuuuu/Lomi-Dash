@@ -1157,6 +1157,7 @@ MonoBehaviour:
   achievementDescription: {fileID: 448910303}
   achievementClaimButton: {fileID: 380493425}
   achievementUnlockedIndicator: {fileID: 1688729437}
+  backButton: {fileID: 1039965988}
 --- !u!4 &579901590
 Transform:
   m_ObjectHideFlags: 0

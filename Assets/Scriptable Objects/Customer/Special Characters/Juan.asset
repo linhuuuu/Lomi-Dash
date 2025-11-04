@@ -14,10 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: JUAN
   customerName: Juan
-  patienceTime: 200
-  paymentRange: 600
-  companions:
-  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  patienceTime: 180
+  companions: []
   preferredDish:
   - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
   preferredBeverage:
@@ -26,6 +24,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f96257fdbbd6c6a44821926fc465c9da, type: 2}
   - {fileID: 11400000, guid: 99602953ae10ce54896d084feedefb78, type: 2}
   - {fileID: 11400000, guid: 2c2abb6f88cca264499e12e68367a56f, type: 2}
-  portrait: {fileID: 21300000, guid: 3c14930dc89ecb243a92fc9911578475, type: 3}
+  portrait: {fileID: -115101100, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: 1550167518, guid: 175d746740f0155479f4e29501cb0b63, type: 3}
   sittingSprite: {fileID: -241026128, guid: 175d746740f0155479f4e29501cb0b63, type: 3}

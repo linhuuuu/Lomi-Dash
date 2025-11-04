@@ -31,6 +31,7 @@ public class PrepDish : DragAndDrop
         //Init DishNode
         if (dishNode == null)
             dishNode = new DishSectionNode();
+            
         dishNode.isLarge = isLarge;
         currentTopping = new ToppingNode("");
 

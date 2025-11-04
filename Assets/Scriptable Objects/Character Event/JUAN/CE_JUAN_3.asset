@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c8faf6908e9224c87e5a09d279279f, type: 3}
   m_Name: CE_JUAN_3
   m_EditorClassIdentifier: 
-  id: CE_JUAN_2
+  id: CE_JUAN_3
   unlockEntryData: []
   unlockBuffs:
   - {fileID: 11400000, guid: d076242b0afbd6a47949874eb2ba9543, type: 2}

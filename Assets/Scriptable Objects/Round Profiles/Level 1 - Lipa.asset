@@ -17,12 +17,22 @@ MonoBehaviour:
   location: 0
   difficulty: 1
   requiredFame: 0
-  customerUnlock:
-  - {fileID: 11400000, guid: d2348cb75108a35488630128a4ccb15a, type: 2}
+  moneyQuota: 0
+  customerUnlock: []
   recipeUnlock: {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
   beverageUnlock: {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
   availableRecipes:
   - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+  - {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
+  availableCustomers:
+  - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
+  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  - {fileID: 11400000, guid: d2348cb75108a35488630128a4ccb15a, type: 2}
+  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+  - {fileID: 11400000, guid: 9afea92ef6e361f4d903aafd7d26c4c2, type: 2}
+  entryUnlocks:
+  - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
+  - {fileID: 11400000, guid: 7a338cb56c0a39f47bb8b9c9a494d6a4, type: 2}
   companions:
   - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
   specialCustomerUnlock: {fileID: 11400000, guid: 4c8e7b6a91a7edc409301dde5d0fe334,

@@ -7,32 +7,24 @@ using UnityEngine;
 public class AnimWok : AnimIngredients
 {
     public CookWok cookWok { set; get; }
-    private VisualStateLib lib;
     public int wokTier { set; get; }
 
     [Header("Audio")]
     [SerializeField] private AudioSource sauteeSRC;
-    // [SerializeField] private AudioSource noodlesSRC;
     [SerializeField] private List<AudioClip> ingredientSFX; // 0 = stove OFF Place 1= stove ON Place 2 = Sizzle 1 3 = Sizzle 3
     [SerializeField] private AudioSource slurrySRC;
     [SerializeField] private AudioClip slurryDrop;
     [SerializeField] private AudioClip slurryMix;
     [SerializeField] private AudioSource mixSRC;
     [SerializeField] private AudioClip mix;
+    [SerializeField] private AudioSource wokSRC;
+    [SerializeField] private AudioClip returnToStove;
+    [SerializeField] private AudioClip transferToDish;
 
-    public void Start()
+    protected override void Start()
     {
-        lib = RoundManager.roundManager.lib;
-
+        base.Start();
         cookWok = GetComponent<CookWok>();
-        //Check Wok Availability
-        bool wokObj = DataManager.data.playerData.unlockedKitchenTools.ContainsKey(gameObject.name);
-        if (!wokObj) { gameObject.SetActive(false); return; }
-
-        //Update Wok Tier
-        wokTier = DataManager.data.playerData.unlockedKitchenTools[gameObject.name];
-        if (wokTier > 1)
-            UpdateWokTier(wokTier);
     }
 
     public void UpdateWokTier(int tier)
@@ -55,11 +47,11 @@ public class AnimWok : AnimIngredients
                 break;
             case "Onion":
                 ToggleOnion(true);
-                if (cookWok.stove_On) jitterList[1].StartJitter();
+                if (cookWok.stove_On) jitterList[0].StartJitter();
                 break;
             case "Bawang":
                 ToggleBawang(true);
-                if (cookWok.stove_On) jitterList[0].StartJitter();
+                if (cookWok.stove_On) jitterList[1].StartJitter();
                 break;
             case "Noodles":
                 ToggleNoodles(true);
@@ -78,20 +70,20 @@ public class AnimWok : AnimIngredients
         switch (type)
         {
             case "Oil":
-                PlaceSizzleSFX(2 + i);
-                oilSprite.sprite = lib.oilStates[(2 + 1).ToString()];
+                oilSprite.sprite = lib.oilStates[(2 + i).ToString()];
+                oilState = (2 + i).ToString();
                 break;
             case "Onion":
-                PlaceSizzleSFX(2 + i);
-                onionSprite.sprite = lib.onionStates[(2 + 1).ToString()];
+                onionSprite.sprite = lib.onionStates[(2 + i).ToString()];
+                onionState = (2 + i).ToString();
                 break;
             case "Bawang":
-                PlaceSizzleSFX(2 + i);
-                bawangSprite.sprite = lib.bawangStates[(2 + 1).ToString()];
+                bawangSprite.sprite = lib.bawangStates[(2 + i).ToString()];
+                bawangState = (2 + i).ToString();
                 break;
             case "Noodles":
-                PlaceSizzleSFX(2 + i);
-                noodlesSprite.color = lib.noodlesColors[(2 + 1).ToString()];
+                noodlesSprite.color = lib.noodlesColors[(2 + i).ToString()];
+                noodlesColorState = (2 + i).ToString();
                 break;
         }
     }
@@ -125,10 +117,12 @@ public class AnimWok : AnimIngredients
         {
             case "Egg":
                 ToggleEgg(true);
+                eggSprite.sprite = lib.eggStates["1"];
                 if (cookWok.stove_On) jitterList[5].StartJitter();
                 break;
             case "Thickener":
                 ToggleThickener(true);
+                thickenerSprite.sprite = lib.thickenerStates["1"];
                 if (cookWok.stove_On) jitterList[6].StartJitter();
                 break;
 
@@ -158,7 +152,7 @@ public class AnimWok : AnimIngredients
             brothSprite.sprite = lib.brothStates["2"];
 
             thickenerState = "2";
-            brothState = "3";
+            brothState = "2";
         }
     }
 
@@ -167,27 +161,8 @@ public class AnimWok : AnimIngredients
         foreach (var item in ingredientsList)
         {
             if (item.TryGetComponent(out IngredientFlipper f))
-                f.OnStir();
-        }
-    }
-
-    #endregion
-    #region Jitter
-    public void StartJitter()
-    {
-        foreach (var a in jitterList)
-        {
-            if (a.gameObject.activeInHierarchy)
-                a.StartJitter();
-        }
-    }
-
-    public void StopJitter()
-    {
-        foreach (var a in jitterList)
-        {
-            if (a.gameObject.activeInHierarchy)
-                a.StopJitter();
+                if (f.gameObject.activeInHierarchy)
+                    f.OnStir();
         }
     }
 
@@ -196,14 +171,21 @@ public class AnimWok : AnimIngredients
 
     public void TransferWok(PrepDish dish)
     {
-        dish.animDish.OnRecieve(GetActiveStates(), bawangState, onionState, oilState, brothState, brothColorState, eggState, thickenerState);
+        dish.animDish.OnRecieve(GetActiveStates(), bawangState, onionState, oilState, brothState, brothSprite.color, noodlesColorState, eggState, thickenerState);
     }
 
     public void AnimPotGroup(Color color)
     {
         ToggleBroth(true);
-        if (cookWok.stove_On) jitterList[3].StartJitter();
         brothSprite.color = color;
+        brothSprite.sprite = lib.brothStates["1"];
+        if (cookWok.stove_On)
+        {
+            jitterList[3].StartJitter();
+            PlaceSizzleSFX(1);
+        }
+        else
+            PlaceSizzleSFX(0);
     }
 
     public void ReduceWokCount()
@@ -211,6 +193,9 @@ public class AnimWok : AnimIngredients
         foreach (var t in ingredientsList)
             t.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
     }
+
+    public void PlayReturnToStoveSFX() => wokSRC.PlayOneShot(returnToStove, 1f);
+    public void PlayTransferToDishSFX() => wokSRC.PlayOneShot(transferToDish, 1f);
 
     #endregion
 }

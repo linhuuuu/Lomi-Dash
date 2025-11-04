@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a080680ed67e84ba6fcec03b88ae00, type: 3}
+  m_Name: Ka Ody
+  m_EditorClassIdentifier: 
+  id: KA_ODY
+  customerName: Ka Ody
+  patienceTime: 180
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
+  portrait: {fileID: 1518687106, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  standingSprite: {fileID: 687883396, guid: 9cb8bbc105f3c7a4f82f119df7ee194a, type: 3}
+  sittingSprite: {fileID: 1918511605, guid: 9cb8bbc105f3c7a4f82f119df7ee194a, type: 3}

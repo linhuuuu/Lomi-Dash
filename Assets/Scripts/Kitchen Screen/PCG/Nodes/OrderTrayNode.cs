@@ -10,7 +10,7 @@ namespace PCG
         public float weight { set; get; }
         public List<OrderNode> children = new List<OrderNode>();
 
-        public float Evaluate(OrderNode other)
+        public virtual float Evaluate(OrderNode other)
         {
             float score = 0f;
 

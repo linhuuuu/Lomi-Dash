@@ -32,6 +32,7 @@ public enum SFX
     CUSTOMER_HAPPY,
     CUSTOMER_NEUTRAL,
     CUSTOMER_CHATTER,
+    SERVE_TRAY,
     DROP_PICKUP
 
 }
@@ -66,6 +67,7 @@ public class AudioManager : MonoBehaviour
         public AudioClip SFX_CUSTOMER_HAPPY;
         public AudioClip SFX_CUSTOMER_NEUTRAL;
         public AudioClip SFX_CUSTOMER_CHATTER;
+        public AudioClip SFX_SERVE_TRAY;
         public AudioClip SFX_DROP_PICKUP;
     }
 
@@ -132,6 +134,7 @@ public class AudioManager : MonoBehaviour
             SFX.CUSTOMER_SPAWN => settings.SFX_CUSTOMER_SPAWN,
             SFX.CUSTOMER_PICKUP => settings.SFX_CUSTOMER_PICKUP,
             SFX.CUSTOMER_CHATTER => settings.SFX_CUSTOMER_CHATTER,
+            SFX.SERVE_TRAY => settings.SFX_SERVE_TRAY,
             _ => null
         };
 

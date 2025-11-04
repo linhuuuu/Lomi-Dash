@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a080680ed67e84ba6fcec03b88ae00, type: 3}
+  m_Name: Miss Dora
+  m_EditorClassIdentifier: 
+  id: MISS_DORA
+  customerName: Miss Dora
+  patienceTime: 180
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
+  portrait: {fileID: 2085450316, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  standingSprite: {fileID: 1661283320, guid: 88f5d6dd50ab6f54eb7f9f8ebe2508a9, type: 3}
+  sittingSprite: {fileID: -494032579, guid: 88f5d6dd50ab6f54eb7f9f8ebe2508a9, type: 3}

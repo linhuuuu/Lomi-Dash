@@ -34,6 +34,7 @@ public class ResultScreenManager : MonoBehaviour
     private int nextDay;
     private float totalMoney;
     private float totalHappiness;
+    private int highestLevelCleared;
     private RoundResults results;
     private PlayerSaveData playerData;
 
@@ -63,12 +64,15 @@ public class ResultScreenManager : MonoBehaviour
         nextDay = playerData.day + 1;
         totalMoney = playerData.money + results.earnedMoney;
         totalHappiness = playerData.happiness + results.earnedHappiness;
+        highestLevelCleared = playerData.highestLevelCleared;
+        
+        if (results.starCount > 0)
+            highestLevelCleared = GameManager.instance.roundProfile.level;
 
         GameManager.instance.state = GameManager.gameState.beforeDay;
 
         await InitResultManager();
             GameManager gameManager = GameObject.FindAnyObjectByType<GameManager>();
-
            next.onClick.AddListener(() => gameManager.NextScene("Main Screen"));
     }
 
@@ -81,7 +85,7 @@ public class ResultScreenManager : MonoBehaviour
                     {"day", nextDay},
                     {"money", totalMoney},
                     {"happiness", totalHappiness},
-                    //await ingredients
+                    {"highestLevelCleared", highestLevelCleared}
                 });
 
             await DataManager.data.UploadRoundClearData(GameManager.instance.roundProfile.roundName);

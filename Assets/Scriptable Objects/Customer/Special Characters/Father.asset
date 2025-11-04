@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: FATHER
   customerName: Father
-  patienceTime: 400
-  paymentRange: 100
-  itemDrop: 
-  portrait: {fileID: 21300000, guid: 1442da97c2eafa24285d72c5e1d991c4, type: 3}
+  patienceTime: 180
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
+  portrait: {fileID: 345752938, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: -806617662, guid: 78c72d39964e4784e9ae01565d6f05c3, type: 3}
   sittingSprite: {fileID: -1418793729, guid: 78c72d39964e4784e9ae01565d6f05c3, type: 3}

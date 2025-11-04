@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: original
     value: {r: 1, g: 1, b: 1, a: 1}
   - id: knorr
-    value: {r: 1, g: 0.8769178, b: 0.5613208, a: 1}
+    value: {r: 1, g: 0.9099141, b: 0.6745283, a: 1}
   - id: soySauce
     value: {r: 1, g: 0.62352943, b: 0.3764706, a: 1}
   noodlescolor:

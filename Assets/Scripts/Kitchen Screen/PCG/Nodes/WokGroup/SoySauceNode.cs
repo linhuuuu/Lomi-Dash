@@ -17,10 +17,13 @@ namespace PCG
             if (other is not SoySauceNode player)
                 return 0f;
 
-            float sauceRatio = Mathf.Clamp(player.count, 0f, 1f);
-            return sauceRatio * weight;
+            float sauceRatio = Mathf.Clamp(player.count / count, 0f, 1f);
+            float score = sauceRatio * weight;
 
+            if (Debug.isDebugBuild) Debug.Log(score);
+            return score;
         }
+        
         public override string ToString()
            => $"[{id}: SauceCount x{count} (w={weight:F1})]";
     }

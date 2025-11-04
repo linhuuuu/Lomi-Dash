@@ -9,7 +9,7 @@ public class KitchenDrag : MonoBehaviour
     [SerializeField] private Vector3 leftBounds;
     [SerializeField] private Vector3 rightBounds;
     private Vector3 originalPos, worldPos, targetPos, dragStartOffset;
-    private float cameraPos;
+    private Vector3 cameraPos;
 
     [Header("Dragging References")]
     [SerializeField] private LayerMask interactable;
@@ -37,7 +37,7 @@ public class KitchenDrag : MonoBehaviour
         mainCam = CameraManager.cam.mainCam;
         mainCanvas = MainScreenManager.main.activeScreen;
         kitchenCanvas = MainScreenManager.main.kitchenScreen;
-        cameraPos = mainCam.transform.position.y;
+        cameraPos = mainCam.transform.position;
 
         originalPos = transform.position;
         isKitchenFocus = false;
@@ -170,31 +170,46 @@ public class KitchenDrag : MonoBehaviour
 
     public void ToggleKitchen()
     {
-        //SFX
+        // SFX
         AudioManager.instance.PlayUI(UI.KITCHENTOGGLE);
 
         isKitchenFocus = !isKitchenFocus;
+        SetInputEnabled(false, false);
+
         if (isKitchenFocus)
         {
-            CameraDragZoomControl.isCameraDraggingEnabled = false;
+            // Animate in
+            LeanTween.move(gameObject, leftBounds, 0.2f)
+                .setEase(LeanTweenType.easeInSine)
+                .setOnComplete(() => SetInputEnabled(false, true));
+
+            mainCam.orthographicSize = maxOrtho;
+            LeanTween.move(mainCam.gameObject, cameraPos, 0.2f)
+                .setEase(LeanTweenType.easeOutSine);
+
             kitchenCanvas.enabled = true;
             mainCanvas.enabled = false;
-            LeanTween.move(gameObject, leftBounds, 0.2f).setEaseInSine();
-
-            //Camera POS
-            mainCam.orthographicSize = maxOrtho;
-            Vector3 revertCameraPos = new Vector3(mainCam.transform.position.x, cameraPos, mainCam.transform.position.z);
-            LeanTween.move(mainCam.gameObject, revertCameraPos, 0.2f).setEaseOutSine();
 
             if (zoomSlider != null) zoomSlider.value = 0;
         }
         else
         {
-            CameraDragZoomControl.isCameraDraggingEnabled = true;
+            // Animate out
+            LeanTween.move(gameObject, originalPos, 0.2f)
+                .setEase(LeanTweenType.easeOutSine)
+                .setOnComplete(() => SetInputEnabled(true, true));
+
+            mainCam.orthographicSize = maxOrtho;
             kitchenCanvas.enabled = false;
             mainCanvas.enabled = true;
-            LeanTween.move(gameObject, originalPos, 0.2f).setEaseOutSine();
         }
+    }
+
+    private void SetInputEnabled(bool x, bool y)
+    {
+        CameraDragZoomControl.isCameraDraggingEnabled = x;
+        kitchenCanvas.GetComponent<GraphicRaycaster>().enabled = y;
+        mainCanvas.GetComponent<GraphicRaycaster>().enabled = y;
     }
 
     private void OnApplicationFocus(bool hasFocus) { if (!hasFocus) EndDrag(); }

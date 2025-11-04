@@ -64,6 +64,5 @@ public class MainScreenManager : MonoBehaviour
                     }
                 });
         }
-      
     }
 }

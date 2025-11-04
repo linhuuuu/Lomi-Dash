@@ -14,6 +14,7 @@ namespace PCG
             this.count = noodleCount;
             this.time = cookTime;
         }
+
         public override float EvaluateLeafNode(OrderNode other)
         {
             if (other is not NoodlesNode player)
@@ -22,7 +23,10 @@ namespace PCG
             float countRatio = Mathf.Clamp(player.count / count, 0, 1);
             float timeRatio = Mathf.Clamp(player.time / time, 0, 1);
 
-            return (countRatio * (weight * weightRatio)) + (timeRatio * (weight * weightRatio));
+            float score = (countRatio * (weight * weightRatio)) + (timeRatio * (weight * weightRatio));
+            
+            if (Debug.isDebugBuild) Debug.Log(score);
+            return score;
         }
 
         public override string ToString()

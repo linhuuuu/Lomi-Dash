@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 'CE_FATHER_1 '
   unlockEntryData:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: e4eae8b7df41693428aa0e4b3cc35fc5, type: 2}
   unlockBuffs: []

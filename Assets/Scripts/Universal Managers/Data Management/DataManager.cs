@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using System.Net;
 using Firebase;
 using Firebase.Auth;
+using System.Linq;
 
 public class DataManager : MonoBehaviour
 {
@@ -87,9 +88,11 @@ public class DataManager : MonoBehaviour
 
             unlockedKitchenTools = new Dictionary<string, int>
                 {
-                    { "Pot_1", 2 },
+                    { "Pot_1", 1 },
+                    { "Pot_2", 0 },
                     { "Wok_1", 1 },
-                    { "Wok_2", 2 }, //Add
+                    { "Wok_2", 0 },
+                    { "DishRack", 1 },
                 },
             unlockedBuffs = new Dictionary<string, int>
             {
@@ -108,7 +111,7 @@ public class DataManager : MonoBehaviour
 
             },
             accountCreated = System.DateTime.Now,
-            highestLevelCleared = 1,    //Start at Level 1
+            highestLevelCleared = 0,    //Start at Level 1
         };
     }
 
@@ -216,14 +219,17 @@ public class DataManager : MonoBehaviour
             SpecialNPCData npc = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(b => b.entryID == specialNPCId.Key);
             if (npc != null)
             {
-                for (int i = 0; i < specialNPCId.Value.Count - 1; i++)
+                int count = 0;
+                for (int i = 0; i < specialNPCId.Value.Count; i++)
                 {
                     if (specialNPCId.Value[i] == true)
-                        npc.starCount++;
+                        count++;
+                    npc.starCount = count;
                 }
 
                 InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(npc);
             }
+
         }
 
         foreach (string achId in playerData.unlockedAchievementIds)
@@ -294,36 +300,66 @@ public class DataManager : MonoBehaviour
 
             if (key == "unlockedSpecialCustomerIds")
             {
+                Debug.Log("[DataManager] Processing unlockedSpecialCustomerIds update...");
+
+                // Ensure target dictionary exists
                 if (playerData.unlockedSpecialCustomerIds == null)
-                    playerData.unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>();
-
-                if (value is Dictionary<string, object> flags)
                 {
-                    foreach (var flag in flags.Keys)
+                    playerData.unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>();
+                    Debug.Log("[DataManager] Initialized unlockedSpecialCustomerIds dictionary.");
+                }
+
+                // ✅ Assume value is already Dictionary<string, List<bool>>
+                if (value is Dictionary<string, List<bool>> flags)
+                {
+                    Debug.Log($"[DataManager] Received {flags.Count} special customer entries.");
+
+                    foreach (var kvp in flags)
                     {
-                        if (playerData.unlockedSpecialCustomerIds.TryGetValue(flag, out List<bool> val))
-                            playerData.unlockedSpecialCustomerIds[flag] = val;
+                        string npcId = kvp.Key;
+                        List<bool> stars = kvp.Value;
 
+                        Debug.Log($"[DataManager] Processing NPC: {npcId} | Stars: [{string.Join(", ", stars)}]");
+                        int starCount = stars.FindAll(b => b).Count;
+                        Debug.Log($"[DataManager] Star count: {starCount}");
+
+                        // Update local data
+                        if (playerData.unlockedSpecialCustomerIds.ContainsKey(npcId))
+                            playerData.unlockedSpecialCustomerIds[npcId] = new List<bool>(stars);
                         else
-                            playerData.unlockedSpecialCustomerIds.Add(flag, val);
+                            playerData.unlockedSpecialCustomerIds.Add(npcId, new List<bool>(stars));
 
-                        //Update INV, if npc found, update, if not, add.
-                        SpecialNPCData npc = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == flag);
-                        if (npc != null)
+                        // Sync with inventory
+                        SpecialNPCData existingNpc = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == npcId);
+
+                        if (existingNpc != null)
                         {
-                            int starCount = 0;
-                            foreach (var star in val)
-                                if (star == true)
-                                    starCount++;
-                            npc.starCount = starCount;
+                            existingNpc.starCount = starCount;
+                            Debug.Log($"[DataManager] Updated existing NPC: {npcId} → {starCount} stars");
                         }
                         else
                         {
-                            SpecialNPCData newNPC = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(c => c.entryID == flag);
-                            if (newNPC != null)
-                                InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(newNPC);
+                            SpecialNPCData template = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(c => c.entryID == npcId);
+                            if (template != null)
+                            {
+                                SpecialNPCData newNpc = GameObject.Instantiate(template);
+                                newNpc.starCount = starCount;
+                                InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(newNpc);
+                                Debug.Log($"[DataManager] Added new NPC: {npcId} with {starCount} stars");
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"[DataManager] No template found for NPC ID: {npcId}");
+                            }
                         }
                     }
+                }
+                else
+                {
+                    // Emergency log: see what type actually came through
+                    Debug.LogError($"[DataManager] Expected Dictionary<string, List<bool>>, but got: {value?.GetType()}");
+                    if (value != null)
+                        Debug.Log($"[DataManager] Value content: {JsonUtility.ToJson(value)}"); // May fail, but try
                 }
             }
 
@@ -332,15 +368,18 @@ public class DataManager : MonoBehaviour
                 if (playerData.unlockedTermIds == null)
                     playerData.unlockedTermIds = new List<string>();
 
-                if (value is string val)
+                if (value is List<string> locList)
                 {
-                    playerData.unlockedTermIds.Add(val);
-
-                    if (!InventoryManager.inv.playerRepo.TermRepo.Find(c => c.entryID == val))
+                    foreach (var val in locList)
                     {
-                        TermData newTerm = InventoryManager.inv.gameRepo.TermRepo.Find(c => c.entryID == val);
-                        if (newTerm != null)
-                            InventoryManager.inv.playerRepo.TermRepo.Add(newTerm);
+                        playerData.unlockedTermIds.Add(val);
+
+                        if (!InventoryManager.inv.playerRepo.TermRepo.Find(c => c.entryID == val))
+                        {
+                            TermData newTerm = InventoryManager.inv.gameRepo.TermRepo.Find(c => c.entryID == val);
+                            if (newTerm != null)
+                                InventoryManager.inv.playerRepo.TermRepo.Add(newTerm);
+                        }
                     }
                 }
             }
@@ -350,15 +389,19 @@ public class DataManager : MonoBehaviour
                 if (playerData.unlockedLocationIds == null)
                     playerData.unlockedLocationIds = new List<string>();
 
-                if (value is string val)
-                {
-                    playerData.unlockedLocationIds.Add(val);
 
-                    if (!InventoryManager.inv.playerRepo.LocationRepo.Find(c => c.entryID == val))
+                if (value is List<string> termList)
+                {
+                    foreach (var val in termList)
                     {
-                        LocationData newLoc = InventoryManager.inv.gameRepo.LocationRepo.Find(c => c.entryID == val);
-                        if (newLoc != null)
-                            InventoryManager.inv.playerRepo.LocationRepo.Add(newLoc);
+                        playerData.unlockedLocationIds.Add(val);
+
+                        if (!InventoryManager.inv.playerRepo.LocationRepo.Find(c => c.entryID == val))
+                        {
+                            LocationData newLoc = InventoryManager.inv.gameRepo.LocationRepo.Find(c => c.entryID == val);
+                            if (newLoc != null)
+                                InventoryManager.inv.playerRepo.LocationRepo.Add(newLoc);
+                        }
                     }
                 }
             }
@@ -382,35 +425,69 @@ public class DataManager : MonoBehaviour
 
             if (key == "unlockedRecipeIds")
             {
-                if (value is Recipe rec)
+                if (value is List<string> recList)
                 {
-                    playerData.unlockedRecipeIds.Add(rec.id);
-                    InventoryManager.inv.playerRepo.RecipeRepo.Add(rec);
+                    foreach (var rec in recList)
+                    {
+                        playerData.unlockedRecipeIds.Add(rec);
+                        Recipe recipe = InventoryManager.inv.gameRepo.RecipeRepo.Find(c => c.id == rec);
+
+                        if (recipe)
+                            InventoryManager.inv.playerRepo.RecipeRepo.Add(recipe);
+                    }
                 }
             }
 
             if (key == "unlockedBeverageIds")
             {
-                if (value is Beverage bev)
+                if (value is List<string> bevList)
                 {
-                    playerData.unlockedBeverageIds.Add(bev.id);
-                    InventoryManager.inv.playerRepo.BeverageRepo.Add(bev);
+                    foreach (var bev in bevList)
+                    {
+                        playerData.unlockedBeverageIds.Add(bev);
+                        Beverage beverage = InventoryManager.inv.gameRepo.BeverageRepo.Find(c => c.id == bev);
+
+                        if (beverage)
+                            InventoryManager.inv.playerRepo.BeverageRepo.Add(beverage);
+                    }
+
                 }
             }
 
             if (key == "unlockedCustomerIds")
             {
-                if (value is CustomerData cus)
+                if (value is List<string> cusList)
                 {
-                    playerData.unlockedCustomerIds.Add(cus.id);
-                    InventoryManager.inv.playerRepo.CustomerRepo.Add(cus);
+                    foreach (var cus in cusList)
+                    {
+                        playerData.unlockedCustomerIds.Add(cus);
+                        CustomerData customerData = InventoryManager.inv.gameRepo.CustomerRepo.Find(c => c.id == cus);
+                        InventoryManager.inv.playerRepo.CustomerRepo.Add(customerData);
+                    }
+                }
+            }
+
+            if (key == "unlockedKitchenTools")
+            {
+                if (playerData.unlockedKitchenTools == null)
+                    playerData.unlockedKitchenTools = new();
+
+                if (value is Dictionary<string, int> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (playerData.unlockedKitchenTools.ContainsKey(flag))
+                            playerData.unlockedKitchenTools[flag] = flags[flag];
+                        else
+                            playerData.unlockedKitchenTools.Add(flag, flags[flag]);
+                    }
                 }
             }
 
             if (key == "day" && value is int day) playerData.day = day;
             if (key == "money" && value is float money) playerData.money = money;
             if (key == "voucher" && value is float voucher) playerData.voucher = voucher;
-            if (key == "happiness" && value is float happiness) playerData.money = happiness;
+            if (key == "happiness" && value is float happiness) playerData.happiness = happiness;
             if (key == "lastLogin" && value is System.DateTime lastLogin) playerData.lastLogin = lastLogin;
 
         }

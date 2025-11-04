@@ -14,12 +14,14 @@ public class RoundProfile : ScriptableObject
     public Locations location;
     public int difficulty;
     public float requiredFame;
+    public float moneyQuota;
 
     [Header("StageUnlocks")]
     public List<CustomerData> customerUnlock;
     public Recipe recipeUnlock;
     public Beverage beverageUnlock;
     public List<Recipe> availableRecipes;
+    public List<CustomerData> availableCustomers;
     public List<AlmanacEntryData> entryUnlocks;
 
 

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using System;
 using System.Runtime.ConstrainedExecution;
+using UnityEngine.UI;
 
 public class RoundManager : MonoBehaviour
 {
@@ -35,15 +36,16 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private int customersToCall = 0, currentOrders = 0;
 
     [Header("Round Profile")]
-    private List<Beverage> beverages;
-    private List<Recipe> recipes;
-    private List<CustomerData> customerList;
+    private List<Beverage> beverages = new();
+    private List<Recipe> recipes = new();
+    private List<CustomerData> customerList = new();
 
-    //SpecialCustomer
+    //Unlocks
     private Beverage unlockBeverage;
     private Recipe unlockRecipe;
-    private List<CustomerData> unlockCustomer;
-    private CustomerData unlockSpecialCustomer;
+    private List<CustomerData> unlockCustomer = new();
+    private CustomerData specialCustomer = null;
+
 
     private RoundProfile profile;
 
@@ -53,7 +55,7 @@ public class RoundManager : MonoBehaviour
     private Transform customerPoolPoint;
     private List<CustomerSpawnPoint> customerSpawnPoints = new List<CustomerSpawnPoint>();
     [SerializeField] private GameObject customerPrefab;
-    private CustomerData specialCustomer = null;
+    public List<DropObj> dropsToClaim { set; get; } = new();
 
     [SerializeField] private GameObject groupContainerPrefab;
     [SerializeField] private GameObject trayObjPrefab;
@@ -86,6 +88,8 @@ public class RoundManager : MonoBehaviour
     private float roundElapsedTime = 0f;
     private bool isTimerPaused = false;
     private bool isRoundActive = false;
+    [SerializeField] Button toggleSpeed;
+    private bool speed = true;
 
     public VisualStateLib lib;
     public static RoundManager roundManager;
@@ -101,6 +105,11 @@ public class RoundManager : MonoBehaviour
 
     async void Start()
     {
+        if (speed)
+            Time.timeScale = 10;
+        else
+            Time.timeScale = 1;
+
         profile = GameManager.instance.roundProfile;
 
         // Set Available Data
@@ -122,14 +131,23 @@ public class RoundManager : MonoBehaviour
             unlockRecipe = profile.recipeUnlock;
         }
 
-        customerList = InventoryManager.inv.gameRepo.CustomerRepo;
-        foreach (var customer in profile.customerUnlock)
+        foreach (CustomerData cus in profile.availableCustomers)
         {
-            if (!customerList.Exists(c => c == customer))
-            {
-                customerList.Add(customer);
-                unlockCustomer.Add(customer);
-            }
+            if (InventoryManager.inv.playerRepo.CustomerRepo.Exists(c => c == cus))
+                customerList.Add(cus);
+            else
+                if (Debug.isDebugBuild) Debug.Log("Customer Data Missing. It is possible that customer data is missing from the repository or that the player has not yet unlocked this character.");
+        }
+
+        foreach (CustomerData cus in profile.customerUnlock)
+            unlockCustomer.Add(cus);
+
+        foreach (CustomerData cus in unlockCustomer)
+        {
+            if (customerList.Exists(c => c.id == cus.id))
+                unlockCustomer.Remove(cus);
+            else
+                customerList.Add(cus);
         }
 
         //Set Spawn Points              
@@ -223,7 +241,6 @@ public class RoundManager : MonoBehaviour
             newOrder.customers.InstModal(modalPrefab, newOrder, modalCanvas);
         }
 
-        // Convert to dictionary if needed
         for (int i = 0; i < ordersList.Count; i++)
         {
             orders[i] = ordersList[i];
@@ -264,59 +281,161 @@ public class RoundManager : MonoBehaviour
         foreach (Customer customer in customerGroup.customers)
             customerGroup.timer.totalTime += customer.patience;
 
+        if (specialCustomerOverride.Count > 0)
+            customerGroup.isSpecialGroup = true;
+
         return customerGroup;
     }
 
     CustomerData ChooseSpecialCustomer()
     {
-        //Designeated SpecialCustomer
-        if (InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c.entryID == profile.specialCustomerUnlock.id))
+        //Designated SpecialCustomer
+        if (!InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c == profile.specialCustomerUnlock))
         {
-            unlockSpecialCustomer = profile.specialCustomerUnlock;
+            specialCustomer = profile.specialCustomerUnlock;
             return profile.specialCustomerUnlock;
         }
 
-        //Random SpecialCustomer
+        //Random SpecialCustomer    // If customer has been unlocked this round
         else if (profile.specialCustomers.Count > 0)
-            return profile.specialCustomers[tempRNG.Next(0, profile.specialCustomers.Count)];
+        {
+            List<CustomerData> availableSpecialCustomers = new();
 
+            foreach (CustomerData cus in profile.specialCustomers)
+                if (InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c == cus))
+                    availableSpecialCustomers.Add(cus);
+
+            if (availableSpecialCustomers.Count > 0)
+                return availableSpecialCustomers[tempRNG.Next(0, availableSpecialCustomers.Count)];
+        }
         return null;
     }
 
     #endregion
     #region Round Routine
 
+    [System.Serializable]
+    public class RoundTimingDebug
+    {
+        public float totalPatience;
+        public float avgPatience;
+        public float targetServiceTime; // Half of avg
+        public float spawnWindow;       // 30% of service time
+        public float finalInterval;     // After difficulty
+    }
+
+    public RoundTimingDebug timingDebug = new RoundTimingDebug();
+
     private IEnumerator RoundLoop()
     {
-        // START TIMER 
         isRoundActive = true;
         roundElapsedTime = 0f;
-        isTimerPaused = false;
 
-        int i = 0;
-        while (customersToCall > 0)
+        // First customer: initial delay
+        yield return new WaitForSeconds(ProceduralRNG.Range(5f, 15f));
+        if (orders.Count > 0 && HasAvailableSpawnPoint())
         {
-            // Wait until there's a free spawn point
-            if (customerSpawnPoints.All(c => c.occupied))
-                yield return new WaitWhile(() => customerSpawnPoints.All(c => c.occupied));
-
-            float delay = ProceduralRNG.Range(5f, 10f);
-            yield return new WaitForSeconds(delay);
-
-            CallCustomerGroup(orders[i].customers);
-
-            customersToCall--;
+            CallCustomerGroup(orders[0].customers);
             currentOrders++;
-            i++;
         }
 
-        if (currentOrders > 0)
-            yield return new WaitWhile(() => currentOrders > 0);
+        // Dynamic rhythm setup
+        float spawnInterval = GetTargetSpawnInterval();
+        float difficultyMultiplier = 1.0f - (profile.difficulty - 1) * 0.08f;
+        float baseDelay = Mathf.Clamp(spawnInterval * difficultyMultiplier, 15f, 60f);
+
+        float nextSpawnTime = Time.time + baseDelay;
+
+        // Remaining customers
+        for (int i = 1; i < orders.Count; i++)
+        {
+            // 🔍 Check: are ALL spawn points FREE?
+            if (!customerSpawnPoints.Any(c => c.occupied))
+            {
+                // ✅ YES: No need to wait — jump in with just hesitation
+                float preSpawnDelay = ProceduralRNG.Range(0f, 5f);
+                yield return new WaitForSeconds(preSpawnDelay);
+
+                CallCustomerGroup(orders[i].customers);
+                currentOrders++;
+
+                // Reset next spawn time from now
+                nextSpawnTime = Time.time + baseDelay;
+            }
+            else
+            {
+                // 🔁 NO: Some spawns occupied → follow normal timed rhythm
+                while (Time.time < nextSpawnTime)
+                    yield return null;
+
+                // Wait for any spawn point to be available
+                if (customerSpawnPoints.All(c => c.occupied))
+                    yield return new WaitWhile(() => customerSpawnPoints.All(c => c.occupied));
+
+                // Add natural hesitation before appearing
+                float preSpawnDelay = ProceduralRNG.Range(0f, 5f);
+                yield return new WaitForSeconds(preSpawnDelay);
+
+                // Spawn!
+                CallCustomerGroup(orders[i].customers);
+                currentOrders++;
+
+                // Schedule next
+                nextSpawnTime += baseDelay;
+            }
+        }
+
+        // Wait for all to leave and currency be picked up
+        yield return new WaitWhile(() => currentOrders > 0);
+        yield return new WaitWhile(() => dropsToClaim.Count > 0);
+
 
         OnRoundComplete();
-
-        // STOP TIMER 
         isRoundActive = false;
+    }
+
+    private bool HasAvailableSpawnPoint()
+    {
+        return customerSpawnPoints.Exists(c => !c.occupied);
+    }
+
+    private float GetTargetSpawnInterval()
+    {
+        // Total patience across all groups
+        float totalPatience = 0f;
+        int groupCount = orders.Count;
+
+        foreach (var order in orders.Values)
+        {
+            totalPatience += order.customers.timer.totalTime;
+        }
+
+        float avgPatience = totalPatience / groupCount;
+
+        // Target: player should finish by HALF of patience
+        float targetServiceTime = avgPatience * 0.5f;
+
+        // ✅ Spawn every 25% to 50% of service time → dynamic range
+        float minSpawnInterval = targetServiceTime * 0.25f; // 1/4
+        float maxSpawnInterval = targetServiceTime * 0.5f;  // 1/2
+
+        // Use difficulty to slide between min and max
+        float t = Mathf.InverseLerp(1, 5, profile.difficulty); // 0.0 (diff1) → 1.0 (diff5)
+        float rawInterval = Mathf.Lerp(maxSpawnInterval, minSpawnInterval, t);
+
+        // Add slight randomness so not robotic
+        float jitterRange = rawInterval * 0.15f; // ±15%
+        float finalInterval = rawInterval + ProceduralRNG.Range(-jitterRange, jitterRange);
+        finalInterval = Mathf.Clamp(finalInterval, 15f, 60f);
+
+        // 🔍 Debug
+        timingDebug.totalPatience = totalPatience;
+        timingDebug.avgPatience = avgPatience;
+        timingDebug.targetServiceTime = targetServiceTime;
+        timingDebug.spawnWindow = rawInterval;
+        timingDebug.finalInterval = finalInterval;
+
+        return finalInterval;
     }
 
     public void ToggleRoundTimer() => isTimerPaused = !isTimerPaused;
@@ -369,6 +488,27 @@ public class RoundManager : MonoBehaviour
 
     private async void OnRoundComplete()
     {
+        bool isRoundFailed = money < profile.moneyQuota;
+
+        //Total Score
+        float totalScore = 0;
+        foreach (OrderNode dish in finishedOrders)
+            totalScore += dish.weight;
+        float averageScore = Mathf.Clamp(totalScore / orders.Count, 0, 1) * 100;
+
+        if (Debug.isDebugBuild) Debug.Log(totalScore);
+        if (Debug.isDebugBuild) Debug.Log(averageScore);
+        //Star
+        int starCollected = 0;
+        if (isRoundFailed)
+            starCollected = 0;
+        else if (averageScore <= 30)
+            starCollected = 1;
+        else if (averageScore > 30 && averageScore <= 60)
+            starCollected = 2;
+        else if (averageScore > 60)
+            starCollected = 3;
+
         //Results
         DataManager.data.results = new RoundResults
         {
@@ -381,19 +521,31 @@ public class RoundManager : MonoBehaviour
             earnedMoney = this.money,
             clearDate = DateTime.Now,
             clearTime = roundElapsedTime,
-            starCount = 3, //adjust
+            starCount = starCollected,
         };
 
-        //DATA SAVING
+        //Round Fail
+        if (isRoundFailed)
+        {
+            GameManager.instance.NextScene("Results Screen");
+            return;
+        }
 
+        //DATA SAVING
         if (unlockRecipe != null)
-            update.Add("unlockedRecipeIds", unlockRecipe);
+            update.Add("unlockedRecipeIds", new List<string> { unlockRecipe.id });
 
         if (unlockBeverage != null)
-            update.Add("unlockedBeverageIds", unlockRecipe);
+            update.Add("unlockedBeverageIds", new List<string> { unlockBeverage.id });
 
-        if (unlockCustomer != null)
-            update.Add("unlockedCustomerIds", unlockRecipe);
+        if (unlockCustomer != null && unlockCustomer.Count > 0)
+        {
+            List<string> customerList = new();
+            foreach (var customer in unlockCustomer)
+                customerList.Add(customer.id);
+
+            update.Add("unlockedCustomerIds", customerList);
+        }
 
         //DIALOGUE
         string afterDialogue = $"{GameManager.instance.roundProfile.roundName}_After";
@@ -404,6 +556,13 @@ public class RoundManager : MonoBehaviour
             update.Add("dialogueFlags", updatedDialogueFlags);
         }
 
+        //EntryUnlocks
+        AddEntriesToUpdates(profile.entryUnlocks);
+
+        //DAY END SCENE
+        //StartCoroutine(PlayDayEnd(isFailed, starCount))
+
+        //Play Dialogue
         if (eventsToPlay.Count > 0)
         {
             foreach (string play in eventsToPlay)
@@ -415,15 +574,6 @@ public class RoundManager : MonoBehaviour
                     await DialogueManager.dialogueManager.PlayDialogue(play);
             }
         }
-
-        if (dishesCleared > orders.Count / 2)
-            foreach (AlmanacEntryData data in profile.entryUnlocks)
-            {
-                if (data is LocationData)
-                    update.Add("unlockedLocationIds", data);
-                if (data is TermData)
-                    update.Add("unlockedTermIds", data);
-            }
 
         //Goto
         await DataManager.data.UpdatePlayerDataAsync(update);
@@ -461,6 +611,7 @@ public class RoundManager : MonoBehaviour
     {
         currentOrders--;
         orders[group.orderID].customers = null;
+        finishedOrders[group.orderID] = (orders[group.orderID].order);
         group.transform.GetComponentInParent<CustomerSpawnPoint>().occupied = false;
     }
 
@@ -468,6 +619,7 @@ public class RoundManager : MonoBehaviour
     {
         currentOrders--;
         orders[group.orderID].customers = null;
+        finishedOrders[group.orderID] = (orders[group.orderID].order);
         group.tableDropZone.occupied = false;
     }
 
@@ -576,6 +728,9 @@ public class RoundManager : MonoBehaviour
             }
         }
 
+        totalHappiness = (float)Math.Round(totalHappiness, 0);
+        totalMoney = (float)Math.Round(totalMoney, 0);
+
         //Reset Buffs
         moneyBuffs = new();
         happinessBuffs = new();
@@ -588,14 +743,16 @@ public class RoundManager : MonoBehaviour
         if (Debug.isDebugBuild) Debug.Log($"Total Happiness: {totalHappiness}");
 
         bool isCurrencyDropped = InstCurrenciesDrop(group, finalScore, totalMoney, totalHappiness);
-        bool isCEDropped = InstCEDrop(group, finalScore);
+        bool isCEDropped = false;
+
+        if (specialCustomer != null && group.isSpecialGroup == true)
+            isCEDropped = InstCEDrop(group, finalScore);
 
         if (isCurrencyDropped || isCEDropped)
-        {
             group.tableDropZone.occupied = true;
-            if (!isCEDropped)     //If specialcustomer has not been served well. reset specialcustomer unlock.
-                specialCustomer = null;
-        }
+
+        else
+            group.tableDropZone.occupied = false;
 
         //Update Round
         currentOrders--;
@@ -612,81 +769,74 @@ public class RoundManager : MonoBehaviour
 
     public bool InstCEDrop(CustomerGroup group, float finalScore)
     {
-        //Skip if specialcustomer is not found or score is low
-        if (specialCustomer == null) return false;
-        if (!group.customers.Exists(c => c.data.id == specialCustomer.id)) return false;
-        if (finalScore < 50f) return false;
-
-        //If custumer is new. Skip PlayerRepo Find.
         int starsCollected = 0;
-        if (specialCustomer != unlockSpecialCustomer)
-            starsCollected = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == specialCustomer.id).starCount;
 
-        CharacterEvent CE;
-        switch (starsCollected)
+        if (finalScore < 50f)
         {
-            case 0:
-                CE = specialCustomer.characterEvents[0];
-                break;
-            case 1:
-                CE = specialCustomer.characterEvents[1];
-                break;
-            case 2:
-                CE = specialCustomer.characterEvents[2];
-                break;
-            case 3:
-                return false;
-            default:
-                return false;
-        }
-
-        GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
-        DropObj drop = dropObj.GetComponent<DropObj>();
-        drop.dropData = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == "CE");
-        drop.dropData.sprite = specialCustomer.portrait;
-        drop.dropData.ceVal = CE;
-        drop.dropData.id = specialCustomer.customerName;
-
-        if (drop != null)
-        {
-            drop.InitSprite();
-            return true;
-        }
-        else
-        {
-            Destroy(drop);
+            specialCustomer = null;
             return false;
         }
+
+        SpecialNPCData special = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == specialCustomer.id);
+        if (special != null)
+        {
+            starsCollected = special.starCount;
+            if (special.starCount == 3) return false;
+        }
+
+        Drop data = InventoryManager.inv.gameRepo.DropsRepo.Find(c => c.id == $"CE_{specialCustomer.id}_{starsCollected + 1}");
+        if (!data)
+        {
+            if (Debug.isDebugBuild) Debug.Log("DropData not Found!");
+            specialCustomer = null;
+            return false;
+        }
+
+        //Instantiate
+        GameObject dropObj = Instantiate(dropPrefab, Vector3.zero, Quaternion.identity, group.transform.parent.transform.Find("Table").Find("DropZone"));
+        DropObj drop = dropObj.GetComponent<DropObj>();
+        drop.dropData = data;
+        drop.InitSprite();
+
+        dropsToClaim.Add(drop);
+
+        return true;
     }
 
     public void AddCE(CharacterEvent CE)
     {
+        //Add To EndGame
         AddToDialogueToPlay(CE.id);
-
-        foreach (AlmanacEntryData data in CE.unlockEntryData)
-        {
-            if (data is LocationData)
-                update.Add("unlockedLocationIds", data);
-            if (data is TermData)
-                update.Add("unlockedTermIds", data);
-        }
+        AddEntriesToUpdates(CE.unlockEntryData);
 
         // Update Stars
         List<bool> starStat = new List<bool> { true, false, false };
-        if (unlockSpecialCustomer == null)  //if customer is not new
+
+        if (DataManager.data.playerData.unlockedSpecialCustomerIds.TryGetValue(specialCustomer.id, out List<bool> existing))
         {
-            starStat = DataManager.data.playerData.unlockedSpecialCustomerIds[specialCustomer.id];
+            starStat = new List<bool>(existing);
+
+            if (Debug.isDebugBuild) Debug.Log($"Old Stat: {starStat}");
+
             for (int i = 0; i < starStat.Count; i++)
             {
-                if (starStat[i] == false)
+                if (!starStat[i])
                 {
                     starStat[i] = true;
                     break;
                 }
             }
+
+            if (Debug.isDebugBuild) Debug.Log($"New Stat: {starStat}");
         }
-        Dictionary<string, List<bool>> specialCustomerUpdate = new Dictionary<string, List<bool>> { { specialCustomer.id, starStat } };
-        update.Add("unlockedSpecialCustomerID", specialCustomerUpdate);
+
+        // Build update payload: merge into existing dict
+        Dictionary<string, List<bool>> specialCustomerUpdate = new Dictionary<string, List<bool>>
+        {
+            {specialCustomer.id, starStat}
+        };
+
+        update.Add("unlockedSpecialCustomerIds", specialCustomerUpdate);
     }
 
     public bool InstCurrenciesDrop(CustomerGroup group, float finalScore, float money, float happiness)
@@ -712,7 +862,10 @@ public class RoundManager : MonoBehaviour
             drop.dropData.floatVal = money;
 
             if (drop != null)
+            {
                 drop.InitSprite();
+                dropsToClaim.Add(drop);
+            }
 
             isCurrencyDropped = true;
         }
@@ -726,7 +879,10 @@ public class RoundManager : MonoBehaviour
             drop.dropData.floatVal = happiness;
 
             if (drop != null)
+            {
                 drop.InitSprite();
+                dropsToClaim.Add(drop);
+            }
 
             isCurrencyDropped = true;
         }
@@ -751,4 +907,46 @@ public class RoundManager : MonoBehaviour
     public void AddCurrentBuff(BuffData buff) => activeBuffData = buff;
 
     #endregion
+
+    #region Misc Helper Functions
+    void AddEntriesToUpdates(List<AlmanacEntryData> unlockEntryDatas)
+    {
+        foreach (AlmanacEntryData data in unlockEntryDatas)
+        {
+            if (data is LocationData)
+            {
+                if (update.ContainsKey("unlockedLocationIds"))
+                {
+                    if (update["unlockedLocationIds"] is List<string> locationList)
+                    {
+                        if (!locationList.Exists(c => c == data.entryID))
+                            locationList.Add(data.entryID);
+                        update["unlockedLocationIds"] = locationList;
+                    }
+                }
+                else
+                {
+                    update.Add("unlockedLocationIds", new List<string> { data.entryID });
+                }
+            }
+            if (data is TermData)
+            {
+                if (update.ContainsKey("unlockedTermIds"))
+                {
+                    if (update["unlockedTermIds"] is List<string> termList)
+                    {
+                        if (!termList.Exists(c => c == data.entryID))
+                            termList.Add(data.entryID);
+                        update["unlockedTermIds"] = termList;
+                    }
+                }
+                else
+                {
+                    update.Add("unlockedTermIds", new List<string> { data.entryID });
+                }
+            }
+        }
+    }
+    #endregion
+
 }

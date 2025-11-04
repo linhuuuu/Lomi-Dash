@@ -29,6 +29,7 @@ public class CustomerGroup : MonoBehaviour
     public List<Customer> customers { set; get; }
     public TableDropZone tableDropZone { set; get; }
     public CustomerSpawnPoint spawnPoint { set; get; }
+    public bool isSpecialGroup { set; get; } = false;
 
     //Patience
     public CustomerGroupTimer timer { set; get; }

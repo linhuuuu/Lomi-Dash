@@ -9,6 +9,7 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Vector3 originalPos;
     [SerializeField] private PrepTray tray;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private bool isDebug = false;
 
     void Awake()
     {
@@ -42,6 +43,9 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     transform.localPosition = originalPos;
                     return;
                 }
+
+                if (tray.dishList.Length < 1) return;
+
                 group = table.transform.GetComponentInChildren<CustomerGroup>();
             }
 
@@ -59,8 +63,12 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             OrderNode cookedOrder = tray.CompleteTray();
 
             //Evaluate
-            cookedOrder.weight = order.Evaluate(cookedOrder);
-            Debug.Log(cookedOrder.weight);
+            if (isDebug != true)
+                cookedOrder.weight = order.Evaluate(cookedOrder);
+            else
+                cookedOrder.weight = order.Evaluate(order);
+
+            if (Debug.isDebugBuild) Debug.Log(cookedOrder.weight);
 
             //Leave
             RoundManager.roundManager.finishedOrders[group.orderID] = cookedOrder;
@@ -69,6 +77,9 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             //Clear Out Tray
             tray.ClearTray();
+
+            //SFX
+            AudioManager.instance.PlaySFX(SFX.SERVE_TRAY);
         }
         transform.localPosition = originalPos;
                 CameraDragZoomControl.isCameraDraggingEnabled = true;

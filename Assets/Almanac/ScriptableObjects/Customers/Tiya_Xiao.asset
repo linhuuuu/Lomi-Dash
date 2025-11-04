@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5610684f24962f478c1f101877876dd, type: 3}
   m_Name: Tiya_Xiao
   m_EditorClassIdentifier: 
-  entryID: TIYA_XIAO
-  entryName: TIya Xiao
-  description: Juan Batangas
-  mainImage: {fileID: 21300000, guid: 7b80e49cb3081c04fb76828309a37b79, type: 3}
+  entryID: FATHER
+  entryName: Father
+  description: "It's easy to hear his easy laugh or nagging when you're nearby the
+    chapel. \n\nVery well loved by the community, very good with the kids. \n\nHowever,
+    to this day, many have not forgotten his attempt to be hip. \n"
+  mainImage: {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   starCount: 0
   characterEvents:
-  - 
-  - 
-  - 
+  - {fileID: 11400000, guid: 936978783032178449cc6152195465ca, type: 2}
+  - {fileID: 11400000, guid: b4ba6b3c2113094438b8b93b93d76121, type: 2}
+  - {fileID: 11400000, guid: 24ec60e04d64c414bafe463b35abbc54, type: 2}
   customerLocation: Lipa

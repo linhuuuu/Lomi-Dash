@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DropObjZone : MonoBehaviour
 {
-    private List<Transform> prompts = new List<Transform>();
+    private DropObj[] children;
     private TableDropZone tableDropZone;
 
     public void Awake()
@@ -12,33 +12,38 @@ public class DropObjZone : MonoBehaviour
         tableDropZone = GetComponentInParent<TableDropZone>();
     }
 
-    public void CollectAll()
+    public IEnumerator CollectAll()
     {
-        foreach (var child in transform.GetComponentsInChildren<DropObj>())
+        children = transform.GetComponentsInChildren<DropObj>();
+
+        //Collect
+        foreach (var child in children)
         {
+            child.col.enabled = false;
+            child.icon.gameObject.SetActive(false);
             child.Collect();
-            child.promptLabel.text = child.dropData.promptLabel;
-            prompts.Add(child.prompt);
-            child.prompt.SetParent(transform);
-            child.prompt.localPosition = Vector3.zero;
-            child.prompt.localEulerAngles = Vector3.zero;
+        }
+
+        //Animate
+        yield return null;
+        foreach (var child in children)
+        {
+            child.prompt.gameObject.SetActive(true);
+            LeanTween.move(child.prompt.gameObject, child.prompt.transform.position + new Vector3(0f, 1f, 0f), 1f).setEaseLinear();
+
+            yield return new WaitForSeconds(1f);
+            child.prompt.gameObject.SetActive(false);
+        }
+
+        //Destroy
+        yield return null;
+        foreach (var child in children)
+        {
+            RoundManager.roundManager.dropsToClaim.Remove(child);
             Destroy(child.gameObject);
         }
-        
-        StartCoroutine(ReadAllPrompts());
+
+
         tableDropZone.occupied = false;
-
-        if (Debug.isDebugBuild) Debug.Log($"Collected Buffs, Cleared Table {tableDropZone}. Occupancy: {tableDropZone.occupied}");
-    }
-
-    private IEnumerator ReadAllPrompts()
-    {
-        foreach (var prompt in prompts)
-        {
-            prompt.gameObject.SetActive(true);
-            LeanTween.move(prompt.gameObject, prompt.position + new Vector3(0f, 1f, 0f), 1f).setEaseLinear();
-            yield return new WaitForSeconds(1f);
-            Destroy(prompt.gameObject);
-        }
     }
 }

@@ -14,11 +14,16 @@ namespace PCG
 
         public override float EvaluateLeafNode(OrderNode other)
         {
+            Debug.Log("Evaluating: " + id + " with " + other.id);
+             
             if (other is not ToppingNode player)
                 return 0f;
 
-            float countRatio = Mathf.Clamp(player.count/count, 0f, 1f);
-            return countRatio * weight;
+            float countRatio = Mathf.Clamp(player.count / count, 0f, 1f);
+            float score = countRatio * weight;
+
+            if (Debug.isDebugBuild) Debug.Log(score);
+            return score;
         }
 
         public override string ToString()

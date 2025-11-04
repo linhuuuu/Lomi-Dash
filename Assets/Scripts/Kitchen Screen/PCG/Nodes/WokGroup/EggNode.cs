@@ -26,7 +26,6 @@ namespace PCG
 
             float score = (eggRatio * (weightRatio * weight)) + (mixedRatio * (weightRatio * weight));
             if (Debug.isDebugBuild) Debug.Log(score);
-
             return score;
         }
 

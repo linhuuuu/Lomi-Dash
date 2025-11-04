@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: TIYA_XIAO
   customerName: Tiya Xiao
-  patienceTime: 150
-  paymentRange: 600
-  itemDrop: 
-  portrait: {fileID: 21300000, guid: c7e567822e74855489eced37a11c4728, type: 3}
+  patienceTime: 180
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
+  portrait: {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: -156197539, guid: 3972618fa5e64204c8b289150d85a025, type: 3}
   sittingSprite: {fileID: -1648085143, guid: 3972618fa5e64204c8b289150d85a025, type: 3}

@@ -4,27 +4,28 @@ using UnityEngine.UI;
 
 public class DropObj : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
+    public Image icon;
     public Transform prompt;
     public TextMeshProUGUI promptLabel;
     public Image image;
     public Drop dropData;
+    public Collider col;
 
-    void Awake()
+    void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        prompt.gameObject.SetActive(false);
+        col = GetComponent<Collider>();
     }
-
     private void OnMouseDown()
     {
-        transform.GetComponentInParent<DropObjZone>().CollectAll();
+        StartCoroutine(transform.GetComponentInParent<DropObjZone>().CollectAll());
         AudioManager.instance.PlaySFX(SFX.DROP_PICKUP);
+
     }
     
     public void InitSprite()
     {
-        Debug.Log(dropData);
-        spriteRenderer.sprite = dropData.sprite;
+        icon.sprite = dropData.sprite;
         image.sprite = dropData.sprite;
 
         Vector2 circle = Random.insideUnitCircle * 0.5f;
@@ -34,7 +35,7 @@ public class DropObj : MonoBehaviour
 
         //Init Labels
         if (dropData.type == DropType.Currency)
-            dropData.promptLabel = $"+{dropData.floatVal} {dropData.id}!";
+            dropData.promptLabel = $"+{dropData.floatVal} {dropData.dropName}";
         if (dropData.type == DropType.Topping)
             dropData.promptLabel = $"+{dropData.intVal} {dropData.id}!";
         if (dropData.type == DropType.CE)

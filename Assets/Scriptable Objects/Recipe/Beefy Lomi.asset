@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b5a003d016bcc44a87ac76a21b0c29, type: 3}
+  m_Name: Beefy Lomi
+  m_EditorClassIdentifier: 
+  id: BEEFY
+  recipeName: Beefy Lomi
+  basePrice: 120
+  region: 1
+  toppingList:
+  - topping: {fileID: 11400000, guid: 6d7c3316cf28ec1439fa43e1ca766f30, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: fca266b1eb9c238488c1c7e9bf866989, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: 865b224f38d2c674c924fa8df4faf0a3, type: 2}
+    count: 3
+  toppingVisual: {fileID: 5597419501941907907, guid: 0411b3e86cca1664384efe47887bb075,
+    type: 3}

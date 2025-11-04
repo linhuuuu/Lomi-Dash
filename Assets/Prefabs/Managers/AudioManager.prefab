@@ -72,6 +72,7 @@ MonoBehaviour:
     SFX_CUSTOMER_HAPPY: {fileID: 0}
     SFX_CUSTOMER_NEUTRAL: {fileID: 0}
     SFX_CUSTOMER_CHATTER: {fileID: 0}
+    SFX_SERVE_TRAY: {fileID: 8300000, guid: 147e312b76f8e2842b4db901cce2ab97, type: 3}
     SFX_DROP_PICKUP: {fileID: 8300000, guid: a09fe1ac40c2aa749a8d77bb973f223d, type: 3}
 --- !u!82 &7450630020173570085
 AudioSource:
@@ -85,7 +86,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.85
   m_Pitch: 1
   Loop: 1
   Mute: 0

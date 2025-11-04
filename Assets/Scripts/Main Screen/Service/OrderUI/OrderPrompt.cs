@@ -41,6 +41,7 @@ public class OrderPrompt : MonoBehaviour, IPointerDownHandler
         isOrderTaken = true;
 
         RoundManager.roundManager.orders[orderIndex].customers.CallOrderQueue();
+        AudioManager.instance.PlaySFX(SFX.CUSTOMER_PICKUP);
     }
 
     private void UpdateUI(float secondsLeft)

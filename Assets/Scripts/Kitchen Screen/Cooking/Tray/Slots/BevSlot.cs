@@ -15,7 +15,7 @@ public class BevSlot : MonoBehaviour
 
     public void RecieveBevToSlot(PrepBev incomingBev)
     {
-        
+
         if (incomingBev.bevSlot != null)    //If moving from one slot to another
         {
             incomingBev.bevSlot.RemoveBevFromSlot();
@@ -26,9 +26,9 @@ public class BevSlot : MonoBehaviour
 
         // Parent and position
         myBev.transform.SetParent(transform);
-        myBev.transform.localPosition = new Vector3(0f, 0f, 0f);
+        myBev.transform.localPosition = new Vector3(0f, 2f, 0f);
         myBev.bevSlot = this;
-        
+
         // Sorting order
         SpriteRenderer dishRenderer = myBev.GetComponent<SpriteRenderer>();
         dishRenderer.sortingOrder = bevPosSortingOrder + 1;
@@ -37,6 +37,7 @@ public class BevSlot : MonoBehaviour
         myBev.originalLocalPosition = new Vector3(0f, 0f, 0f);
         myBev.parent = transform;
         myBev.originalSortingOrder = dishRenderer.sortingOrder;
+        myBev.GetComponent<BoxCollider>().center = new Vector3(0f, 1f, 0f);     //idk why???
 
         //Toggle collider
         slotCollider.enabled = false;

@@ -197,6 +197,7 @@ public class ShopScreenManager : MonoBehaviour
             purchaseAll.enabled = true;
         }
 
+        if (active == null) return;
         if (!activeCurrency)
         { if (totalCost + active.price <= DataManager.data.playerData.money) return; }
         else

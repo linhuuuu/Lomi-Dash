@@ -10,9 +10,10 @@ public enum DropType
 [CreateAssetMenu(fileName = "Drop", menuName = "ScriptableObjects/Drop")]
 public class Drop : ScriptableObject
 {
-    [Header("ID")]
+    [Header("Drop")]
     public DropType type;
     public string id;
+    public string dropName;
     public string promptLabel;
 
     [Header("Sprite")]

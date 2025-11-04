@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public RoundProfile roundProfile { set; get; } = null;
     [field: SerializeField] public string prevScene { set; get; }
+    [field: SerializeField] public Canvas loadingPanel { private set; get; }
 
     public enum gameState
     {

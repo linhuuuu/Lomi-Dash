@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b5a003d016bcc44a87ac76a21b0c29, type: 3}
+  m_Name: Baker's Dozen
+  m_EditorClassIdentifier: 
+  id: BAKERS
+  recipeName: Baker's Dozen Lomi
+  basePrice: 130
+  region: 2
+  toppingList:
+  - topping: {fileID: 11400000, guid: 2aa2348643830014f8c7cf647624ffa3, type: 2}
+    count: 4
+  - topping: {fileID: 11400000, guid: 85c83b79bbdcd3548b81865cb3f6086d, type: 2}
+    count: 4
+  - topping: {fileID: 11400000, guid: 437dd4ada1a99ad4fa2ff0462313e7ea, type: 2}
+    count: 4
+  toppingVisual: {fileID: 5597419501941907907, guid: dc72511c87d7c044e9bea6e87f0fd466,
+    type: 3}

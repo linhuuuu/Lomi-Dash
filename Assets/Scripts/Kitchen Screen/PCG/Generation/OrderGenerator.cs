@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 namespace PCG
@@ -69,7 +70,15 @@ namespace PCG
             for (int i = 0; i < dishCount; i++)
             {
                 bool shouldMakeLarge = remainingLarge > 0;
-                Recipe recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count - 1)];
+
+                Debug.Log(String.Join(",", recipeList));
+                
+                Recipe recipe;
+
+                if (recipeList.Count < 2)
+                    recipe = recipeList[0];
+                else
+                    recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count - 1)];
 
                 recipesUsed.Add(recipe);
 

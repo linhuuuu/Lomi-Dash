@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Liberica Beans
   m_EditorClassIdentifier: 
   id: LIBERICA
-  buffName: Liberica
+  buffName: Liberica Beans
+  price: 0
   effect: 
   sprite: {fileID: 2044697575, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
-  buffs: []
+  buffs:
+  - type: 0
+    factor: 0
+    subtrahend: 0
+    addend: 0

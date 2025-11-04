@@ -25,7 +25,7 @@ public class IngredientFlipper : MonoBehaviour
     {
         if (flipRoutine != null)
             StopCoroutine(flipRoutine);
-
+            
         flipRoutine = StartCoroutine(OscillateAndSettle());
     }
 

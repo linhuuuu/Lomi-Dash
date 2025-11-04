@@ -24,8 +24,8 @@ namespace PCG
             float mixedRatio = isMixed ? 1 : 0;
 
             float score = (countRatio * (weightRatio * weight)) + (mixedRatio * (weightRatio * weight));
+            
             if (Debug.isDebugBuild) Debug.Log(score);
-
             return score;
         }
 

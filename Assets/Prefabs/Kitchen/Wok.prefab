@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 6433470729547652441}
   - component: {fileID: 4738092265957085832}
   - component: {fileID: 7100679326591390308}
+  - component: {fileID: 7116084554854656092}
   m_Layer: 8
   m_Name: Wok
   m_TagString: Wok
@@ -173,15 +174,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sauteeSRC: {fileID: 6433470729547652441}
   ingredientSFX:
-  - {fileID: 8300000, guid: 20b8a414d70c11641a365023a87473e2, type: 3}
-  - {fileID: 8300000, guid: 20b8a414d70c11641a365023a87473e2, type: 3}
-  - {fileID: 8300000, guid: 20b8a414d70c11641a365023a87473e2, type: 3}
-  - {fileID: 8300000, guid: 20b8a414d70c11641a365023a87473e2, type: 3}
+  - {fileID: 8300000, guid: 20b8ae7fce5fc77438aa2872f117d7e2, type: 3}
+  - {fileID: 8300000, guid: 481ff3ff3a129da4d806ee432338fcaa, type: 3}
+  - {fileID: 8300000, guid: 5c3a50704116ac14da8ae24502f781b9, type: 3}
+  - {fileID: 8300000, guid: 33f21b25182b00b48b20dd68b4fa47da, type: 3}
   slurrySRC: {fileID: 4738092265957085832}
-  slurryDrop: {fileID: 8300000, guid: 9d5bd436e7a55bf4a97779fbe79d0fe1, type: 3}
-  slurryMix: {fileID: 8300000, guid: 9d5bd436e7a55bf4a97779fbe79d0fe1, type: 3}
+  slurryDrop: {fileID: 8300000, guid: 51a3d7750566bc54fac522543dbd0c6a, type: 3}
+  slurryMix: {fileID: 8300000, guid: 8dd5b11e3f4c4a94c88006f8a9de9944, type: 3}
   mixSRC: {fileID: 7100679326591390308}
-  mix: {fileID: 8300000, guid: c228dc30ff4a20144b9d5cc9a31416de, type: 3}
+  mix: {fileID: 8300000, guid: 8dd5b11e3f4c4a94c88006f8a9de9944, type: 3}
+  wokSRC: {fileID: 7116084554854656092}
+  returnToStove: {fileID: 8300000, guid: 7471efcecba8ac046b8f2fdaef4536df, type: 3}
+  transferToDish: {fileID: 8300000, guid: ae76356dbd8311f49bac3a7da1c921a9, type: 3}
 --- !u!212 &8995371567233735009
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -253,8 +257,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.06, y: 4.7999997, z: 0.2000005}
-  m_Center: {x: 0, y: -0.000015258789, z: 0.000030517578}
+  m_Size: {x: 4.9355288, y: 3.7938752, z: 0.2000005}
+  m_Center: {x: -0.79, y: 0.71, z: 0.000031842672}
 --- !u!210 &3571873870116559262
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -555,6 +559,102 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!82 &7116084554854656092
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8895876490123205274}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &391595398203850366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -742,7 +842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJitter: {x: 0.01, y: 0.01}
-  updateRate: 0.02
+  updateRate: 0.2
   slowDownDuration: 0.4
   jitterAtStart: 0
 --- !u!114 &3335211461494308359
@@ -942,7 +1042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJitter: {x: 0.01, y: 0.01}
-  updateRate: 0.02
+  updateRate: 0.2
   slowDownDuration: 0.4
   jitterAtStart: 0
 --- !u!114 &6338749291528255317
@@ -1326,7 +1426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJitter: {x: 0.01, y: 0.01}
-  updateRate: 0.02
+  updateRate: 0.2
   slowDownDuration: 0.4
   jitterAtStart: 0
 --- !u!114 &1757097128950385793
@@ -1704,7 +1804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJitter: {x: 0.01, y: 0.01}
-  updateRate: 0.02
+  updateRate: 0.2
   slowDownDuration: 0.4
   jitterAtStart: 0
 --- !u!114 &9095444862820098440
@@ -1903,7 +2003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJitter: {x: 0.01, y: 0.01}
-  updateRate: 0.02
+  updateRate: 0.2
   slowDownDuration: 0.4
   jitterAtStart: 0
 --- !u!114 &4567440816355226268

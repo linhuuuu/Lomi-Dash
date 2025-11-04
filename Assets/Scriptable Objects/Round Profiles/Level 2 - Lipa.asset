@@ -17,6 +17,22 @@ MonoBehaviour:
   location: 0
   difficulty: 2
   requiredFame: 10
+  moneyQuota: 0
+  customerUnlock:
+  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+  recipeUnlock: {fileID: 0}
+  beverageUnlock: {fileID: 0}
+  availableRecipes: []
+  availableCustomers:
+  - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
+  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  - {fileID: 11400000, guid: d2348cb75108a35488630128a4ccb15a, type: 2}
+  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+  - {fileID: 11400000, guid: 9afea92ef6e361f4d903aafd7d26c4c2, type: 2}
+  entryUnlocks: []
+  companions: []
+  specialCustomerUnlock: {fileID: 0}
+  specialCustomers: []
   isGroupCountOverriden: 0
   minCustomerGroupCount: 1
   maxCustomerGroupCount: 5

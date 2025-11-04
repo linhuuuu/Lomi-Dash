@@ -8,6 +8,9 @@ public class LocationData : AlmanacEntryData
     public List<Sprite> lomiImages = new List<Sprite>();
 
     [TextArea(2, 5)]
+    public string ;
+    
+    [TextArea(2, 5)]
     public string trivia;
 }
 

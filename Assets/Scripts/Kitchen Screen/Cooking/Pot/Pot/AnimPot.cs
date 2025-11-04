@@ -41,16 +41,6 @@ public class AnimPot : MonoBehaviour
         //Check Reference
         pot = GetComponent<CookPot>();
 
-        //Check Availability
-        string potObj = DataManager.data.playerData.unlockedKitchenTools.Keys.ToList().Find(c => c == transform.parent.gameObject.name);
-
-        if (potObj == null) { transform.parent.gameObject.SetActive(false); return; }
-
-        //UpdatePot Tier
-        int potTier = DataManager.data.playerData.unlockedKitchenTools[potObj];
-        if (potTier > 1)
-            UpdatePotTier(potTier);
-
         //Set Water
         water.SetActive(false);
         SetupWaterFrames();
@@ -106,7 +96,7 @@ public class AnimPot : MonoBehaviour
         int visualLevel = Mathf.RoundToInt(t * (waterLevels.Count - 1));
         Vector3 targetPos = waterLevels[visualLevel];
 
-        // LeanTween.moveLocal(water, targetPos, 0.3f).setEaseLinear();
+        water.transform.localPosition = targetPos;
     }
 
     #endregion
@@ -228,6 +218,6 @@ public class AnimPot : MonoBehaviour
         c.a = alpha;
         obj.color = c;
     }
-    
+
     #endregion
 }

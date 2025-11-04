@@ -36,24 +36,27 @@ public class CookWokEditor : Editor
                 EditorGUILayout.LabelField("  | Oil Time: " + cookWok.sauteeNode.oilTime);
             }
 
-            if (cookWok.soysauceNode != null)
+            if (cookWok.soySauceNode != null)
             {
-                EditorGUILayout.LabelField("  | SoySauce Count: " + cookWok.soysauceNode.count);
+                EditorGUILayout.LabelField("  | SoySauce Count: " + cookWok.soySauceNode.count);
             }
 
             if (cookWok.noodlesNode != null)
             {
                 EditorGUILayout.LabelField("  | Noodles Count: " + cookWok.noodlesNode.count);
+                EditorGUILayout.LabelField("  | Noodles Time: " + cookWok.noodlesNode.time);
             }
 
             if (cookWok.eggNode != null)
             {
                 EditorGUILayout.LabelField("  | Egg Count: " + cookWok.eggNode.count);
+                EditorGUILayout.LabelField("  | Egg Mixed: " + cookWok.eggNode.isMixed);
             }
 
             if (cookWok.thickenerNode != null)
             {
                 EditorGUILayout.LabelField("  | Thickener Count: " + cookWok.thickenerNode.count);
+                EditorGUILayout.LabelField("  | Thickener Mixed: " + cookWok.eggNode.isMixed);
             }
         }
 

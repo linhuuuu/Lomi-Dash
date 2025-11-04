@@ -1,6 +1,7 @@
 using UnityEngine;
 using PCG;
 using System;
+using UnityEngine.UIElements;
 
 public class PrepTray : MonoBehaviour
 {
@@ -140,7 +141,10 @@ public class PrepTray : MonoBehaviour
         currentDishWeight = 0;
         currentBevWeight = 0;
         seasoningTray.trayCount = 0;
+        trayNode = new();
 
+
+        //what was the logic here omg
         foreach (var dish in dishes)
             foreach(var d in dish.gameObject.GetComponentsInChildren<PrepDish>())
                 Destroy(d.gameObject);

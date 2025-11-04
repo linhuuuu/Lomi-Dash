@@ -1,4 +1,14 @@
-﻿title: Lipa_Juan_Scene
+﻿title: CE_JUAN_1
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+
+<<showCharacter SpriteBehaviour Juan at 400 -100>>
+JUAN: Hiii! I will now kiss you.
+===
+
+title: CE_JUAN_2
 //<<$player_name>>
 ---
 //<<declare $player_name = "" as string>> 
@@ -33,11 +43,9 @@ JUAN: Nothing....
 JUAN: Hey, don't worry about it. Come here, pal.
 JUAN: A toast.
 JUAN: We may have had some failed dreams, but that ain't stopping us from what we have right now as buddies.
-
--> Juan_Wedding_Invite
 ===
 
-title: Juan_Wedding_Invite
+title: CE_JUAN_3
 ---
 JUAN: Ay, bale meron nga pala akong kasal na pupuntahan, gusto mo ga sumama? Need ko talaga ng plus one~
 JUAN: Pleaaaaseee? Gustong-gusto ka na talaga makita ni titaaaa~
@@ -68,5 +76,4 @@ JUAN: Teka, umupo na tayo doon. Malapit na magsimula ang wedding ceremony.
 [Protag]: Oh right, I almost forgot. Okay sige, umupo na tayo doon.
 
 Narrator: They found a seat near the aisle, immersing themselves in the warmth and noise of a true Batangueño celebration.
--> END
 ===

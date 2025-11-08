@@ -1,0 +1,123 @@
+﻿title: Nimfa_Scene
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+<<showCharacter SpriteBehaviour Nimfa at 400 -100>>
+
+NIMFA: Protaaag!
+NIMFA: Upo ka muna dito saglit!
+NIMFA: Medyo nakakalungkot kasi kumain mag-isa ngayon eh.
+NIMFA: Pwede mo ba akong samahan muna ngayon?
+
+[Protag]: Sige, pasara naman na din ako mamaya-maya.
+
+NIMFA: Yehey! Salamat!
+NIMFA: Hindi talaga masarap sa pakiramdam na magpatino mag-isa.
+NIMFA: Lalo na ngayong madaling araw na.
+NIMFA: Sigurado ka ba na okay lang na tumambay muna ako dito?
+
+[Protag]: Okay lang naman, basta hindi lang talaga sobrang tagal... ngayong gabi na 'to.
+[Protag]: Wala namang masama na magkaroon ng kasama ngayon.
+[Protag]: Mukhang parehas naman din natin kailangan ito.
+
+NIMFA: Totoo...
+NIMFA: ...
+
+[Protag]: Anong nasa isip mo ngayon, Nimfa?
+
+NIMFA: Iniisip ko lang na kung kelan ulit ang susunod na inuman! Kung ano ba ga ang plano nila sa susunod!
+NIMFA: I mean alam ko naman na palaging may pyestahan at parties eh.
+NIMFA: Ang saya kaya makakilala ulit ng mga bagong tao!
+NIMFA: Dapat talaga sumama ka sa akin minsan!
+
+[Protag]: Siguro, pero masyado din talaga akong busy.
+
+NIMFA: Awww.
+NIMFA: Kung wala ka naman gagawin, sabihan mo lang ako!
+NIMFA: Pwede naman natin sabihin na... market research!
+
+NIMFA: Hmmm?
+NIMFA: Pwede bang pakinggan mo muna ako, protag?
+
+[Protag]: Hmm? Go lang.
+
+NIMFA: Ano lang kasi... uhm.
+NIMFA: Diba, magkaibigan naman na tayo?
+
+[Protag]: Oo?
+
+NIMFA: Medyo boring pakinggan, pero...
+NIMFA: Medyo nagw-worry lang talaga ako.
+NIMFA: I mean, wala na din kasi masyadong na-attend sa mga pyestahan ngayon kesa dati.
+NIMFA: Napaka liwanag talaga dati kapag pyestahan eh!
+NIMFA: Nakakamiss lang talaga yung pakiramdam ng nakaraan. I mean meron pa din naman na mga festivals, wag mo sanang ma-misinterpret...
+NIMFA: Sadyang... nakakamiss lang talaga. Siguro dahil tumatanda na din tayo kaya hindi na din masyado sumasama ang iba.
+NIMFA: Pero kahit din naman ang mga bata.
+NIMFA: Pero feeling ko kasi, parang may magagawa pa kasi ako. Siguro, ako na talaga ang may problema.
+
+[Protag]: Parang hindi mo naman na yan kontrolado eh.
+
+NIMFA: Hindi eh, parang nararamdaman ko pa kasi na parang may kulang? Or parang may pagkukulang ako? Malay mo pinaglalaruan nanaman ako ng iniisip ko, diba?
+NIMFA: Dati kasi talaga, buhay na buhay talaga eh.
+NIMFA: Pero, may sarili din naman akong inaalala! Hindi kasi din talaga madali makakumbinsi ng tao na magsama-sama sila, pero feeling ko mawawala kapag hindi ko ginawa.
+NIMFA: Pasensya na talaga protag pero, nararamdaman ko talaga na wala talaga ako ngayon.
+NIMFA: Ayoko talaga na maging ganto ako.
+
+[Protag]: Pero normal lang naman na maramdaman mo yan eh. Wala namang tao na hindi nagkakamali sa sarili nilang emosyon eh.
+
+NIMFA: Totoo. Pero hindi ko lang talaga mapigilan sarili ko na maging ganito. Kung hindi ko kaya na pagsunduin ang mga tao, ano pa kaya ang kaya ko na gawin?
+
+[Protag]: Hindi pa ba sapat sayo na maging ikaw?
+
+NIMFA: Di din ako sure, protag.
+NIMFA: Pero syempre, kailangan ko pa din subukan. Kailangan eh.
+
+Narrator: Nimfa managed to finally catch you at a free time, inviting you over for festivities.
+Narrator: You practically eat your entire body weight in the stalls, the localities tasting divine you felt the hole grow in your wallet just smelling some of the offerings.
+Narrator: The festival — [Festival Name Here].
+Narrator: Beautiful and intricate dresses, a parade that spans the city.
+Narrator: You can't help but be caught up in Nimfa's and everyone's good mood.
+Narrator: But each high has to come down and all festivities have to come to an end.
+
+NIMFA: Gahhhh hindi na ako makagalaw! Busog na busog na ako, kailangan ko na maglakad-lakad kung saan simula ngayon!
+
+[Protag]: Ughhh... Same tayo...
+
+NIMFA: Diba? Sabi ko sayo masaya sila kasama?!
+NIMFA: Ang gaganda din talaga ng mga boses nila!
+
+[Protag]: Oo nga eh...
+
+NIMFA: Mhm!
+NIMFA: ...
+
+[Protag]: Nimfa, okay lang talaga kung ganito lang din tayo katahimik.
+
+NIMFA: Huh?
+
+[Protag]: A-alam ko na gusto mo talaga i push ang sarili mo, kunin mo ito sa iyong sarili.
+[Protag]: Pero kapag ganito talagang katahimik, okay lang talaga na pagbigyan mo ang sarili mo kahit saglit lang.
+[Protag]: Okay lang magpahinga.
+[Protag]: ...
+[Protag]: Kung kailangan mo.
+
+NIMFA: Dahil ba ito nung nakaraan?
+
+[Protag]: Siguro?...
+
+NIMFA: Hahahaha masyado ka talagang nag-aalala para sa akin.
+NIMFA: Pero, salamat talaga.
+NIMFA: ...
+NIMFA: Talaga ba na.... nakikita mo ako?
+
+[Protag]: Mhm...
+
+NIMFA: Ano ba ang nakikita mo sa akin?
+
+[Protag]: Maligalig na babae, na nag ttry hard at malakas kumain.
+
+NIMFA: Hmph. I mean hindi naman masyadong masama pakinggan hahahaha!
+
+===
+

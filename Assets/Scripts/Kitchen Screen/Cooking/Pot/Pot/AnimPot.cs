@@ -203,6 +203,7 @@ public class AnimPot : MonoBehaviour
             return;
         }
 
+        shakeSeasoningSRC.PlayOneShot(shakeSeasoning[1], 1f);
         float maxThreshold = pot.maxCount * 2;
 
         float saltProgress = Mathf.Clamp01(pot.seasoningNode.saltCount / maxThreshold);

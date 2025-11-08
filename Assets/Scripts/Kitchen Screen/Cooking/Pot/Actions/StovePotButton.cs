@@ -7,6 +7,13 @@ public class StovePotButton : MonoBehaviour
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip clip;
 
+    [SerializeField] private GameObject fire;
+
+    void Start()
+    {
+        fire.SetActive(false);
+    }
+    
     void OnMouseDown()
     {
         if (UIUtils.IsPointerOverUI()) return;
@@ -18,6 +25,7 @@ public class StovePotButton : MonoBehaviour
             transform.localEulerAngles = new Vector3(0f, 0f, 0f);
 
         pot.ToggleStove();
+                fire.SetActive(isOn);
 
         src.PlayOneShot(clip);
     }

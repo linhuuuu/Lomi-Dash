@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+
 public class DragAndDrop : MonoBehaviour
 {
     protected Collider col;
@@ -18,11 +19,12 @@ public class DragAndDrop : MonoBehaviour
     public Transform parent { set; get; }
     protected Collider hitCollider;
 
-    private bool isDragged = false;
-
     private LayerMask interactable;
     private float zOffset;
     protected Camera mainCamera;
+
+    // 🔖 Track if we modified sorting
+    private bool didAdjustSorting = false;
 
     System.Collections.IEnumerator getCamera()
     {
@@ -32,7 +34,6 @@ public class DragAndDrop : MonoBehaviour
 
     private void Awake()
     {
-        //mainCamera = CameraManager.cam.mainCam;
         StartCoroutine(getCamera());
         col = gameObject.GetComponent<Collider>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
@@ -47,70 +48,57 @@ public class DragAndDrop : MonoBehaviour
         }
 
         originalSortingLayer = sprite.sortingLayerName;
-
         parent = transform.parent;
 
-        interactable += 1 << 8; //interactables are at layer 8
-        interactable += 1 << 10; //Trash is at layer 10
-        interactable += 1 << 12; //Tray Slots is at layer 10
+        interactable += 1 << 8; // Interactables
+        interactable += 1 << 10; // Trash
+        interactable += 1 << 12; // Tray Slots
     }
 
-
-    private void OnMouseDown()
+    protected void OnMouseDown()
     {
         if (UIUtils.IsPointerOverUI()) { revertDefaults(); return; }
 
         CameraDragZoomControl.isCameraDraggingEnabled = false;
-
         zOffset = mainCamera.WorldToScreenPoint(transform.position).z;
 
         if (sortingGroup != null)
-            sortingGroup.sortingLayerName = "OnDrag";
-
-        if (sortingGroup == null)
-            sprite.sortingLayerName = "OnDrag";
-
-        if (transform.childCount > 0)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                if (transform.GetChild(i).TryGetComponent(out SpriteRenderer sprite))
-                    sprite.sortingOrder += 30;
-
-                if (transform.GetChild(i).TryGetComponent(out SpriteMask mask))
-                    mask.frontSortingOrder += 30;
-            }
+            sortingGroup.sortingLayerName = "OnDrag";
+        }
+        else
+        {
+            sprite.sortingLayerName = "OnDrag";
+            AddToSortingOrder(this.transform, 30);
+            didAdjustSorting = true; // ✅ Mark as adjusted
         }
     }
 
-
-    private void OnMouseDrag()
+    protected void OnMouseDrag()
     {
-        if (UIUtils.IsPointerOverUI() && !isDragged) { revertDefaults(); return; }
+        if (UIUtils.IsPointerOverUI()) { revertDefaults(); return; }
 
         Vector3 screenPos = Input.mousePosition;
         screenPos.z = zOffset;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
-
         transform.position = worldPos;
 
         AutoNudgeKitchen(screenPos);
-        isDragged = true;
     }
 
     private void AutoNudgeKitchen(Vector3 screenPos)
     {
         if (KitchenDrag.Instance == null) return;
 
-        float edgeThreshold = 100f;
+        float edgeThreshold = 150f;
 
         if (screenPos.x < edgeThreshold)
         {
-            KitchenDrag.Instance.NudgeKitchen(1f); // move kitchen left  
+            KitchenDrag.Instance.NudgeKitchen(1f);
         }
         else if (screenPos.x > Screen.width - edgeThreshold)
         {
-            KitchenDrag.Instance.NudgeKitchen(-1f); // move kitchen right
+            KitchenDrag.Instance.NudgeKitchen(-1f);
         }
     }
 
@@ -123,32 +111,26 @@ public class DragAndDrop : MonoBehaviour
 
     protected void revertDefaults()
     {
-        CameraDragZoomControl.isCameraDraggingEnabled = false;
+        if (hitCollider != null && hitCollider.TryGetComponent(out GameObject obj))
+            if (Debug.isDebugBuild) Debug.Log("Hit: " + obj);
+
         transform.SetParent(parent);
         transform.localPosition = originalLocalPosition;
-        isDragged = false;
 
         if (sortingGroup != null)
         {
             sortingGroup.sortingLayerName = originalSortingGroup;
             sortingGroup.sortingOrder = originalSortingGroupOrder;
         }
-
-        if (sortingGroup == null)
+        else
+        {
             sprite.sortingLayerName = originalSortingLayer;
 
-        if (transform.childCount > 0)
-        {
-            for (int i = 0; i < transform.childCount; i++)
+            // ✅ Only decrease if we actually increased it
+            if (didAdjustSorting)
             {
-                if (transform.GetChild(i).TryGetComponent(out SpriteRenderer sprite))
-                    sprite.sortingOrder -= 30;
-
-                if (transform.GetChild(i).TryGetComponent(out SpriteMask mask))
-                    mask.frontSortingOrder -= 30;
-
-                if (transform.GetChild(i).TryGetComponent(out Collider childCol))
-                    childCol.enabled = true;
+                DecreaseSortingOrder(this.transform, 30);
+                didAdjustSorting = false; // Reset
             }
         }
     }
@@ -156,7 +138,6 @@ public class DragAndDrop : MonoBehaviour
     protected void initDraggable()
     {
         col.enabled = false;
-        
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);
@@ -164,11 +145,39 @@ public class DragAndDrop : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, interactable))
             hitCollider = hit.collider;
 
-        if (hitCollider)
-            if (Debug.isDebugBuild) Debug.Log(hitCollider.tag);
+        if (hitCollider && Debug.isDebugBuild)
+            Debug.Log(hitCollider.tag);
 
         col.enabled = true;
     }
+
+    // ✅ Recursively increase sorting order by offset
+    private void AddToSortingOrder(Transform t, int offset)
+    {
+        if (t.TryGetComponent(out SpriteRenderer sr))
+            sr.sortingOrder += offset;
+
+        if (t.TryGetComponent(out SpriteMask mask))
+            mask.frontSortingOrder += offset;
+
+        for (int i = 0; i < t.childCount; i++)
+        {
+            AddToSortingOrder(t.GetChild(i), offset);
+        }
+    }
+
+    // ✅ Recursively decrease sorting order by offset
+    private void DecreaseSortingOrder(Transform t, int offset)
+    {
+        if (t.TryGetComponent(out SpriteRenderer sr))
+            sr.sortingOrder -= offset;
+
+        if (t.TryGetComponent(out SpriteMask mask))
+            mask.frontSortingOrder -= offset;
+
+        for (int i = 0; i < t.childCount; i++)
+        {
+            DecreaseSortingOrder(t.GetChild(i), offset);
+        }
+    }
 }
-
-

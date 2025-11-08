@@ -1,23 +1,21 @@
 title: Introduction
-/// position: -224,-258
-/// Whether Capsley like you or not. This starts true, but may change. 
-//<<declare $capsley_likes_you = true as bool>> 
-/// The player's name. The player chooses this. It starts empty. 
-//<<declare $player_name = "" as string>> <<setBackground SpriteBehaviour Default>>
 ---
-
 <<setBackground SpriteBehaviour Default>>
 
-Narrator: [Ringing...]
+Narrator: Ringing...
 Mother: Hey kuya, It's been so long! How are you in the states?
 
 Mother: Natatandaan mo pa ba ang tito mo? Actually... He disappeared, we thought he'd be back in a week but it's been a month now…
-<<showCharacter SpriteBehaviour Protag at 400 -100>>
-Protagonist: Really?... Ok lang po ba sya?
+
+<<showCharacter SpriteBehaviour Protagonist at 0 0>>
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist?: Really?... Ok lang po ba sya?
 
 Mother: Yes, don't worry, alam mo naman ang tito mo. But we have a more pressing problem kasi...
 Mother: Yung lomi business nya!
-Protagonist: What? What happened? Is he missing-
+
+<<changeCharacterSprite SpriteBehaviour Protagonist Shock>>
+Protagonist?: What? What happened? Is he missing-
 Mother: Ha? Choppy ka, 'toy. Nakupo, bahala na nga! Your papa says come back ASAP. 
 Mother: Nag-iwan pala ang tito mo ng letter, saying that he's leaving his business under your care!
 
@@ -27,39 +25,46 @@ Mother: Nag-iwan pala ang tito mo ng letter, saying that he's leaving his busine
 Mother: Ay ewan ko ga, Kainaman na eh!
 Mother: Magkita nalang tayo dito, We miss you!
 
-<<hideBackground SpriteBehaviour>>
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Narrator: ...
+===
+
+title: Input_Name_Before
+---
 Narrator: ...
 Narrator: There comes a point in life where you have to consider your choices.
 Narrator: Ano ang pangalan mo?
-//<<set $player_name = INPUT()>>
-Narrator: Your name is [Protag]. Since immigrating 15 years ago, you've been stuck in some lonely studio apartment in the United States.
+===
+
+title: Input_Name_After
+---
+<<declare $player = "" as string>> 
+<<setPlayerName SpriteBehaviour>>
+
+Narrator: Your name is {$player}. Since immigrating 15 years ago, you've been stuck in some lonely studio apartment in the United States.
 Narrator: Coincidentally, you've been wanting to break out of the monotony that has been plaguing your current life.
 Narrator: But would you really throw away your uncomfortable life in the States for your Tito's questionable inheritance?
 Narrator: ...
 Narrator: And then you remembered the store from your childhood. The cozy and warm place...
 Narrator: ... and more importantly, you miss the taste of Lomi!
 Narrator: …
-Narrator: "Para sa tito ko," you say to yourself. And started to pack your bags towards a one-way trip to Batangas!
 
-<<jump Introduction_Day1>>
+<<changeCharacterSprite SpriteBehaviour Protagonist Happy>>
+Narrator: "Para sa tito ko," you say to yourself. And started to pack your bags towards a one-way trip to Batangas!
 ===
 
-title: Introduction_Day1
-/// position: -200,-300
+title: Introduction_0
 ---
 
 <<setBackground SpriteBehaviour Lipa>>
-Narrator: Lipa City. Heart of Batangas.
-Narrator: "One of the most well-known cities coming from the province. Historically known for its Kapeng Barako trade and now its rising urban centers."
-Narrator: Your hometown reminds you of childhood traditions in a city that blends modern life with Batangueño values.
-Narrator: ...
+<<clearCharacters SpriteBehaviour All>>
+Narrator: Lipa City. Heart of Batangas. Slightly cool climate.
 
-<<showCharacter SpriteBehaviour Juan at 1400 -100>>
-JUAN: Dude! I'm so glad that you could make it here!
-JUAN: Natatandaan mo pa ga ako? It's been so long!
+<<showCharacter SpriteBehaviour Juan at 600 0>>
+Juan: Dude! I'm so glad that you could make it here!
+Juan: Natatandaan mo pa ga ako? It's been so long!
 
 <<declare $juan_reaction = 0 as number>>
-
 -> John?
     <<set $juan_reaction = 1>>
 -> Juan?
@@ -68,65 +73,94 @@ JUAN: Natatandaan mo pa ga ako? It's been so long!
     <<set $juan_reaction = 3>>
 
 <<if $juan_reaction == 1 or $juan_reaction == 3>>
-JUAN: Kainaman na! Talagang nakuha ka na talaga ng America!
+<<changeCharacterSprite SpriteBehaviour Juan Sad>>
+Juan: Kainaman na! Talagang nakuha ka na talaga ng America!
 <<else>>
-JUAN: Kaya bespren kita, eh!
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: Kaya bespren kita, eh!
 <<endif>>
 
-JUAN: Ako si Juan B. Tangas, your first friend and your favorite neighbor!
-JUAN: I made sure na mapuntahan ka first thing in the morning noong narinig kong nakabalik ka na!
-JUAN: Also... Ano 'to? May accent ka na din pala! HAHA!
+<<changeCharacterSprite SpriteBehaviour Juan Normal>>
+Juan: Ako si Juan B. Tangas, your first friend and your favorite neighbor!
+Juan: I made sure na mapuntahan ka first thing in the morning noong narinig kong nakabalik ka na!
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: Also... Ano 'to? May accent ka na din pala! HAHA!
+    
+<<showCharacter SpriteBehaviour Protagonist at -600 0>>
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
 Protagonist: ...
-JUAN: Ano? Naoverwhelm ka 'ga? Don't worry, I got you!
-JUAN: I know you got something in you. I can feel it!
-JUAN: ...so let's get back into da groove~
-Protagonist: Alright, where should I begin?
 
-JUAN: Well, since I'm your first customer... first, drag me into an empty table!
-JUAN: Sunod, tanungin mo ang order ko.
-JUAN: Click the bubble above me!
-JUAN: Now that everything has been jotted down, let's go to the kitchen!
-JUAN: Click the Kitchen Button!
-JUAN: If you forget something, you can always review the contents of my order.
-JUAN: Anyway, tanda mo ga kung paano gumawa ng Lomi?
+Juan: Ano? Naoverwhelm ka 'ga? Don't worry, I got you!
+Juan: I know you got something in you. I can feel it!
+Juan: ...so let's get back into da groove~
+
+<<changeCharacterSprite SpriteBehaviour Protagonist Happy>>
+Protagonist: Alright, where should I begin?
+Juan: Well, since I'm your first customer... first, drag me into an empty table!
+<<hideBackground SpriteBehaviour>>
+<<clearCharacters SpriteBehaviour All>>
+===
+title: Introduction_1
+---
+
+Juan: Sunod, tanungin mo kung ano ang aking Order.
+Juan: To do that, click the bubble above me!
+===
+
+title: Introduction_2
+---
+Juan: Now that everything has been jotted down, let's go to the kitchen!
+Juan: Click the Kitchen Button!
+===
+
+title : Introduction_3
+---
+Juan: If you forget something, you can always review the contents of my order.
+Juan: Anyway, tanda mo ga kung paano gumawa ng Lomi?
 
 Protagonist: Well.... A basic lomi is compromised of three main parts...
 
+<<declare $lomi_quiz = 0 as number>>
 -> The Broth, the Noodles, and the Toppings.
     <<set $lomi_quiz = 1>>
 -> The Soup, The Egg and The Kikiam
     <<set $lomi_quiz = 2>>
 
 <<if $lomi_quiz == 1>>
-JUAN: Tama!
+Juan: Tama!
 <<else>>
-JUAN: Too close! Pero eto talaga dapat 'yon.
+Juan: Too close! Pero eto talaga dapat 'yon.
 <<endif>>
 
-JUAN: A lomi dish is composed of three main parts, The thick slimy broth, the starchy noodles and my favorite... tasty toppings!
-JUAN: Before anything else... let's make the broth!
-JUAN: Next, drag the pot into the water to add water.
-JUAN: Now, turn up the stove to let the broth boil in low heat.
-JUAN: Now, drag some bones into the pot.
-JUAN: Bones...?
-JUAN: Yes! Traditionally, ginagamit talaga ang buto sa paggawa ng pork or beef stock.
-JUAN: If you run out of bones, you can always use bullion or pork or beef cubes as substitute!
-JUAN: Since mukhang magbubukas ka na mamaya. It also works in a time pinch. Since pork stock takes a while to boil!
+Juan: A lomi dish is composed of three main parts, The thick slimy broth, the starchy noodles and my favorite... tasty toppings!
+Juan: Before anything else... let's make the broth!
+Juan: First, drag the pot into the water to add water...
+Juan: Turn up the stove to let the broth boil in low heat...
+Juan: And drag some bones into the pot.
+Protagonist: Bones...?
+Juan: Yes! Traditionally, ginagamit talaga ang buto sa paggawa ng pork or beef stock.
+Juan: If you run out of bones, you can always use bullion or pork or beef cubes as substitute!
+Juan: Since mukhang magbubukas ka na mamaya. It also works in a time pinch. Since pork stock takes a while to boil!
+Juan: After a while, season the water with salt and pepper. Optionally, you can also add onions!
+Juan: This broth will be the foundation of a lomi's unique flavor, so make sure to prepare it properly!
+===
 
-JUAN: After a while, season the water with salt and pepper. Optionally, you can also add onions!
-JUAN: This broth will be the foundation of a lomi's unique flavor, so make sure to prepare it properly!
+title : Introduction_4
+---
+Juan: Now that our broth is secured, it's time to cook our noodles!
+Juan: First, turn the wok's stove on...
+Juan: Heat some oil at the stove...
+Juan: Then sautee some onion and garlic...
+Juan: After that, add the broth...
+Juan: Cook the noodles...
+Juan: ...And remember to add soy sauce to give it its distinct color!
+===
 
-JUAN: Now that our broth is secured, it's time to cook our noodles!
-JUAN: First, turn the wok's stove on.
-JUAN: Heat some oil at the stove.
-JUAN: Then sautee some onion and garlic.
-JUAN: After that, add the broth and let it boil.
-JUAN: Now, add the soy sauce to give it its distinct color!
-JUAN: Remember to stir!
-
+title : Introduction_5
+---
 <<declare $thickener_quiz = 0 as number>>
 
-JUAN: Pop Quiz! Do you know what gives lomi its distinct thick and heavy texture?
+Juan: Pop Quiz! Do you know what gives lomi its distinct thick and heavy texture?
 
 -> Cassava Flour
     <<set $thickener_quiz = 1>>
@@ -136,173 +170,80 @@ JUAN: Pop Quiz! Do you know what gives lomi its distinct thick and heavy texture
     <<set $thickener_quiz = 3>>
 
 <<if $thickener_quiz == 2>>
-JUAN: Mali! But eggs do give a rich flavor and texture to the lomi similar to an egg noodle soup.
+Juan: Mali! But eggs do give a rich flavor and texture to the lomi similar to an egg noodle soup.
 <<else>>
-JUAN: Right! 
+Juan: Right! 
 <<endif>>
 
-JUAN: You can use either cassava flour or cornstarch mixed with water to create slurry mixture that serves as our thickener.
-JUAN: Add this thickener mixture.
-JUAN: Finally add the eggs.
-JUAN: And mix it all up!
-JUAN: Patapos na tayo! Pour the contents of the wok into the dish.
-JUAN: And now... there's one thing left to do...
-JUAN: Toppings!
+Juan: You can use either cassava flour or cornstarch mixed with water to create slurry mixture that serves as our thickener.
+Juan: Add this thickener mixture to the pot.
+Juan: Finally add the eggs...
+Juan: And mix it all up!
+===
 
-JUAN: You can add as many as you want. 
-JUAN: And be sure to make it presentable!
-JUAN: Variants of lomi usually follow a similar structure, but the combination of toppings they have are unique!
-JUAN: For now, let's do the classic Lomi Batangas recipe.
-JUAN: Add Kikiam, Bola-bola, Pork Meat, and of course... Pork Liver!
-JUAN: Ayos, ah!
-JUAN: Place the dish onto the tray.
-JUAN: And place enough seasoning trays for each customer.
-JUAN: Oh, and gusto ko rin ng tubig!
-JUAN: Balik tayo sa labas.
-JUAN: The tray icon will reflect the current state of the tray in the kitchen.
-JUAN: All you have to do now, is to drag the tray to my table to serve me!
-JUAN: Tikman nga natin!
-JUAN: Oh, ansarap! 
-JUAN: I knew you got that Lomi dog in ya!
-JUAN: Lomi is love, lomi is magic. Mukhang may pinanggalingan 'to ah!
+title : Introduction_6
+---
+Juan: Patapos na tayo! Pour the contents of the wok into the dish.
+===
+
+title: Introduction_7
+---
+Juan: And now... there's one thing left to do...
+Juan: Toppings!
+Juan: You can use the recipe visualized in my Order as reference.
+Juan: It doesn't have to be an exact replica with their exact positionings...
+Juan: But be sure to give generous amounts of toppings...
+Juan: And make it presentable!
+Juan: Variants of lomi usually follow a similar structure, but the combination of toppings they have are unique!
+Juan: For now, let's do the classic Lomi Batangas recipe.
+Juan: Add Kikiam, Bola-bola, and of course... Pork Liver!
+===
+
+title: Introduction_8
+---
+Juan: Ayos, ah!
+Juan: Place the dish onto the tray.
+Juan: Remember also to place enough seasoning trays for each customer.
+Juan: Oh, and gusto ko rin ng tubig!
+===
+
+title: Introduction_9
+---
+Juan: Let's go back outside.
+===
+
+title: Introduction_10
+---
+Juan: The tray icon will reflect the current state of the tray in the kitchen.
+Juan: All you have to do now, is to drag the tray to my table to serve me!
+Juan: Tikman nga natin!
+===
+
+title: Introduction_11
+---
+Juan: Oh, ansarap! 
+Juan: I knew you got that Lomi dog in ya!
+Juan: Lomi is love, lomi is magic. Mukhang may pinanggalingan 'to ah!
 Protagonist: Sinundan ko lang naman yung recipe...
-JUAN: Anyway, nakuha mo naman kung paano gumawa ng lomi.
-JUAN: Tandaan mo rin na maraming tayong paraan ng pagluluto ng lomi.
-JUAN: Ganito lang ang turo sa atin ni tito!
-JUAN: Kaya lomi niya ang paborito ng buong Batangas, eh~!
-JUAN: Ready ka na bang buksan ang lomihan and magpakain ng mga customer?
-JUAN: If so, click the Map button
-JUAN: As you progress through your journey, you will earn money and fame!
-JUAN: You're still starting out so let's start at our hometown Lipa.
-JUAN: But if you earn enough fame, you could start touring other places!
-JUAN: Enough of that for now, let's head back to the kitchen.
-JUAN: If you have enough money, you can always upgrade your equipment to cook more efficiently!
-JUAN: Personally my favorite order would be a Lomi Overload, but I see you don't have a dish big enough for that yet.
-JUAN: So you would need to upgrade your equipment first! Of course, using money.
-JUAN: Let's head to the kitchen.
-JUAN: Similar to kitchen equipments, you can buy special toppings to complement the dish.
-JUAN: You should try placing them the next time you prepare an order... maybe it will trigger some effect?
-JUAN: Hmm... That's about it! Let's head back to the kitchen.
-JUAN: Everything looks good! 
-JUAN: Click the Open Lomihan button if you're ready!
-
-Narrator: Day End
-JUAN: Sooooo, kumusta naman ang first day mo?
-Protagonist: Well...I made it through, somehow...
-JUAN: Sus, wag mo akong ginaganiyan, alam kong nagmana ka kay Tito!
-Protagonist: Well speaking of him, nasaan nga po ba si Tito?
-JUAN: Uhhh.. yeah, about that... Ewan...?
-JUAN: Besides, yung letter about sa Lomihan, m-
-<<showCharacter SpriteBehaviour Rival at 1800 -100>>
-Rival: Aba...!
-Rival: Y o u ..!
-Rival: Well, well, well... 'di ko akalain na natakbo pa pala ang lugar na 'to!
-Rival: Ikaw, ano ang pangalan mo?
-Protagonist: (Y/N)
-Rival: Well, y/n... Ipaalam ko lang sayo ang bagong tayo na lomihan, yours respectively, sa kabilang kanto.
-Rival: Safe to say, mananalo na agad ako kapag naglaban.
-Rival: They say imagination is your greatest weapon
-Rival: And I've done quite a bit of imagining.
-Rival: At ayon sa aking pagaaral...
-Rival: Hmph! 
-Rival: PAGOD na ang mga tao sa nakagisnan nila. Same old lomi, same old recipes.
-Rival: Kailangan na nila ng panibago at kakaibang panlasa.
-Rival: Saan ba tayo dinala ng lumang tradisyon? Bakit parang napag-iwanan kana?
-Rival: Look at Rome! at Museums! Relics are just proof of what happens when a society fails to adapt.
-JUAN: Naks... pwede ka na magpulitiko!
-Rival: Ugh- you will regret acting smart with me. 
-Rival: We travel the same path, the path to Lomi...
-Rival: ...But not just any lomi.
-Rival: This WAS my ISPESYAL Lomi... MY LOMI.
-Rival: Hint: it's all over your kids walls, on their bedsheets, on their pillows, made into marketable little plastic figures.
-Rival: Sirit?
-Rival: A-ni-me.
-Rival: Pangugunahan na kita! Japanese style lomi! Itadakimasu!
-JUAN: !!!
-Protagonist: !!!
-
-<<jump Introduction_After>>
+Juan: Anyway, nakuha mo naman kung paano gumawa ng lomi.
+Juan: Tandaan mo rin na maraming tayong paraan ng pagluluto ng lomi.
+Juan: Ganito lang ang turo sa atin ni tito!
+Juan: Kaya lomi niya ang paborito ng buong Batangas, eh~!
+Juan: Ready ka na bang buksan ang lomihan and magpakain ng mga customer?
+Juan: If so, click the Start button.
 ===
 
-title: Introduction_After
-/// position: -250,-280
+title: Introduction_12
 ---
-
-<<setBackground SpriteBehaviour Lipa>>
-
-Rival: HAHAHAHHAA-
-Narrator: ...
-JUAN: Matatakot ga ako... o mamangha na nasimulan mo ng patakbuhin ang lugar na 'to.
-Protagonist: ...
-JUAN: Right uh... Magbukas kana nga! Wala tayong magagawa kung madidistract agad tayo.
-Protagonist: Hm...
-JUAN: Erm... Are you alright?
-Protagonist: Do you think.. that i should change mine too?
-JUAN: Well... 'di naman kita mapipigilan kung yun ang gusto mo...
-JUAN: Pero tanungin nalang kita.
-JUAN: Sa tingin mo ba, masarap ba ang Lomi mo?
-
--> I think so.
--> Probably...
--> I could do better.
-
-JUAN: Then sapat na 'yan! Besides, 'san ka ba makakakuha ng panggatong makagawa lang ng bagong recipe?
-Protagonist: You have a point
-JUAN: Actually... 
-JUAN: When it comes to ideas, why not ask someone diba?
-Protagonist: Huh?
-JUAN: It might not be the big change you're looking for but if you're looking for some ideas, lomi brings all sorts of people together. 
-JUAN: If they end up a regular you might end up getting something from them.
-JUAN: ... If you can manage to strike up a conversation that is. You still got some social skills in there, right?
-Protagonist: I think I'm pretty good friends with my plants
-JUAN: ...Kaibigan mo parin naman ako, so let's call that progress before you make me sad
-
-Narrator: Day End
-JUAN: "Good work today, bro!"
-Protagonist: Thanks...
-Narrator: Looks like word is spreading a bit on your little store, people have fond pretty fond memories of this place, seeing it revitalized again makes you happy.
-JUAN: Well..Itutuloy mo pa ba yung changes na iniisip mo kanina?
-Rival: (if i just start marketing over here.... What if I hire a celebrity no- what if I hire some artists-)
-Protagonist: Hmm..
-Rival: (The taste? What do you mean the taste? What does it matter! It's colorful, its unique, and more importantly we are sponsored by anime!!)
-JUAN: Yeah, uh. magsara na nga tayo.
-
-===
-
-title: Lipa_Easy_Day3
-/// position: -260,-290
----
-
-JUAN: Mukhang sakses ka na naman ngayong araw, ah!
-Protagonist: Hmm? Are you in the good mood?
-JUAN: I mean... medyo.
-JUAN: Nakakamiss lang, no? Ngayon na nagkasama na ulit tayo sa lomihan, parang wala parin nagbago sa atin. Tayo paring dalawa ang laging magkasama.
-JUAN: Nakakatuwa lang na lumaki tayo ng tama.
-JUAN: Ala... ka aga'y nagiging senti na agad, haha.
-Protagonist: I mean, you're correct.
-Protagonist: I didn't think I'd even see you again when I moved out. Or that you'd greet me at the airport.
-Protagonist: Ano... I'm sorry for not reaching ou-
-JUAN: Hep! Hep! Mamaya na, ha, no hard feelings.
-JUAN: Let's have a great day, first, shall we?
-JUAN: 'Di ga mas masarap ang usapan 'pag gabi na?
-
-Narrator: Day End
-JUAN: Honestly, nagalala talaga ako nung nalaman ko na mamanahin mo na pala ang lomihan ni tito...
-Protagonist: Yeah, i was indeed worried too when i heard it for the first time...
-JUAN: Pero! Mukhang ayos naman ang pagpapatakbo mo!
-JUAN: Feels like I can rest easy a bit, knowing you got it handed.
-Protagonist: Pft...! You sound like my dad...
-JUAN: Haha, minsan napaparamdam mo rin sa akin iyon. When I first saw you sa airport, matapos ang lahat ng taon na hindi tayo nagkita, doon ko talaga na-realize kung gaano na karami ang nagbago. Pareho na tayong tumanda, ano?
-JUAN: But just cause you've grown doesn't mean you can't rely on me, You know I got you
-Protagonist: Thanks... I got you too.
-JUAN: I know you do, I missed you man, really. Bihira na din talaga tayo mag-usap nung nasa states ka, and thought you forgot all about lil ol' me
-Protagonist: Listen, what I wanted to say awhile ago... I'm sorry. I should have reached out. I missed you too.
-Protagonist: I think I got a bit lost in it all, but I'm glad I got on that flight.
-Protagonist: Even seeing you again would have made that flight worth it, so thank you.
-JUAN: Haha, ang drama mo naman~ Pasalamat ka nalang kay Tita for letting me know na babalik ka na.
-JUAN: Ala eh... Tara na nga, tumagay kana dine. 
-JUAN: Mahaba pa ang gabi.
-Narrator: You recall your apartment, small, expensive, and lonely
-Narrator: You didn't realise you still had a friend in him, or in anyone here. 
-Narrator: For the first time in quite a long time- you feel seen.
+Juan: But before that I need to remind you that, as you progress through your journey, you will earn money and fame!
+Juan: You're still starting out so let's start at our hometown Lipa.
+Juan: But if you earn enough fame, you could start touring other places!
+Juan: If you have enough money, you can always upgrade your equipment to cook more efficiently!
+Juan: Personally my favorite order would be a Lomi Overload, but I see you don't have a dish big enough for that yet.
+Juan: So you would need to upgrade your equipment first! Of course, using money.
+Juan: Similar to kitchen equipments, you can also buy special toppings at the store to complement the dish.
+Juan: You should try placing them on the tray the next time you prepare an order... maybe it will trigger some effect?
+Juan: And...Hmm... That's about it! 
+Juan: Everything looks good! 
+Juan: Click the Open button if you're ready!
 ===

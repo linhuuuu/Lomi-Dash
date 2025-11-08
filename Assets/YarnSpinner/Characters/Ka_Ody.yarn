@@ -1,0 +1,90 @@
+﻿title: KaOdy_Scene
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+<<showCharacter SpriteBehaviour KaOdy at 300 -100>>
+KA ODY: Aba’y ayan pala ang bagong mukha!
+KA ODY: Wala ngayon ang misis ko, eh.
+KA ODY: Kamusta ka naman, iho?
+[Protag]: Medyo naliligaw po, eh...
+KA ODY: Ay gano’n? Saan ka ba pupunta?
+[Protag]: Sabi po nila may tindahan daw dito dapat...?
+KA ODY: Ah, aba’y yung dating magkarne? Lumipat na ’yun! Di pa siguro na-update yang trinket mo.
+KA ODY: Kumaliwa ka d’yan tapos diretso ka lang, di mo mamimintis ’yun.
+[Protag]: Ah- ay salamat po, malaking tulong ’to.
+[Protag]: ...
+KA ODY: Aba’t parang may gusto kang sabihin ah, sige na, ilabas mo na.
+[Protag]: Eh, si Tito po...
+KA ODY: Siyempre!
+KA ODY: Ano’ng gusto mong malaman, iho?
+[Protag]: Eh... magkaibigan po ba kayo?
+KA ODY: Haha! Naku hindi agad. Sa totoo lang, mas kaibigan siya ng misis ko.
+KA ODY: Nakilala ko lang din siya dahil doon.
+KA ODY: Aba’y tanda ko pa ’yon, laging may lakad, laging parang may hinahabol.
+[Protag]: Gano’n nga po siya, parang di mapatahimik.
+KA ODY: Halika na’t ihahatid na kita sa tindahan.
+[Protag]: Ah! Salamat po talaga.
+KA ODY: San na nga ba ako... Ayun, dati akong seaman, medyo bigatin din noon.
+KA ODY: Nakilala ko si Tito mo bago pa ako tumigil sa laot, pero tuwing bumabalik siya rito?
+KA ODY: Aba’y gulo agad ’yun, puro tawa’t kwento.
+[Protag]: Hehe... Gano’n nga po siya, medyo maingay.
+KA ODY: At mapagmata rin sa lomi, aba’y parang mas mahal pa niya kaysa sa paghinga!
+KA ODY: Pero ako, nagretiro na’t nanahimik, tapos siya naman, tuloy pa rin nang tuloy.
+KA ODY: Nawala rin ang aming kontak paglaon.
+KA ODY: Unang beses mo rito, ano?
+[Protag]: Opo...
+KA ODY: Sana makita mo kung bakit ako naakit dito.
+KA ODY: Nalibot ko na halos buong mundo, pero heto’t dito pa rin ako bumabalik. At sa totoo lang, dito ko na rin gustong tapusin lahat.
+
+---
+KA ODY: Aba’y ayan ka pala~
+[Protag]: Bibili lang po sana ako ng takeout.
+KA ODY: Haha! Alam mo, ’di na mapigilan ng misis at mga bata kakapuri sa lomi n’yong ito.
+KA ODY: Sabi pa nga nila, “Pinakamasarap daw sa lahat!”
+KA ODY: Mataas na papuri ’yon, ha?
+[Protag]: Natutunan ko po lahat kay Tito, kaya masaya po akong nagustuhan n’yo.
+KA ODY: Aba’y tinuruan ka nga siguro ng kakaibang mahika, iho.
+KA ODY: Sige nga, dagdagan mo ng bawang para sa isang matandang gutom!
+[Protag]: Siyempre po! Gagawin ko po agad.
+KA ODY: Hehe, ayan, ngumiti rin.
+KA ODY: O siya nga pala, pag dumaan ang misis ko, sabihin mong ako raw ang nagbenta ng gulay na ginamit n’yo sa lomi.
+KA ODY: Matutuwa ’yon.
+KA ODY: Gustung-gusto niya marinig na ’yong paninda naming gulay, nagagamit sa mga masasarap na putahe.
+KA ODY: Laging masigasig ’yon sa negosyo, aba’y napakasuwerte ko.
+[Protag]: Naku, para sa akin po, bagay na bagay kayo sa isa’t isa...
+Narrator: You remember a very enthusiastic woman with kids.
+[Protag]: Parang dalawang piraso ng puzzle pieces, sakto sa isa’t isa.
+KA ODY: Haha! Aba’y marunong ka ring mambola ng matanda.
+KA ODY: Nabisita mo na ba ’yong kanlurang bahagi ng bayan?
+[Protag]: Hindi pa po eh...
+KA ODY: Aba’y puntahan mo minsan. Marami do’n mga palamuti’t abubot na magaganda.
+
+---
+[Protag]: Ah! Maglalakad-lakad po kayo ngayon, Ka Ody?
+KA ODY: Aba’y tingnan mo nga, napaka-pormal mo.
+KA ODY: Oo, medyo magpapahangin lang sa pier.
+KA ODY: Sama ka, mag-people watch tayo?
+[Protag]: People watch...?
+KA ODY: Oo, isa ’yan sa mga libangan ng matatanda, haha!
+KA ODY: Aba’y wag mo kong titigan ng ganyan, darating din ang panahon mo.
+Narrator: You follow him through the streets and find yourselves in a quiet corner.
+KA ODY: Aba’y sekreto natin ’to ha? Ayokong gawing inuman spot ng mga kabataan.
+[Protag]: ...
+Narrator: You almost miss his words, too busy seeing the exact moment the sun dips below the horizon.
+Narrator: Turning the sky into a mix of pinks and purples, you see people too, still working, still hustling, moving cargo, shouting orders. Cogs in a well-oiled machine.
+KA ODY: Aba’y nakakabighani, ’di ba?
+KA ODY: Tahanan talaga ito, tahanan.
+[Protag]: Tahanan...
+KA ODY: Bago pa ’ko nagka-tindahan, dito na talaga ang teritoryo ko. Nilibot ko na halos ang buong mundo. Pero ’yong pakiramdam bago ka muling sumakay ng barko...
+KA ODY: At ’yong unang tanaw mo ng bayan matapos ang buwan ng paglalakbay, ibang klaseng mahika ’yon.
+KA ODY: Malawak ang mundo, iho, pero bago pa ’yong mga eroplano’t mga kagamitang moderno, dito nagsisimula ang lahat, sa mga pantalan, sa mga pier.
+KA ODY: Mga puntong nagdurugtong sa mundong ito.
+KA ODY: Eh ang Batangas... ay medyo magaspang pa nga sa gilid, haha!
+KA ODY: Pero aba’y parte ako ng pagtindig nitong lungsod. Nakita kong mula sa alikabok, naging graba, hanggang naging kongkreto.
+KA ODY: Mahal ko ’to, gulo man o ayos.
+KA ODY: San ka pa makakakita ng ganitong tanawin at mga kaibigang ganito kabuti?
+KA ODY: Pwede siguro sa ibang lugar... pero kung ako ang tatanungin, gusto ko rito mismo.
+Narrator: For an hour, you feel inclined to agree. There's really nowhere else you'd rather be than here.
+
+===

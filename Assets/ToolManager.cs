@@ -15,6 +15,14 @@ public class ToolManager : MonoBehaviour
     [SerializeField] private GameObject dishRack_1;
     [SerializeField] private GameObject dishRack_2;
 
+    [Header("Price Text References")]
+    [SerializeField] private TextMeshProUGUI pot_1_price;
+    [SerializeField] private TextMeshProUGUI pot_2_price;
+    [SerializeField] private TextMeshProUGUI wok_1_price;
+    [SerializeField] private TextMeshProUGUI wok_2_price;
+    [SerializeField] private TextMeshProUGUI dishRack_1_price;
+    [SerializeField] private TextMeshProUGUI dishRack_2_price;
+
     [Header("Size References")]
     [SerializeField] private Vector3 potLargeSize;
     [SerializeField] private Vector3 wokLargeSize;
@@ -92,16 +100,16 @@ public class ToolManager : MonoBehaviour
     {
         if (tier == 0)
         {
-            pot.gameObject.SetActive(false);
+            pot.transform.parent.gameObject.SetActive(false);
         }
         else if (tier == 1)
         {
-            pot.gameObject.SetActive(true);
+            pot.transform.parent.gameObject.SetActive(true);
             pot.maxCount = 2;
         }
         else
         {
-            pot.gameObject.SetActive(true);
+            pot.transform.parent.gameObject.SetActive(true);
             pot.maxCount = 4;
             pot.transform.localScale = potLargeSize;
         }
@@ -170,23 +178,54 @@ public class ToolManager : MonoBehaviour
     }
 
     void ReloadButtons()
+{
+    UpdateButton(pot_1_Upgrade, pot_1_Tier, potUpgradePrices, pot_1_price);
+    UpdateButton(pot_2_Upgrade, pot_2_Tier, potUpgradePrices, pot_2_price);
+    UpdateButton(wok_1_Upgrade, wok_1_Tier, wokUpgradePrices, wok_1_price);
+    UpdateButton(wok_2_Upgrade, wok_2_Tier, wokUpgradePrices, wok_2_price);
+
+    dishRack_Upgrade.gameObject.SetActive(dishRack_Tier < 2);
+    if (dishRack_Tier < 2)
     {
-        UpdateButton(pot_1_Upgrade, pot_1_Tier, potUpgradePrices);
-        UpdateButton(pot_2_Upgrade, pot_2_Tier, potUpgradePrices);
-        UpdateButton(wok_1_Upgrade, wok_1_Tier, wokUpgradePrices);
-        UpdateButton(wok_2_Upgrade, wok_2_Tier, wokUpgradePrices);
+        bool canAfford = currMoney >= dishRackUpgradePrices;
+        dishRack_Upgrade.interactable = canAfford;
+        dishRack_1_price.text = dishRackUpgradePrices.ToString();
 
-        dishRack_Upgrade.gameObject.SetActive(dishRack_Tier < 2);
-        if (dishRack_Tier < 2)
-            dishRack_Upgrade.interactable = currMoney >= dishRackUpgradePrices;
+        if (canAfford)
+        {
+            LeanTween.moveLocal(dishRack_Upgrade.gameObject, new Vector3(
+                dishRack_Upgrade.transform.localPosition.x,
+                dishRack_Upgrade.transform.localPosition.y + 0.5f,
+                dishRack_Upgrade.transform.localPosition.z), 0.5f).setEaseInCubic().setLoopPingPong();
+        }
+        else
+        {
+            LeanTween.pause(dishRack_Upgrade.gameObject);
+        }
     }
-
-    void UpdateButton(Button button, int tier, List<float> prices)
+}
+   void UpdateButton(Button button, int tier, List<float> prices, TextMeshProUGUI priceText)
+{
+    button.gameObject.SetActive(tier < 2);
+    if (tier < 2)
     {
-        button.gameObject.SetActive(tier < 2);
-        if (tier < 2)
-            button.interactable = currMoney >= prices[tier];
+        float price = prices[tier];
+        priceText.text = price.ToString();
 
-        Debug.Log($"Current Money {currMoney} Price: {prices[tier]}:");
+        bool canAfford = currMoney >= price;
+        button.interactable = canAfford;
+
+        if (canAfford)
+        {
+            LeanTween.moveLocal(button.gameObject, new Vector3(
+                button.transform.localPosition.x,
+                button.transform.localPosition.y + 0.5f,
+                button.transform.localPosition.z), 0.5f).setEaseInCubic().setLoopPingPong();
+        }
+        else
+        {
+            LeanTween.pause(button.gameObject);
+        }
     }
+}
 }

@@ -6,6 +6,12 @@ public class StoveWokButton : MonoBehaviour
     [SerializeField] private bool isOn = false;
     [SerializeField] private AudioSource src;
     [SerializeField] private AudioClip clip;
+    [SerializeField] private GameObject fire;
+
+    void Start()
+    {
+        fire.SetActive(false);
+    }
 
     void OnMouseDown()
     {
@@ -17,8 +23,10 @@ public class StoveWokButton : MonoBehaviour
         if (isOn == false)
             transform.localEulerAngles = new Vector3(0f, 0f, 0f);
 
-        wok.ToggleStove();
-
+        fire.SetActive(isOn);
         src.PlayOneShot(clip);
+
+        if (wok.gameObject.activeInHierarchy)
+            wok.ToggleStove();
     }
 }

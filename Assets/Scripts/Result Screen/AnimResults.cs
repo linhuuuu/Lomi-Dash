@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class AnimResults : MonoBehaviour
 {
     [Header("Modals")]
@@ -11,7 +10,6 @@ public class AnimResults : MonoBehaviour
     [Header("Navigation")]
     public Button[] toggleButtons; // Must match modals length
     public float slideDuration = 0.4f;
-    // public AnimationCurve slideEase = LeanTween.easeInOutQuad();
 
     private int currentModalIndex = 0;
     private RectTransform container;
@@ -29,22 +27,21 @@ public class AnimResults : MonoBehaviour
         for (int i = 0; i < modals.Length; i++)
         {
             modals[i].SetActive(i == 0);
-            if (toggleButtons.Length > i) toggleButtons[i].onClick.AddListener(() => SwitchTo(i));
+            if (toggleButtons.Length > i)
+            {
+                int index = i; // Closure capture
+                toggleButtons[i].onClick.AddListener(() => StartCoroutine(SwitchTo(index)));
+            }
         }
 
-        // Start auto sequence
-        StartCoroutine(StartSequence());
+        // Set initial positions
+        ResetAllPositions();
+        UpdateButtonStates();
     }
 
     public IEnumerator StartSequence()
     {
         yield return new WaitForSeconds(1f);
-        
-        // // Animate stats content (you'll implement this inside StatsModal script)
-        // if (modals[0].TryGetComponent(out StatsModal stats))
-        //     yield return stats.PlayReveal();
-
-        // Then auto-switch to next modal (leaderboard)
         if (modals.Length > 1)
             yield return SwitchTo(1);
     }
@@ -57,26 +54,65 @@ public class AnimResults : MonoBehaviour
         int prevIndex = currentModalIndex;
         currentModalIndex = targetIndex;
 
-        // Activate target modal immediately (but it's off-screen)
+        // Activate target
         modals[targetIndex].SetActive(true);
 
-        // Direction: +1 = slide left (new modal comes from right), -1 = slide right
+        // Direction: left (-1) or right (+1)
         float direction = targetIndex > prevIndex ? -1f : 1f;
+        Vector2 offset = new Vector2(direction * modalSize.x, 0);
 
-        // Reset positions
-        Vector2 prevPos = new Vector2(direction * modalSize.x, 0); // Current modal slides out
-        Vector2 targetPos = new Vector2(-direction * modalSize.x, 0); // Target modal starts off-screen
-
+        // Position: current stays, target comes from off-screen
         modals[prevIndex].GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        modals[targetIndex].GetComponent<RectTransform>().anchoredPosition = targetPos;
+        modals[targetIndex].GetComponent<RectTransform>().anchoredPosition = offset;
 
-        // // Tween both modals
-        // LeanTween.moveLocalX(modals[prevIndex], prevPos.x, slideDuration).setEase(slideEase);
-        // LeanTween.moveLocalX(modals[targetIndex], 0, slideDuration).setEase(slideEase);
+        // Animate both
+        LeanTween.cancel(modals[prevIndex]);
+        LeanTween.cancel(modals[targetIndex]);
+
+        LeanTween.value(modals[prevIndex], 
+            val => modals[prevIndex].GetComponent<RectTransform>().anchoredPosition = new Vector2(val, 0),
+            0f, -direction * modalSize.x, slideDuration)
+            .setEase(LeanTweenType.easeInOutQuad);
+
+        LeanTween.value(modals[targetIndex],
+            val => modals[targetIndex].GetComponent<RectTransform>().anchoredPosition = new Vector2(val, 0),
+            offset.x, 0f, slideDuration)
+            .setEase(LeanTweenType.easeInOutQuad);
 
         yield return new WaitForSeconds(slideDuration);
 
-        // Deactivate old modal
+        // Finish: hide old
         modals[prevIndex].SetActive(false);
+
+        // Ensure final position
+        modals[targetIndex].GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        // Update UI
+        UpdateButtonStates();
+    }
+
+    private void ResetAllPositions()
+    {
+        for (int i = 0; i < modals.Length; i++)
+        {
+            var rt = modals[i].GetComponent<RectTransform>();
+            rt.anchoredPosition = Vector2.zero;
+        }
+    }
+
+    private void UpdateButtonStates()
+    {
+        for (int i = 0; i < toggleButtons.Length; i++)
+        {
+            if (i == currentModalIndex)
+            {
+                toggleButtons[i].interactable = false;
+                // Optional: add selected visual (e.g., glow)
+            }
+            else
+            {
+                toggleButtons[i].interactable = true;
+            }
+        }
     }
 }

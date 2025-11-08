@@ -67,6 +67,8 @@ namespace PCG
             int remainingLarge = largeDishCount;
             int totalSlotsUsed = 0;
 
+            float largeBonus = 1;
+
             for (int i = 0; i < dishCount; i++)
             {
                 bool shouldMakeLarge = remainingLarge > 0;
@@ -86,6 +88,7 @@ namespace PCG
                 {
                     trayNode.children.Add(GenerateDish(difficulty, isLarge: true, recipe, i + 1));
                     totalSlotsUsed += 2;
+                    largeBonus += 0.25f;
                     remainingLarge--;
                 }
                 else if (totalSlotsUsed + 1 <= trayDishSlots)
@@ -116,6 +119,8 @@ namespace PCG
             float price = 0f;
             foreach (Recipe recipe in recipesUsed)
                 price += recipe.basePrice;
+
+            price *= largeBonus;
 
             Debug.Log($"Price: {price}");
             return (trayNode, price);

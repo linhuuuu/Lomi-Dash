@@ -26,6 +26,12 @@ public class MapNodes : MonoBehaviour
     {
         bool isFameEnough = fame >= profile.requiredFame;
 
+        if (profile.level > 9)
+        {   //To be Continued
+            SetNodeActive();
+            return;
+        }
+        
         if (profile.level-1 > highestLevel) 
         {
             SetNodeInactive();

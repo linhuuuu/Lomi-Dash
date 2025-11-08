@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryID: PADRE_GARCIA
   entryName: Padre Garcia
-  description: "\"Known for their strong agricultural roots and thriving livestock
+  description: "Known for their strong agricultural roots and thriving livestock
     trade,  this place clearly showcases the hardworking and close-knit community
     of the Batangue\xF1os. \n\nThe fields... they're so vast. It's so different from
     my cold apartment. Also cows! So many of them... Just there, grazing. I heard
@@ -26,6 +26,6 @@ MonoBehaviour:
     new challenge to face, and no one ever backs down. I feel out of place sometimes,
     I wonder if I'm just a coward... No- I have to try, that's where it begins right?
     I have to try. "
-  mainImage: {fileID: 0}
+  mainImage: {fileID: 21300000, guid: 1e8cc7562e5d17f4092d7ab6ebcacaea, type: 3}
   lomiImages: []
   trivia: 

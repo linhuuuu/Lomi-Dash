@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryID: FATHER
   entryName: Father
-  description: Juan Batangas
-  mainImage: {fileID: 21300000, guid: 1442da97c2eafa24285d72c5e1d991c4, type: 3}
+  description: "It's easy to hear his easy laugh or nagging when you're nearby the
+    chapel. Very well loved by the community, very good with the kids. \n\nHowever,
+    to this day, many have not forgotten his attempt to be hip. \n"
+  mainImage: {fileID: 345752938, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   starCount: 0
   characterEvents:
-  - 
-  - 
-  - 
+  - {fileID: 11400000, guid: 936978783032178449cc6152195465ca, type: 2}
+  - {fileID: 11400000, guid: b4ba6b3c2113094438b8b93b93d76121, type: 2}
+  - {fileID: 11400000, guid: 24ec60e04d64c414bafe463b35abbc54, type: 2}
   customerLocation: Lipa

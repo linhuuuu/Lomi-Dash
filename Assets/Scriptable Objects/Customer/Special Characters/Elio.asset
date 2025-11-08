@@ -15,10 +15,17 @@ MonoBehaviour:
   id: ELIO
   customerName: Elio
   patienceTime: 180
-  companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  companions:
+  - {fileID: 11400000, guid: 7ded16446f744e84cb3c37b972d80033, type: 2}
+  preferredDish:
+  - {fileID: 11400000, guid: 612b3ffda14dde146b73b6757134fa45, type: 2}
+  - {fileID: 11400000, guid: 612b3ffda14dde146b73b6757134fa45, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: f72ce9708bfe0ba4d9cfa54723d31714, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: dda723896a350954d93a130a51b9b23f, type: 2}
+  - {fileID: 11400000, guid: 1070a745d907b76418669172a88d7a7f, type: 2}
+  - {fileID: 11400000, guid: 67c2608357d5d8a4f94cc5edbfb9e3e6, type: 2}
   portrait: {fileID: -955602653, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: 152183188, guid: 32e802756105b0c45a19e5f1dfe8b0f9, type: 3}
   sittingSprite: {fileID: -880522331, guid: 32e802756105b0c45a19e5f1dfe8b0f9, type: 3}

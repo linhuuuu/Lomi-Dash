@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private GameObject marker;
     [SerializeField] private MapNodes[] mapNodes;
+
     private MapNodes activeNode;
 
     public static MapManager map;
@@ -20,7 +22,14 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
-        activeNode = mapNodes[0];
+        if (GameManager.instance.state == GameManager.gameState.tutorial)
+        {
+            backButton.gameObject.SetActive(false);
+            GameManager.instance.state = GameManager.gameState.startDay;
+            Debug.Log("Saved as startday");
+        }
+
+        SetActiveNode(mapNodes[DataManager.data.playerData.highestLevelCleared]);
         
         float totalFame = DataManager.data.playerData.happiness;
         int highestLevel = DataManager.data.playerData.highestLevelCleared;
@@ -28,17 +37,8 @@ public class MapManager : MonoBehaviour
         foreach (MapNodes nodes in mapNodes)
             nodes.Init(totalFame, highestLevel);
 
-
-        int lastLevel = 0;
-        if (PlayerPrefs.HasKey("lastLevel"))
-            lastLevel = PlayerPrefs.GetInt("lastLevel");
-
-        Debug.Log(mapNodes[0]);
-
-        Debug.Log(CameraDragZoomControl.instance);
-
-        if (lastLevel > 0)
-            CameraDragZoomControl.instance.CenterOnTarget(mapNodes[lastLevel].transform);
+        if (highestLevel > 0)
+            CameraDragZoomControl.instance.CenterOnTarget(mapNodes[highestLevel].transform);
         else
             CameraDragZoomControl.instance.CenterOnTarget(mapNodes[0].transform);
 

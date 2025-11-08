@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: MIKI_BIHON
   buffName: MIki Bihon
-  price: 0
-  effect: 
+  price: 30
+  effect: Adds +150 Money to the Total Money earned.
   sprite: {fileID: -50688985, guid: 88c5a33a296a7a847a591bf39b7fbe99, type: 3}
   buffs:
   - type: 0
-    factor: 0
+    factor: 150
     subtrahend: 0
     addend: 0

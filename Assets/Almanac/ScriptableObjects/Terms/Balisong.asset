@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Balisong
+  m_EditorClassIdentifier: 
+  entryID: BALISONG
+  entryName: Balisong
+  description: 'A tool originating in the towns of Taal and Pandayan in the province
+    of Batangas. The balisong (butterfly knife) is a folding knife with two rotating
+    handles that conceal the blade. Once mastered, flipping the balisong becomes
+    a skillful art or practical tool.
+
+'
+  mainImage: {fileID: 1769036156, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

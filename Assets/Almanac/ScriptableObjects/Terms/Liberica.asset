@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
   m_Name: Liberica
   m_EditorClassIdentifier: 
-  entryID: LIBERICA
-  entryName: Liberica
-  description: Lomi
-  mainImage: {fileID: 21300000, guid: ee767fd2b86ae8f44962c565bdd3c2ec, type: 3}
+  entryID: BARAKO
+  entryName: KAPENG BARAKO
+  description: "A strong coffee that's made out of Liberica beans that's grown mainly
+    in Batangas. Kapeng Barako is a symbol of Batangue\xF1os identity and resilience.
+    \n\n"
+  mainImage: {fileID: -1040588634, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

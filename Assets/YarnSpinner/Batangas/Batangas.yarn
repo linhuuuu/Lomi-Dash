@@ -1,0 +1,157 @@
+﻿title: Batangas_Easy_Before
+
+---
+<<setBackground SpriteBehaviour Batangas>>
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<showCharacter SpriteBehaviour Ka_Ody at 400 -100>>
+// Day Start
+Ka Ody: Aba, ayan na nga! Ang paboritong lomihan, buhay na buhay pa rin!
+Ka Ody: Nasaan na ’yung matanda? Sigurado akong lalabas ’yon para batiin ako~
+Ka Ody: Matagal na rin siyang ’di nakikipag-inuman sa’kin, alam mo ba ’yon?
+Ka Ody: Dito na nga kami tumira, tapos ni “hi” man lang sa’kin, wala?
+Ka Ody: Aba eh, tumanda lang ba siya o nawala na rin pati asal niya?
+Protagonist: Uh... Sir, nawawala po si Tito. Ilang buwan na din po.
+Ka Ody: Yung Tito mo? Tapos iniwan nya at pinaalagaan nya sayo ang lugar na ito?
+Ka Ody: Ay, ganyan na ganyan nga siya. Haha! Welcome sa port, iho.
+Ka Ody: ’Di ko alam kung gaano ka na katagal dito, pero aba, matindi rin ang tapang mo na dito pa nagtayo!
+Ka Ody: Matindi ang labanan dito — madaming tao pero madami ring buwitre na naghihintay ng susunod na kostumer.
+Ka Ody: Bumisita ka minsan sa tindahan namin, ha? Matutuwa kaming makita ka.
+Ka Ody: Kami pa nga ang unang nagsupply sa maliit mong tindahan, alam mo ba ’yon?
+Ka Ody: Pag nakita mo si tanda, batihin mo ng kaunti sa akin — sigurado akong matatawa ’yon pag nalaman niyang natulungan pa kita sa huli.
+Protagonist: S-salamat po, sir.
+
+// Day End
+Protagonist: Grabe... ang hirap. *sighs...*
+Juan: Whew, mukhang nauna na akong nakarating bago ka pa makauwi.
+Juan: Aba, ayan na nga! Ang tagal kitang ’di nakita ah!
+Juan: Sa ayos mong ’yan, mukhang hindi maganda takbo ng negosyo mo, ano?
+Protagonist: Hindi naman masyado… Akala ko madali lang, pero grabe pala ’pag ganito karami ang kakompetensya.
+Juan: Tama ka d’yan! Lalo na sa pagkain, pwede kang bumili ng singkwentang keychain, pero kumakain ka lang naman tatlo o apat na beses sa isang araw.
+Juan: At isang t’yan kada isang tao
+Protagonist: Hmm, may point ka.
+Juan: Kaya kailangan makita ka nila — o talagang MAGING magaling ka.
+Juan: Pero kahit ang dyamante naman ay mahirap hanapin kapag hindi mo alam kung saan ka magsisimula maghanap.
+Protagonist: Hmm...
+Protagonist: Siguro, kailangan ko pa talaga maghanap ng panibago...
+Juan: Yung ibang mga lugar talaga dito ay madaming mga magagandang bagay.
+Juan: Hm? Wag mo sabihin sakin na hindi mo pa nalilibot ang lugar na ito?..
+Juan: Kailangan mo na kausapin ang mga kapitbahay mo dito. Tara, bukas ng umaga!~
+Protagonist: Sige—
+
+===
+
+title: Batangas_Medium_Before
+
+---
+<<setBackground SpriteBehaviour Batangas>>
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<showCharacter SpriteBehaviour Adele at 400 -100>>
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<showCharacter SpriteBehaviour Juan at 400 -100>>
+<<showCharacter SpriteBehaviour Rival at 400 -100>>
+<<showCharacter SpriteBehaviour Ka_Ody at 400 -100>>
+// Day Start
+Protagonist: Oh wow.
+Protagonist: Ang dami naman—
+Adele: Hindi naman tayo matatawag na “The Basket of the Philippines” kung hindi ’yan madami, sir!
+Protagonist: Sa tingin ko po hindi magkakasya lahat ng itlog sa basket na ito..?
+Rival: Protag! My dearest amigo! Did you miss me?
+Adele: ’Di ba ’yun ’yung kakabukas lang na tindahan sa tabi mo, protag?
+Protagonist: Huh? Kelan?
+Adele: Kaninang umaga laang, nagtayo siya sa kabila ng tinatayuan mo.
+JUAN: Kung meron man siyang maipagmamalaki, ’yun ay ang pagiging consistent niya.
+Rival: Dios Mio, tingnan mo lahat ng itlog na ’to!
+Adele: HAHAHA, ’di ba ang gaganda nila?
+JUAN: Wait...  
+JUAN: Boi... bakit ka ’ga nagsasalita ng Mexican?
+Rival: OH ikinagagalak ko na naitanong mo ’yan, my fellow amigo!  
+Rival: Alam mo kung bakit? Dahil walang nangyayari sa business ko!  
+Rival: Oo na alam ko, alam ko.  
+Rival: Ako, sa lahat ng mga tao dito—  
+Rival: Nahihirapan nang magbenta ng Lomi.  
+Rival: Pero gaya ng isang phoenix, muli’t muli akong babangon mula sa abo!  
+Rival: Kaya ngayon? Meron na akong *Mexican Lomi!* Meron ’yan libreng taco shells! May dagdag na 8 pesos kada taco shell!
+Protagonist: Uh... Nilagay mo ba ang lomi sa taco shell o—
+JUAN: Parang ayaw ko nalang alamin, protag.
+Rival: HAHAHA! Bigyan mo nga ako ng magagandang itlog mo, babae! Marami akong gustong gawin d’yan!  
+Rival: Ay, hey protag? Pwede ba na gumawa ka pa ng madaming lomi sa susunod?  
+Rival: Syempre bibigyan din kita ng lomi ko sa susunod~
+Protagonist: Ah sige, kahit ’wag mo na akong bigyan ng lomi mo, please.
+JUAN: At kelan pa kayo naging magkaibigan, protag?
+Protagonist: Hindi ko naman masasabi na magkaibigan kami, pero nagkaroon naman na kami ng pag-uusap...
+JUAN: Aba, anong chikaaaa?
+
+// Day End
+Ka Ody: Oy bata, maganda ’ga ang takbo ng negosyo mo ngayon?  
+Ka Ody: Si misis nagluto ng tinola, gusto raw niyang malaman kung gusto mo rin daw kumuha?  
+Ka Ody: Gusto ka talaga niya makilala pagkatapos niyang marinig kung sino ka.
+Protagonist: Ay, maraming salamat po.
+Ka Ody: Apaka dami dine, siguraduhin mo laang na bigyan mo ’yung bata doon sa kabila ah?
+Protagonist: Ohh, ’yung kalaban ko po ba?
+Ka Ody: Uo.  
+Ka Ody: Hmmmm, kakaiba siya ah.  
+Ka Ody: Pumunta iyan sa tindahan ko, pinagsisigawan niya ’yung taco shells niya kuno.  
+Ka Ody: Napatawa naman niya anak ko ay.  
+Ka Ody: Oh, si Chicken Lady nandito na.
+Adele: Hello!  
+Adele: Natingin lang dine sa mga baguhan! Okay lang ba kayo d’yan? Maayos ba ang mga itlog ko?
+Protagonist: Napaka-benta nila sa totoo lang... Parang kailangan ko na din umorder ng madami sa’yo sa susunod.
+Adele: WAHAHAHA, mabuti naman! Napaka buting balita.  
+Adele: Alam mo ga na madami pa ako dine? At para dun sa baguhan d’yan? Ako ang bahala sa inyo!  
+Adele: Syempre lahat naman kailangan ng protein sa mga lomi nila, diba?  
+Adele: Isang dosenang itlog sa isang araw, para ’di ka mangayayat!
+
+===
+
+
+title: Batangas_Hard_Before
+---
+<<setBackground SpriteBehaviour Batangas>>
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<showCharacter SpriteBehaviour Rival at 400 -100>>
+<<showCharacter SpriteBehaviour Adele at 400 -100>>
+<<showCharacter SpriteBehaviour Elio at 400 -100>>
+<<showCharacter SpriteBehaviour Ka_Ody at 400 -100>>
+
+// Day Start
+Protagonist: *Yawn...*  
+Protagonist: Mm...
+Rival: Kailangan maaga lagi para mag-asikaso, hindi ba, aking karibal?
+Protagonist: Yeah...  
+Protagonist: Good morning...  
+Protagonist: Aba, ang aga pa, ang sisigla na naman ng mga tao... *Haahh~* inaantok pa ’ko.
+Rival: Alam mo naman ang kasabihan, pag may ibon, may uod na agahan!
+Protagonist: Sa tingin ko parang mali ata pagkakasabi mo...
+Rival: Tara na, bangon na. Walang hinihintay ang oras.
+Protagonist: Yes, yes...  
+Protagonist: Ang galing lang kung paano nagagawa ng lahat ’to araw-araw.  
+Protagonist: Napapaisip tuloy ako kung para sa akin ba talaga ’to?
+Rival: Hahahha. Kung may nilalang man na ginawa para sa ganitong buhay… baka hindi na siya tao.  
+Rival: Lahat naman tayo nagkakaroon ng mabagal na araw.  
+Rival: Pero syempre, kailangan pa din natin subukan, ’di ba?
+Protagonist: Siguro...
+Rival: Kaya tara na, hindi man perpekto pero kahit papaano sinusubukan natin. Para din sa atin ito.
+
+// Day End
+Protagonist: Grabe, ang dami pa din na tao...  
+Protagonist: Baka hindi ko makasanayan ang lugar na ito dahil sa sobrang busy...
+Adele: Hindi ba’t nakakatawa?  
+Adele: Ang probinsya—  
+Adele: Hindi mo iisiping babagay ’to sa mga lungsod na kailanman ay ’di natutulog.  
+Adele: Pero kami, oo.
+Ka Ody: Kasi walang hinihintay ang trabaho sa kahit sino.
+Elio: Totoo po kayo d’yan!  
+Elio: Kami ang dahilan kung bakit patuloy na umaandar ang mga siyudad.
+Ka Ody: Sa ganitong trabaho bumubuhos lahat ng pinaghirapan.
+Elio: Mhm~
+Ka Ody: ’Yung mga nasa itaas, aba’y kaya lang maglabas ng papel, utos dito, utos doon!  
+Ka Ody: E ano nga naman ang kastilyo kung wala ’yung mga tao, ’di ba?
+Adele: Aba’y sira, ano pa nga ba!
+Elio: Aba’y sa atin ang kapangyarihan, oy! Sa mga tulad nating nagbabanat ng buto araw-araw!
+Ka Ody: Tandaan mo lagi ’yan, iho, at siguradong malayo ang mararating mo.
+Protagonist: Tatandaan ko po iyan.
+
+Narrator: THE END... FOR NOW...? TO BE CONTINUED???
+
+===
+

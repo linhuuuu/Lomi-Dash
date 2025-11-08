@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: TSUPER
   customerName: Tsuper
-  patienceTime: 180
+  patienceTime: 240
   companions: []
   preferredDish: []
   preferredBeverage: []

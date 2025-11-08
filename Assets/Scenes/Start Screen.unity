@@ -3914,6 +3914,52 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f9f42ae9964b144ba58c874be2f7fe4,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: afd7926061e54954ebc65b16ad371405,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: e400cf10fbc34ff42be3a7c0f20608c1,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f35356df6b726b4bb0056d6552b8785,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66045e314d442ab4f88212020e8bfa59,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: a1b0c094edd820846833acdcfb093169,
+        type: 2}
+    - target: {fileID: 716054855564405784, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
+        type: 3}
+      propertyPath: gameRepo.SpecialNPCRepo.Array.data[9]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3456260463164442339, guid: 3a44ba89bc656a346bf1b3717dbf81c9,
         type: 3}
       propertyPath: m_Name
@@ -7032,7 +7078,7 @@ MonoBehaviour:
   text: {fileID: 692823205}
   signInPrompt: {fileID: 438544701}
   signOutPrompt: {fileID: 332914072}
-  isDebug: 1
+  isDebug: 0
 --- !u!1001 &2039158293
 PrefabInstance:
   m_ObjectHideFlags: 0

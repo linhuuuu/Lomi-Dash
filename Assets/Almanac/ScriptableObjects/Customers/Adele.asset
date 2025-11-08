@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5610684f24962f478c1f101877876dd, type: 3}
+  m_Name: Adele
+  m_EditorClassIdentifier: 
+  entryID: ADELE
+  entryName: Adele
+  description: "Always has a chicken nearby, she takes great care of her poultry.
+    \n\nBelieves nothing beats a good egg when it comes to protein. Headstrong and
+    reliable. \n\nI hope she's a bit more careful with putting all her eggs in one
+    basket...\n"
+  mainImage: {fileID: 178668228, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  starCount: 0
+  characterEvents:
+  - {fileID: 11400000, guid: 5e5ba0f55de4b204e82ff7baafef2bfc, type: 2}
+  - {fileID: 11400000, guid: 937c9f73863578947a8b8503e910f57a, type: 2}
+  - {fileID: 11400000, guid: 8538db467418c664f9cd95b445b61fa3, type: 2}
+  customerLocation: Lipa

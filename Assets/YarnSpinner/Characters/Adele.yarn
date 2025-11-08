@@ -1,0 +1,74 @@
+﻿title: Adele_Encounter
+//<<$player_name>>
+---
+// if someone read this, the reason i just put some placeholders ay hindi ko pa alam ano ang behavior code, di ko kasi magets ung sa code docs.
+//so i just copy pasted everything first. 
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+<<showCharacter SpriteBehaviour Adele at 300 -100>>
+Adele: AAAAAA—HINDIIIII!!!
+Adele: YUNG MGA ITLOG KOOOO!!!
+Adele: Sirrrrr tulong po!
+[Protag]: Huh-
+Adele: YUNG MGA ITLOG KOO!
+Narrator: You watch in horror as dozens of eggs fall downhill, crashing in yolky despair on the pavement.
+Adele: HINDIIIIIIIIIIIIII!!!
+Adele: Ah… baguhan pa rin talaga ako minsan.
+Adele: Nilagay ko lahat ng itlog sa iisang basket.
+[Protag]: .....................................
+[Protag]: (kalma, 'wag kang tatawa, 'wag kang tatawa)
+[Protag]: *cough*
+[Protag]: Ay, kawawa naman.
+Adele: *sigh* Ganun talaga. Minsan talo, minsan panalo.
+Adele: Ako nga pala, bagong kapitbahay mo.
+[Protag]: Ah, hi po. Pasensya na po dun sa mga itlog...
+Adele: Ayos lang ‘yan! Madali lang ‘yang palitan.
+Adele: Konting panahon lang, balik ulit sa dati.
+Adele: Tama na drama! Masaya ‘to, may bago akong kakilala!
+Narrator: You smiled. Even with a problem, you just came to your senses that she never holds back.
+Adele: Pasyal ka minsan sa puwesto namin—pinakamura, pinakamasarap na itlog sa San Jose!
+Adele: Tinatawag nga kaming Egg Basket of the Philippines, at proud ako dun.
+Adele: Lahat ng klaseng itlog meron kami:
+Adele: Normal, pugo, itlog na pula—lahat ng pangarap mong itlog!
+Adele: Ako? Adik ako sa itlog, totoo ‘yan!
+Adele: Protein is life, ika nga. Hehe.
+[Protag]: Ay aba, parang araw-araw may itlog sa plato mo ah. Di ka ba nagsasawa?
+Adele: Nagsasawa? Hindi no! Iba-iba ‘yan—may pritong itlog, maalat, boiled, scrambled, sunny side up! Buong araw, iba’t ibang karakter! Parang ako lang.
+[Protag]: May character development pa talaga ang itlog mo, ha.
+[Protag]: Hahahha, grabe...
+Adele: Syempre! Alam mo ba, galing pa raw sa mga sinaunang manok ‘yang mga itlog na ‘yan. Parang history lesson sa bawat kagat!
+[Protag]: Edi, parang scholar ka na rin ng itlog?
+Adele: Exactly. Tinatawag nila akong “Eggspert.”
+[Protag]: Grabe, may degree ka na pala sa itlogology.
+Adele: Ay wag mo kong tuksuhin, protag. Kung wala kang protein sa katawan, wag kang lalapit sakin. Ako pa naman, glaze queen—lahat ng lutong itlog ko may kinang!
+[Protag]: Glaze queen talaga? Akala ko pang doughnut lang ‘yan!
+[Protag]: HAHAHA joke lang.
+Adele: Hindi ah! Kahit itlog, kayang magpasikat.
+Adele: Kaya nga sabi ko, kung gusto mong maging malakas, mag-itlog ka rin!
+
+---
+Adele: Protag! Sama ka sa ‘kin, kuha tayo ng itlog sa poultry ngayon!
+Adele: Pinangako ko sa ‘yo, ipapakita ko kung gaano kaganda ang itlog!
+Adele: Magandang opportunidad na ito!
+[Protag]: Ha? Eh… sige kung mabilis lang.
+Adele: Mabilis lang ‘to, kasing bilis ng manok!
+Narrator: Makalipas ng ilang daang minuto...
+[Protag]: Ang dami pala nito...
+Adele: Di ba? Lahat ‘yan, nagsimula lang sa likod-bahay.
+Adele: Taon ng tiyaga—hindi lang hard work, consistent dapat.
+Adele: Mula sa lolo’t lola ko, hanggang kina mama’t papa, at ngayon ako.
+Adele: Tuloy-tuloy dapat at maaasahan.
+Adele: ‘Yan ang Batangueñong sipag.
+Adele: At tingnan mo naman, ‘di ba ang ganda?
+Adele: Bawat itlog, may pruweba ng taon ng sakripisyo.
+Adele: Proud ako dito, protag.
+Adele: "Dati nga, sabi ko, ‘ang corny naman ng egg basket title.’ Pero ngayon, alam ko na kung bakit espesyal."
+Narrator: You look around.
+Narrator: She's right.
+[Protag]: Ang lawak nga. Ang daming tao.
+Adele: Hinahanap mo ‘yung kultura, ‘di ba? ‘Yung sagot kung ano ang Batangueño? Eto ‘yon, protag.
+Adele: Sipag, tiyaga, at pusong hindi sumusuko.
+Adele: Minsan ‘di napapansin, pero napakahalaga.
+Adele: Eto na itlog mo.
+Adele: Cheers sa isa pang araw ng tapat na trabaho.
+===

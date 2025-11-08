@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class OrderPrompt : MonoBehaviour, IPointerDownHandler
+public class OrderPrompt : MonoBehaviour
 {
     [SerializeField] private GameObject phase1;
     [SerializeField] private GameObject phase2;
@@ -12,6 +12,11 @@ public class OrderPrompt : MonoBehaviour, IPointerDownHandler
     public bool isOrderTaken { set; get; } = false;
     public int orderIndex { set; get; }
 
+
+    void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(OnClick);
+    }
     public void SetTarget(CustomerGroupTimer timer, int orderIndex, UITray trayObj)
     {
         this.timer = timer;
@@ -31,7 +36,7 @@ public class OrderPrompt : MonoBehaviour, IPointerDownHandler
         
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnClick()
     {
         if (isOrderTaken) return;
 

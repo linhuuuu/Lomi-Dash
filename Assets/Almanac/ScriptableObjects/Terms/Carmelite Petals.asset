@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Carmelite Petals
+  m_EditorClassIdentifier: 
+  entryID: PETALS
+  entryName: Carmelite Petals
+  description: "Lipa City is known for its deep spiritual roots and the mysterious
+    Petal Showers of 1948 at the Carmelite monastery, where rose petals were said
+    to fall from the sky after the apparitions of Mary Mediatrix of All Grace. \n\nThis
+    event remains one of Batangas\u2019 most enduring symbols of faith and wonder.\n"
+  mainImage: {fileID: -11509696, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

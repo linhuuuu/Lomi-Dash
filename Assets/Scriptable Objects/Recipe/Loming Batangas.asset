@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loming Batangas
   m_EditorClassIdentifier: 
   id: BATANGAS
-  recipeName: LOMI BATANGAS
+  recipeName: BATANGAS
   basePrice: 80
   region: 0
   toppingList:

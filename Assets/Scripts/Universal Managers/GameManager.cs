@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public enum gameState
     {
+        tutorial,
         beforeDay,
         startDay,
         midDay,
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        state = gameState.beforeDay;
         if (instance == null)
         {
             instance = this;

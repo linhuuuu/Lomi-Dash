@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: STUDENT
   customerName: Student
-  patienceTime: 180
+  patienceTime: 240
   companions: []
   preferredDish: []
   preferredBeverage: []

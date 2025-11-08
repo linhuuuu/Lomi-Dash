@@ -18,7 +18,7 @@ public class BevSlot : MonoBehaviour
 
         if (incomingBev.bevSlot != null)    //If moving from one slot to another
         {
-            incomingBev.bevSlot.RemoveBevFromSlot();
+            incomingBev.bevSlot.RemoveBevFromSlot(false);
         }
 
         myBev = incomingBev;
@@ -26,7 +26,8 @@ public class BevSlot : MonoBehaviour
 
         // Parent and position
         myBev.transform.SetParent(transform);
-        myBev.transform.localPosition = new Vector3(0f, 2f, 0f);
+        myBev.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+        myBev.transform.localEulerAngles = Vector3.zero;
         myBev.bevSlot = this;
 
         // Sorting order
@@ -34,22 +35,36 @@ public class BevSlot : MonoBehaviour
         dishRenderer.sortingOrder = bevPosSortingOrder + 1;
 
         // Store positions
-        myBev.originalLocalPosition = new Vector3(0f, 0f, 0f);
+        myBev.originalLocalPosition = myBev.transform.localPosition;
         myBev.parent = transform;
         myBev.originalSortingOrder = dishRenderer.sortingOrder;
-        myBev.GetComponent<BoxCollider>().center = new Vector3(0f, 1f, 0f);     //idk why???
+        myBev.GetComponent<BoxCollider>().center = new Vector3(0f, 0.4f, 0f);     //idk why???
 
         //Toggle collider
         slotCollider.enabled = false;
     }
 
-    public void RemoveBevFromSlot()
+    public void RemoveBevFromSlot(bool isBevDestroy)
     {
         if (myBev == null) return;
 
         tray.RemoveBev(myBev.bevNode, bevSlotIndex);
         slotCollider.enabled = true;
-        myBev = null;
+        if (isBevDestroy)
+        {
+            Destroy(myBev.gameObject);
+            myBev = null;
+        }
+        else
+        {
+            myBev = null;
+        }
+    }
+
+    public void DestroyBev()
+    {
+        RemoveBevFromSlot(true);
+
     }
 
     public void SwapDishesInTray(PrepDish dish1, PrepDish dish2)

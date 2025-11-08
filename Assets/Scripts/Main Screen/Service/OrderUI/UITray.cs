@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using PCG;
 using UnityEngine;
@@ -6,26 +7,14 @@ using UnityEngine.UI;
 public class UITray : MonoBehaviour
 {
     [SerializeField] private GameObject[] dish;
-    [SerializeField] private GameObject[] bev;
-    [SerializeField] private GameObject seasoningTray;
-    private Image[] dishSprites;
-    private Image[] bevSprites;
-    private Image seasoningTraySprite;
+    public List<Recipe> recipes { set; get; } = new();
 
-    void Awake()
-    {
-        dishSprites = new Image[dish.Length];
-        bevSprites = new Image[bev.Length];
-        seasoningTraySprite = seasoningTray.GetComponent<Image>();
+    [SerializeField] public Image[] bevSprites;
+    public List<Beverage> bev { set; get; } = new();
 
-        for (int i = 0; i < dish.Length; i++)
-            dishSprites[i] = dish[i].GetComponent<Image>();
+    [SerializeField] private Image seasoningTraySprite;
 
-        for (int i = 0; i < bev.Length; i++)
-            bevSprites[i] = bev[i].GetComponent<Image>();
-
-        seasoningTray.SetActive(false);
-    }
+    private List<bool> sizes = new();
 
     public void InitTray(OrderNode order)
     {
@@ -52,8 +41,8 @@ public class UITray : MonoBehaviour
 
     private void InitSeasoningTray(OrderNode order)
     {
-        if (seasoningTray.activeSelf == false)
-            seasoningTray.SetActive(true);
+        if (seasoningTraySprite.gameObject.activeSelf == false)
+            seasoningTraySprite.gameObject.SetActive(true);
 
         if (order is SeasoningTraySectionNode node && node.trayCount > 0)
             seasoningTraySprite.sprite = RoundManager.roundManager.lib.seasoningTrayStates[node.trayCount.ToString()];
@@ -64,15 +53,18 @@ public class UITray : MonoBehaviour
         Recipe _rec = null;
         if (order is not DishSectionNode node) return;
 
-        _rec = InventoryManager.inv.gameRepo.RecipeRepo.Find(c => c.recipeName == node.recipeName); 
+        _rec = InventoryManager.inv.gameRepo.RecipeRepo.Find(c => c.recipeName == node.recipeName);
         if (_rec == null) return;
+
+        recipes.Add(_rec);
+        sizes.Add(node.isLarge);
 
         int dishId = order.id[^1] - '0' - 1;
 
         GameObject currentDish = dish[dishId];
         currentDish.SetActive(true);
 
-    //Visual
+        //Visual
         GameObject toppingGroup = Instantiate(_rec.toppingVisual, Vector3.zero, Quaternion.identity, currentDish.transform);
         toppingGroup.transform.SetSiblingIndex(1);
         toppingGroup.transform.localEulerAngles = Vector3.zero;
@@ -84,27 +76,19 @@ public class UITray : MonoBehaviour
         Beverage _bev = null;
         if (order is not BeverageSectionNode node) return;
 
-        _bev = InventoryManager.inv.gameRepo.BeverageRepo.Find(c => c.bevName == node.name);    //!!! CHANGE TO PLAYEREPO ONCE 
+        _bev = InventoryManager.inv.gameRepo.BeverageRepo.Find(c => c.bevName == node.name);
         if (_bev == null) return;
 
+        bev.Add(_bev);
+
         int bevId = order.id[^1] - '0' - 1;
-        bev[bevId].SetActive(true);
+        bevSprites[bevId].gameObject.SetActive(true);
         bevSprites[bevId].sprite = _bev.sprite;
     }
 
-        public GameObject[] GetDishUI()
+    public bool GetSize(int i)
     {
-        return this.dish;
-    }
-
-    public GameObject[] GetSeasoningUI()
-    {
-        return this.bev;
-    }
-
-    public GameObject GetSeasoningTrayUI()
-    {
-        return this.seasoningTray;
+        return this.sizes[i];
     }
 
 }

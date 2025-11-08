@@ -1,56 +1,69 @@
 using PCG;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuffDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class BuffDrag : MonoBehaviour
 {
-    private RectTransform rectTransform;
-    private Vector3 originalPos;
+    [SerializeField] private Image icon;
+    [SerializeField] private TextMeshProUGUI text;
 
-
-    private Image image;
-    [SerializeField] private GameObject countObj;
-    [SerializeField] private TextMeshProUGUI number;
-    [SerializeField] private BuffData buffData;
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private LayerMask mask;
+    private BuffData buffData;
+    private int count;
+    private Button button;
 
     void Awake()
     {
-        image = GetComponent<Image>();
-        image.sprite = buffData.sprite;
-
-        rectTransform = GetComponent<RectTransform>();
+        button = GetComponent<Button>();
+        button.onClick.AddListener(ApplyBuff);
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void Init(int availableCount, BuffData data)
     {
-        originalPos = transform.localPosition;
-        countObj.SetActive(false);
+        buffData = data;
+        count = availableCount;
+
+        if (icon != null && data.sprite != null)
+            icon.sprite = data.sprite;
+
+        RefreshState();
     }
-    public void OnDrag(PointerEventData eventData)
+
+    void ApplyBuff()
     {
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera,
-        out Vector3 worldPoint))
-            transform.position = worldPoint;
+        if (count <= 0) return;
+
+        // Apply buff
+        RoundManager.roundManager.activeBuffData = buffData;
+
+        // Mark as used
+        count--;
+        RefreshState();
+
+        // Visual feedback
+        AudioManager.instance.PlayUI(UI.CLICK);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void RefreshState()
     {
-        Ray ray = CameraManager.cam.mainCam.ScreenPointToRay(eventData.position);
-        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-        {
-            if (hit.collider.tag == "Tray")
-            {
-                RoundManager.roundManager.activeBuffData = buffData;
-            }
-        }
-        transform.localPosition = originalPos;
-        countObj.SetActive(true);
+        bool isAvailable = count > 0;
+        button.interactable = isAvailable;
+        text.text = count.ToString();
     }
 
+   public int GetUsedCount()
+{
+    if (buffData == null)
+        return 0;
+
+    int initial = 0;
+    if (DataManager.data?.playerData?.unlockedBuffs != null &&
+        DataManager.data.playerData.unlockedBuffs.TryGetValue(buffData.id, out int owned))
+    {
+        initial = owned;
+    }
+
+    // Used = how many were consumed
+    return Mathf.Max(0, initial - count);
+}
 }

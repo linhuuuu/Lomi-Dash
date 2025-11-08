@@ -25,6 +25,9 @@ public class ToppingPoolObj : DragAndDrop
             transform.localPosition = new Vector3(localPos.x, localPos.y, -0.6f);
             originalLocalPosition = transform.localPosition;
 
+            gameObject.transform.SetAsLastSibling();
+
+
             revertDefaults();
             return;
         }

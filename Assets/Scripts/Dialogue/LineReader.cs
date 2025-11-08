@@ -39,6 +39,7 @@ public class LineReader : DialoguePresenterBase
 
         if (Debug.isDebugBuild) Debug.Log($"LineReader: {speakerName} says \"{text}\"");
 
+        AudioManager.instance.PlayUI(UI.CLICK);
         return YarnTask.CompletedTask;
     }
 

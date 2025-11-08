@@ -13,7 +13,8 @@ public class KitchenDrag : MonoBehaviour
 
     [Header("Dragging References")]
     [SerializeField] private LayerMask interactable;
-    [SerializeField] private bool isKitchenFocus, isDragging;
+    [SerializeField] public bool isKitchenFocus { private set; get; } 
+    [SerializeField] public bool isDragging { private set; get; }
     private int activeTouchId;
 
     [Header("Zoom")]

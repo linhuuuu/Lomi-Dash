@@ -1,7 +1,5 @@
-﻿title: TiyoXiaoScene
-//<<$player_name>>
+﻿title: CE_TIYA_XIAO_1
 ---
-//<<declare $player_name = "" as string>> 
 <<setBackground SpriteBehaviour Default>>
 Tiyo Xiao: Hmm... Ok, hindi pwede. Hindi talaga ito pwede.
 [Protag]: Huh...?
@@ -19,9 +17,10 @@ Tiyo Xiao: Ugh— okay babalik ako. Pag-isipan mo nalang kung ano ang pagkukulan
 [Protag]: What was that about...?
 Narrator: You feel oddly frustrated. Missing something? In the recipe maybe? Practice? You sit on it.
 [Protag]: The recipe books... I need to read through them again...
-
 ---
 
+title: CE_TIYA_XIAO_2
+---
 Tiyo Xiao: Hmmm okay... Medyo katanggap-tanggap naman na.
 Narrator: You tried very hard this time, trying your best to remember how your Tito made it.
 Tiyo Xiao: Mukhang may pag-asa ka pa naman kahit papaano, iho.
@@ -50,9 +49,10 @@ JUAN: Huy, feeling ko talaga kailangan ko magtanong pero, hindi ba't si Tiya Xia
 [Protag]: A-ano?
 JUAN: Boi...
 [Protag]: Dude...
+===
 
+title: CE_TIYA_XIAO_3
 ---
-
 Tiyo Xiao: ...
 [Protag]: Ma'am...
 Tiyo Xiao: ...
@@ -80,5 +80,4 @@ Narrator: And you do. More than you'd expect to share with this grumpy old lady.
 Tiyo Xiao: Anong pinagsasasabi mo, iho. Nandyan lang sya, nandito lang sya sa atin.
 Narrator: You look down on the bowl, taking a bite yourself.
 Narrator: You remember.
--> END
 ===

@@ -16,9 +16,14 @@ MonoBehaviour:
   customerName: Nimfa
   patienceTime: 180
   companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  preferredDish:
+  - {fileID: 11400000, guid: 1675dbde9c5ebe545a3c3a29d07fa62b, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: 3fc6c0e0a09d37241b9b9653ff08eb0d, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: 585b0e08f23b09e4293b2d41b22ee998, type: 2}
+  - {fileID: 11400000, guid: a7149978462d9734e800e8ac1cb74e8c, type: 2}
+  - {fileID: 11400000, guid: f81165a130352d64d99218b016e82f99, type: 2}
   portrait: {fileID: 1064197087, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: 305960953, guid: 5de250f15208cc84c84db305f6d14106, type: 3}
   sittingSprite: {fileID: 399597625, guid: 5de250f15208cc84c84db305f6d14106, type: 3}

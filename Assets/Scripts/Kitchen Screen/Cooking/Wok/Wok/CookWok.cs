@@ -15,6 +15,7 @@ public class CookWok : DragAndDrop
     public PotGroup potGroup { set; get; }
     public WokGroup wokGroup { private set; get; }
     public AnimWok animWok { private set; get; }
+    public bool tutorialTransfer { set; get; } = false;
 
     private Coroutine sauteeRoutine;
     private Coroutine noodlesRoutine;
@@ -50,7 +51,7 @@ public class CookWok : DragAndDrop
 
     #region CookingRoutine
     public void ToggleStove()
-    {
+    { 
         stove_On = !stove_On;
 
         if (!stove_On)
@@ -138,13 +139,13 @@ public class CookWok : DragAndDrop
                 noodlesRoutine = null;
             }
         }
-        else if (!stove_On && noodlesRoutine != null) 
+        else if (!stove_On && noodlesRoutine != null)
         {
             StopCoroutine(noodlesRoutine);
             noodlesRoutine = null;
         }
     }
-    
+
 
     private IEnumerator OnNoodles()
     {
@@ -405,8 +406,47 @@ public class CookWok : DragAndDrop
                 if (Debug.isDebugBuild) Debug.Log("Cleared ALL instances of WokNODE");
             }
             animWok.PlayTransferToDishSFX();
+
+            if (GameManager.instance.state == GameManager.gameState.tutorial)
+            {
+                tutorialTransfer = true;
+                TutorialManager.instance.dish = dish;
+            }
+
+
+            revertDefaults();
+            return;
+        }
+
+        if (hitCollider.tag == "Trash")
+        {
+
+            // Reset state completely
+            sauteeNode.oilCount = 0;
+            sauteeNode.onionCount = 0;
+            sauteeNode.bawangCount = 0;
+            noodlesNode.count = 0;
+            soySauceNode.count = 0;
+            thickenerNode.count = 0;
+            eggNode.count = 0;
+            sauteeNode.oilTime = 0;
+            sauteeNode.onionTime = 0;
+            sauteeNode.bawangTime = 0;
+            noodlesNode.time = 0;
+            thickenerNode.isMixed = false;
+            eggNode.isMixed = false;
+            potGroup = null;
+
+            // Reset visuals
+            animWok.ResetStates();
+            sauteeRoutine = null;
+            noodlesRoutine = null;
+
+            revertDefaults();
+            return;
         }
         revertDefaults();
+        return;
     }
     #endregion
 }

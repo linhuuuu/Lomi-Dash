@@ -4,11 +4,26 @@ public class InstBev : DragAndDrop
 {
     [SerializeField] private GameObject bevPrefab;
     [SerializeField] private Beverage bevObj;
+    [SerializeField] private Vector3 offset;
 
     void Start()
-    {//Edit this
+    {
         GetComponent<SpriteRenderer>().sprite = bevObj.sprite;
         transform.parent.GetComponent<SpriteRenderer>().sprite = bevObj.sprite;
+    }
+
+    public Vector3 screenOffset;
+    public new void OnMouseDown()
+    {
+        base.OnMouseDown();
+        transform.localPosition += offset;
+    }
+
+    public new void OnMouseDrag()
+    {
+        base.OnMouseDrag();
+        transform.localPosition += offset;
+
     }
 
     public void OnMouseUp()
@@ -28,16 +43,13 @@ public class InstBev : DragAndDrop
             //Inst New Bev
             var newBev = Instantiate(bevPrefab, Vector3.zero, Quaternion.identity, slot.transform);
             newBev.GetComponent<PrepBev>().InitBev(bevObj.id, bevObj.sprite, bevObj);
-            newBev.transform.localRotation = Quaternion.identity;
-          
+
             slot.RecieveBevToSlot(newBev.GetComponent<PrepBev>());
 
             revertDefaults();
             return;
         }
-
         revertDefaults();
         return;
     }
-
 }

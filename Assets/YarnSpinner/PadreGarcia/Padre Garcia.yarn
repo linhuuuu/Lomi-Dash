@@ -1,0 +1,131 @@
+﻿title: PadreGarcia_Easy_Before
+---
+//Protag: This is Lipa_Easy_Before Node
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<setBackground SpriteBehaviour PadreGarcia>>
+<<showCharacter SpriteBehaviour Rival at 400 -100>>
+Protagonist: Sige, panibagong simula, bagong bayan, mga bagong tao—
+Rival: Annyeonghaseyo!
+Protagonist: Ugh, oh my god—
+Rival: Well, isn't it a surprise to see you here, my dear friend!
+Protagonist: What? F-friend?
+Rival: YES! Nagulat nga ako nung nakita ko na isa sa mga franchise ng [TOOOT] ang tinarget mo!
+Rival: Grabe rin ‘yung mga ginagawa mo para lang talunin ako, aaminin ko. Anime wasn’t the best target, too many references. Those 8 lizardballs, battle of gigantic humans... Turns out, they didn’t mix well with the Lomi...
+Rival: Pero sa bayang ’to? Ako talaga ang hari.
+Rival: At ang haring ito ang magdadala ng bagong pag-angat, para lang sa mga pinaka-dedikadong tagahanga!
+Rival: That’s right, this time we are doing Korean Lomi!
+Protagonist: Eh...?
+Rival: Kasama pa ang mga kolaborasyon sa mga sikat na K-pop groups na Once at Lost Children on the horizon!
+Protagonist: Oh....
+Protagonist: Good luck...?
+Rival: Good luck din sa’yo, friend! Sigurado akong kakailanganin mo ’yan, kasi ang susunod na collaboration ay siguradong magiging patok!
+
+
+Narrator: Day Ends...
+Protagonist: Yan na nga ba ang sinasabi ko. Bagong lugar, pero kakaunti lang ang interesadong tao.
+Protagonist: Dapat may paraan para makakuha ng mga kostumer dito, ah.
+Protagonist: ‘Yun lang ba talaga ang paraan para mapansin tayo… mga pa-pabonggahan lang?
+Nimfa: Paminsan-minsan, nakakaramdam din naman ako ng lungkot kapag mag-isa.
+Nimfa: Wooooooi...
+Nimfa: MEDYO lasing lang ako, bukas pa gaaa?
+Protagonist: Oo, bukas pa kami....
+Nimfa: Awwww, sige na nga... sa tingin mo ga ay may bukas pa bang iba d’yan? Nagc-crave ako ehhhh.
+Protagonist: I can make something namang mabilis lang for you. Hindi pa nga lang nalilinis yung kusina.
+Nimfa: Talaga?! Kasaya naman niyon :D
+Protagonist: Bilang kapalit, sa tingin mo ba makakapagpakalat ka ng mabuting balita sa lugar na ito? Nasa bagong spot ako ng lomihan ngayon, kaya napaka-bihira lang ng mga customer ngayon.
+Nimfa: Ehh? I mean bakit naman hind—OH MY GOD ANG SARAP NITO!
+Protagonist: Uhm?
+Nimfa: Ang SARAAAAPPP! Oh my god teka lang, yayayain ko lahat ng kaibigan ko dito dahil magugustuhan talaga nila ito!
+Nimfa: Bago ka lang dito, diba?
+Nimfa: Ako nga pala si Nimfa! Paniguradong palagi mo na akong makikita dito, naiintindihan mo ba? Hehe!
+Nimfa: Maraming salamat talaga sa pagkain! Sorry, hindi ko talaga sinasadya na magtagal dito. Palagi kitang tatandaan!
+Protagonist: And just like that... she's gone.
+Protagonist: But the people here at least feel kind.
+Protagonist: Maybe I can make this work.
+
+===
+
+title: PadreGarcia_Hard_Before
+---
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<setBackground SpriteBehaviour PadreGarcia>>
+Protagonist: Nagiging okay na ang business. Mabuti nalang, mas madami na ang customers ngayon.
+Protagonist: Nagiging maayos na din ako habang patagal ng patagal.
+Protagonist: This, feels pretty good...
+Rival: Di ka din ba makapaniwala, protag? Almost a 25php discount!
+Narrator: Despite the reduction of customers, he seems pretty content too.
+Protagonist: Parang wala naman halos lahat 'yan, pag binenta mo din yan ng maayos, mabibigyan ka ng 50php discount, turo yan sa akin ni Nimfa. Hindi ko lubos na maisip na ganon kalaki yung tawad.
+Rival: Kahit naman ako, my fellow rival. Gusto ko lang talaga malaman kung paano nila nagagawa 'yun, para makakuha din ako ng ideya galing sa kanila.
+Protagonist: pfttt, 'di ko din lubos maisip na parehas tayong baguhan dito.
+Rival: Kaya nga nakaka interesado ako na kalaban ka, protag. Hindi ba?
+Protagonist: Oo nga naman, sabagay.
+Protagonist: Tara, simulan na natin ang araw na 'to.
+
+
+Narrator: It was a wonderful day, a bit overwhelming but it was quite full of laughter.
+Narrator: It's an odd feeling that just a few months ago all you knew was silence.
+Narrator: Now you know many sounds, loud boisterous laughter, singing, crying.
+Narrator: You've heard quite a few stories too.
+Narrator: Your life that was so gray before feels brighter now.
+Protagonist: Thank you po talaga, tito.
+Rival: Hey, protag! Pumunta ka na dito, magsisimula nang kumanta si Milo!
+Protagonist: Ugh..
+Protagonist: Alright, alright..
+Nimfa: And I need you now tonight!!!
+MILO: And I need you more than everrrrrrr
+Protagonist: ......... Wow he sounds-
+Rival: Angelic.
+Protagonist: ...
+Rival: ...
+Protagonist: hehehe
+Rival: hahahah
+
+Narrator: It was a good night.
+===
+
+title: PadreGarcia_Medium_Before
+---
+
+<<setBackground SpriteBehaviour PadreGarcia>>
+<<showCharacter SpriteBehaviour Rival at 400 -100>>
+<<showCharacter SpriteBehaviour Protag at 400 -100>>
+<<showCharacter SpriteBehaviour Nimfa at 400 -100>>
+Rival: Yes... Yes, call me your Lomi Oppa.  
+Narrator: You decide to not look at what they are doing.
+Protagonist: Hmmm. Siguro kailangan ko na libutin ang local market ngayon...
+Narrator: You walk through the lively market of Padre Garcia, where voices mix with the scent of fresh produce and sizzling meat.  
+Protagonist: Hello, magtatanong lang po sana kung saan po nabibili ang—
+Nimfa: Oh my gash! Ikaw pala ’yan! Naghahanap ka ba ng ingredients mo ngayon?
+Protagonist: Oo eh, magtatanong nga sana dapat ako—
+Nimfa: Makakatulong ako d’yan! Pagkatapos ko talagang kumain sa lomihan mo kagabi, parang gusto ko na talagang tumulong sa ’yo. Ibigay mo sa ’kin listahan ng mga bibilhin mo, ako na ang bahala!
+STRANGER 1: HAHAHAHA, Nimfa... Wag mo naman takutin ang baguhan dito sa lugar natin.
+STRANGER 2: Siguraduhin mo laang na ibibigay mo ’yan sa akin, ha?
+Nimfa: Oo, I got you! Kaya tara, protag. Marami akong magagandang alam na pwede mong mabilhan.
+Narrator: —Timeskip—
+STRANGER 2: Sa susunod uli, my future suki!
+Nimfa: Okay, eto na ang huling spot dito. Maganda ang karne nila dito!
+Narrator: You feel overwhelmed by the sheer number of people greeting you. Despite how tired Nimfa looked awhile ago, she looks revitalized now—chatting, laughing, and waving at every vendor.  
+MILO: Hehehe, ang galing mo naman mambola, Nimfa.
+Protagonist: Oo, kakaayos ko lang dito, mga ilang araw pa lang.
+MILO: Welcome sa shop ko! Dahil sa mga sangkap na ’yan, paniguradong mauuwi ka bilang isa sa mga kilalang-kilala dito sa lugar na ito.  
+MILO: Wahhh, ang sarap talaga sa pakiramdam ng may bagong kasama!  
+MILO: Okay, teka kukunin ko lang mga ingredients mo ngayon.
+Nimfa: Yan lang naman ’yon, diba?
+Protagonist: Oo, yan lang. Maraming salamat talaga sa tulong mo.
+Nimfa: Wag ka na magpasalamat, wala namang masama na tumulong sa kapwa at maging welcome sa lugar namin.  
+Nimfa: Goodluckkk, protag!
+Narrator: A few of your worries fade as you return with fresh ingredients, ready to prepare for another long day in the kitchen.  
+
+Protagonist: Jusko, salamat talaga sa Diyos, nabili ko kaagad ang mga ingredients. Talagang sold out na rin ako...
+Rival: *Sighs...*
+Rival: Protag, pwede mo ba akong pakinggan muna?
+Protagonist: Anong nangyari?
+Rival: Yung mga imported ingredients ko... na-delay lahat. I’m running out of stock...  
+Rival: Mabilis naman maubos lahat ng lomi, pero ngayon... natatakot akong magsara ng ilang araw.
+Protagonist: Sinubukan mo ba na bumili sa palengke?
+Rival: Palengke... Oo, pwede naman siguro...
+Rival: Salamat, protag. Tama ka. Hindi dapat ako pinanghihinaan ng loob, kailangan kong subukan lahat.
+Protagonist: Okay, I appreciate the optimism.
+Rival: Maraming salamat talaga, protag.  
+Rival: Nakikita ko na hindi pa tapos ang laban. You truly make a worthy rival, protag.  
+===

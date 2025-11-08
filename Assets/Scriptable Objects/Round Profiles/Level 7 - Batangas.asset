@@ -12,33 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50479d1849eebbc4bb68e3bc13621d05, type: 3}
   m_Name: Level 7 - Batangas
   m_EditorClassIdentifier: 
-  roundName: Batangas_
+  roundName: Batangas_Easy
   level: 7
   location: 2
   difficulty: 1
-  requiredFame: 0
-  moneyQuota: 0
+  requiredFame: 150
+  moneyQuota: 500
   customerUnlock:
-  - {fileID: 11400000, guid: d2348cb75108a35488630128a4ccb15a, type: 2}
-  recipeUnlock: {fileID: 11400000, guid: 3d37dc0ae4ed5a44ca0baf489a6aad4e, type: 2}
-  beverageUnlock: {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
+  - {fileID: 11400000, guid: 2da4176cec995164ea421a0fac3fede1, type: 2}
+  recipeUnlock: {fileID: 11400000, guid: bc29f1fed63cb91438b1922fc53e00d7, type: 2}
   availableRecipes:
   - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+  - {fileID: 11400000, guid: bc29f1fed63cb91438b1922fc53e00d7, type: 2}
+  - {fileID: 11400000, guid: baf63d7cd45c1bd4fa6bc4eed211545d, type: 2}
+  - {fileID: 11400000, guid: 612b3ffda14dde146b73b6757134fa45, type: 2}
+  availableBeverages:
+  - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+  - {fileID: 11400000, guid: 883bbbb3071ffcc4ab9cf47d09efe994, type: 2}
+  - {fileID: 11400000, guid: 3fc6c0e0a09d37241b9b9653ff08eb0d, type: 2}
+  - {fileID: 11400000, guid: f72ce9708bfe0ba4d9cfa54723d31714, type: 2}
+  - {fileID: 11400000, guid: c8b16658051947e499c3166d4edd7d0a, type: 2}
+  - {fileID: 11400000, guid: 24c6823f85678a040999f890b99b944e, type: 2}
   availableCustomers:
   - {fileID: 11400000, guid: dc084c7fe221e284995fa5990cfcc6d7, type: 2}
   - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
-  - {fileID: 11400000, guid: d2348cb75108a35488630128a4ccb15a, type: 2}
-  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
-  - {fileID: 11400000, guid: 9afea92ef6e361f4d903aafd7d26c4c2, type: 2}
-  entryUnlocks: []
-  companions:
-  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  - {fileID: 11400000, guid: 2da4176cec995164ea421a0fac3fede1, type: 2}
+  - {fileID: 11400000, guid: cec0b50360112234ebb19b3ef09ec3b2, type: 2}
+  entryUnlocks:
+  - {fileID: 11400000, guid: 79f0ca06f19786a4d9712512202f4b75, type: 2}
+  - {fileID: 11400000, guid: 9cd46f04a54a87b46bf55d8fd4e3bd13, type: 2}
   specialCustomerUnlock: {fileID: 11400000, guid: 4c8e7b6a91a7edc409301dde5d0fe334,
     type: 2}
   specialCustomers:
-  - {fileID: 11400000, guid: 4c8e7b6a91a7edc409301dde5d0fe334, type: 2}
-  - {fileID: 11400000, guid: ed1c92bb45639dc44974038a65114ed7, type: 2}
-  - {fileID: 11400000, guid: d5b49b36d5e77b747b7ebb726ae130bc, type: 2}
+  - {fileID: 11400000, guid: 7ded16446f744e84cb3c37b972d80033, type: 2}
+  - {fileID: 11400000, guid: f91077534f366304381093b47237f483, type: 2}
+  - {fileID: 11400000, guid: 7c9f5d6c8dd69554da98e7a0b7a0a56e, type: 2}
   isGroupCountOverriden: 0
   minCustomerGroupCount: 1
   maxCustomerGroupCount: 5

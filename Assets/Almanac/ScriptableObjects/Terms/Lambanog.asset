@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Lambanog
+  m_EditorClassIdentifier: 
+  entryID: LAMBANOG
+  entryName: Lambanog
+  description: "Lambanog is a traditional Filipino coconut spirit that is widely
+    crafted across Southern Tagalog, especially in Quezon, Laguna, and Batangas,
+    where coconut farming thrives. Known for its strong proof and smooth taste, Batangas\u2019
+    lambanog reflects the region\u2019s craftsmanship and festive spirit, remaining
+    a symbol of local pride and tradition.\n"
+  mainImage: {fileID: -345756029, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

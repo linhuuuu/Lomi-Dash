@@ -81,10 +81,10 @@ MonoBehaviour:
   - id: 1
     value: {fileID: 21300000, guid: ef912b8e11f98f8428ba7c4fe29b9e2b, type: 3}
   sink:
-  - id: open
-    value: {fileID: 21300000, guid: f20116563d15611458917b98a5a751c2, type: 3}
   - id: closed
     value: {fileID: 21300000, guid: 632016c7cbf5df84c8c44ceaa49355cc, type: 3}
+  - id: open
+    value: {fileID: 21300000, guid: 3cb615f110960cf4aac0d8506a87cf40, type: 3}
   potSeasoning:
   - id: Salt
     value: {fileID: 21300000, guid: 52455adaac02e364884fe5cf4c243c11, type: 3}

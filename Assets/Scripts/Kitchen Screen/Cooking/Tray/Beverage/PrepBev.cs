@@ -36,19 +36,24 @@ public class PrepBev : DragAndDrop
 
             bevSlot.SwapBevInTray(this, otherBev);
             SwapBevToBev(otherBev);
+
+            revertDefaults();
+            return;
         }
 
         if (hitCollider.tag == "Trash")
         {
-            bevSlot.RemoveBevFromSlot();
+            bevSlot.RemoveBevFromSlot(false);
             Destroy(gameObject);
+
+            revertDefaults();
+            return;
         }
 
         revertDefaults();
         return;
     }
-    
-     //Change Bev Positions and Transforms
+
     private void SwapBevToBev(PrepBev otherBev)
     {
         // Temp <- Bev 1
@@ -72,5 +77,6 @@ public class PrepBev : DragAndDrop
 
         if (Debug.isDebugBuild) Debug.Log("Swapped Bev");
     }
+    
 
 }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class ResultScreenManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Image portrait;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TextMeshProUGUI totalDishes;
+    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI dishesCleared;
     [SerializeField] private TextMeshProUGUI happyCustomers;
     [SerializeField] private TextMeshProUGUI unhappyCustomers;
@@ -26,8 +28,11 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Transform happinessLeaderboardContent;
     [SerializeField] private AnimResults anim;
 
-    
-        [SerializeField] private Button next;
+    [SerializeField] private Button next;
+
+    [SerializeField] private List<string> unlocks;
+    [SerializeField] private GameObject notificationObj;
+
 
     // [SerializeField] private bool isDebug = false;
 
@@ -61,19 +66,25 @@ public class ResultScreenManager : MonoBehaviour
 
         playerData = DataManager.data.playerData;
 
+        portrait.sprite = GameManager.instance.roundProfile.specialCustomerUnlock.portrait;
+
+        for (int i = 0; i < results.starCount; i++)
+        {
+            stars[i].SetActive(true);
+        }
+
         nextDay = playerData.day + 1;
         totalMoney = playerData.money + results.earnedMoney;
         totalHappiness = playerData.happiness + results.earnedHappiness;
         highestLevelCleared = playerData.highestLevelCleared;
-        
+
         if (results.starCount > 0)
             highestLevelCleared = GameManager.instance.roundProfile.level;
 
         GameManager.instance.state = GameManager.gameState.beforeDay;
+        next.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
 
         await InitResultManager();
-            GameManager gameManager = GameObject.FindAnyObjectByType<GameManager>();
-           next.onClick.AddListener(() => gameManager.NextScene("Main Screen"));
     }
 
     public async Task InitResultManager()
@@ -85,26 +96,30 @@ public class ResultScreenManager : MonoBehaviour
                     {"day", nextDay},
                     {"money", totalMoney},
                     {"happiness", totalHappiness},
-                    {"highestLevelCleared", highestLevelCleared}
+                    {"totalMoney", playerData.totalMoney + results.earnedMoney},
+                    {"totalHappiness", playerData.totalHappiness + results.earnedHappiness},
+                    {"totalStagesCleared",  playerData.totalStagesCleared + 1},
+                    {"latestStageCleared", GameManager.instance.roundProfile.roundName},
+                    {"highestLevelCleared", highestLevelCleared},
+                    {"clearStars", new Dictionary<string, int>{ { GameManager.instance.roundProfile.roundName, results.starCount } } },
                 });
 
             await DataManager.data.UploadRoundClearData(GameManager.instance.roundProfile.roundName);
             ReflectChanges();
         }
         else
-
-        if (Debug.isDebugBuild) Debug.Log("No Results Found!");
+            if (Debug.isDebugBuild) Debug.Log("No Results Found!");
 
         await DataManager.data.FetchLeaderBoardData(GameManager.instance.roundProfile.roundName);
         ReflectLeaderBoardChanges();
-
-        // StartCoroutine(anim.StartSequence());
+       StartCoroutine(anim.StartSequence());
     }
 
     public void ReflectChanges()
     {
         dayText.text = $"Day {playerData.day} Summary";
-        totalDishes.text = "0";
+        scoreText.text = results.score.ToString();
+        totalDishes.text = results.totalDishes.ToString();
         dishesCleared.text = results.dishesCleared.ToString();
         happyCustomers.text = results.happyCustomers.ToString();
         unhappyCustomers.text = results.unhappyCustomers.ToString();
@@ -112,7 +127,8 @@ public class ResultScreenManager : MonoBehaviour
         earnedHappiness.text = results.earnedHappiness.ToString();
         TotalHappiness.text = totalHappiness.ToString();
         TotalMoney.text = totalMoney.ToString();
-        ClearTime.text = results.clearTime.ToString();
+        //ore.text = results.score.ToString();
+        ClearTime.text = (Mathf.Round(results.clearTime * 100) / 100).ToString() + "s";
 
         DataManager.data.results = new RoundResults();
     }

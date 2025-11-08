@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: CE_TIYA_XIAO_3
   m_EditorClassIdentifier: 
   id: CE_TIYA_XIAO_3
-  unlockEntryData: []
-  unlockBuffs: []
+  unlockEntryData:
+  - {fileID: 11400000, guid: 9ffcce9ccb6a9db4884c01b12976a738, type: 2}
+  unlockBuffs:
+  - {fileID: 11400000, guid: d2b75bafd88a0a04dbc0de1d9cd7093e, type: 2}

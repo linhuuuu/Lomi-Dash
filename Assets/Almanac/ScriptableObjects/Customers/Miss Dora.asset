@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5610684f24962f478c1f101877876dd, type: 3}
+  m_Name: Miss Dora
+  m_EditorClassIdentifier: 
+  entryID: DORA
+  entryName: Miss Dora
+  description: "A strong advocate in the community, strong willed and believes in
+    the power of the youth more than anyone. \n\nHer students call her ruthless but
+    fair. Her favorites saying is fighting the good fight.\n"
+  mainImage: {fileID: 2085450316, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  starCount: 0
+  characterEvents:
+  - {fileID: 11400000, guid: 74092052b623e724c8f40c5a14a39001, type: 2}
+  - {fileID: 11400000, guid: a6b8fe49386d4774f9003098621c0da7, type: 2}
+  - {fileID: 11400000, guid: 7ea0e5474f1ffc34baf11d46ea5b9ffb, type: 2}
+  customerLocation: Lipa

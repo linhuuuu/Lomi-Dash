@@ -9,7 +9,7 @@ public class RoundProfile : ScriptableObject
 
     [Header("Meta")]
     public string roundName;
-    
+
     public int level;
     public Locations location;
     public int difficulty;
@@ -19,14 +19,12 @@ public class RoundProfile : ScriptableObject
     [Header("StageUnlocks")]
     public List<CustomerData> customerUnlock;
     public Recipe recipeUnlock;
-    public Beverage beverageUnlock;
     public List<Recipe> availableRecipes;
+    public List<Beverage> availableBeverages;
     public List<CustomerData> availableCustomers;
     public List<AlmanacEntryData> entryUnlocks;
 
-
     [Header("SpecialCustomer")]
-    [Max(4)] public List<CustomerData> companions;
     public CustomerData specialCustomerUnlock;
     public List<CustomerData> specialCustomers;
 

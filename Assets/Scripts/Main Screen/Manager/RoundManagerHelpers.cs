@@ -14,7 +14,7 @@ public class RoundManagerHelpers : MonoBehaviour
         if (profile.isGroupCountOverriden)
             return ProceduralRNG.Range(profile.minCustomerGroupCount, profile.maxCustomerGroupCount);
         else
-            return ProceduralRNG.Range(4 + profile.difficulty, 5 + profile.difficulty); //Minimum 4 order, Maximum 6
+            return ProceduralRNG.Range(1 + profile.level, 2 + profile.level); 
     }
     public int GenerateHeadCount(RoundProfile profile)
     {

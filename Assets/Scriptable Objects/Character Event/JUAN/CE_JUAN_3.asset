@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CE_JUAN_3
   m_EditorClassIdentifier: 
   id: CE_JUAN_3
-  unlockEntryData: []
+  unlockEntryData:
+  - {fileID: 11400000, guid: e4eae8b7df41693428aa0e4b3cc35fc5, type: 2}
   unlockBuffs:
   - {fileID: 11400000, guid: d076242b0afbd6a47949874eb2ba9543, type: 2}

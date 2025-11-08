@@ -30,7 +30,7 @@ public class PlayerSaveData
     [FirestoreProperty]
     public float money { get; set; }
 
-     [FirestoreProperty]
+    [FirestoreProperty]
     public float voucher { get; set; }
 
     [FirestoreProperty]
@@ -47,9 +47,6 @@ public class PlayerSaveData
 
     [FirestoreProperty]
     public List<string> unlockedIcons { get; set; } = new List<string>();
-
-    [FirestoreProperty]
-    public int highestLevelCleared { set; get; } 
 
     [FirestoreProperty] public Dictionary<string, int> unlockedKitchenTools { get; set; } = new Dictionary<string, int>();
 
@@ -69,5 +66,22 @@ public class PlayerSaveData
 
     [FirestoreProperty]
     public Dictionary<string, int> clearStars { set; get; } = new();
+
+    //Stats
+    [FirestoreProperty]
+    public float totalMoney { set; get; }
+
+    [FirestoreProperty]
+    public float totalHappiness { set; get; }
+
+    [FirestoreProperty]
+    public int highestLevelCleared { set; get; }
+
+    [FirestoreProperty]
+    public string latestStageCleared { set; get; }
+
+    [FirestoreProperty]
+    public int totalStagesCleared { set; get; }
+    
 
 }

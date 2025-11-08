@@ -13,6 +13,8 @@ public class LeaderBoardItem : MonoBehaviour
         this.rank.text = rank.ToString();
         this.playerName.text = playerName;
         this.score.text = score.ToString();
-        this.icon.sprite = InventoryManager.inv.gameRepo.Icons[icon];
+
+        if (InventoryManager.inv.gameRepo.IconsRepo.Count-1 < icon && InventoryManager.inv.gameRepo.IconsRepo[icon] != null)
+        this.icon.sprite = InventoryManager.inv.gameRepo.IconsRepo[icon];
     }
 }

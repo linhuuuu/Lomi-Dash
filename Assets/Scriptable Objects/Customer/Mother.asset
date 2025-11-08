@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: MOTHER
   customerName: Mother
-  patienceTime: 180
+  patienceTime: 240
   companions: []
   preferredDish: []
   preferredBeverage: []
   characterEvents: []
-  portrait: {fileID: 21300000, guid: fb4790d42013c2e40855e60386b67b56, type: 3}
+  portrait: {fileID: -591830894, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: -1935242444, guid: 50f699a1895f3f24aa21e1995d011522, type: 3}
   sittingSprite: {fileID: 1339766434, guid: 50f699a1895f3f24aa21e1995d011522, type: 3}

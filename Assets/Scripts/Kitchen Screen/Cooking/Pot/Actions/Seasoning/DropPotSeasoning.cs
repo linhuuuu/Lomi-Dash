@@ -27,20 +27,8 @@ public class DropPotSeasoning : DragAndDrop
         {
             if (!hitCollider.TryGetComponent(out CookPot targetPot)) { revertDefaults(); return; }
 
-            if (!targetPot.animPot.isSeasoningActive)
-            {
-                this.gameObject.SetActive(false);
 
-                returnButton.gameObject.SetActive(true);
-                returnButton.SetPot(targetPot.animPot, targetPot.animPot.seasoning);
-
-                shakePotSeasoning = targetPot.animPot.seasoning;
-                shakePotSeasoning.gameObject.SetActive(true);
-                shakePotSeasoning.SetSeasoning(seasoningName);
-
-                targetPot.animPot.isSeasoningActive = true;
-            }
-
+            targetPot.AddSeasoning(seasoningName);
             revertDefaults();
             return;
         }

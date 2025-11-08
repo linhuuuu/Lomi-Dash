@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: SAILOR
   customerName: Marine
-  patienceTime: 180
+  patienceTime: 240
   companions: []
   preferredDish: []
   preferredBeverage: []

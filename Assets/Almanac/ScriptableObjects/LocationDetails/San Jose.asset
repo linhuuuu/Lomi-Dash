@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf22dcf565a10a4a8d19c95e0d021bd, type: 3}
+  m_Name: San Jose
+  m_EditorClassIdentifier: 
+  entryID: SAN JOSE
+  entryName: San Jose
+  description: "The Egg Basket of the Philippines, they weren't kidding about the
+    volume of eggs here... especially coming from such a robust Egg and Poultry Industry.
+    \n\nIt was my first time trying Salted Eggs, or as they're locally called,  Itlog
+    na Pula. Didn't expect it to be this salty... When they told me the other name
+    for it I felt betrayed. Besides that, it looks like they export quite a lot,
+    from black pepper to citrus. This place is bustling with all sorts of animals
+    products and goods.\n"
+  mainImage: {fileID: 21300000, guid: eed75768958b17e468ca271ffd7a7afd, type: 3}
+  lomiImages: []
+  trivia: 

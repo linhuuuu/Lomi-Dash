@@ -35,7 +35,7 @@ public class CameraDragZoomControl : MonoBehaviour
 
     void Update()
     {
-        if (!isCameraDraggingEnabled)
+        if (!isCameraDraggingEnabled || KitchenDrag.Instance.isKitchenFocus)
             return;
         HandleZoom();
         HandlePan();

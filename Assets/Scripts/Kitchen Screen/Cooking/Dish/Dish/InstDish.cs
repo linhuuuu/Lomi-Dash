@@ -26,9 +26,9 @@ public class InstDish : DragAndDrop
             newDish.transform.localEulerAngles = Vector3.zero;
 
             if (!isDishLarge)
-                newDish.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+                newDish.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
             else
-                newDish.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                newDish.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
             newDish.GetComponent<PrepDish>().originalLocalPosition = newDish.transform.localPosition;
             newDish.GetComponent<PrepDish>().isLarge = this.isDishLarge;

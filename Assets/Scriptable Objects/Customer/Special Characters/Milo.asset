@@ -14,11 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: MILO
   customerName: Milo
-  patienceTime: 180
-  companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  patienceTime: 200
+  companions:
+  - {fileID: 11400000, guid: 91d654a6d10a221478ba35efafca351e, type: 2}
+  preferredDish:
+  - {fileID: 11400000, guid: b7123a681ae608b43b387631db0dbc26, type: 2}
+  - {fileID: 11400000, guid: b7123a681ae608b43b387631db0dbc26, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: f72ce9708bfe0ba4d9cfa54723d31714, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: babc4fe6ef0ca2f49b1da1327a00da8c, type: 2}
+  - {fileID: 11400000, guid: 20f5896afa742394fbe28bf289bda95a, type: 2}
+  - {fileID: 11400000, guid: 8edd21520628e88418d31b45054b6959, type: 2}
   portrait: {fileID: -1850459572, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: 1453751261, guid: 8d4c96ad96374364a8a1a830da716c86, type: 3}
   sittingSprite: {fileID: 19088919, guid: 8d4c96ad96374364a8a1a830da716c86, type: 3}

@@ -14,18 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryID: LIPA
   entryName: City of Lipa
-  description: "Known as the Heart of Batangas, also the hometown of the Original
-    Lomii. It\u2019s a bustling city that blends modern life with deep-rooted Batangue\xF1o
-    values with community, hospitality, and pride in tradition. I remember that tito
-    was very proud that our hometown was called the heart of Batangas.. Honestly.
-    It's a lot to live up to. But this is home, a bustling city filled with batangenueno
-    pride, hospitality and tradition. The smell of Kapeng Barako, the neighborhood
-    cafes, the laughter around the old cathedrals. How could I forget? It's a bit
-    sappy but tito was right, culture lives and breathes with us. I want to try to
-    rediscover it all, my childhood memories... the culture my tito taught me and
-    what it is now. But for that, I need to live again right? As who I am, not the
-    shell of who I was trying to be.\n"
-  mainImage: {fileID: 21300000, guid: dcc1c9efda977fb43bbd16a3719029cf, type: 3}
-  lomiImages:
-  - {fileID: 21300000, guid: dcc1c9efda977fb43bbd16a3719029cf, type: 3}
-  trivia: A
+  description: "The hometown of the Original Lomii. It\u2019s a bustling city that
+    blends modern life with deep-rooted Batangue\xF1o values with community, hospitality,
+    and pride in tradition. \n\nI remember that tito was very proud that our hometown
+    was called the Heart of Batangas. Honestly. It's a lot to live up to. But this
+    is home, a bustling city filled with Batangue\xF1o pride, hospitality and tradition.
+    The smell of Kapeng Barako, the neighborhood cafes, the laughter around the old
+    cathedrals. How could I forget? It's a bit sappy but tito was right, culture
+    lives and breathes with us. I want to try to rediscover it all, my childhood
+    memories... the culture my tito taught me and what it is now. \n\nBut for that,
+    I need to try and explore what my community has offered me.\n"
+  mainImage: {fileID: 21300000, guid: 8affc48b6f2af1c48b9dd309597965cd, type: 3}
+  lomiImages: []
+  trivia: 

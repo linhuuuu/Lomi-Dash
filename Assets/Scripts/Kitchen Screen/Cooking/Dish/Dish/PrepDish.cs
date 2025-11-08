@@ -1,6 +1,7 @@
 using PCG;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PrepDish : DragAndDrop
@@ -9,9 +10,10 @@ public class PrepDish : DragAndDrop
     public DishSectionNode dishNode { private set; get; }
     public ToppingGroup toppingGroup { private set; get; }  //The Topping Section
     public ToppingNode currentTopping { private set; get; } //Current Toppings
-    public List<string> ToppingsUnlocked { private set; get; } = new List<string>() { "Kikiam", "Bola-Bola" };
     public Transform toppingSection { set; get; }
     public AnimDish animDish;
+    public bool tutorialToppingFlag { set; get; } = false;
+    public int toppingCount = 0;
 
     //Groups
     public PotGroup potGroup { set; get; }
@@ -31,7 +33,7 @@ public class PrepDish : DragAndDrop
         //Init DishNode
         if (dishNode == null)
             dishNode = new DishSectionNode();
-            
+
         dishNode.isLarge = isLarge;
         currentTopping = new ToppingNode("");
 
@@ -81,6 +83,15 @@ public class PrepDish : DragAndDrop
     {
         if (wokGroup == null || potGroup == null) return;
 
+        if (GameManager.instance.state == GameManager.gameState.tutorial)
+        {
+            toppingCount++;
+            if (toppingCount >= 9 )
+                tutorialToppingFlag = true;
+                
+            return;
+        }
+
         if (type == currentTopping.id)
         {
             currentTopping.count++;
@@ -114,6 +125,7 @@ public class PrepDish : DragAndDrop
             }
         }
     }
+
 
     #region Dropping
     public void OnMouseUp()
@@ -171,7 +183,7 @@ public class PrepDish : DragAndDrop
         if (hitCollider.tag == "Trash")
         {
             if (dishSlot != null)
-                dishSlot.RemoveDishFromSlot();
+                dishSlot.RemoveDishFromSlot(false);
 
             dishPosCollider.enabled = true;
 
@@ -204,7 +216,7 @@ public class PrepDish : DragAndDrop
     {
         if (dishSlot == null) return;
 
-        dishSlot.RemoveDishFromSlot();
+        dishSlot.RemoveDishFromSlot(false);
         DishToDishPos(this);
 
         foreach (Collider top in toppingSection.GetComponentsInChildren<Collider>())

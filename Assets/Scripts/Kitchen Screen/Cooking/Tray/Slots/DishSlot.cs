@@ -22,10 +22,10 @@ public class DishSlot : MonoBehaviour
     {
 
         if (myDish != null)         //If slot is already contained, remove current dish from that.
-            RemoveDishFromSlot();
+            RemoveDishFromSlot(false);
 
         if (incomingDish.dishSlot != null)
-            incomingDish.dishSlot.RemoveDishFromSlot();
+            incomingDish.dishSlot.RemoveDishFromSlot(false);
 
         //Store Dish and DishSlot References
         myDish = incomingDish;
@@ -50,14 +50,30 @@ public class DishSlot : MonoBehaviour
         slotCollider.enabled = false;
     }
 
-    public void RemoveDishFromSlot()
+    public void RemoveDishFromSlot(bool isDishDestroy)
     {
         if (myDish == null) return;
 
         tray.RemoveDish(myDish.dishNode, dishSlotIndex);
         slotCollider.enabled = true;
-        myDish = null;
-        Debug.Log("Run");
+
+        if (isDishDestroy)
+        {
+            Destroy(myDish.gameObject);
+            myDish = null;
+            if (Debug.isDebugBuild) Debug.Log("Destoryed Dish");
+        }
+        else
+        {
+            myDish = null;
+             if (Debug.isDebugBuild) Debug.Log("Removed Dish from Slot");
+        }
+       
+    }
+
+    public void DestroyDish()
+    {
+        RemoveDishFromSlot(true);
     }
 
     public void SwapDishesInTray(PrepDish dish1, PrepDish dish2)

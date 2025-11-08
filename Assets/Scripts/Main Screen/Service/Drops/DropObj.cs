@@ -35,13 +35,13 @@ public class DropObj : MonoBehaviour
 
         //Init Labels
         if (dropData.type == DropType.Currency)
-            dropData.promptLabel = $"+{dropData.floatVal} {dropData.dropName}";
+            promptLabel.text = $"+{dropData.floatVal} {dropData.dropName}";
         if (dropData.type == DropType.Topping)
-            dropData.promptLabel = $"+{dropData.intVal} {dropData.id}!";
+            promptLabel.text = $"+{dropData.intVal} {dropData.id}!";
         if (dropData.type == DropType.CE)
         {
             string label = dropData.id.Replace("_", ": ");
-            dropData.promptLabel = $"New Character Event: {label}";
+            promptLabel.text = $"New Character Event: {label}";
         }
     }
 

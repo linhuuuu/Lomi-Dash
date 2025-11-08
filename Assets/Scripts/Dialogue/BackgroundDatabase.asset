@@ -14,4 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgs:
   - name: Lipa
-    image: {fileID: 21300000, guid: dcc1c9efda977fb43bbd16a3719029cf, type: 3}
+    image: {fileID: 21300000, guid: 8affc48b6f2af1c48b9dd309597965cd, type: 3}
+  - name: Padre_Garcia
+    image: {fileID: 21300000, guid: 1e8cc7562e5d17f4092d7ab6ebcacaea, type: 3}
+  - name: Rosario
+    image: {fileID: 21300000, guid: 45610b51b57c4e345aedee25a143ef0b, type: 3}
+  - name: Batangas
+    image: {fileID: 21300000, guid: 8d9349d0972c4b042a1ad75628173c69, type: 3}
+  - name: San_Juan
+    image: {fileID: 21300000, guid: eed75768958b17e468ca271ffd7a7afd, type: 3}

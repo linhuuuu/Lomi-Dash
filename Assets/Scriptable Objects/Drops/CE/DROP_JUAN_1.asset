@@ -15,8 +15,8 @@ MonoBehaviour:
   type: 2
   id: CE_JUAN_1
   dropName: 
-  promptLabel: 
-  sprite: {fileID: 21300000, guid: 3c14930dc89ecb243a92fc9911578475, type: 3}
+  promptLabel: 'New Character Event: CE: JUAN: 1'
+  sprite: {fileID: -115101100, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   intVal: 0
   floatVal: 0
   ceVal: {fileID: 11400000, guid: f96257fdbbd6c6a44821926fc465c9da, type: 2}

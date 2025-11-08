@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf22dcf565a10a4a8d19c95e0d021bd, type: 3}
+  m_Name: Rosario
+  m_EditorClassIdentifier: 
+  entryID: ROSARIO
+  entryName: Rosario
+  description: "The Rice Granary of the Philippines. Like its name, the municipality
+    is known for its strong agricultural roots and of course- its vast rice fields.
+    I visited the rice fields in Rosario today, it honestly made me very excited
+    for Rosario's main event: the Sinukmani Festival. This might very well be my
+    first fiesta. I've heard so many good things about the rice cake... I hope I
+    can have lots. \n\nThe people here... they're so interesting. I never thought
+    I would be able to meet so many interesting people, let alone have them welcome
+    me this way. I wanna thank them. But I guess the biggest thank you would be a
+    happy stomach right? I'll have the chance to join the festivities when the time
+    comes, for now... I want to make people happy.\n"
+  mainImage: {fileID: 21300000, guid: 45610b51b57c4e345aedee25a143ef0b, type: 3}
+  lomiImages: []
+  trivia: 

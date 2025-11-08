@@ -15,10 +15,10 @@ MonoBehaviour:
   id: PETALS
   buffName: Petals
   price: 0
-  effect: 
+  effect: Adds +20 Happiness to the Total Happiness earned.
   sprite: {fileID: -1695356867, guid: 88c5a33a296a7a847a591bf39b7fbe99, type: 3}
   buffs:
   - type: 1
     factor: 0
     subtrahend: 0
-    addend: 0
+    addend: 20

@@ -59,8 +59,11 @@ public class DataManager : MonoBehaviour
         //Sets Default PlayerData
         playerData = new PlayerSaveData
         {
+            playerName = "Chef",
+            icon = 0,
+voucher = 20,
             day = 1,
-            money = 100,
+            money = 0,
             happiness = 0,
             unlockedBeverageIds = new List<string>() { "WATER" },
             unlockedRecipeIds = new List<string>() { "BATANGAS" },
@@ -69,23 +72,25 @@ public class DataManager : MonoBehaviour
             dialogueFlags = new Dictionary<string, bool>
                 {
                     { "intro", false },
-
                     { "Lipa_Easy_Before", false },
                     { "Lipa_Easy_After", false },
                     { "Lipa_Med_Before", false },
                     { "Lipa_Med_After", false },
                     { "Lipa_Hard_Before", false },
                     { "Lipa_Hard_After", false },
+                    { "PadreGarcia_Easy_Before", false },
+                    { "PadreGarcia_Easy_After", false },
+                    { "PadreGarcia_Med_Before", false },
+                    { "PadreGarcia_Med_After", false },
+                    { "PadreGarcia_Hard_Before", false },
+                    { "PadreGarcia_Hard_After", false },
+                    { "Batangas_Easy_Before", false },
+                    { "Batangas_Easy_After", false },
+                    { "Batangas_Med_Before", false },
+                    { "Batangas_Med_After", false },
+                    { "Batangas_Hard_Before", false },
+                    { "Batangas_Hard_After", false },
                 },
-            unlockedLocationIds = new List<string>() { "LIPA" },
-            unlockedTermIds = new List<string>() { "LOMI" },
-            unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>()
-            {
-                {"JUAN", new List<bool> {false, false, false}},
-            },
-
-            unlockedAchievementIds = new List<string>() { },
-
             unlockedKitchenTools = new Dictionary<string, int>
                 {
                     { "Pot_1", 1 },
@@ -107,8 +112,12 @@ public class DataManager : MonoBehaviour
                 {"Lipa_Easy", 0},
                 {"Lipa_Med", 0},
                 {"Lipa_Hard", 0},
-//improve this somehow
-
+                {"PadreGarcia_Easy", 0},
+                {"PadreGarcia_Med", 0},
+                {"PadreGarcia_Hard", 0},
+                {"Batangas_Easy", 0},
+                {"Batangas_Med", 0},
+                {"Batangas_Hard", 0},
             },
             accountCreated = System.DateTime.Now,
             highestLevelCleared = 0,    //Start at Level 1
@@ -163,6 +172,12 @@ public class DataManager : MonoBehaviour
 
     void ApplyLoadedData()
     {
+
+        if (playerData.dialogueFlags["intro"] == false)
+            GameManager.instance.state = GameManager.gameState.tutorial;
+        else
+            GameManager.instance.state = GameManager.gameState.beforeDay;
+
         InventoryManager.inv.playerRepo = new();
 
         foreach (string bevId in playerData.unlockedBeverageIds)
@@ -298,45 +313,45 @@ public class DataManager : MonoBehaviour
                 }
             }
 
+            if (key == "vlearStars")
+            {
+                if (playerData.clearStars == null)
+                    playerData.clearStars = new Dictionary<string, int>();
+
+                if (value is Dictionary<string, int> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (playerData.clearStars.ContainsKey(flag))
+                            playerData.clearStars[flag] = flags[flag];
+                        else
+                            playerData.clearStars.Add(flag, flags[flag]);
+                    }
+                }
+            }
+
             if (key == "unlockedSpecialCustomerIds")
             {
-                Debug.Log("[DataManager] Processing unlockedSpecialCustomerIds update...");
-
-                // Ensure target dictionary exists
                 if (playerData.unlockedSpecialCustomerIds == null)
-                {
                     playerData.unlockedSpecialCustomerIds = new Dictionary<string, List<bool>>();
-                    Debug.Log("[DataManager] Initialized unlockedSpecialCustomerIds dictionary.");
-                }
 
-                // ✅ Assume value is already Dictionary<string, List<bool>>
                 if (value is Dictionary<string, List<bool>> flags)
                 {
-                    Debug.Log($"[DataManager] Received {flags.Count} special customer entries.");
-
                     foreach (var kvp in flags)
                     {
                         string npcId = kvp.Key;
                         List<bool> stars = kvp.Value;
-
-                        Debug.Log($"[DataManager] Processing NPC: {npcId} | Stars: [{string.Join(", ", stars)}]");
                         int starCount = stars.FindAll(b => b).Count;
-                        Debug.Log($"[DataManager] Star count: {starCount}");
 
-                        // Update local data
                         if (playerData.unlockedSpecialCustomerIds.ContainsKey(npcId))
                             playerData.unlockedSpecialCustomerIds[npcId] = new List<bool>(stars);
                         else
                             playerData.unlockedSpecialCustomerIds.Add(npcId, new List<bool>(stars));
 
-                        // Sync with inventory
                         SpecialNPCData existingNpc = InventoryManager.inv.playerRepo.SpecialNPCRepo.Find(c => c.entryID == npcId);
 
                         if (existingNpc != null)
-                        {
                             existingNpc.starCount = starCount;
-                            Debug.Log($"[DataManager] Updated existing NPC: {npcId} → {starCount} stars");
-                        }
                         else
                         {
                             SpecialNPCData template = InventoryManager.inv.gameRepo.SpecialNPCRepo.Find(c => c.entryID == npcId);
@@ -345,21 +360,9 @@ public class DataManager : MonoBehaviour
                                 SpecialNPCData newNpc = GameObject.Instantiate(template);
                                 newNpc.starCount = starCount;
                                 InventoryManager.inv.playerRepo.SpecialNPCRepo.Add(newNpc);
-                                Debug.Log($"[DataManager] Added new NPC: {npcId} with {starCount} stars");
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"[DataManager] No template found for NPC ID: {npcId}");
                             }
                         }
                     }
-                }
-                else
-                {
-                    // Emergency log: see what type actually came through
-                    Debug.LogError($"[DataManager] Expected Dictionary<string, List<bool>>, but got: {value?.GetType()}");
-                    if (value != null)
-                        Debug.Log($"[DataManager] Value content: {JsonUtility.ToJson(value)}"); // May fail, but try
                 }
             }
 
@@ -462,7 +465,26 @@ public class DataManager : MonoBehaviour
                     {
                         playerData.unlockedCustomerIds.Add(cus);
                         CustomerData customerData = InventoryManager.inv.gameRepo.CustomerRepo.Find(c => c.id == cus);
-                        InventoryManager.inv.playerRepo.CustomerRepo.Add(customerData);
+
+                        if (!customerData)
+                            InventoryManager.inv.playerRepo.CustomerRepo.Add(customerData);
+                    }
+                }
+            }
+
+            if (key == "unlockedBuffs")
+            {
+                if (playerData.unlockedBuffs == null)
+                    playerData.unlockedBuffs = new Dictionary<string, int>();
+
+                if (value is Dictionary<string, int> flags)
+                {
+                    foreach (var flag in flags.Keys)
+                    {
+                        if (playerData.unlockedBuffs.ContainsKey(flag))
+                            playerData.unlockedBuffs[flag] = flags[flag];
+                        else
+                            playerData.unlockedBuffs.Add(flag, flags[flag]);
                     }
                 }
             }
@@ -489,6 +511,13 @@ public class DataManager : MonoBehaviour
             if (key == "voucher" && value is float voucher) playerData.voucher = voucher;
             if (key == "happiness" && value is float happiness) playerData.happiness = happiness;
             if (key == "lastLogin" && value is System.DateTime lastLogin) playerData.lastLogin = lastLogin;
+            if (key == "totalMoney" && value is float totalMoney) playerData.totalMoney = totalMoney;
+            if (key == "totalHappiness" && value is float totalHappiness) playerData.totalHappiness = totalHappiness;
+            if (key == "highestLevelCleared" && value is int highestLevelCleared) playerData.highestLevelCleared = highestLevelCleared;
+            if (key == "latestStageCleared" && value is string latestStageCleared) playerData.latestStageCleared = latestStageCleared;
+            if (key == "totalStagesCleared" && value is int totalClears) playerData.totalStagesCleared = totalClears;
+
+
 
         }
     }

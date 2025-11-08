@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Batangas Port
+  m_EditorClassIdentifier: 
+  entryID: PORT
+  entryName: Batangas Port
+  description: "The Batangas Port, located in Batangas City, is one of the Philippines\u2019
+    busiest seaports. It serves as a key hub for passengers, vehicles, and cargo,
+    connecting Luzon to nearby islands like Mindoro and the Visayas while supporting
+    both trade and tourism.\n"
+  mainImage: {fileID: 525422203, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

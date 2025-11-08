@@ -9,6 +9,8 @@ using Unity.VisualScripting;
 using System;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine.UI;
+using Firebase.Firestore;
+using System.Net.Http.Headers;
 
 public class RoundManager : MonoBehaviour
 {
@@ -37,14 +39,14 @@ public class RoundManager : MonoBehaviour
 
     [Header("Round Profile")]
     private List<Beverage> beverages = new();
-    private List<Recipe> recipes = new();
+    public List<Recipe> recipes { set; get; } = new();
     private List<CustomerData> customerList = new();
 
     //Unlocks
-    private Beverage unlockBeverage;
     private Recipe unlockRecipe;
     private List<CustomerData> unlockCustomer = new();
     private CustomerData specialCustomer = null;
+    private bool unlockedLargeBowl;
 
 
     private RoundProfile profile;
@@ -60,6 +62,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private GameObject groupContainerPrefab;
     [SerializeField] private GameObject trayObjPrefab;
     [SerializeField] private GameObject dropPrefab;
+    [SerializeField] private ToppingsManager toppingsManager;
 
     //Prompts
     [SerializeField] private GameObject promptPrefab;
@@ -67,9 +70,21 @@ public class RoundManager : MonoBehaviour
     public Transform promptCanvas;
     public Transform orderQueue;
 
+    [SerializeField] private Canvas clearScreen;
+
     //Prompts
     [SerializeField] private GameObject modalPrefab;
     [SerializeField] private GameObject modalCanvas;
+
+    //Try Again
+    [SerializeField] private GameObject tryAgainPrompt;
+    [SerializeField] private Button mainMenu;
+    [SerializeField] private Button tryAgain;
+    // [SerializeField] private Button settingsMenu;
+    // [SerializeField] private Button settingsTryAgain;
+
+    // OpenCanvas
+    [SerializeField] private OpenCanvasButton openCanvas;
 
     //Dialogue
     private List<string> eventsToPlay = new List<string>();
@@ -88,68 +103,31 @@ public class RoundManager : MonoBehaviour
     private float roundElapsedTime = 0f;
     private bool isTimerPaused = false;
     private bool isRoundActive = false;
-    [SerializeField] Button toggleSpeed;
-    private bool speed = true;
-
     public VisualStateLib lib;
     public static RoundManager roundManager;
+
+    //Speed
+    public int speed = 0;
+    [SerializeField] Button toggleSpeed;
 
     void Awake()
     {
         roundManager = this;
-        if (GameManager.instance.state == GameManager.gameState.startDay)
+        if (GameManager.instance.state == GameManager.gameState.startDay || GameManager.instance.state == GameManager.gameState.tutorial)
             this.enabled = true;
         else
             this.enabled = false;
+
+        //Buttons
+        toggleSpeed.onClick.AddListener(IncreaseSpeed);
+        // mainMenu.onClick.AddListener(() => Return(false));
+        // tryAgain.onClick.AddListener(() => Return(true));
+        // settingsMenu.onClick.AddListener(() => Return(false));
+        // settingsTryAgain.onClick.AddListener(() => Return(true));
     }
 
     async void Start()
     {
-        if (speed)
-            Time.timeScale = 10;
-        else
-            Time.timeScale = 1;
-
-        profile = GameManager.instance.roundProfile;
-
-        // Set Available Data
-        beverages = InventoryManager.inv.playerRepo.BeverageRepo;
-        if (!beverages.Exists(c => c == profile.beverageUnlock))
-        {
-            beverages.Add(profile.beverageUnlock);
-            unlockBeverage = profile.beverageUnlock;
-        }
-
-        recipes = new();
-        foreach (Recipe recipe in profile.availableRecipes)
-            if (InventoryManager.inv.playerRepo.RecipeRepo.Exists(c => c.id == recipe.id))
-                recipes.Add(recipe);
-
-        if (!recipes.Exists(c => c == profile.recipeUnlock))
-        {
-            recipes.Add(profile.recipeUnlock);
-            unlockRecipe = profile.recipeUnlock;
-        }
-
-        foreach (CustomerData cus in profile.availableCustomers)
-        {
-            if (InventoryManager.inv.playerRepo.CustomerRepo.Exists(c => c == cus))
-                customerList.Add(cus);
-            else
-                if (Debug.isDebugBuild) Debug.Log("Customer Data Missing. It is possible that customer data is missing from the repository or that the player has not yet unlocked this character.");
-        }
-
-        foreach (CustomerData cus in profile.customerUnlock)
-            unlockCustomer.Add(cus);
-
-        foreach (CustomerData cus in unlockCustomer)
-        {
-            if (customerList.Exists(c => c.id == cus.id))
-                unlockCustomer.Remove(cus);
-            else
-                customerList.Add(cus);
-        }
-
         //Set Spawn Points              
         for (int i = 0; i < 3; i++)
         {
@@ -160,6 +138,56 @@ public class RoundManager : MonoBehaviour
         for (int i = 0; i < customerSpawnPoints.Count; i++)
             customerSpawnPoints[i].index = i;
 
+        //Tutorial Override
+        if (GameManager.instance.state == GameManager.gameState.tutorial)
+            return;
+
+        //RoundProfie Handling
+        profile = GameManager.instance.roundProfile;
+        beverages = InventoryManager.inv.gameRepo.BeverageRepo;
+
+        recipes = new();
+        foreach (Recipe recipe in profile.availableRecipes)
+            if (InventoryManager.inv.playerRepo.RecipeRepo.Exists(c => c.id == recipe.id))
+                recipes.Add(recipe);
+
+        if (profile.recipeUnlock != null && !recipes.Exists(c => c == profile.recipeUnlock))
+        {
+            recipes.Add(profile.recipeUnlock);
+            unlockRecipe = profile.recipeUnlock;
+        }
+
+        unlockedLargeBowl = DataManager.data.playerData.unlockedKitchenTools["DishRack"] == 1 ? false : true;
+
+        //Set Toppings
+        List<Topping> toppings = new();
+        foreach (Recipe rec in recipes)
+        {
+            foreach (var top in rec.toppingList)
+                if (!toppings.Exists(c => c == top.topping))
+                    toppings.Add(top.topping);
+        }
+        toppingsManager.InitToppings(toppings);
+
+        foreach (CustomerData cus in profile.availableCustomers)
+        {
+            if (InventoryManager.inv.playerRepo.CustomerRepo.Exists(c => c == cus))
+                customerList.Add(cus);
+            else
+                if (Debug.isDebugBuild) Debug.Log("Customer Data Missing");
+        }
+
+        foreach (CustomerData cus in profile.customerUnlock)
+            unlockCustomer.Add(cus);
+
+        foreach (CustomerData cus in unlockCustomer.ToList())
+        {
+            if (customerList.Exists(c => c.id == cus.id))
+                unlockCustomer.Remove(cus);
+            else
+                customerList.Add(cus);
+        }
+
         //RNG
         ProceduralRNG.Initialize(profile.level);
         tempRNG = new System.Random((int)System.DateTime.Now.Ticks % int.MaxValue);
@@ -167,6 +195,19 @@ public class RoundManager : MonoBehaviour
         //Init Round
         GenerateOrders();
         await StartRound();
+    }
+
+    void IncreaseSpeed()
+    {
+        speed++;
+        if (speed == 3) speed = 0;
+
+        if (speed == 0)
+            Time.timeScale = 1f;
+        else if (speed == 1)
+            Time.timeScale = 3f;
+        else if (speed == 2)
+            Time.timeScale = 5f;
     }
 
     #region Order Generation
@@ -203,7 +244,7 @@ public class RoundManager : MonoBehaviour
                 var result = OrderGenerator.GenerateTray(
                     difficulty: profile.difficulty,
                     headCount: 1,
-                    largeBowlUnlocked: true,
+                    largeBowlUnlocked: unlockedLargeBowl,
                     bevList: specialCustomer.preferredBeverage,
                     recipeList: specialCustomer.preferredDish
                 );
@@ -221,7 +262,7 @@ public class RoundManager : MonoBehaviour
                 headCount = Mathf.Clamp(headCount, 1, 3);
 
                 var result = OrderGenerator.GenerateTray(
-                    profile.difficulty, headCount, true, beverages, recipes
+                    profile.difficulty, headCount, unlockedLargeBowl, beverages, recipes
                 );
                 orderNode = result.Item1;
                 price = result.Item2;
@@ -275,6 +316,7 @@ public class RoundManager : MonoBehaviour
                 newCustomerProp.InitCustomer(specialCustomerOverride[j]);
             else
                 newCustomerProp.InitCustomer(customerList[ProceduralRNG.Range(0, customerList.Count)]);
+
             customerGroup.customers.Add(newCustomerProp);
         }
 
@@ -488,21 +530,18 @@ public class RoundManager : MonoBehaviour
 
     private async void OnRoundComplete()
     {
-        bool isRoundFailed = money < profile.moneyQuota;
+        StartCoroutine(AnimEndRound.instance.PlayAnim(money < profile.moneyQuota));
 
         //Total Score
         float totalScore = 0;
         foreach (OrderNode dish in finishedOrders)
             totalScore += dish.weight;
-        float averageScore = Mathf.Clamp(totalScore / orders.Count, 0, 1) * 100;
 
-        if (Debug.isDebugBuild) Debug.Log(totalScore);
-        if (Debug.isDebugBuild) Debug.Log(averageScore);
+        float averageScore = Mathf.Clamp(totalScore / orders.Count, 0, 100);
+
         //Star
         int starCollected = 0;
-        if (isRoundFailed)
-            starCollected = 0;
-        else if (averageScore <= 30)
+        if (averageScore <= 30)
             starCollected = 1;
         else if (averageScore > 30 && averageScore <= 60)
             starCollected = 2;
@@ -513,6 +552,7 @@ public class RoundManager : MonoBehaviour
         DataManager.data.results = new RoundResults
         {
             userId = GameManager.instance.uid,
+            score = averageScore,
             totalDishes = this.orders.Count(),
             dishesCleared = this.dishesCleared,
             happyCustomers = this.happyCustomers,
@@ -524,20 +564,6 @@ public class RoundManager : MonoBehaviour
             starCount = starCollected,
         };
 
-        //Round Fail
-        if (isRoundFailed)
-        {
-            GameManager.instance.NextScene("Results Screen");
-            return;
-        }
-
-        //DATA SAVING
-        if (unlockRecipe != null)
-            update.Add("unlockedRecipeIds", new List<string> { unlockRecipe.id });
-
-        if (unlockBeverage != null)
-            update.Add("unlockedBeverageIds", new List<string> { unlockBeverage.id });
-
         if (unlockCustomer != null && unlockCustomer.Count > 0)
         {
             List<string> customerList = new();
@@ -547,7 +573,13 @@ public class RoundManager : MonoBehaviour
             update.Add("unlockedCustomerIds", customerList);
         }
 
-        //DIALOGUE
+        //EntryUnlocks
+        AddEntriesToUpdates(profile.entryUnlocks);
+
+        Dictionary<string, int> newBuffs = BuffsManager.instance.GetUpdatedOwnedBuffs();
+
+        update.Add("unlockedBuffs", newBuffs);
+
         string afterDialogue = $"{GameManager.instance.roundProfile.roundName}_After";
         if (DataManager.data.playerData.dialogueFlags.TryGetValue(afterDialogue, out bool dialogue) && dialogue == false)
         {
@@ -555,12 +587,6 @@ public class RoundManager : MonoBehaviour
             Dictionary<string, object> updatedDialogueFlags = new Dictionary<string, object> { { afterDialogue, true } };
             update.Add("dialogueFlags", updatedDialogueFlags);
         }
-
-        //EntryUnlocks
-        AddEntriesToUpdates(profile.entryUnlocks);
-
-        //DAY END SCENE
-        //StartCoroutine(PlayDayEnd(isFailed, starCount))
 
         //Play Dialogue
         if (eventsToPlay.Count > 0)
@@ -602,7 +628,8 @@ public class RoundManager : MonoBehaviour
 
         //Set References
         customerGroup.spawnPoint = spawn;
-        StartCoroutine(customerGroup.timer.StartTimer());
+        if (GameManager.instance.state != GameManager.gameState.tutorial)
+            StartCoroutine(customerGroup.timer.StartTimer());
 
         AudioManager.instance.PlaySFX(SFX.CUSTOMER_SPAWN);
     }
@@ -708,7 +735,7 @@ public class RoundManager : MonoBehaviour
                 if (moneyBuff.addend > 0)
                     totalMoney += moneyBuff.addend;
                 if (moneyBuff.factor > 0f)
-                    totalMoney += elapsedTime * moneyBuff.factor;
+                    totalMoney += totalMoney * moneyBuff.factor;
                 if (moneyBuff.subtrahend > 0f)
                     totalMoney -= moneyBuff.subtrahend;
             }
@@ -722,7 +749,7 @@ public class RoundManager : MonoBehaviour
                 if (happinessBuff.addend > 0)
                     totalHappiness += happinessBuff.addend;
                 if (happinessBuff.factor > 0f)
-                    totalHappiness += elapsedTime * happinessBuff.factor;
+                    totalHappiness += totalHappiness * happinessBuff.factor;
                 if (happinessBuff.subtrahend > 0f)
                     totalHappiness -= happinessBuff.subtrahend;
             }
@@ -897,6 +924,8 @@ public class RoundManager : MonoBehaviour
         this.money += money;
         this.happiness += happiness;
         OnCurrencyChange?.Invoke(this.money, this.happiness);
+
+        openCanvas.UpdateQuotaText(this.money);
     }
 
     public void AddToDialogueToPlay(string dialogueName) => eventsToPlay.Add(dialogueName);
@@ -949,4 +978,48 @@ public class RoundManager : MonoBehaviour
     }
     #endregion
 
+    #region 
+    public void TutorialSpawn(List<Beverage> beverages, List<Recipe> recipes, CustomerData data)
+    {
+        Order newOrder = new Order();
+
+        //Generate Order
+        var result = OrderGenerator.GenerateTray(
+            1, 1, false, beverages, recipes);
+
+        newOrder.order = result.Item1;
+        newOrder.price = result.Item2;
+
+        //Generate Group and Init Customer
+        GameObject group = Instantiate(groupContainerPrefab, Vector3.zero, Quaternion.identity, customerPoolPoint);
+        group.transform.localRotation = Quaternion.identity;
+        CustomerGroup customerGroup = group.GetComponent<CustomerGroup>();
+        customerGroup.orderID = 0;
+
+        //Init Customer
+        GameObject newCustomer = Instantiate(customerPrefab, group.transform.position, Quaternion.identity, group.transform);
+        newCustomer.transform.localRotation = Quaternion.identity;
+
+        Customer newCustomerProp = newCustomer.GetComponent<Customer>();
+        newCustomerProp.InitCustomer(data);
+        customerGroup.customers.Add(newCustomerProp);
+
+        foreach (Customer customer in customerGroup.customers)
+            customerGroup.timer.totalTime += customer.patience;
+
+        newOrder.customers = customerGroup;
+        orders[0] = newOrder;
+        customersToCall++;
+        finishedOrders = new OrderNode[1];
+
+        // Instantiate UI elements
+        newOrder.customers.InstTray(trayObjPrefab, newOrder);
+        newOrder.customers.InstPrompt(promptPrefab, customerPoolPoint);
+        newOrder.customers.InstQueueOrder(orderQueuePrefab, customerPoolPoint);
+        newOrder.customers.InstModal(modalPrefab, newOrder, modalCanvas);
+
+        // Call Customer
+        CallCustomerGroup(newOrder.customers);
+    }
+    #endregion
 }

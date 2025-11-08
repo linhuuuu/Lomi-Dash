@@ -1,6 +1,7 @@
 using PCG;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -9,13 +10,27 @@ public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Vector3 originalPos;
     [SerializeField] private PrepTray tray;
     [SerializeField] private LayerMask mask;
+    
     [SerializeField] private bool isDebug = false;
+    [SerializeField] private Button perfectTray;
+    [SerializeField] private GameObject checkMark;
 
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+
+        perfectTray.onClick.AddListener(() => ToggleTray());
     }
+
+    void ToggleTray()
+    {
+
+        isDebug = !isDebug;
+         checkMark.gameObject.SetActive(isDebug);
+
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         originalPos = transform.localPosition;

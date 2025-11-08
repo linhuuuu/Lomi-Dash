@@ -35,6 +35,8 @@ public class SpriteBehavior : MonoBehaviour
     [SerializeField] private Color activeColor = Color.white;
     [SerializeField] private Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 1f);
 
+    [SerializeField] private DialogueRunner runner;
+
     //Curent Data
     private string currentSpeaker = null;
     private Dictionary<string, Image> activePortraits = new();
@@ -60,6 +62,18 @@ public class SpriteBehavior : MonoBehaviour
     {
         currentSpeaker = speakerName;
 
+
+        if (currentSpeaker == "Protagonist")
+        {
+            characterName.text = DataManager.data.playerData.playerName;
+        }
+
+        if (currentSpeaker == "Narrator")
+        {
+            characterName.text = "";
+            currentSpeaker = "";
+        }
+
         if (currentSpeaker.Contains("_"))
             characterName.text = currentSpeaker.Replace("_", " ");
 
@@ -80,6 +94,12 @@ public class SpriteBehavior : MonoBehaviour
     #endregion
     #region Command Portrait Control
 
+    [YarnCommand("setPlayerName")]
+    public void SetPlayerName()
+    {
+        runner?.VariableStorage.SetValue("$player", DataManager.data.playerData.playerName);
+    }
+
     [YarnCommand("showCharacter")]
     public void ShowCharacterAt(string characterName, string atKeyword, float x, float y)
     {
@@ -95,7 +115,7 @@ public class SpriteBehavior : MonoBehaviour
             img.sprite = data.defaultSprite;
             img.preserveAspect = true;
             img.SetNativeSize();
-            img.transform.localScale = Vector3.one * sizeMultiplier;
+            img.transform.localScale = Vector3.one * 2;
             img.color = new Color(1, 1, 1, 0);
             img.rectTransform.anchoredPosition = new Vector2(x, y) + new Vector2(moveOffset, 0);
             activePortraits[characterName] = img;
@@ -116,10 +136,12 @@ public class SpriteBehavior : MonoBehaviour
     {
         var data = database.GetCharacter(character);
         activePortraits.TryGetValue(character, out Image img);
-        Sprite newSprite = data.sprites.Find(c => c.id == emotion).sprite;
+        var foundCharacter = data.sprites.Find(c => c.id == emotion);
 
-        if (newSprite != null)
-            img.sprite = newSprite;
+        if (foundCharacter != null)
+        {
+            img.sprite = foundCharacter.sprite;
+        }
     }
 
     [YarnCommand("clearCharacters")]
@@ -306,7 +328,7 @@ public class SpriteBehavior : MonoBehaviour
         if (data != null && data.chibiPortrait != null)
         {
             chibiImage.sprite = data.chibiPortrait;
-            chibiImage.SetNativeSize();
+            // chibiImage.SetNativeSize();
             chibiImage.preserveAspect = true;
             chibiImage.enabled = true;
         }
@@ -328,21 +350,6 @@ public class SpriteBehavior : MonoBehaviour
     {
         chibiImage.enabled = false;
     }
-
-    // [YarnCommand("overrideChibi")]
-    // public void OverrideChibi(string characterName)
-    // {
-    //     var data = database.GetCharacter(characterName);
-    //     if (data != null && data.chibiPortrait != null)
-    //     {
-    //         chibiImage.sprite = data.chibiPortrait;
-    //         chibiImage.SetNativeSize();
-    //         chibiImage.preserveAspect = true;
-    //         chibiImage.enabled = true;
-    //     }
-    //     else
-    //         chibiImage.enabled = false;
-    // }
 
     #endregion
     #region Background
@@ -372,7 +379,7 @@ public class SpriteBehavior : MonoBehaviour
         else
         {
             backgroundImage.enabled = false;
-           
+
         }
     }
 

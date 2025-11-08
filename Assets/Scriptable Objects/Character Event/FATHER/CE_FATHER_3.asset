@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c8faf6908e9224c87e5a09d279279f, type: 3}
   m_Name: CE_FATHER_3
   m_EditorClassIdentifier: 
-  id: 'CE_FATHER_1 '
+  id: CE_FATHER_3
   unlockEntryData:
-  - {fileID: 11400000, guid: e4eae8b7df41693428aa0e4b3cc35fc5, type: 2}
-  unlockBuffs: []
+  - {fileID: 11400000, guid: 8fe7d5cb7b0b2b74cb96f00e2dcc4740, type: 2}
+  unlockBuffs:
+  - {fileID: 11400000, guid: 62ac013c3651fc24198006d688744dc0, type: 2}

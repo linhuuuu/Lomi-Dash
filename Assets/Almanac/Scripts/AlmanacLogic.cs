@@ -58,6 +58,9 @@ public class AlmanacLogic : MonoBehaviour
 
     [SerializeField] private Button backButton;
 
+    [Header("Completion")]
+[SerializeField] private TextMeshProUGUI completionText; // Assign in Inspector
+
     private List<LocationData> allLocations;
     private List<TermData> allTerms;
     private List<SpecialNPCData> allCustomers;
@@ -102,43 +105,103 @@ public class AlmanacLogic : MonoBehaviour
     }
 
 
+
+private void UpdateCompletionText()
+{
+    int total = 0, unlocked = 0;
+
+    // Location
+    var gameLocs = InventoryManager.inv.gameRepo.LocationRepo;
+    var playerLocs = InventoryManager.inv.playerRepo.LocationRepo;
+    if (gameLocs != null)
+    {
+        total += gameLocs.Count;
+        unlocked += playerLocs?.Count ?? 0;
+    }
+
+    // Term
+    var gameTerms = InventoryManager.inv.gameRepo.TermRepo;
+    var playerTerms = InventoryManager.inv.playerRepo.TermRepo;
+    if (gameTerms != null)
+    {
+        total += gameTerms.Count;
+        unlocked += playerTerms?.Count ?? 0;
+    }
+
+    // Customer
+    var gameCustomers = InventoryManager.inv.gameRepo.SpecialNPCRepo;
+    var playerCustomers = InventoryManager.inv.playerRepo.SpecialNPCRepo;
+    if (gameCustomers != null)
+    {
+        total += gameCustomers.Count;
+        unlocked += playerCustomers?.Count ?? 0;
+    }
+
+    // Achievement
+    var gameAchs = InventoryManager.inv.gameRepo.AchievementRepo;
+    var playerAchs = InventoryManager.inv.playerRepo.AchievementRepo;
+    if (gameAchs != null)
+    {
+        total += gameAchs.Count;
+        unlocked += playerAchs?.Count ?? 0;
+    }
+
+    float percent = total > 0 ? (unlocked / (float)total) * 100f : 0f;
+
+    if (completionText != null)
+        completionText.text = $"Progress: {percent:0}%";
+}
     // ============================================================
     // CATEGORY HANDLER
     // ============================================================
 
     private void ShowCategory(string category)
+{
+    ClearEntryList();
+    HideAllPanels();
+
+    switch (category)
     {
-        ClearEntryList();
-        HideAllPanels();
+        case "Location":
+            PopulateEntryList(allLocations);
+            locationPanel.SetActive(true);
+            if (allLocations.Count > 0) ShowEntryDetail(allLocations[0]);
+            break;
 
-        switch (category)
-        {
-            case "Location":
-                PopulateEntryList(allLocations);
-                locationPanel.SetActive(true);
-                if (allLocations.Count > 0) ShowEntryDetail(allLocations[0]);
-                break;
+        case "Term":
+            PopulateEntryList(allTerms);
+            termPanel.SetActive(true);
+            if (allTerms.Count > 0) ShowEntryDetail(allTerms[0]);
+            break;
 
-            case "Term":
-                PopulateEntryList(allTerms);
-                termPanel.SetActive(true);
-                if (allTerms.Count > 0) ShowEntryDetail(allTerms[0]);
-                break;
+        case "Customer":
+            PopulateEntryList(allCustomers);
+            customerPanel.SetActive(true);
+            if (allCustomers.Count > 0) ShowEntryDetail(allCustomers[0]);
+            break;
 
-            case "Customer":
-                PopulateEntryList(allCustomers);
-                customerPanel.SetActive(true);
-                if (allCustomers.Count > 0) ShowEntryDetail(allCustomers[0]);
-                break;
-
-            case "Achievement":
-                PopulateEntryList(allAchs);
-                achievementPanel.SetActive(true);
-                if (allAchs.Count > 0) ShowEntryDetail(allAchs[0]);
-                break;
-        }
+        case "Achievement":
+            PopulateEntryList(allAchs);
+            achievementPanel.SetActive(true);
+            if (allAchs.Count > 0) ShowEntryDetail(allAchs[0]);
+            break;
     }
 
+    // 👇 Always update completion when switching tabs
+    UpdateCompletionText();
+
+    // Force layout rebuilds
+    LayoutRebuilder.ForceRebuildLayoutImmediate(GetCurrentActivePanel());
+}
+
+private RectTransform GetCurrentActivePanel()
+{
+    if (locationPanel.activeSelf) return locationPanel.GetComponent<RectTransform>();
+    if (termPanel.activeSelf) return termPanel.GetComponent<RectTransform>();
+    if (customerPanel.activeSelf) return customerPanel.GetComponent<RectTransform>();
+    if (achievementPanel.activeSelf) return achievementPanel.GetComponent<RectTransform>();
+    return null;
+}
 
     // ============================================================
     // ENTRY LIST MANAGEMENT
@@ -179,6 +242,8 @@ public class AlmanacLogic : MonoBehaviour
                 var newImg = Instantiate(locationLomiPrefab, locationLomiParent);
                 newImg.GetComponent<Image>().sprite = img;
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(locationDescription.transform.parent.GetComponent<RectTransform>());
         }
 
         else if (data is TermData term)
@@ -186,6 +251,8 @@ public class AlmanacLogic : MonoBehaviour
             termImage.sprite = term.mainImage;
             termName.text = term.entryName;
             termDescription.text = term.description;
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(termPanel.GetComponent<RectTransform>());
         }
 
         else if (data is SpecialNPCData cust)
@@ -200,9 +267,20 @@ public class AlmanacLogic : MonoBehaviour
 
             for (int i = 0; i < cust.starCount; i++)
             {
+                string CEToPlay = $"CE_{cust.entryID}_{i + 1}";
+
+                if (!DialogueManager.dialogueManager.dia.NodeExists(CEToPlay))
+                    continue;
+
                 var newStar = Instantiate(customerStarPrefab, customerStarsParent);
+                if (newStar.TryGetComponent(out Button btn))
+                {
+                    btn.onClick.AddListener(() => ReplayDialogue(CEToPlay));
+                }
                 newStar.SetActive(true);
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(customerPanel.GetComponent<RectTransform>());
         }
 
         else if (data is AchievementData ach)
@@ -219,9 +297,17 @@ public class AlmanacLogic : MonoBehaviour
 
             if (achievementUnlockedIndicator != null)
                 achievementUnlockedIndicator.SetActive(ach.unlockedByDefault);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(achievementPanel.GetComponent<RectTransform>());
         }
+
+
     }
 
+    private async void ReplayDialogue(string toPlay)
+    {
+        //Show Prompt
+        await DialogueManager.dialogueManager.PlayDialogue(toPlay);
+    }
 
     // ============================================================
     // ACHIEVEMENT CLAIM

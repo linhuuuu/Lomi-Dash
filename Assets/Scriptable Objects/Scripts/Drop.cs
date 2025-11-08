@@ -23,4 +23,5 @@ public class Drop : ScriptableObject
     public int intVal;
     public float floatVal;
     public CharacterEvent ceVal;
+    public int iconVal;
 }

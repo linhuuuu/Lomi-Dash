@@ -107,10 +107,23 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e5884e861658abe4482bb7048d2b478f, type: 2}
     - {fileID: 11400000, guid: 6ce9c1f33cf2ee84cb9c1343be7203a4, type: 2}
     - {fileID: 11400000, guid: 9c03ad4d23ba81c4eaac2448f0b16282, type: 2}
-    Icons:
-    - {fileID: 21300000, guid: 81967a6c7cd760246bd825dff6c1b786, type: 3}
-    - {fileID: 21300000, guid: 1442da97c2eafa24285d72c5e1d991c4, type: 3}
-    - {fileID: 21300000, guid: c7e567822e74855489eced37a11c4728, type: 3}
+    - {fileID: 11400000, guid: c03c0fd9234ed6646beaab055789fb14, type: 2}
+    - {fileID: 11400000, guid: c4dbd186057217e4ea5c63a344b8e514, type: 2}
+    - {fileID: 11400000, guid: ce649993507c00f4f891bb92e64fb508, type: 2}
+    - {fileID: 11400000, guid: d6cc202fd403acd4eb2f9857853d0e4c, type: 2}
+    - {fileID: 11400000, guid: f811ddf5a30630a428ae4a83ec041e0d, type: 2}
+    - {fileID: 11400000, guid: 5407548a0e6cb2e4c974b5ba03a85461, type: 2}
+    IconsRepo:
+    - {fileID: 1276710782, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+    - {fileID: -942858213, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
     BuffsRepo:
     - {fileID: 11400000, guid: c0f8f44f0ff827e42820a496a37fd5f1, type: 2}
     - {fileID: 11400000, guid: bf226df40e72ec14da4826d09b67f1da, type: 2}
@@ -129,7 +142,7 @@ MonoBehaviour:
     roundProfiles:
     - {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa, type: 2}
     - {fileID: 11400000, guid: a9a1972313ad369469c0b04cfa8f9995, type: 2}
-    - {fileID: 11400000, guid: 6c43b8ccf078fad47a5db0bef07fb926, type: 2}
+    - {fileID: 11400000, guid: c69e65ba9dd59c243852e3b5c4a965e6, type: 2}
     - {fileID: 11400000, guid: ed96dc96781352f448c83b38328f333a, type: 2}
     - {fileID: 11400000, guid: f123c9437d5b63e4abeb700f6cabe813, type: 2}
     - {fileID: 11400000, guid: 68c725e2aa609f94da517dc187617741, type: 2}
@@ -144,14 +157,30 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 00dab12cb7ae38f47b8de861af1931db, type: 2}
     LocationRepo:
     - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
-    - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
-    - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
-    - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
-    - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
+    - {fileID: 11400000, guid: 391bf57cc0f1d374ead8e73349209aa1, type: 2}
+    - {fileID: 11400000, guid: b4ed463ffbdf6bb49a47002aa6cf2f9d, type: 2}
+    - {fileID: 11400000, guid: 9cd46f04a54a87b46bf55d8fd4e3bd13, type: 2}
+    - {fileID: 11400000, guid: b4ed463ffbdf6bb49a47002aa6cf2f9d, type: 2}
     TermRepo:
     - {fileID: 11400000, guid: 7a338cb56c0a39f47bb8b9c9a494d6a4, type: 2}
-    - {fileID: 11400000, guid: 789d8e8cf215f0747840b552d8180418, type: 2}
     - {fileID: 11400000, guid: e4eae8b7df41693428aa0e4b3cc35fc5, type: 2}
+    - {fileID: 11400000, guid: efa83a9647286f14686d1dea43efbf72, type: 2}
+    - {fileID: 11400000, guid: 1819a98a30c5f394daf1b6b675f3e703, type: 2}
+    - {fileID: 11400000, guid: 7d9020d9ac9df51448175ea578f44d8c, type: 2}
+    - {fileID: 11400000, guid: e477afda0c255414d9bf417538b7976b, type: 2}
+    - {fileID: 11400000, guid: 2bdbbeaf9aa124f4a9e10fb338643b81, type: 2}
+    - {fileID: 11400000, guid: 79f0ca06f19786a4d9712512202f4b75, type: 2}
+    - {fileID: 11400000, guid: ec3fae0c64bd1f945b22aae26ad6a067, type: 2}
+    - {fileID: 11400000, guid: a42baf89bc81bec4fb09a69a8a80f9b6, type: 2}
+    - {fileID: 11400000, guid: 789d8e8cf215f0747840b552d8180418, type: 2}
+    - {fileID: 11400000, guid: 8fe7d5cb7b0b2b74cb96f00e2dcc4740, type: 2}
+    - {fileID: 11400000, guid: 9ffcce9ccb6a9db4884c01b12976a738, type: 2}
+    - {fileID: 11400000, guid: 6dfef10d8a25922488cff0dd0d114139, type: 2}
+    - {fileID: 11400000, guid: 4b37102c5fb38a54697faf8a23a14a75, type: 2}
+    - {fileID: 11400000, guid: 5aba982edda53b14b8b5adc709e94bc8, type: 2}
+    - {fileID: 11400000, guid: f168079d56223f441878abe8030dfe97, type: 2}
+    - {fileID: 11400000, guid: 1b24255d0a1816a4797a38f94073529d, type: 2}
+    - {fileID: 11400000, guid: 5e7fffe8f2af5474f96391a217e4af23, type: 2}
     SpecialNPCRepo:
     - {fileID: 11400000, guid: 8674b83095ba69f4db99fcb99749389b, type: 2}
     - {fileID: 11400000, guid: ee21ab3692063b24e8c4e38749c2040e, type: 2}
@@ -171,7 +200,7 @@ MonoBehaviour:
     CustomerRepo: []
     ToppingRepo: []
     DropsRepo: []
-    Icons: []
+    IconsRepo: []
     BuffsRepo: []
     roundProfiles: []
     LocationRepo: []

@@ -1,9 +1,0 @@
-﻿title: Lipa_Med_Before
----
-Protag: This is Lipa_Med_Before Node
--> I'm Capsule, but my friends call me "Tic Tac". No idea why...
-    <<set $player_name to "Tic Tac">>
--> The name's Triquandle.
-    <<set $player_name to "Triquandle">>
--> Pyramid. Why - who wants to know?
-===

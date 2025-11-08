@@ -5,6 +5,7 @@ using UnityEngine;
 public class ToppingsManager : MonoBehaviour
 {
     [SerializeField] private List<InstToppings> toppings;
+    [SerializeField] private List<Topping> tutorialToppings;
     private List<Topping> availableToppings = new();
 
     private int toppingCounter = 0;
@@ -24,14 +25,16 @@ public class ToppingsManager : MonoBehaviour
             availableToppings.Add(InventoryManager.inv.gameRepo.ToppingRepo.Find(c => c.id == "KIKIAM"));
         }
 
-        // if (GameManager.instance.state == GameManager.gameState.beforeDay)
-            InitToppings();
+        if (GameManager.instance.state == GameManager.gameState.beforeDay)
+            InitToppings(availableToppings);
+        else if (GameManager.instance.state == GameManager.gameState.tutorial)
+            InitToppings(tutorialToppings);
     }
 
-    public void InitToppings()
+    public void InitToppings(List<Topping> toppingList)
     {
-        if (availableToppings == null) return;
-        foreach (Topping toppingData in availableToppings)
+        if (toppingList == null) return;
+        foreach (Topping toppingData in toppingList)
         {
             toppings[toppingCounter].topping = toppingData;
             toppings[toppingCounter].InitTopping();

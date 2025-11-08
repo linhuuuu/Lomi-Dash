@@ -14,7 +14,6 @@ public class InstSeasoningTray : DragAndDrop
 
         if (hitCollider.tag == "Seasoning Tray Slot" || hitCollider.tag == "Tray" || hitCollider.tag == "Seasoning Tray Clone")
         {
-            Debug.Log("a");
             seasoningSlot.AddToStack();
             revertDefaults();
             return;

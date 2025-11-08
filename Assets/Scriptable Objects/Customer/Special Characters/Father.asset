@@ -14,11 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: FATHER
   customerName: Father
-  patienceTime: 180
-  companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  patienceTime: 240
+  companions:
+  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  - {fileID: 11400000, guid: 2690106d41ba9c547b2cff457a3a42a3, type: 2}
+  preferredDish:
+  - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+  - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+  - {fileID: 11400000, guid: 62e7ac4ea0dff7c4a8e4d173735c1991, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+  - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+  - {fileID: 11400000, guid: 90e729c0fa9034b42aff4d33759151c0, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: 936978783032178449cc6152195465ca, type: 2}
+  - {fileID: 11400000, guid: b4ba6b3c2113094438b8b93b93d76121, type: 2}
+  - {fileID: 11400000, guid: 24ec60e04d64c414bafe463b35abbc54, type: 2}
   portrait: {fileID: 345752938, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: -806617662, guid: 78c72d39964e4784e9ae01565d6f05c3, type: 3}
   sittingSprite: {fileID: -1418793729, guid: 78c72d39964e4784e9ae01565d6f05c3, type: 3}

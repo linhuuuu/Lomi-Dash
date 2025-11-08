@@ -14,11 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: MISS_DORA
   customerName: Miss Dora
-  patienceTime: 180
-  companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  patienceTime: 250
+  companions:
+  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+  - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
+  preferredDish:
+  - {fileID: 11400000, guid: 27cf101aa944fcd47840a53af7538d86, type: 2}
+  - {fileID: 11400000, guid: 1675dbde9c5ebe545a3c3a29d07fa62b, type: 2}
+  - {fileID: 11400000, guid: 1675dbde9c5ebe545a3c3a29d07fa62b, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: 24c6823f85678a040999f890b99b944e, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: 74092052b623e724c8f40c5a14a39001, type: 2}
+  - {fileID: 11400000, guid: a6b8fe49386d4774f9003098621c0da7, type: 2}
+  - {fileID: 11400000, guid: 7ea0e5474f1ffc34baf11d46ea5b9ffb, type: 2}
   portrait: {fileID: 2085450316, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: 1661283320, guid: 88f5d6dd50ab6f54eb7f9f8ebe2508a9, type: 3}
   sittingSprite: {fileID: -494032579, guid: 88f5d6dd50ab6f54eb7f9f8ebe2508a9, type: 3}

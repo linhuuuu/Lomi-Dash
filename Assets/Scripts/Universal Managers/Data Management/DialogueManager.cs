@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Yarn;
 using Yarn.Unity;
 
 public class DialogueManager : MonoBehaviour
@@ -10,19 +11,22 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueRunner dialogue;
     [SerializeField] private GameObject dialogueObj;
     [SerializeField] private bool isDebug;
+    public Dialogue dia;
 
     public static DialogueManager dialogueManager;
-    
+
 
     void Awake()
     {
         if (dialogueManager == null)
+        {
             dialogueManager = this;
-    
+        }
         if (isDebug == false)
             dialogueObj.SetActive(false);
-    }
 
+        dia = dialogue.Dialogue;
+    }
 
     public async Task PlayDialogue(string dialogueName)
     {

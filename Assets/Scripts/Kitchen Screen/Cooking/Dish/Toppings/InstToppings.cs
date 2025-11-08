@@ -13,6 +13,7 @@ public class InstToppings : DragAndDrop
     public void InitTopping()
     {
         parent.GetComponent<SpriteRenderer>().sprite = topping.containerSprite;
+        transform.localPosition = Vector3.zero;
         objPrefab.GetComponent<SpriteRenderer>().sprite = topping.sprite;
         this.GetComponent<SpriteRenderer>().sprite = topping.sprite;
         InstPool();
@@ -56,6 +57,7 @@ public class InstToppings : DragAndDrop
         Vector3 localPos = topping.transform.localPosition;
         topping.transform.localPosition = new Vector3(localPos.x, localPos.y, -0.6f);
         topping.transform.localRotation = Quaternion.identity;
+        topping.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
         //Set Detail Prompt
         ActiveTopping activeTopping = topping.GetComponent<ActiveTopping>();
@@ -68,6 +70,7 @@ public class InstToppings : DragAndDrop
 
         poolAvailable--;
         poolMeter++;
+        
     }
 
     private Vector3 GetMousePos()

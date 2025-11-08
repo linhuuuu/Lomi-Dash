@@ -14,11 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ADELE
   customerName: Adele
-  patienceTime: 180
+  patienceTime: 300
   companions: []
-  preferredDish: []
-  preferredBeverage: []
-  characterEvents: []
+  preferredDish:
+  - {fileID: 11400000, guid: baf63d7cd45c1bd4fa6bc4eed211545d, type: 2}
+  - {fileID: 11400000, guid: baf63d7cd45c1bd4fa6bc4eed211545d, type: 2}
+  - {fileID: 11400000, guid: baf63d7cd45c1bd4fa6bc4eed211545d, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: 6ad20b756f61b7a40b849ccd56cd8d19, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: 5e5ba0f55de4b204e82ff7baafef2bfc, type: 2}
+  - {fileID: 11400000, guid: 937c9f73863578947a8b8503e910f57a, type: 2}
+  - {fileID: 11400000, guid: 8538db467418c664f9cd95b445b61fa3, type: 2}
   portrait: {fileID: 178668228, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
   standingSprite: {fileID: -2068496906, guid: 15a46755eacd92b499c808c238714785, type: 3}
   sittingSprite: {fileID: 1114626654, guid: 15a46755eacd92b499c808c238714785, type: 3}

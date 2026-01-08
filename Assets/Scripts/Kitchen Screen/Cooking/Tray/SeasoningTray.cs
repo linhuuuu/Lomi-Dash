@@ -2,6 +2,7 @@ using UnityEngine;
 public class SeasoningTray : DragAndDrop
 {
     public SeasoningSlot seasoningSlot {set; get;}
+
     private void OnMouseUp()
     {
         initDraggable();

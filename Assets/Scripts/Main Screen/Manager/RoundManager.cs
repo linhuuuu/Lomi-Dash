@@ -3,14 +3,9 @@ using PCG;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
-using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using System;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine.UI;
-using Firebase.Firestore;
-using System.Net.Http.Headers;
 
 public class RoundManager : MonoBehaviour
 {
@@ -154,6 +149,7 @@ public class RoundManager : MonoBehaviour
         if (profile.recipeUnlock != null && !recipes.Exists(c => c == profile.recipeUnlock))
         {
             recipes.Add(profile.recipeUnlock);
+            Debug.Log(String.Join(",", recipes));
             unlockRecipe = profile.recipeUnlock;
         }
 
@@ -205,9 +201,9 @@ public class RoundManager : MonoBehaviour
         if (speed == 0)
             Time.timeScale = 1f;
         else if (speed == 1)
-            Time.timeScale = 3f;
+            Time.timeScale = 2f;
         else if (speed == 2)
-            Time.timeScale = 5f;
+            Time.timeScale = 3f;
     }
 
     #region Order Generation
@@ -332,7 +328,7 @@ public class RoundManager : MonoBehaviour
     CustomerData ChooseSpecialCustomer()
     {
         //Designated SpecialCustomer
-        if (!InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c == profile.specialCustomerUnlock))
+        if (!InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c.entryID == profile.specialCustomerUnlock.id))
         {
             specialCustomer = profile.specialCustomerUnlock;
             return profile.specialCustomerUnlock;
@@ -344,7 +340,7 @@ public class RoundManager : MonoBehaviour
             List<CustomerData> availableSpecialCustomers = new();
 
             foreach (CustomerData cus in profile.specialCustomers)
-                if (InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c == cus))
+                if (InventoryManager.inv.playerRepo.SpecialNPCRepo.Exists(c => c.entryID == cus.id))
                     availableSpecialCustomers.Add(cus);
 
             if (availableSpecialCustomers.Count > 0)
@@ -530,7 +526,11 @@ public class RoundManager : MonoBehaviour
 
     private async void OnRoundComplete()
     {
-        StartCoroutine(AnimEndRound.instance.PlayAnim(money < profile.moneyQuota));
+        if (this.money < profile.moneyQuota)
+        {
+            GameManager.instance.state = GameManager.gameState.beforeDay;
+            GameManager.instance.NextScene("Main Screen");
+        }
 
         //Total Score
         float totalScore = 0;
@@ -566,11 +566,27 @@ public class RoundManager : MonoBehaviour
 
         if (unlockCustomer != null && unlockCustomer.Count > 0)
         {
-            List<string> customerList = new();
+            var customerList = new List<string>(DataManager.data.playerData.unlockedCustomerIds);
+
             foreach (var customer in unlockCustomer)
-                customerList.Add(customer.id);
+            {
+                // Optional: avoid duplicates
+                if (!customerList.Contains(customer.id))
+                    customerList.Add(customer.id);
+            }
 
             update.Add("unlockedCustomerIds", customerList);
+        }
+
+        if (unlockRecipe != null)
+        {
+            var recipeList = new List<string>(DataManager.data.playerData.unlockedRecipeIds);
+
+            // Optional: avoid duplicate
+            if (!recipeList.Contains(unlockRecipe.id))
+                recipeList.Add(unlockRecipe.id);
+
+            update.Add("unlockedRecipeIds", recipeList);
         }
 
         //EntryUnlocks
@@ -948,30 +964,37 @@ public class RoundManager : MonoBehaviour
                 {
                     if (update["unlockedLocationIds"] is List<string> locationList)
                     {
-                        if (!locationList.Exists(c => c == data.entryID))
+                        if (!locationList.Contains(data.entryID)) // Exists + lambda is overkill
                             locationList.Add(data.entryID);
-                        update["unlockedLocationIds"] = locationList;
+                        // No need to reassign—it's the same reference
                     }
                 }
                 else
                 {
-                    update.Add("unlockedLocationIds", new List<string> { data.entryID });
+
+                    var locationList = new List<string>(DataManager.data.playerData.unlockedLocationIds);
+                    if (!locationList.Contains(data.entryID))
+                        locationList.Add(data.entryID);
+                    update["unlockedLocationIds"] = locationList;
                 }
             }
+
             if (data is TermData)
             {
                 if (update.ContainsKey("unlockedTermIds"))
                 {
                     if (update["unlockedTermIds"] is List<string> termList)
                     {
-                        if (!termList.Exists(c => c == data.entryID))
+                        if (!termList.Contains(data.entryID))
                             termList.Add(data.entryID);
-                        update["unlockedTermIds"] = termList;
                     }
                 }
                 else
                 {
-                    update.Add("unlockedTermIds", new List<string> { data.entryID });
+                    var termList = new List<string>(DataManager.data.playerData.unlockedTermIds);
+                    if (!termList.Contains(data.entryID))
+                        termList.Add(data.entryID);
+                    update["unlockedTermIds"] = termList;
                 }
             }
         }

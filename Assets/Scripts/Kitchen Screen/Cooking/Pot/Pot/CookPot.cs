@@ -2,6 +2,7 @@ using PCG;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 public class CookPot : DragAndDrop
 {
@@ -15,9 +16,22 @@ public class CookPot : DragAndDrop
     private Coroutine boilingRoutine;
 
     public int maxCount { set; get; } = 2;
+    public KitchenDrag.Action lastAction;
+
+    [SerializeField] private SpriteRenderer sink;
+    [SerializeField] private SpriteRenderer[] woks;
 
     void Start()
     {
+
+        promptSprite = new()
+         {
+             sink
+         };
+
+        foreach (SpriteRenderer wok in woks)
+            promptSprite.Add(wok);
+
         animPot = GetComponent<AnimPot>();
 
         //Create Pot Node
@@ -35,6 +49,8 @@ public class CookPot : DragAndDrop
     }
 
     #region AddNodes
+
+
     public IEnumerator AddWater()
     {
         if (boilNode == null) boilNode = new BoilNode();
@@ -43,10 +59,15 @@ public class CookPot : DragAndDrop
             boilNode.count = maxCount;
             UpdateBoilingState();
 
-            //Anim
+            lastAction = KitchenDrag.Action.WATER;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+
             yield return animPot.AnimWater(hitCollider.gameObject);
-
-
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake("Pot is Full!");
         }
 
         revertDefaults();
@@ -54,21 +75,42 @@ public class CookPot : DragAndDrop
     public void AddKnorr()
     {
 
-        if (boilNode.count == 0 || boilNode == null) return;
+        if (bonesNode?.count >= maxCount || bonesNode == null)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake("Enough Knorr cubes!");
+            return;
+        }
+
+        if (boilNode?.count == 0 || boilNode == null)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake("Add Water First!");
+            return;
+        }
 
         if (bonesNode == null) bonesNode = new BonesNode();
         if (bonesNode.count < maxCount)
         {
             bonesNode.count++;
-
             UpdateBoilingState();
+
+            lastAction = KitchenDrag.Action.KNORR;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+
             animPot.OnAddKnorr();
         }
     }
 
     public void AddSeasoning(string type)
     {
-        if (boilNode == null) boilNode = new BoilNode();
+        if (boilNode?.count == 0 || boilNode == null)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake("Add Water First!");
+            return;
+        }
+
         if (seasoningNode == null) seasoningNode = new SeasoningNode();
 
         switch (type)
@@ -76,16 +118,30 @@ public class CookPot : DragAndDrop
             case "Salt":
                 if (seasoningNode.saltCount < maxCount * 2)
                 {
-                    seasoningNode.saltCount+=maxCount * 2 ;
+                    seasoningNode.saltCount += maxCount * 2;
                     animPot.UpdateSeasoning();
+                    lastAction = KitchenDrag.Action.SALT;
+                    KitchenDrag.Instance.SpecifyAction(lastAction);
+                }
+                else
+                {
+                    AudioManager.instance.PlaySFX(SFX.MISTAKE);
+                    KitchenDrag.Instance.SpecifyMistake("Enough salt!");
                 }
                 break;
 
             case "Pepper":
                 if (seasoningNode.pepperCount < maxCount * 2)
                 {
-                    seasoningNode.pepperCount+=maxCount * 2;
+                    seasoningNode.pepperCount += maxCount * 2;
                     animPot.UpdateSeasoning();
+                    lastAction = KitchenDrag.Action.PEPPER;
+                    KitchenDrag.Instance.SpecifyAction(lastAction);
+                }
+                else
+                {
+                    AudioManager.instance.PlaySFX(SFX.MISTAKE);
+                    KitchenDrag.Instance.SpecifyMistake("Enough Pepper!");
                 }
                 break;
             default:
@@ -130,16 +186,24 @@ public class CookPot : DragAndDrop
                 boilNode.time++;
 
             if (boilNode.time == 1)
+            {
                 animPot.PlayBoilSFX(0);
+                lastAction = KitchenDrag.Action.BOIL;
+                KitchenDrag.Instance.SpecifyAction(lastAction);
+            }
+
             else if (boilNode.time == 7)
                 animPot.PlayBoilSFX(1);
             else if (boilNode.time == 15)
+            {
                 animPot.PlayBoilSFX(2);
+                lastAction = KitchenDrag.Action.BOILED;
+                KitchenDrag.Instance.SpecifyAction(lastAction);
+            }
         }
     }
     #endregion
-
-    //Dropping
+    #region Dropping
     public void OnMouseUp()
     {
         initDraggable();
@@ -186,6 +250,9 @@ public class CookPot : DragAndDrop
                     newPotGroup.children.Add(new SeasoningNode());
 
                 targetWok.TransferPot(newPotGroup, animPot.GetBrothColor());
+
+                lastAction = KitchenDrag.Action.TRANSFER;
+                KitchenDrag.Instance.SpecifyAction(lastAction);
 
                 //Reduce Count
                 if (boilNode.count > 0)
@@ -236,4 +303,5 @@ public class CookPot : DragAndDrop
 
         revertDefaults();
     }
+    #endregion
 }

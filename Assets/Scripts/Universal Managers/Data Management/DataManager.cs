@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using UnityEngine.SocialPlatforms.Impl;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 using System.Net;
 using Firebase;
 using Firebase.Auth;
@@ -313,7 +312,7 @@ voucher = 20,
                 }
             }
 
-            if (key == "vlearStars")
+            if (key == "clearStars")
             {
                 if (playerData.clearStars == null)
                     playerData.clearStars = new Dictionary<string, int>();

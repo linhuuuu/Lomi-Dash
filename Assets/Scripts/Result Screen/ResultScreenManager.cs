@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
 using UnityEngine.SocialPlatforms.Impl;
+using System;
 
 public class ResultScreenManager : MonoBehaviour
 {
@@ -33,12 +34,10 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private List<string> unlocks;
     [SerializeField] private GameObject notificationObj;
 
-
-    // [SerializeField] private bool isDebug = false;
-
     private int nextDay;
     private float totalMoney;
     private float totalHappiness;
+    private int finalStarCount;
     private int highestLevelCleared;
     private RoundResults results;
     private PlayerSaveData playerData;
@@ -81,6 +80,13 @@ public class ResultScreenManager : MonoBehaviour
         if (results.starCount > 0)
             highestLevelCleared = GameManager.instance.roundProfile.level;
 
+        if (highestLevelCleared < DataManager.data.playerData.highestLevelCleared)
+        {
+            highestLevelCleared = DataManager.data.playerData.highestLevelCleared;
+        }
+
+        finalStarCount = Mathf.Max(results.starCount, playerData.clearStars[GameManager.instance.roundProfile.roundName]);
+
         GameManager.instance.state = GameManager.gameState.beforeDay;
         next.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
 
@@ -101,7 +107,7 @@ public class ResultScreenManager : MonoBehaviour
                     {"totalStagesCleared",  playerData.totalStagesCleared + 1},
                     {"latestStageCleared", GameManager.instance.roundProfile.roundName},
                     {"highestLevelCleared", highestLevelCleared},
-                    {"clearStars", new Dictionary<string, int>{ { GameManager.instance.roundProfile.roundName, results.starCount } } },
+                    {"clearStars", new Dictionary<string, int>{ { GameManager.instance.roundProfile.roundName, finalStarCount } } },
                 });
 
             await DataManager.data.UploadRoundClearData(GameManager.instance.roundProfile.roundName);
@@ -112,7 +118,7 @@ public class ResultScreenManager : MonoBehaviour
 
         await DataManager.data.FetchLeaderBoardData(GameManager.instance.roundProfile.roundName);
         ReflectLeaderBoardChanges();
-       StartCoroutine(anim.StartSequence());
+        StartCoroutine(anim.StartSequence());
     }
 
     public void ReflectChanges()
@@ -127,7 +133,6 @@ public class ResultScreenManager : MonoBehaviour
         earnedHappiness.text = results.earnedHappiness.ToString();
         TotalHappiness.text = totalHappiness.ToString();
         TotalMoney.text = totalMoney.ToString();
-        //ore.text = results.score.ToString();
         ClearTime.text = (Mathf.Round(results.clearTime * 100) / 100).ToString() + "s";
 
         DataManager.data.results = new RoundResults();
@@ -137,10 +142,7 @@ public class ResultScreenManager : MonoBehaviour
     {
         List<DataManager.MoneyLeaderBoardData> moneyLB = DataManager.data.moneylbData;
         List<DataManager.HappinessLeaderBoardData> happinessLB = DataManager.data.happinesslbData;
-
-        if (Debug.isDebugBuild) Debug.Log(moneyLB.Count);
-        if (Debug.isDebugBuild) Debug.Log(happinessLB.Count);
-
+ 
         for (int i = 0; i < happinessLB.Count; i++)
         {
             var happinessItem = happinessLB[i];

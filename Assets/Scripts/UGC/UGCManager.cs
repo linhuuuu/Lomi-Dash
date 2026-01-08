@@ -11,7 +11,8 @@ public class UGCManager : MonoBehaviour
     [SerializeField] private Button backButton;
     [SerializeField] private Button rotateButton;
     [SerializeField] private Button openBackGround;
-
+private bool isDraggingSubject = false;
+private Vector3 dragOffset;
     // Subject: the lomi character being photographed
     private GameObject subject;
     private Renderer subjectRenderer; 
@@ -29,9 +30,10 @@ public class UGCManager : MonoBehaviour
     void Start()
     {
         subject = UGCHandler.instance?.currentLomi;
-        subject.GetComponent<DragAndDrop>().enabled = false;
         subject.GetComponent<PrepDish>().enabled = false;
-        subject.GetComponent<BoxCollider>().enabled = true;
+                subject.GetComponent<AnimDish>().enabled = false;
+        subject.GetComponent<Collider>().enabled = false;
+        subject.transform.localEulerAngles = Vector3.zero;
 
         if (subject == null)
         {
@@ -79,6 +81,7 @@ public class UGCManager : MonoBehaviour
 
     public void ToggleBackgroundScreen()
     {
+        subject.SetActive(!subject.activeSelf);
         isShown = !isShown;
         Vector2 targetPos = isShown ? shownPosition : hiddenPosition;
 
@@ -105,9 +108,6 @@ public class UGCManager : MonoBehaviour
         yield return ShareLink.instance.ShareContent(type);
         UIcanvas.enabled = true;
 
-        //Claim Reward
-        yield return CheckAndClaimDailyLomiReward();
-        RewardPrompt.SetActive(false);
     }
 
     // Camera Bounds
@@ -129,6 +129,44 @@ public class UGCManager : MonoBehaviour
         }
     }
 
+    void Update()
+{
+    // Only allow dragging in UGC mode and if subject exists
+    if (subject == null) return;
+
+    if (Input.GetMouseButtonDown(0) && !UIUtils.IsPointerOverUI())
+    {
+        // Raycast to see if we clicked the subject
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("YourLomiLayer"))) // 👈 use your actual layer
+        {
+            if (hit.collider.gameObject == subject || subject.GetComponentInChildren<Collider>() == hit.collider)
+            {
+                isDraggingSubject = true;
+                dragOffset = subject.transform.position - Camera.main.ScreenToWorldPoint(
+                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, 
+                        Camera.main.WorldToScreenPoint(subject.transform.position).z)
+                );
+            }
+        }
+    }
+
+    if (Input.GetMouseButton(0) && isDraggingSubject)
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 worldMouse = Camera.main.ScreenToWorldPoint(
+            new Vector3(mousePos.x, mousePos.y, Camera.main.WorldToScreenPoint(subject.transform.position).z)
+        );
+        subject.transform.position = worldMouse + dragOffset;
+        KeepInCameraView(); // Clamp immediately during drag
+    }
+
+    if (Input.GetMouseButtonUp(0))
+    {
+        isDraggingSubject = false;
+    }
+}
+
     public void KeepInCameraView()
     {
         if (subject == null || subjectRenderer == null) return;
@@ -148,12 +186,7 @@ public class UGCManager : MonoBehaviour
     public void GoBack()
     {
         Screen.orientation = ScreenOrientation.LandscapeLeft;
-        GameManager.instance.NextScene("Main Scene");
-    }
-
-    private async Task CheckAndClaimDailyLomiReward()
-    {
-        if (DataManager.data.playerData.lastLogin < System.DateTime.Now)
-            await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>{{"money", 200}, {"totalMoney", DataManager.data.playerData.totalMoney +=200}});
+        Destroy(subject);
+        GameManager.instance.NextScene("Main Screen");
     }
 }

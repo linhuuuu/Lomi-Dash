@@ -143,8 +143,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 22b5c6926bda99745b6eedb9c519f0fa, type: 2}
     - {fileID: 11400000, guid: a9a1972313ad369469c0b04cfa8f9995, type: 2}
     - {fileID: 11400000, guid: c69e65ba9dd59c243852e3b5c4a965e6, type: 2}
-    - {fileID: 11400000, guid: ed96dc96781352f448c83b38328f333a, type: 2}
     - {fileID: 11400000, guid: f123c9437d5b63e4abeb700f6cabe813, type: 2}
+    - {fileID: 11400000, guid: ed96dc96781352f448c83b38328f333a, type: 2}
     - {fileID: 11400000, guid: 68c725e2aa609f94da517dc187617741, type: 2}
     - {fileID: 11400000, guid: 19ead064d917715468c6de81285999d4, type: 2}
     - {fileID: 11400000, guid: 004c6f5e5c39be14285600af1f699246, type: 2}
@@ -155,6 +155,25 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 63466c67744dda54f97bc749d75baf3f, type: 2}
     - {fileID: 11400000, guid: dd0d6bc10b7ba8743bba64820a6f538f, type: 2}
     - {fileID: 11400000, guid: 00dab12cb7ae38f47b8de861af1931db, type: 2}
+    tutorials:
+    - {fileID: 11400000, guid: c4705a17d556ccc4789292029fccb04a, type: 2}
+    - {fileID: 11400000, guid: 2ababfc4cda878b4b8ee1ec890c4a6ea, type: 2}
+    - {fileID: 11400000, guid: f2773f0954bddd347b3db78d51441720, type: 2}
+    - {fileID: 11400000, guid: 8208436879c447d4fad9b0beb3b71004, type: 2}
+    - {fileID: 11400000, guid: cff5870c8b78a5c4791a184bbc9e123e, type: 2}
+    - {fileID: 11400000, guid: f40ed6a8e6ced224b9e19289baeaf721, type: 2}
+    - {fileID: 11400000, guid: 28a6bd99fb2a9eb45a82253a3b3c5620, type: 2}
+    - {fileID: 11400000, guid: 1b5574e00dc6df046bf6fd411de98746, type: 2}
+    - {fileID: 11400000, guid: e0cb093aa0cc7eb4a8a12ad768ce9a79, type: 2}
+    - {fileID: 11400000, guid: d4cd93e828c8d484db409f1b93b7df75, type: 2}
+    - {fileID: 11400000, guid: ac8b5f30944354740a26d628a6c7012c, type: 2}
+    - {fileID: 11400000, guid: fd239e45ccebcd54c856fe9395e72d21, type: 2}
+    - {fileID: 11400000, guid: bb6679715e58eef4cad7a832feaee0c4, type: 2}
+    - {fileID: 11400000, guid: 443f6c567f704ef43ba0aa740da3e8de, type: 2}
+    - {fileID: 11400000, guid: a90b558c8ddca0a4d96adfe3bb7553ed, type: 2}
+    - {fileID: 11400000, guid: 666021a63348c6642ae87df48e981047, type: 2}
+    - {fileID: 11400000, guid: 6f1da7cf94bf4c447ac4e66eb36b0c82, type: 2}
+    - {fileID: 11400000, guid: 0dc8b148408db0a429ea3b32b10b6bf6, type: 2}
     LocationRepo:
     - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
     - {fileID: 11400000, guid: 391bf57cc0f1d374ead8e73349209aa1, type: 2}
@@ -203,6 +222,7 @@ MonoBehaviour:
     IconsRepo: []
     BuffsRepo: []
     roundProfiles: []
+    tutorials: []
     LocationRepo: []
     TermRepo: []
     SpecialNPCRepo: []

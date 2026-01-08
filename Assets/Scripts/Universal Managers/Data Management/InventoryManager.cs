@@ -30,6 +30,7 @@ public class InventoryManager : MonoBehaviour
         public List<Sprite> IconsRepo = new();
         public List<BuffData> BuffsRepo = new();
         public List<RoundProfile> roundProfiles = new();
+        public List<Tutorial> tutorials = new();
 
       
         //ALAMANAC

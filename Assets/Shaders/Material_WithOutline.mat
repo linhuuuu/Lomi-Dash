@@ -26,7 +26,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - CORNERS_ON
   - _ISON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -57,9 +56,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - CORNERS: 1
+    - CORNERS: 0
     - _ISON: 1
-    - _OutlineThickness: 7
+    - _OutlineThickness: 6.5
     m_Colors:
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

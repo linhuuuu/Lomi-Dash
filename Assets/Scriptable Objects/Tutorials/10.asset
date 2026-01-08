@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9dbc41050c65b4ab9efb91d7d4dbc3, type: 3}
+  m_Name: 10
+  m_EditorClassIdentifier: 
+  id: 10
+  fieldName: 'Wok: Soy Sauce'
+  description: Drag the Soy Sauce into the Wok to add color.
+  videoClip: {fileID: 32900000, guid: 327cdeb9c8e35234887e8a58f3fb0039, type: 3}

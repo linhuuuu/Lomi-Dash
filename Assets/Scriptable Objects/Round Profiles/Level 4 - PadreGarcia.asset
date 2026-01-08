@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 4
   location: 1
   difficulty: 1
-  requiredFame: 60
+  requiredFame: 50
   moneyQuota: 200
   customerUnlock:
   - {fileID: 11400000, guid: 918e23727a310d542bed0e6aa1502174, type: 2}

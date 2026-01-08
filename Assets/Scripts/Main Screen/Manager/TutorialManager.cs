@@ -6,6 +6,8 @@ using PCG;
 using TMPro;
 using Unity.VisualScripting;
 using System.Data.Common;
+using System.Linq;
+using UnityEngine.Video;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -22,20 +24,22 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private CanvasButttonsManager closedCanvas;
 
     [SerializeField] private GameObject tutorialPanel;
-    [SerializeField] private Image tutorialImage;
     [System.Serializable]
     public class panel
     {
-        public List<Sprite> sprites;
+        public Tutorial[] tutorial;
     }
-    [SerializeField] private List<panel> panels;
 
-    private List<Sprite> imagesToShow;
-    private int currentImageIndex;
+    private int currentIndex;
     [SerializeField] private Button back;
     [SerializeField] private Button next;
     [SerializeField] private Button toggleTutorial;
     [SerializeField] private Button closeTutorial;
+    public List<panel> panels;
+    public VideoPlayer videoPlayer;
+    public TextMeshProUGUI Header;
+    public TextMeshProUGUI description;
+    public Tutorial[] tutorialSet;
 
     [Header("NameInput")]
     [SerializeField] private TextMeshProUGUI nameInput;
@@ -46,10 +50,11 @@ public class TutorialManager : MonoBehaviour
 
     private CustomerGroup tutorialGroup;
     private TaskCompletionSource<bool> tcs;
-    private bool introFlag = true;
+    public bool tutSkipFlag { set; get; } = false;
     public bool isLomiTutorialDone { set; get; }
 
     public static TutorialManager instance;
+
 
     void Awake()
     {
@@ -76,7 +81,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (GameManager.instance.state == GameManager.gameState.tutorial)
         {
-            await PlayIntro();
+            await DialogueManager.dialogueManager.PlayDialogue("Introduction");
             await PlayNameInput();
             await PlayTutorial();
 
@@ -88,15 +93,15 @@ public class TutorialManager : MonoBehaviour
                             {"intro", true},
                         }
                     },
-                    {"playerName", playerName}
                 });
 
-            Debug.Log("Saved");
+            GameManager.instance.state = GameManager.gameState.startDay;
+
+            if (tutSkipFlag == true)
+                GameManager.instance.NextScene("Main Screen");
             return;
         }
     }
-
-    async Task PlayIntro() => await DialogueManager.dialogueManager.PlayDialogue("Introduction");
 
     private async Task PlayNameInput()
     {
@@ -106,6 +111,11 @@ public class TutorialManager : MonoBehaviour
         await WaitForNameSubmit();
         nameInputCanvas.gameObject.SetActive(false);
 
+        await DataManager.data.UpdatePlayerDataAsync(new Dictionary<string, object>
+                {
+                    {"playerName", playerName}
+                });
+
         await DialogueManager.dialogueManager.PlayDialogue("Input_Name_After");
     }
 
@@ -113,6 +123,7 @@ public class TutorialManager : MonoBehaviour
     {
         tcs = new TaskCompletionSource<bool>();
         submitName.onClick.AddListener(OnNameSubmitted);
+
         return tcs.Task;
     }
 
@@ -126,41 +137,48 @@ public class TutorialManager : MonoBehaviour
         playerName = name;
 
         submitName.onClick.RemoveListener(OnNameSubmitted);
+
         tcs.SetResult(true);
     }
 
     void ShowTutorial(int i)
     {
-        imagesToShow = panels[i].sprites;
-        currentImageIndex = 0;
+        tutorialSet = panels[i].tutorial;
+        currentIndex = 0;
 
-        if (imagesToShow.Count < 2)
+
+        back.enabled = false;
+        if (tutorialSet.Count() == 1)
         {
             back.enabled = false;
-            next.enabled = true;
+            next.enabled = false;
         }
         else
-            back.enabled = true;
-        next.enabled = true;
-
+        {
+            next.enabled = true;
+        }
 
         tutorialPanel.SetActive(true);
-        tutorialImage.sprite = imagesToShow[currentImageIndex];
+        videoPlayer.clip = tutorialSet[currentIndex].videoClip;
+        Header.text = tutorialSet[currentIndex].fieldName;
+        description.text = tutorialSet[currentIndex].description;
     }
 
     void ChangeTutorialPanel(int i)
     {
-        currentImageIndex = Mathf.Clamp(currentImageIndex + i, 0, imagesToShow.Count - 1);
-        tutorialImage.sprite = imagesToShow[currentImageIndex];
+        currentIndex+=i;
+        videoPlayer.clip = tutorialSet[currentIndex].videoClip;
+        Header.text = tutorialSet[currentIndex].fieldName;
+        description.text = tutorialSet[currentIndex].description;
 
         back.enabled = true;
         next.enabled = true;
 
-        if (currentImageIndex == imagesToShow.Count)
+        if (currentIndex == tutorialSet.Count() - 1)
         {
             next.enabled = false;
         }
-        else if (currentImageIndex == 0 )
+        else if (currentIndex == 0)
         {
             back.enabled = false;
         }
@@ -175,9 +193,14 @@ public class TutorialManager : MonoBehaviour
     {
         //1.Spawn and wait unitl Customer has been seated.
         await DialogueManager.dialogueManager.PlayDialogue("Introduction_0");
-        RoundManager.roundManager.TutorialSpawn(tutorialBeverage, tutorialRecipe, tutorialCustomerData);
-        ShowTutorial(0);
-        await WaitForCustomerSeated();
+        if (tutSkipFlag == true)
+            return;
+        else
+        {
+            RoundManager.roundManager.TutorialSpawn(tutorialBeverage, tutorialRecipe, tutorialCustomerData);
+            ShowTutorial(0);
+            await WaitForCustomerSeated();
+        }
 
         //2. Wait Until Order is taken
         await DialogueManager.dialogueManager.PlayDialogue("Introduction_1");
@@ -354,14 +377,20 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private async Task WaitForAddToTray()
+    private async Task WaitForAddToTray(int timeoutMs = 10_000)
     {
-        while (true)
+        var startTime = Time.time;
+        while (Time.time - startTime < timeoutMs / 1000f)
         {
-            if (tray.dishList[0] != null && tray.seasoningTray.trayCount == 1 && tray.bevList[0] != null)
-                break;
+            if (tray.dishList.Count(c => c != null) > 0 &&
+                tray.seasoningTray.trayCount > 0 &&
+                tray.bevList.Count(c => c != null) > 0)
+            {
+                return;
+            }
             await Task.Yield();
         }
+        Debug.LogWarning("WaitForAddToTray timed out!");
     }
 
     private async Task WaitForServeTray()
@@ -372,35 +401,5 @@ public class TutorialManager : MonoBehaviour
                 break;
             await Task.Yield();
         }
-    }
-
-    private async Task WaitForMapClick(Button btn)
-    {
-        var tcs = new TaskCompletionSource<bool>();
-
-        // Local function: clean and captures tcs
-        void ClickHandler()
-        {
-            tcs.SetResult(true);
-        }
-
-        // Add listener
-        btn.onClick.AddListener(ClickHandler);
-
-        try
-        {
-            // Wait for click
-            await tcs.Task;
-        }
-        finally
-        {
-            // Always remove listener
-            btn.onClick.RemoveListener(ClickHandler);
-        }
-    }
-
-    async void OnMapClick(TaskCompletionSource<bool> tcs)
-    {
-        tcs.SetResult(true);
     }
 }

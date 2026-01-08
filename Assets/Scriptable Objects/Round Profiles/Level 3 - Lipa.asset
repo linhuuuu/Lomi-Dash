@@ -16,7 +16,7 @@ MonoBehaviour:
   level: 3
   location: 0
   difficulty: 3
-  requiredFame: 50
+  requiredFame: 30
   moneyQuota: 150
   customerUnlock:
   - {fileID: 11400000, guid: 3e5550c1f1a0f6e48b102935b37ed6a8, type: 2}
@@ -38,7 +38,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9afea92ef6e361f4d903aafd7d26c4c2, type: 2}
   entryUnlocks:
   - {fileID: 11400000, guid: 1819a98a30c5f394daf1b6b675f3e703, type: 2}
-  - {fileID: 11400000, guid: 1819a98a30c5f394daf1b6b675f3e703, type: 2}
+  - {fileID: 11400000, guid: da2828e76159a2e42a43b59d07d91bd9, type: 2}
   specialCustomerUnlock: {fileID: 11400000, guid: d5b49b36d5e77b747b7ebb726ae130bc,
     type: 2}
   specialCustomers:

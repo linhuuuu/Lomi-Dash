@@ -36,6 +36,7 @@ public class InstToppings : DragAndDrop
         var newObj = Instantiate(objPrefab, spawnPos, Quaternion.identity, transform);
         var newToppingPoolObj = newObj.GetComponent<ToppingPoolObj>();
         newToppingPoolObj.section = this;
+        this.name = topping.toppingName;
         toppingPool.Add(newToppingPoolObj);
 
     }
@@ -50,7 +51,7 @@ public class InstToppings : DragAndDrop
             poolAvailable++;
         }
 
-        Debug.Log(poolMeter + "" + toppingPool[poolMeter].transform);
+        Debug.Log(poolMeter + "" + toppingPool[poolMeter].transform);   //Topping has been destoryed ro something what in the actual hell
         ToppingPoolObj topping = toppingPool[poolMeter];
         topping.transform.SetParent(dish.toppingSection);
         topping.transform.position = GetMousePos();

@@ -247,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 1967914120061890720, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 1967914120061890720, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
@@ -276,9 +276,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2441461401172910154, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2441461401172910154, guid: 034264f5acedb0c4b9a566e861220a8b,
+        type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 2441461401172910154, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
       propertyPath: m_Color.a
@@ -322,7 +327,7 @@ PrefabInstance:
     - target: {fileID: 2874517603926563127, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
       propertyPath: m_RaycastTarget
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4688255585233143025, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
@@ -332,7 +337,7 @@ PrefabInstance:
     - target: {fileID: 4688255585233143025, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}
       propertyPath: startNode
-      value: 
+      value: Lipa_Med_After
       objectReference: {fileID: 0}
     - target: {fileID: 5412249299463571990, guid: 034264f5acedb0c4b9a566e861220a8b,
         type: 3}

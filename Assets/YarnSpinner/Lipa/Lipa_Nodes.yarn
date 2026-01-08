@@ -1,6 +1,5 @@
 title: Lipa_Easy_Before
 ---
-//Protag: This is Lipa_Easy_Before Node
 <<setBackground SpriteBehaviour Lipa>>
 Narrator: DAY START
 Narrator: Lipa City. Heart of Batangas.
@@ -150,10 +149,10 @@ title: Lipa_Hard_Before
 ---
 <<hideBackground SpriteBehaviour>>
 Narrator: DAY START
-<<setBackground SpriteBehaviour Lipacna>>
-<<showCharacter SpriteBehaviour Juan at -600 0>>
+<<setBackground SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Juan at 600 0>>
 Juan: Mukhang sakses ka na naman ngayong araw, ah!
-<<showCharacter SpriteBehaviour Protagonist -500 0>>
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
 Protagonist: Hmm? Are you in the good mood?
 Juan: I mean... medyo.
 <<changeCharacterSprite SpriteBehaviour Juan Sad>>
@@ -172,10 +171,11 @@ Juan: 'Di ga mas masarap ang usapan 'pag gabi na?
 
 title: Lipa_Hard_After
 ---
+<<clearCharacters SpriteBehaviour All>>
 <<hideBackground SpriteBehaviour>>
 <<showCharacter SpriteBehaviour Juan at 600 0>>
 Juan: Honestly, nagalala talaga ako nung nalaman ko na mamanahin mo na pala ang lomihan ni tito...
-<<showCharacter SpriteBehaviour Protagonist at 500 0>>
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
 Protagonist: Yeah, i was indeed worried too when I heard it for the first time...
 Juan: Pero! Mukhang ayos naman ang pagpapatakbo mo!
 Juan: Feels like I can rest easy a bit, knowing you got it handed.
@@ -195,4 +195,10 @@ Juan: Mahaba pa ang gabi.
 Narrator: You recall your apartment, small, expensive, and lonely.
 Narrator: You didn't realise you still had a friend in him, or in anyone here. 
 Narrator: For the first time in quite a long time- you feel seen.
+Narrator: TO BE CONTINUED!
+Narrator: ...
+Narrator: Hello this is Team Migraine, thank you for taking an interest in Lomi Dash!
+Narrator: If you're having fun, please consider taking the time to answer our post-survey questionnaire. 
+Narrator: Kulang na kami sa time hhuhuuhuhuhuhu
+Narrator: Thanks and God Bless! To more Batangas Locations in the future!
 ===

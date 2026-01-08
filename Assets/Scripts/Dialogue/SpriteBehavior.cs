@@ -29,7 +29,6 @@ public class SpriteBehavior : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float fadeDuration = 0.3f;
     [SerializeField] private float moveOffset = 30f;
-    [SerializeField, Range(0.5f, 1f)] private float sizeMultiplier = 0.9f;
 
     [Header("Visual States")]
     [SerializeField] private Color activeColor = Color.white;
@@ -99,6 +98,9 @@ public class SpriteBehavior : MonoBehaviour
     {
         runner?.VariableStorage.SetValue("$player", DataManager.data.playerData.playerName);
     }
+
+    [YarnCommand("setSkipFlag")]
+    public void SetSkipFlag() => TutorialManager.instance.tutSkipFlag = true;
 
     [YarnCommand("showCharacter")]
     public void ShowCharacterAt(string characterName, string atKeyword, float x, float y)

@@ -2,6 +2,14 @@ using UnityEngine;
 public class InstSeasoningTray : DragAndDrop
 {
     [SerializeField] private SeasoningSlot seasoningSlot;
+
+    void Start()
+    {
+                promptSprite = new();
+            foreach (SpriteRenderer slot in KitchenDrag.Instance.seasoningTraySlots)
+            promptSprite.Add(slot);
+    }
+    
     private void OnMouseUp()
     {
         initDraggable();

@@ -11,7 +11,6 @@ public class DragInstObj : MonoBehaviour
     
     public void OnMouseDown()
     {
-        if (UIUtils.IsPointerOverUI()) return;
         sprite.enabled = true;
     }
 

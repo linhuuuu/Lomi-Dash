@@ -90,16 +90,34 @@ Juan: Also... Ano 'to? May accent ka na din pala! HAHA!
 <<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
 Protagonist: ...
 
-Juan: Ano? Naoverwhelm ka 'ga? Don't worry, I got you!
-Juan: I know you got something in you. I can feel it!
-Juan: ...so let's get back into da groove~
+Juan: Ano? Naoverwhelm ka 'ga? 
+Juan: Do you want me to help you get adjusted?
 
-<<changeCharacterSprite SpriteBehaviour Protagonist Happy>>
-Protagonist: Alright, where should I begin?
-Juan: Well, since I'm your first customer... first, drag me into an empty table!
-<<hideBackground SpriteBehaviour>>
-<<clearCharacters SpriteBehaviour All>>
+-> I'm okay! (Skip Tutorial)
+    <<jump Skip>>
+-> Yes, please help me!
+    <<jump Help>>
 ===
+title: Skip
+---
+    Juan: All right! I'll be sure to come by here tommorow!
+    <<setSkipFlag SpriteBehaviour>>
+    <<hideBackground SpriteBehaviour>>
+    <<clearCharacters SpriteBehaviour All>>
+===
+
+title: Help
+---
+    Juan: Don't worry, I got you!
+    Juan: I know you got something in you. I can feel it!
+    Juan: ...so let's get back into da groove~
+    <<changeCharacterSprite SpriteBehaviour Protagonist Happy>>
+    Protagonist: Alright, where should I begin?
+    Juan: Well, since I'm your first customer... first, drag me into an empty table!
+    <<hideBackground SpriteBehaviour>>
+    <<clearCharacters SpriteBehaviour All>>
+===
+
 title: Introduction_1
 ---
 

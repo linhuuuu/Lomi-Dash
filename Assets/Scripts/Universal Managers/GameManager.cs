@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public string prevScene { set; get; }
     [field: SerializeField] public Canvas loadingPanel { private set; get; }
 
+    [field: SerializeField] public string isAlmanacUpdataed {set;get;}
+
     public enum gameState
     {
         tutorial,

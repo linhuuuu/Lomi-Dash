@@ -22,11 +22,11 @@ public class Recipe : ScriptableObject
         Taal
     }
 
-
     public string id;
     public string recipeName;
     public int basePrice;
     public Region region;
+    [TextArea(3,4)] public string description;
 
     public List<ToppingEntry> toppingList = new List<ToppingEntry>();
     public GameObject toppingVisual;

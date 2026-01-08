@@ -80,7 +80,7 @@ namespace PCG
                 if (recipeList.Count < 2)
                     recipe = recipeList[0];
                 else
-                    recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count - 1)];
+                    recipe = recipeList[ProceduralRNG.Range(0, recipeList.Count)];
 
                 recipesUsed.Add(recipe);
 

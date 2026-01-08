@@ -5,11 +5,16 @@ public class DropPotSeasoning : DragAndDrop
 {
     [SerializeField] private ReturnSeasoning returnButton;
     [SerializeField] private string seasoningName;
-    
+
     private ShakePotSeasoning shakePotSeasoning;
+    [SerializeField] private SpriteRenderer[] pots;
 
     void Start()
     {
+        promptSprite = new();
+        foreach (SpriteRenderer pot in pots)
+            promptSprite.Add(pot);
+
         returnButton.SetTarget(this);
         returnButton.gameObject.SetActive(false);
     }

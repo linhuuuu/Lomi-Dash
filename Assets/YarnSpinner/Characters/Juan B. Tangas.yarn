@@ -1,4 +1,4 @@
-﻿title: CE_Juan_1
+﻿title: CE_JUAN_1
 ---
 <<setBackground SpriteBehaviour Lipa>>
 <<showCharacter SpriteBehaviour Juan at 600 0>>
@@ -36,7 +36,7 @@ Juan: We may have had some failed dreams, but that ain't stopping us from what w
 <<clearCharacters SpriteBehaviour All>>
 ===
 
-title: CE_Juan_2
+title: CE_JUAN_2
 ---
 
 <<hideBackground SpriteBehaviour>>
@@ -59,7 +59,7 @@ Juan: Okay! Ba-byeee! Sunduin nalang kita bukas, okay?
 <<clearCharacters SpriteBehaviour All>>
 <<showCharacter SpriteBehaviour Protagonist at -500 0>>
 Narrator: The very next day they headed to the wedding.
-Narrator: Since Protagonist was still new around here, he could not help but curiously observe how different this wedding was from what he knew.
+Narrator: Since you are knew around here, you could not help but observe how different this wedding was from what he knew.
 
 Protagonist: Hmm.. Juan, bakit ganito ang ginagawa sa wedding na 'to? Bakit napakadaming... karne?
 Protagonist: Bakit doon sa dulong iyon, ba't nagsasabitan sila?
@@ -78,7 +78,7 @@ Narrator: They found a seat near the aisle, immersing themselves in the warmth a
 <<clearCharacters SpriteBehaviour All>>
 ===
 
-title: CE_Juan_3
+title: CE_JUAN_3
 ---
 <<showCharacter SpriteBehaviour Juan at 600 0>>
 Juan: Hi! Just dropping by! 

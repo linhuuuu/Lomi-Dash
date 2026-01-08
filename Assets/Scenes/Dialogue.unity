@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &56950697
+--- !u!1001 &1494059
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -133,16 +133,31 @@ PrefabInstance:
     - target: {fileID: 2526603224102723673, guid: 97b7623f0aff0f9428350939df210a17,
         type: 3}
       propertyPath: m_Name
-      value: Dialogue System Variant
+      value: Final Dialogue System
       objectReference: {fileID: 0}
     - target: {fileID: 4391951959906888307, guid: 97b7623f0aff0f9428350939df210a17,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -1876.9999
+      value: -1877
       objectReference: {fileID: 0}
     - target: {fileID: 4391951959906888307, guid: 97b7623f0aff0f9428350939df210a17,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398343138957794850, guid: 97b7623f0aff0f9428350939df210a17,
+        type: 3}
+      propertyPath: autoStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398343138957794850, guid: 97b7623f0aff0f9428350939df210a17,
+        type: 3}
+      propertyPath: startNode
+      value: Lipa_Easy_Before
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157865367481964127, guid: 97b7623f0aff0f9428350939df210a17,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8953423659327874609, guid: 97b7623f0aff0f9428350939df210a17,
@@ -342,4 +357,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2043774743}
-  - {fileID: 56950697}
+  - {fileID: 1494059}

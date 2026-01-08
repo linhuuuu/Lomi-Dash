@@ -37,7 +37,7 @@ public class LineReader : DialoguePresenterBase
             hasShownPortraitsAfterChoice = true;
         }
 
-        if (Debug.isDebugBuild) Debug.Log($"LineReader: {speakerName} says \"{text}\"");
+        // if (Debug.isDebugBuild) Debug.Log($"LineReader: {speakerName} says \"{text}\"");
 
         AudioManager.instance.PlayUI(UI.CLICK);
         return YarnTask.CompletedTask;

@@ -1,17 +1,16 @@
 title: CE_FATHER_1
 ---
-<<setBackground SpriteBehaviour Default>>
-
+<<setBackground SpriteBehaviour Lipa>>
 <<showCharacter SpriteBehaviour Father at 600 0>>
-<<changeCharacterSprite  Spritebehaviour Father Angry>>
 Father: Hoy! Kayo talaga, kapipilyo nyo!
+<<changeCharacterSprite  SpriteBehaviour Father Angry>>
 CHILDREN: WAHAHAHA-!
 Father: Ilang beses ko pa 'ga kayong pagsasabihan...
 Father: ...na huwag kayong pagala-gala sa harap ng simbahan?!
 Father: Jusko po Panginoon, sana tulungan nyo po ang mga batang ito...
 Father: Gah - Mga kabataan talaga ngay-on... pag-asa daw ng bayan.. Ay, kainaman naman kung bastusin ng marker ang mga pader.
 Father: Hindi ga, iho?
-<<showCharacter SpriteBehaviour Protagonist -600, 0>>
+<<showCharacter SpriteBehaviour Protagonist at -600, 0>>
 Protagonist: Uhm, Eh - Ewan ko po...
 Protagonist: Hindi po ba ganoon rin po sila simula ng dati pa?
 Father: Aba? Saan ka ga pinulot at parang ngay-on mo laang narinig ang kabastusan ng mga bata sa mga panahon ngay-on?
@@ -43,7 +42,10 @@ Protagonist: I was just thinking. Sa tingin ko po na mas maganda po na maging ba
 
 title: CE_FATHER_2
 ---
+<<setBackground SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Father at 600 0>>
 Father: Iho, ikaw lang 'gang nagpapatakbo ng lugar na'to?
+<<showCharacter SpriteBehaviour Protagonist at -400 0>>
 Protagonist: Opo, ako nga po. Pero ito po ay sa tito ko dati, ipinamana niya na po sa akin ito.
 Father: Hmmm... Hindi ka 'ga tinatamad kapag mag-isa ka lang nagpapatakbo nito?
 Father: Hindi kasi talaga madali magpatakbo ng isang negosyo mag-isa...
@@ -64,8 +66,11 @@ Father: Sayang naman, ‘no? Gumagawa ka pa naman ng masarap na lomi, tapos ‘d
 
 title: CE_FATHER_3
 ---
+<<setBackground SpriteBehaviour Lipa>>
 <<setPlayerName SpriteBehaviour>>
+<<showCharacter SpriteBehaviour Father at 600 0>>
 Father: {$player}!
+<<showCharacter SpriteBehaviour Protagonist at -400 0>>
 Protagonist: Aba, may oras pa po kayo siguro, ‘no? Halos wala naman pong tao dito.
 Narrator: He slides you an extra bowl of Lomi. You realize they waited for the store to close properly before anyone ate.
 Father: Tara iho, kain tayo.

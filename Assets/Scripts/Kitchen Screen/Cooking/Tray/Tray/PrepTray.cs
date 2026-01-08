@@ -10,7 +10,6 @@ public class PrepTray : MonoBehaviour
     [SerializeField] private int maxDishWeight;
     [SerializeField] private int maxBevWeight;
     [SerializeField] private int maxSeasoningTrayWeight;
-    private int currentDishWeight, currentBevWeight;
     public DishSectionNode[] dishList { private set; get; }
     public BeverageSectionNode[] bevList { private set; get; }
     public SeasoningTraySectionNode seasoningTray { private set; get; } = new SeasoningTraySectionNode();
@@ -51,7 +50,7 @@ public class PrepTray : MonoBehaviour
     public bool AddBeverage(BeverageSectionNode bev, int slot)
     {
         bevList[slot] = bev;
-        currentBevWeight += bev.size;
+        // currentBevWeight += bev.size;
         return true;
     }
 
@@ -108,8 +107,8 @@ public class PrepTray : MonoBehaviour
 
     public void ClearTray()
     {
-        currentDishWeight = 0;
-        currentBevWeight = 0;
+
+
         seasoningTray.trayCount = 0;
         trayNode = new();
 

@@ -10,6 +10,10 @@ public class InstBev : DragAndDrop
     {
         GetComponent<SpriteRenderer>().sprite = bevObj.sprite;
         transform.parent.GetComponent<SpriteRenderer>().sprite = bevObj.sprite;
+
+        promptSprite = new();
+                foreach (SpriteRenderer slot in KitchenDrag.Instance.beverageSlots)
+            promptSprite.Add(slot);
     }
 
     public Vector3 screenOffset;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class DragAndDrop : MonoBehaviour
     public Transform parent { set; get; }
     protected Collider hitCollider;
 
+    protected List<SpriteRenderer> promptSprite { set; get; }
+
     private LayerMask interactable;
     private float zOffset;
     protected Camera mainCamera;
@@ -26,15 +29,9 @@ public class DragAndDrop : MonoBehaviour
     // 🔖 Track if we modified sorting
     private bool didAdjustSorting = false;
 
-    System.Collections.IEnumerator getCamera()
-    {
-        yield return new WaitForSeconds(0.01f);
-        mainCamera = CameraManager.cam.mainCam;
-    }
-
     private void Awake()
     {
-        StartCoroutine(getCamera());
+        mainCamera = CameraManager.cam.mainCam;
         col = gameObject.GetComponent<Collider>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         originalSortingOrder = sprite.sortingOrder;
@@ -50,9 +47,7 @@ public class DragAndDrop : MonoBehaviour
         originalSortingLayer = sprite.sortingLayerName;
         parent = transform.parent;
 
-        interactable += 1 << 8; // Interactables
-        interactable += 1 << 10; // Trash
-        interactable += 1 << 12; // Tray Slots
+        interactable = (1 << 8) | (1 << 10) | (1 << 12);
     }
 
     protected void OnMouseDown()
@@ -70,18 +65,25 @@ public class DragAndDrop : MonoBehaviour
         {
             sprite.sortingLayerName = "OnDrag";
             AddToSortingOrder(this.transform, 30);
-            didAdjustSorting = true; // ✅ Mark as adjusted
+            didAdjustSorting = true;
         }
     }
 
     protected void OnMouseDrag()
     {
-        if (UIUtils.IsPointerOverUI()) { revertDefaults(); return; }
-
         Vector3 screenPos = Input.mousePosition;
         screenPos.z = zOffset;
         Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
         transform.position = worldPos;
+
+        //outline each prompt
+        if (promptSprite != null)
+        {
+            foreach (SpriteRenderer prompt in promptSprite)
+            {
+                prompt.gameObject.SetActive(true);
+            }
+        }
 
         AutoNudgeKitchen(screenPos);
     }
@@ -111,6 +113,7 @@ public class DragAndDrop : MonoBehaviour
 
     protected void revertDefaults()
     {
+      
         if (hitCollider != null && hitCollider.TryGetComponent(out GameObject obj))
             if (Debug.isDebugBuild) Debug.Log("Hit: " + obj);
 
@@ -133,20 +136,51 @@ public class DragAndDrop : MonoBehaviour
                 didAdjustSorting = false; // Reset
             }
         }
+
+            //remove outline each prompt
+        if (promptSprite != null)
+        {
+            foreach (SpriteRenderer prompt in promptSprite)
+            {
+                prompt.gameObject.SetActive(false);
+            }
+        }
     }
 
     protected void initDraggable()
     {
+        KitchenDrag.Instance.SpecifyTouched(name);
+        
+        if (mainCamera == null)
+        {
+            Debug.LogWarning("mainCamera is null in initDraggable!");
+            return;
+        }
+
         col.enabled = false;
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.2f);
+        bool hitSuccess = Physics.Raycast(ray, out RaycastHit hit, 100f, interactable);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, interactable))
+        Color rayColor = hitSuccess ? Color.green : Color.red;
+        Debug.DrawRay(ray.origin, ray.direction * 100f, rayColor, 2f); // 2s visibility
+
+        if (hitSuccess)
+        {
             hitCollider = hit.collider;
-
-        if (hitCollider && Debug.isDebugBuild)
-            Debug.Log(hitCollider.tag);
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log($"[Drag] Hit: {hitCollider.name} (Layer: {LayerMask.LayerToName(hitCollider.gameObject.layer)})");
+            }
+        }
+        else
+        {
+            hitCollider = null;
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log("[Drag] No valid collider hit under mouse (check LayerMask or UI blocking).");
+            }
+        }
 
         col.enabled = true;
     }

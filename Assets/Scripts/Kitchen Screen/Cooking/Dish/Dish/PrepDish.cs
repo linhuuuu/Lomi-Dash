@@ -29,6 +29,13 @@ public class PrepDish : DragAndDrop
 
     void Start()
     {
+        promptSprite = new();
+        foreach (SpriteRenderer dish in KitchenDrag.Instance.dishBlankets)
+            promptSprite.Add(dish);
+
+        foreach (SpriteRenderer slot in KitchenDrag.Instance.dishSlots)
+            promptSprite.Add(slot);
+
         animDish = GetComponent<AnimDish>();
         //Init DishNode
         if (dishNode == null)
@@ -86,9 +93,9 @@ public class PrepDish : DragAndDrop
         if (GameManager.instance.state == GameManager.gameState.tutorial)
         {
             toppingCount++;
-            if (toppingCount >= 9 )
+            if (toppingCount >= 9)
                 tutorialToppingFlag = true;
-                
+
             return;
         }
 

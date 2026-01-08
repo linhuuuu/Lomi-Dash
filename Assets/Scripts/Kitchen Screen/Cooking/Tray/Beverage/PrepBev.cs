@@ -10,6 +10,7 @@ public class PrepBev : DragAndDrop
     {
         bevNode = new BeverageSectionNode(beverage);
         GetComponent<SpriteRenderer>().sprite = sprite;
+        originalSortingOrder = this.GetComponent<SpriteRenderer>().sortingOrder;
     }
     public void OnMouseUp()
     {

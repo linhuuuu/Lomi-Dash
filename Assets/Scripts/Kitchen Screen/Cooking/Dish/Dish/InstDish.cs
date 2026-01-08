@@ -7,6 +7,14 @@ public class InstDish : DragAndDrop
     [SerializeField] private AudioSource SRC;
     [SerializeField] private AudioClip placeDish;
 
+    void Start()
+    {
+        promptSprite = new();
+                foreach (SpriteRenderer dish in KitchenDrag.Instance.dishBlankets)
+            promptSprite.Add(dish);
+
+        this.name = $"Dish";
+    }
     public void OnMouseUp()
     {
         initDraggable();
@@ -19,7 +27,8 @@ public class InstDish : DragAndDrop
 
         if (hitCollider.tag == "DishPos")
         {
-            if (hitCollider.transform.childCount > 0) { revertDefaults();  return; }
+            if (hitCollider.transform.childCount > 1)  //Account for the guide
+            { revertDefaults();  return; }
             var newDish = Instantiate(dishPrefab, Vector3.down, Quaternion.identity, hitCollider.transform);
 
             newDish.transform.localPosition = new Vector3(0f, 0.75f, 0f);

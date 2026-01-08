@@ -14,6 +14,11 @@ public class MapManager : MonoBehaviour
 
     private MapNodes activeNode;
 
+    [SerializeField] private TextMeshProUGUI levelName;
+    [SerializeField] private TextMeshProUGUI difficulty;
+    [SerializeField] private Image featuredCustomer;
+    [SerializeField] private TextMeshProUGUI fameToUnlock;
+
     public static MapManager map;
     void Awake()
     {
@@ -25,22 +30,21 @@ public class MapManager : MonoBehaviour
         if (GameManager.instance.state == GameManager.gameState.tutorial)
         {
             backButton.gameObject.SetActive(false);
-            GameManager.instance.state = GameManager.gameState.startDay;
-            Debug.Log("Saved as startday");
         }
 
-        SetActiveNode(mapNodes[DataManager.data.playerData.highestLevelCleared]);
-        
         float totalFame = DataManager.data.playerData.happiness;
-        int highestLevel = DataManager.data.playerData.highestLevelCleared;
+        int highestLevel = Mathf.Clamp(DataManager.data.playerData.highestLevelCleared, 1, 3);
 
         foreach (MapNodes nodes in mapNodes)
             nodes.Init(totalFame, highestLevel);
 
         if (highestLevel > 0)
-            CameraDragZoomControl.instance.CenterOnTarget(mapNodes[highestLevel].transform);
+            CameraDragZoomControl.instance.CenterOnTarget(mapNodes[highestLevel-1].transform);
         else
             CameraDragZoomControl.instance.CenterOnTarget(mapNodes[0].transform);
+
+            SetActiveNode(mapNodes[highestLevel-1]);
+
 
         startButton.onClick.AddListener(() => NextScene());
         backButton.onClick.AddListener(() => GameManager.instance.NextScene("Main Screen"));
@@ -48,6 +52,7 @@ public class MapManager : MonoBehaviour
 
     public void SetActiveNode(MapNodes node)
     {
+       
         activeNode = node;
         GameManager.instance.roundProfile = node.profile;
 
@@ -58,6 +63,17 @@ public class MapManager : MonoBehaviour
         CameraDragZoomControl.instance.CenterOnTarget(node.transform);
         Vector3 targetPos = node.transform.position + new Vector3(0f, 0.5f, 0f);
         marker.transform.position = targetPos;
+
+        levelName.text = GameManager.instance.roundProfile.roundName;
+        difficulty.text = $"Difficulty: {GameManager.instance.roundProfile.difficulty}";
+        featuredCustomer.sprite = GameManager.instance.roundProfile.specialCustomerUnlock.portrait;
+
+        float currHappiness = DataManager.data.playerData.happiness;
+        float requiredFame = InventoryManager.inv.gameRepo.roundProfiles[GameManager.instance.roundProfile.level].requiredFame;
+        if (currHappiness >= requiredFame)
+            fameToUnlock.text = "";
+        else
+            fameToUnlock.text = $"Gain +{requiredFame - currHappiness} Fame to unlock next stage!";
     }
 
     void NextScene()

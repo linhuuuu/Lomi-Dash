@@ -12,6 +12,7 @@ public class Topping : ScriptableObject
 
         public string id;
         public string toppingName;
+        public string description;
         public Sprite sprite;
         public Sprite containerSprite;
         public Sprite garnishSprite;

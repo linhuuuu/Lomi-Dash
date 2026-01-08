@@ -23,8 +23,14 @@ public class CookWok : DragAndDrop
     public int maxCount { set; get; } = 1;
     public bool stove_On { private set; get; } = false;
 
+    public KitchenDrag.Action lastAction;
+
     void Start()
     {
+        promptSprite = new();
+                foreach (SpriteRenderer dish in KitchenDrag.Instance.dishBlankets)
+            promptSprite.Add(dish);
+
         InitWok();
         animWok = GetComponent<AnimWok>();
     }
@@ -51,14 +57,13 @@ public class CookWok : DragAndDrop
 
     #region CookingRoutine
     public void ToggleStove()
-    { 
+    {
         stove_On = !stove_On;
 
         if (!stove_On)
             animWok.StopJitter();
         else
             animWok.StartJitter();
-
 
         UpdateSauteeState();
         UpdateNoodleState();
@@ -180,19 +185,52 @@ public class CookWok : DragAndDrop
         switch (type)
         {
             case "Oil":
-                if (sauteeNode.oilCount == maxCount) return;
-                sauteeNode.oilCount += maxCount;
-                animWok.PlaceIngredient("Oil");
+                if (sauteeNode.oilCount == maxCount)
+                {
+                    AudioManager.instance.PlaySFX(SFX.MISTAKE);
+                    KitchenDrag.Instance.SpecifyMistake($"Enough Oil!");
+                    return;
+                }
+                else
+                {
+                    sauteeNode.oilCount += maxCount;
+                    animWok.PlaceIngredient("Oil");
+
+                    lastAction = KitchenDrag.Action.OIL;
+                    KitchenDrag.Instance.SpecifyAction(lastAction);
+                }
                 break;
             case "Bawang":
-                if (sauteeNode.bawangCount == maxCount) return;
-                sauteeNode.bawangCount += maxCount;
-                animWok.PlaceIngredient("Bawang");
+                if (sauteeNode.bawangCount == maxCount)
+                {
+                    AudioManager.instance.PlaySFX(SFX.MISTAKE);
+                    KitchenDrag.Instance.SpecifyMistake($"Enough Bawang!");
+                    return;
+                }
+                else
+                {
+                    sauteeNode.bawangCount += maxCount;
+                    animWok.PlaceIngredient("Bawang");
+
+                    lastAction = KitchenDrag.Action.BAWANG;
+                    KitchenDrag.Instance.SpecifyAction(lastAction);
+                }
                 break;
             case "Onion":
-                if (sauteeNode.onionCount == maxCount) return;
-                sauteeNode.onionCount += maxCount;
-                animWok.PlaceIngredient("Onion");
+                if (sauteeNode.onionCount == maxCount)
+                {
+                    AudioManager.instance.PlaySFX(SFX.MISTAKE);
+                    KitchenDrag.Instance.SpecifyMistake($"Enough Onion!");
+                    return;
+                }
+                else
+                {
+                    sauteeNode.onionCount += maxCount;
+                    animWok.PlaceIngredient("Onion");
+
+                    lastAction = KitchenDrag.Action.ONION;
+                    KitchenDrag.Instance.SpecifyAction(lastAction);
+                }
                 break;
             default:
                 if (Debug.isDebugBuild) Debug.Log("Unrecognized Type."); break;
@@ -203,21 +241,45 @@ public class CookWok : DragAndDrop
     public void AddSoySauce()
     {
         if (soySauceNode == null) soySauceNode = new SoySauceNode();
-        if (soySauceNode.count == maxCount) return;
+        if (soySauceNode.count == maxCount)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake($"Enough Soy Sauce!");
+            return;
+        }
+        else
+        {
+            soySauceNode.count += maxCount;
+            StartCoroutine(animWok.AddSoySauce());
 
-        soySauceNode.count += maxCount;
-        StartCoroutine(animWok.AddSoySauce());
+            lastAction = KitchenDrag.Action.SOY_SAUCE;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+        }
+
+
     }
 
     public void AddNoodles()
     {
         if (noodlesNode == null) noodlesNode = new NoodlesNode();
 
-        if (noodlesNode.count == maxCount) return;
-        noodlesNode.count += maxCount;
+        if (noodlesNode.count == maxCount)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake($"Enough Noodles!");
+            return;
+        }
+        else
+        {
+            noodlesNode.count += maxCount;
 
-        animWok.PlaceIngredient("Noodles");
-        UpdateNoodleState();
+            animWok.PlaceIngredient("Noodles");
+            UpdateNoodleState();
+
+            lastAction = KitchenDrag.Action.NOODLES;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+        }
+
     }
 
     public void TransferPot(PotGroup potGroup, Color color)
@@ -232,20 +294,41 @@ public class CookWok : DragAndDrop
     {
         if (thickenerNode == null) thickenerNode = new ThickenerNode();
 
-        if (thickenerNode.count == maxCount) return;
-        thickenerNode.count += maxCount;
+        if (thickenerNode.count == maxCount)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake($"Enough Cassava Flour!");
+            return;
+        }
+        else
+        {
+            thickenerNode.count += maxCount;
+            animWok.PlaceSlurry("Thickener");
 
-        animWok.PlaceSlurry("Thickener");
+            lastAction = KitchenDrag.Action.CASSAVA;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+        }
     }
 
     public void AddEgg()
     {
         if (eggNode == null) eggNode = new EggNode();
 
-        if (eggNode.count == maxCount) return;
-        eggNode.count += maxCount;
+        if (eggNode.count == maxCount)
+        {
+            AudioManager.instance.PlaySFX(SFX.MISTAKE);
+            KitchenDrag.Instance.SpecifyMistake($"Enough Egg!");
+            return;
+        }
+        else
+        {
+            eggNode.count += maxCount;
+            animWok.PlaceSlurry("Egg");
 
-        animWok.PlaceSlurry("Egg");
+            lastAction = KitchenDrag.Action.EGG;
+            KitchenDrag.Instance.SpecifyAction(lastAction);
+        }
+
     }
 
     public void OnMix()
@@ -255,10 +338,18 @@ public class CookWok : DragAndDrop
         if ((eggNode != null && eggNode.count > 0 && eggNode.isMixed == false) || (thickenerNode != null && thickenerNode.count > 0 && thickenerNode.isMixed == false))
         {
             if (eggNode.count > 0 && eggNode.isMixed == false)
+            {
+                lastAction = KitchenDrag.Action.MIXED;
+                KitchenDrag.Instance.SpecifyAction(lastAction);
                 eggNode.isMixed = true;
+            }
 
             if (thickenerNode.count > 0 && thickenerNode.isMixed == false)
+            {
+                lastAction = KitchenDrag.Action.MIXED;
+                KitchenDrag.Instance.SpecifyAction(lastAction);
                 thickenerNode.isMixed = true;
+            }
 
             StartCoroutine(animWok.MixSlurry());
         }

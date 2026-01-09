@@ -16,6 +16,9 @@ MonoBehaviour:
   recipeName: Beefy Lomi
   basePrice: 120
   region: 1
+  description: "Beefy lomi highlights slow-cooked beef sourced from local cattles
+    of Padre Garcia as the main topping, making the broth richer and deeper in flavor.
+    It is a heavier meal commonly chosen after a long day at work. \n"
   toppingList:
   - topping: {fileID: 11400000, guid: 6d7c3316cf28ec1439fa43e1ca766f30, type: 2}
     count: 3

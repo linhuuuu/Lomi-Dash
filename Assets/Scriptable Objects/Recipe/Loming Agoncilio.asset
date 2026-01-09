@@ -16,6 +16,10 @@ MonoBehaviour:
   recipeName: Loming Agoncilio
   basePrice: 125
   region: 2
+  description: "Loming Agoncillo is a generous variation of Lipa\u2019s iconic lomi,
+    specifically associated with the town of Agoncillo, Batangas. This version is
+    characterized by a rich, thick broth loaded with assorted toppings such as pork,
+    chicken, liver, bola-bola, and vegetables. \n\n"
   toppingList:
   - topping: {fileID: 11400000, guid: 3338a4512fa028d47a7aae52ded5e0d5, type: 2}
     count: 2

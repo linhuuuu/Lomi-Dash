@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: MINCED_MEAT
   toppingName: Minced Meat
+  description: 'Minced meat spreads evenly throughout the noodles and broth. It ensures
+    that almost every spoonful contains meat, making the dish more filling. '
   sprite: {fileID: 564959359, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -576103396, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

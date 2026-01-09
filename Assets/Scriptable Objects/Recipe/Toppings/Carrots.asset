@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: CARROTS
   toppingName: Carrot
+  description: 'Carrots add sweetness, color, and texture to dishes. They are commonly
+    included in noodle dishes, chopsuey, and meat stews.  '
   sprite: {fileID: -2112248075, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -1180540475, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

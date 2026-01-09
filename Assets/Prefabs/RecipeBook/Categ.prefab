@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4350247432311746137}
   - component: {fileID: 8724743123432922420}
   m_Layer: 5
-  m_Name: Image
+  m_Name: DropDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,9 +34,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 752421937443601001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25.87913, y: -20.649685}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 29.76, y: 29.299}
   m_Pivot: {x: 0.49997076, y: 0.49999368}
 --- !u!222 &5920283209587347923
@@ -353,7 +353,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldName: {fileID: 3624516302522359409}
-  button: {fileID: 3027046713783942316}
+  dropDownButton: {fileID: 8724743123432922420}
+  categButton: {fileID: 3027046713783942316}
 --- !u!222 &7151011934334035091
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -469,9 +470,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 752421937443601001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 208.715, y: -31}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 266.67, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2762001693615018723

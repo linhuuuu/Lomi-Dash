@@ -12,6 +12,8 @@ public class CanvasButttonsManager : MonoBehaviour
     [field: SerializeField] public Button map { set; get; }
     [field: SerializeField] public TextMeshProUGUI playerName { set; get; }
     [field: SerializeField] public Image playerIcon { set; get; }
+    [field: SerializeField] public Image ucgButton { set; get; }
+
 
     void Start()
     {
@@ -24,6 +26,9 @@ public class CanvasButttonsManager : MonoBehaviour
         if (InventoryManager.inv.gameRepo.IconsRepo[DataManager.data.playerData.icon] != null)
             playerIcon.sprite = InventoryManager.inv.gameRepo.IconsRepo[DataManager.data.playerData.icon];
         //improve using find condition maybe but this will do
+
+                if (GameManager.instance.state != GameManager.gameState.startDay)
+        ucgButton.gameObject.SetActive(true);
 
     }
 }

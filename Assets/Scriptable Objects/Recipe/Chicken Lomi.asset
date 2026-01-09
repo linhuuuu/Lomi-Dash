@@ -16,6 +16,11 @@ MonoBehaviour:
   recipeName: Chicken Lomi
   basePrice: 120
   region: 0
+  description: 'Chicken lomi uses tender chicken as the main protein, giving the
+    dish a lighter but still savory flavor. It is preferred by those who want a less
+    fatty version of Batangas lomi.
+
+'
   toppingList:
   - topping: {fileID: 11400000, guid: 826aa6757bfe8ee449cbb4946f02f118, type: 2}
     count: 3

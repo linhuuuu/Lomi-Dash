@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: CORN_BEEF
   toppingName: Corn Beef
+  description: 'Corned beef is sometimes used as a convenient and flavorful topping.
+    It blends well into the thick broth and gives a familiar breakfast-style taste. '
   sprite: {fileID: -65768712, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -999316650, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

@@ -563,7 +563,6 @@ public class RoundManager : MonoBehaviour
             clearTime = roundElapsedTime,
             starCount = starCollected,
         };
-
         if (unlockCustomer != null && unlockCustomer.Count > 0)
         {
             var customerList = new List<string>(DataManager.data.playerData.unlockedCustomerIds);
@@ -581,12 +580,12 @@ public class RoundManager : MonoBehaviour
         if (unlockRecipe != null)
         {
             var recipeList = new List<string>(DataManager.data.playerData.unlockedRecipeIds);
-
-            // Optional: avoid duplicate
             if (!recipeList.Contains(unlockRecipe.id))
                 recipeList.Add(unlockRecipe.id);
 
             update.Add("unlockedRecipeIds", recipeList);
+            NotificationCanvas.instance.AddToNotifications("recipe", unlockRecipe.recipeName);
+
         }
 
         //EntryUnlocks
@@ -880,6 +879,8 @@ public class RoundManager : MonoBehaviour
         };
 
         update.Add("unlockedSpecialCustomerIds", specialCustomerUpdate);
+
+        NotificationCanvas.instance.AddToNotifications("customer", specialCustomer.name);
     }
 
     public bool InstCurrenciesDrop(CustomerGroup group, float finalScore, float money, float happiness)
@@ -964,9 +965,10 @@ public class RoundManager : MonoBehaviour
                 {
                     if (update["unlockedLocationIds"] is List<string> locationList)
                     {
-                        if (!locationList.Contains(data.entryID)) // Exists + lambda is overkill
+                        if (!locationList.Contains(data.entryID))
                             locationList.Add(data.entryID);
-                        // No need to reassign—it's the same reference
+
+                        NotificationCanvas.instance.AddToNotifications("location", data.name);
                     }
                 }
                 else
@@ -975,7 +977,9 @@ public class RoundManager : MonoBehaviour
                     var locationList = new List<string>(DataManager.data.playerData.unlockedLocationIds);
                     if (!locationList.Contains(data.entryID))
                         locationList.Add(data.entryID);
-                    update["unlockedLocationIds"] = locationList;
+
+                    NotificationCanvas.instance.AddToNotifications("location", data.name);
+
                 }
             }
 
@@ -987,6 +991,8 @@ public class RoundManager : MonoBehaviour
                     {
                         if (!termList.Contains(data.entryID))
                             termList.Add(data.entryID);
+
+                        NotificationCanvas.instance.AddToNotifications("term", data.name);
                     }
                 }
                 else
@@ -995,6 +1001,8 @@ public class RoundManager : MonoBehaviour
                     if (!termList.Contains(data.entryID))
                         termList.Add(data.entryID);
                     update["unlockedTermIds"] = termList;
+
+                    NotificationCanvas.instance.AddToNotifications("term", data.name);
                 }
             }
         }

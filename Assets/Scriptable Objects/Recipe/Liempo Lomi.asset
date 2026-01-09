@@ -16,6 +16,11 @@ MonoBehaviour:
   recipeName: Liempo Lomi
   basePrice: 120
   region: 1
+  description: 'This lomi uses grilled or fried liempo slices to add smoky pork flavor
+    to the broth. It is popular in Lipa eateries where liempo is commonly paired
+    with noodles and rice meals.
+
+'
   toppingList:
   - topping: {fileID: 11400000, guid: d6a86547a7297cd4da3ff7cf0bb4213b, type: 2}
     count: 3

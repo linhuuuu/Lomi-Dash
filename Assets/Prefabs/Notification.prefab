@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4823161707246217773}
   - component: {fileID: 2063274869470299303}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Header
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 3741842528993253737}
   - component: {fileID: 5633104506012006442}
   - component: {fileID: 4162195911119281568}
+  - component: {fileID: 3849629482903874667}
   m_Layer: 0
   m_Name: Notification
   m_TagString: Untagged
@@ -239,6 +240,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &3849629482903874667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2730697141866227181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6486a4ccfef83cd4ea4c4add73c65600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 3459833655652058633}
+  sprites:
+  - {fileID: -1061092164, guid: f4b7fbcbec6524149a62c3a044d0c349, type: 3}
+  - {fileID: 21300000, guid: a679fa5bb82e4f747a793859c0504722, type: 3}
+  header: {fileID: 2063274869470299303}
+  desc: {fileID: 1157872423272552753}
 --- !u!1 &3911626417865840290
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +424,7 @@ GameObject:
   - component: {fileID: 293155657251950626}
   - component: {fileID: 1157872423272552753}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

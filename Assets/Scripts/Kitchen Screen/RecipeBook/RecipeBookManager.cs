@@ -7,6 +7,7 @@ public class RecipeBookManager : MonoBehaviour
     //Location References
     [SerializeField] private Canvas recipeBookCanvas;
     [SerializeField] private Transform listContent;
+    [SerializeField] private Transform listOptionsContainer;
 
     //Content References
     [SerializeField] private BaseContent baseContent;
@@ -38,27 +39,27 @@ public class RecipeBookManager : MonoBehaviour
 
     void Start()
     {
+        recipeBookCanvas.gameObject.SetActive(false);
+        
         closeButton.onClick.AddListener(ToggleRecipeBook);
         recipeButton.onClick.AddListener(ToggleRecipeBook);
-        if (GameManager.instance.state != GameManager.gameState.beforeDay)
+        if (GameManager.instance.state == GameManager.gameState.tutorial)
             recipeButton.gameObject.SetActive(false);
 
         InitBaseContent();
         InitRecipeContent();
-        // InitToppingContent();
+        InitToppingContent();
 
         //Hide List
         ToggleBaseList();
         ToggleRecList();
         ToggleToppingList();
-
-        
     }
 
     private void ToggleRecipeBook() => recipeBookCanvas.gameObject.SetActive(!recipeBookCanvas.gameObject.activeSelf);
 
     #region Contents
- private void InitBaseContent()
+    private void InitBaseContent()
     {
         baseRecipe.InitCategory($"Lomi Base", ToggleBaseList);
 
@@ -67,48 +68,73 @@ public class RecipeBookManager : MonoBehaviour
         foreach (var tut in tutorials)
         {
             RecipeBookOptions baseOptionCateg = GameObject.Instantiate(optionPrefab, baseOptionsList);
-            baseOptionCateg.InitTutOption($"{tut.id}", OpenBaseRecipeContent, tut);
+            baseOptionCateg.InitTutOption($"{tut.fieldName}", OpenBaseRecipeContent, tut);
         }
 
         OpenBaseRecipeContent(tutorials[0]);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(baseOptionsList.transform as RectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(listContent.transform as RectTransform);
     }
 
     private void InitRecipeContent()
     {
-      
         recipes.InitCategory($"Recipes", ToggleRecList);
 
         //Options
         List<Recipe> ownedRecipeList = InventoryManager.inv.gameRepo.RecipeRepo;
         foreach (Recipe rec in ownedRecipeList)
         {
-            RecipeBookOptions baseOptionCateg = GameObject.Instantiate(optionPrefab, recipeOptionsList);
-            baseOptionCateg.InitRecOption($"{rec.id}", OpenRecipeContent, rec);
+            RecipeBookOptions recOptionCateg = GameObject.Instantiate(optionPrefab, recipeOptionsList);
+            recOptionCateg.InitRecOption($"{rec.id}", OpenRecipeContent, rec);
+
+            if (!InventoryManager.inv.playerRepo.RecipeRepo.Contains(rec))
+                recOptionCateg.DisableButton();
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(recipeOptionsList.transform as RectTransform);
         }
     }
 
     private void InitToppingContent()
     {
-        RecipeBookCateg toppingCateg = GameObject.Instantiate(categPrefab, listContent);
-        toppingCateg.InitCategory($"Topping Content", ToggleToppingList);
+        topping.InitCategory($"Topping", ToggleToppingList);
 
         //Options
-        List<Topping> ownedToppingList = InventoryManager.inv.playerRepo.ToppingRepo;
+        List<Topping> ownedToppingList = InventoryManager.inv.gameRepo.ToppingRepo;
         foreach (Topping top in ownedToppingList)
         {
-            RecipeBookOptions baseOptionCateg = GameObject.Instantiate(optionPrefab, listContent);
-            baseOptionCateg.InitToppingOption($"{top.id}", OpenToppingContent, top);
+            RecipeBookOptions toppingOption = GameObject.Instantiate(optionPrefab, toppingOptionsList);
+            toppingOption.InitToppingOption($"{top.toppingName}", OpenToppingContent, top);
+
+            if (!InventoryManager.inv.playerRepo.ToppingRepo.Contains(top))
+                toppingOption.DisableButton();
         }
+        LayoutRebuilder.ForceRebuildLayoutImmediate(toppingOptionsList.transform as RectTransform);
     }
 
     #endregion
     #region ToggleList
 
-    private void ToggleToppingList() => toppingOptionsList.gameObject.SetActive(!toppingOptionsList.gameObject.activeSelf);
 
-    private void ToggleRecList() => recipeOptionsList.gameObject.SetActive(!recipeOptionsList.gameObject.activeSelf);
+    private void ToggleBaseList()
+    {
+        baseOptionsList.gameObject.SetActive(!baseOptionsList.gameObject.activeSelf);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(baseOptionsList.transform as RectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(listContent.transform as RectTransform);
+    }
 
-    private void ToggleBaseList() => baseOptionsList.gameObject.SetActive(!baseOptionsList.gameObject.activeSelf);
+    private void ToggleRecList()
+    {
+        recipeOptionsList.gameObject.SetActive(!recipeOptionsList.gameObject.activeSelf);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(recipeOptionsList.transform as RectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(listContent.transform as RectTransform);
+    }
+
+    private void ToggleToppingList()
+    {
+        toppingOptionsList.gameObject.SetActive(!toppingOptionsList.gameObject.activeSelf);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(toppingOptionsList.transform as RectTransform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(listContent.transform as RectTransform);
+    }
 
     #endregion
     #region OpenContent
@@ -119,6 +145,7 @@ public class RecipeBookManager : MonoBehaviour
         toppingContent.gameObject.SetActive(false);
 
         baseContent.InitContent(tutorial);
+
     }
 
     private void OpenRecipeContent(Recipe rec)

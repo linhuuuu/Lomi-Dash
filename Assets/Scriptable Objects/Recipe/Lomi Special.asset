@@ -16,6 +16,9 @@ MonoBehaviour:
   recipeName: LOMI SPECIAL
   basePrice: 140
   region: 0
+  description: "Lomi Special is a classic upgraded version of traditional Lipa lomi,
+    featuring a balanced combination of meats, vegetables, egg, and thick egg-based
+    broth. \n"
   toppingList:
   - topping: {fileID: 11400000, guid: 2eb0791d4a31d1f4e8e64814e8d5d3cd, type: 2}
     count: 1

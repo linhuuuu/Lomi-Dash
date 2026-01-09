@@ -16,6 +16,11 @@ MonoBehaviour:
   recipeName: BATANGAS
   basePrice: 80
   region: 0
+  description: 'Batangas lomi is known for its thick, hearty broth and generous toppings.
+    It is a staple comfort food in Lipa, often enjoyed during gatherings, rainy days,
+    or after long trips.
+
+'
   toppingList:
   - topping: {fileID: 11400000, guid: 83ed4617437caa84785b007267f627ab, type: 2}
     count: 3

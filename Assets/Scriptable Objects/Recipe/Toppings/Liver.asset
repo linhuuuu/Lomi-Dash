@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: LIVER
   toppingName: Liver
+  description: 'Pork liver gives the broth a richer, deeper taste. It is commonly
+    used in Batangas dishes and is often added to lomi. '
   sprite: {fileID: 2044697575, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -2025497155, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

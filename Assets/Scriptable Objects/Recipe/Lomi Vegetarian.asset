@@ -16,6 +16,12 @@ MonoBehaviour:
   recipeName: Lomi Vegetarian
   basePrice: 110
   region: 1
+  description: 'Vegetarian lomi keeps the thick Batangas-style noodles and broth
+    but replaces meat with vegetables. It is designed for those who want the same
+    comfort without pork or beef. Similarly, it reflects the chinese influence on
+    Batangueno culture.
+
+'
   toppingList:
   - topping: {fileID: 11400000, guid: 58fd08fce39cf5b44860426bb38fd694, type: 2}
     count: 2

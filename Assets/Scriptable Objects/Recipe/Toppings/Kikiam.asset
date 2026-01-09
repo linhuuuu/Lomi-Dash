@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: KIKIAM
   toppingName: Kikiam
+  description: 'Kikiam is a Filipino-style meat roll with a savory, slightly sweet
+    flavor. It is a popular street food and lomi topping, often bought from local
+    vendors and markets as an affordable and filling snack. '
   sprite: {fileID: 223265247, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: 2137579496, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

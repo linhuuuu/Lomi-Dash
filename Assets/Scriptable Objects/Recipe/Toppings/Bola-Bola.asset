@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: BOLA-BOLA
   toppingName: Bola-Bola
+  description: 'Bola-bola are seasoned meatballs commonly made from pork or mixed
+    meat. They are a familiar ingredient in lomi and other noodle dishes sold in
+    local panciterias. '
   sprite: {fileID: -1641549464, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -1613519272, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

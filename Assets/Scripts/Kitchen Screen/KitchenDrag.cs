@@ -73,6 +73,7 @@ public class KitchenDrag : MonoBehaviour
         hintButton.gameObject.SetActive(false);
         hintButton.onClick.AddListener(OnHintButtonPressed);
         labelToggleButton.onClick.AddListener(ToggleLabel);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(labelContainer.transform as RectTransform);
     }
 
     void Update()
@@ -389,7 +390,7 @@ public class KitchenDrag : MonoBehaviour
         label.text = newText;
         lastLabelUpdateTime = Time.time;
 
-          LayoutRebuilder.ForceRebuildLayoutImmediate(labelContainer.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(labelContainer.transform as RectTransform);
 
         if (!isCheckingForStaleLabel)
             StartCoroutine(SpecifyHint());
@@ -418,6 +419,7 @@ public class KitchenDrag : MonoBehaviour
             {
                 hintButton.gameObject.SetActive(true);
                 isCheckingForStaleLabel = false;
+                LayoutRebuilder.ForceRebuildLayoutImmediate(labelContainer.transform as RectTransform);
                 yield break;
             }
         }

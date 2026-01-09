@@ -16,6 +16,11 @@ MonoBehaviour:
   recipeName: Homemade Lomi
   basePrice: 100
   region: 0
+  description: 'Homemade lomi captures the taste of family-style Batangas cooking.
+    It is simple but filling, the kind of noodle soup usually served on weekends
+    at home.
+
+'
   toppingList:
   - topping: {fileID: 11400000, guid: 58fd08fce39cf5b44860426bb38fd694, type: 2}
     count: 2

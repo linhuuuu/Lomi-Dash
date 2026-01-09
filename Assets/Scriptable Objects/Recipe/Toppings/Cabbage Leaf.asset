@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: CABBAGE_LEAF
   toppingName: Cabbage Leaf
+  description: 'Cabbage leaves are widely used in soups and stir-fried dishes. Cabbage
+    is a staple vegetable in lomi and other noodle meals. '
   sprite: {fileID: 1153190264, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -287930882, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

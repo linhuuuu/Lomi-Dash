@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: QUAILL_EGG
   toppingName: Quaill Egg
+  description: 'Quail eggs are small eggs often used as toppings or side ingredients.
+    They are frequently added to lomi, skewered street food, or mixed into vegetable
+    dishes. '
   sprite: {fileID: -1606571090, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: 296212525, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

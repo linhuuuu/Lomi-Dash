@@ -63,8 +63,9 @@ public class ResultScreenManager : MonoBehaviour
             return;
         }
 
-        playerData = DataManager.data.playerData;
+        StartCoroutine(NotificationCanvas.instance.AnimateNotifications());
 
+        playerData = DataManager.data.playerData;
         portrait.sprite = GameManager.instance.roundProfile.specialCustomerUnlock.portrait;
 
         for (int i = 0; i < results.starCount; i++)

@@ -32,7 +32,7 @@ public class BuffsManager : MonoBehaviour
         buffChoicePanelButton.onClick.AddListener(() => ToggleBuffChoicePanel());
 
         //If closed
-        if (GameManager.instance.state != GameManager.gameState.startDay)
+        if (GameManager.instance.state == GameManager.gameState.tutorial)
         {
             buffChoicePanelButton.gameObject.SetActive(false);
             buffChoicePanel.gameObject.SetActive(false);

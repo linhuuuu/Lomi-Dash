@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: PORK_MEAT
   toppingName: Pork Meat
+  description: 'Pork is a central protein in Batangas cuisine. Pork meat is used
+    extensively in everyday meals, from noodle toppings to fried and stewed dishes. '
   sprite: {fileID: 2102692517, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -675861484, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

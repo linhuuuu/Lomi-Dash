@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: TOFU
   toppingName: Tofu
+  description: 'Tofu is a versatile soy-based ingredient that absorbs surrounding
+    flavors. It is sometimes used as an alternative protein in noodle dishes and
+    stir-fries. '
   sprite: {fileID: 906381393, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: 906381393, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   garnishSprite: {fileID: 0}

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ONION_CHIVES
   toppingName: Onion Chives
+  description: 'Onion chives provide a mild onion flavor and aroma. They are often
+    used as garnish for lomi and soups. '
   sprite: {fileID: -53525330, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
   containerSprite: {fileID: -194468219, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
   garnishSprite: {fileID: 0}

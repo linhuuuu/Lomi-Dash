@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Convento
+  m_EditorClassIdentifier: 
+  entryID: CONVENTO
+  entryName: "Convento de San Sebasti\xE1n en Comintang "
+  description: "The Parish of San Sebasti\xE1n de Lipa was found in 1605 by the Augustinians,
+    stood as one of Batangas\u2019 earliest centers of faith. After multiple relocations
+    caused by the Taal Volcano\u2019s eruptions, the church was rebuilt in its current
+    location and completed in 1790. Known for its solid Neo-Classical design and
+    artistry, it remains a lasting symbol of Lipa\u2019s devotion, resilience, and
+    rich colonial heritage.\n"
+  mainImage: {fileID: -36599790, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

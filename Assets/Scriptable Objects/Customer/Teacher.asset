@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a080680ed67e84ba6fcec03b88ae00, type: 3}
+  m_Name: Teacher
+  m_EditorClassIdentifier: 
+  id: STUDENT
+  customerName: Student
+  patienceTime: 240
+  companions: []
+  preferredDish: []
+  preferredBeverage: []
+  characterEvents: []
+  portrait: {fileID: 500612333, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  standingSprite: {fileID: 74498777, guid: 988e30af31cea164bb2550392d186440, type: 3}
+  sittingSprite: {fileID: 2021848537, guid: 988e30af31cea164bb2550392d186440, type: 3}

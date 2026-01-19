@@ -73,3 +73,21 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+#Firebase config files (CRITICAL)
+/google-services.json
+/GoogleService-Info.plist
+
+# Firebase C++ SDK (HUGE FILES)
+Assets/Firebase/Plugins/android/
+Assets/Firebase/Plugins/ios/
+Assets/Firebase/Plugins/x86_64/
+Assets/Firebase/Plugins/FirebaseCppApp-*.dll
+Assets/Firebase/Plugins/FirebaseCppApp-*.so
+Assets/Firebase/Plugins/FirebaseCppApp-*.a
+Assets/Firebase/Plugins/FirebaseCppApp-*.lib
+Assets/Firebase/Plugins/FirebaseCppApp-*.pdb
+
+# Firebase meta files (safe to regenerate)
+Assets/Firebase/*.meta
+!Assets/Firebase/PluginPrefs.asset.meta  # Keep this one if needed

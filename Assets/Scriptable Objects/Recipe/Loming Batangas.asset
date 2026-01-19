@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b5a003d016bcc44a87ac76a21b0c29, type: 3}
+  m_Name: Loming Batangas
+  m_EditorClassIdentifier: 
+  id: BATANGAS
+  recipeName: BATANGAS
+  basePrice: 80
+  region: 0
+  description: 'Batangas lomi is known for its thick, hearty broth and generous toppings.
+    It is a staple comfort food in Lipa, often enjoyed during gatherings, rainy days,
+    or after long trips.
+
+'
+  toppingList:
+  - topping: {fileID: 11400000, guid: 83ed4617437caa84785b007267f627ab, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: 3338a4512fa028d47a7aae52ded5e0d5, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: d88bbf3554de75a46aabe20cb7053da9, type: 2}
+    count: 3
+  toppingVisual: {fileID: 5597419501941907907, guid: d58b876ac9b0b3f4b87d073b18352227,
+    type: 3}

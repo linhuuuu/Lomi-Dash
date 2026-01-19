@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "315847960993",
+    "project_id": "lomi-dash-45a3d",
+    "storage_bucket": "lomi-dash-45a3d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315847960993:android:7fecc208578890018d83e0",
+        "android_client_info": {
+          "package_name": "com.migraine.lomidash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315847960993-6gt6p676v2p4bla6ae6fgv1h7o2dcjvc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.migraine.lomidash",
+            "certificate_hash": "5c12479ba8bba9c3d26cbde0390d629c64ea7262"
+          }
+        },
+        {
+          "client_id": "315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz-SK7rYrQBuHz7_-O_cghODAFoEbfXtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315847960993-n8tc2rgi2k8ejg30ipfr41on52392hki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

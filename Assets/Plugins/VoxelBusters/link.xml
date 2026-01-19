@@ -1,0 +1,20 @@
+﻿<linker>
+  <assembly fullname="VoxelBusters.EssentialKit">
+    <type fullname="VoxelBusters.EssentialKit.AddressBookCore.NullAddressBookInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.AppShortcutsCore.NullAppShortcutsInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.NativeUICore.UnityUIInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.NetworkServicesCore.UnityNetworkServicesInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.SharingServicesCore.NullSharingInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.ExtrasCore.NullNativeUtilityInterface" preserve="all" />
+    <type fullname="VoxelBusters.EssentialKit.RateMyAppCore.NullRateMyAppInterface" preserve="all" />
+  </assembly>
+  <assembly fullname="VoxelBusters.EssentialKit.AndroidModule">
+    <type fullname="VoxelBusters.EssentialKit.AddressBookCore.Android.AddressBookInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.AppShortcutsCore.Android.AppShortcutsInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.NativeUICore.Android.UIInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.NetworkServicesCore.Android.NetworkServicesInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.SharingServicesCore.Android.SharingServicesInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.ExtrasCore.Android.UtilityInterface" preserve="nothing" />
+    <type fullname="VoxelBusters.EssentialKit.RateMyAppCore.Android.RateMyAppInterface" preserve="nothing" />
+  </assembly>
+</linker>

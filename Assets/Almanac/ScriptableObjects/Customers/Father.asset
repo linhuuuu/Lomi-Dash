@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5610684f24962f478c1f101877876dd, type: 3}
+  m_Name: Father
+  m_EditorClassIdentifier: 
+  entryID: FATHER
+  entryName: Father
+  description: "It's easy to hear his easy laugh or nagging when you're nearby the
+    chapel. Very well loved by the community, very good with the kids. \n\nHowever,
+    to this day, many have not forgotten his attempt to be hip. \n"
+  mainImage: {fileID: 345752938, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  starCount: 0
+  characterEvents:
+  - {fileID: 11400000, guid: 936978783032178449cc6152195465ca, type: 2}
+  - {fileID: 11400000, guid: b4ba6b3c2113094438b8b93b93d76121, type: 2}
+  - {fileID: 11400000, guid: 24ec60e04d64c414bafe463b35abbc54, type: 2}
+  customerLocation: Lipa

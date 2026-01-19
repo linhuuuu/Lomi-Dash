@@ -1,0 +1,204 @@
+title: Lipa_Easy_Before
+---
+<<setBackground SpriteBehaviour Lipa>>
+Narrator: DAY START
+Narrator: Lipa City. Heart of Batangas.
+Narrator: "One of the most well-known cities coming from the province. Historically known for its Kapeng Barako trade and now its rising urban centers."
+Narrator: Your hometown reminds you of childhood traditions in a city that blends modern life with Batangueño values.
+Narrator: The air is cool, the streets are calm, and the neon sign of your small lomihan flickers gently in the night.
+Narrator: You take a deep breath, feeling the familiar warmth of home.
+
+<<showCharacter SpriteBehaviour Protagonist at 600 0>>
+Protagonist: Ahhhh, ayos! Lipa pa rin talaga, kahit gaano katagal kong hindi bumalik.
+Protagonist: Parang kahapon lang talaga ang lahat, nagtitimpla pa ako ng kape kay Tatay tuwing umaga.
+Protagonist: Pero ngayon… ako na ang may tindahan, di ko pa din alam kung bakit binigay sa akin ito ni tito.
+Protagonist: Ready na akong magserbisyo.
+Protagonist: Mainit na lomi, bagong sabaw, at kwentong may halong ngiti—handa na ako.
+Protagonist: Sige, laban na. Bukas na ang Lomihan!
+Narrator: As the faint chatter of early customers echoes outside, you roll up your sleeves.
+Narrator: Another night begins in Lipa—a city that never forgets where its heart truly lies.
+===
+
+title: Lipa_Easy_After
+---
+<<setBackground SpriteBehaviour Default>>
+Narrator: DAY END
+<<setBackground  SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Juan at 500 0>>
+Juan: Sooooo, kumusta naman ang first day mo?
+Protagonist: Well...I made it through, somehow...
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
+Juan: Sus, wag mo akong ginaganiyan, alam kong nagmana ka kay Tito!
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist: Well speaking of him, nasaan nga po ba si Tito?
+<<changeCharacterSprite SpriteBehaviour Juan Sad>>
+Juan: Uhhh.. yeah, about that... Ewan...?
+Juan: Besides, yung letter about sa Lomihan, m-
+<<showCharacter SpriteBehaviour Rival at 0 0>>
+Rival?: Aba...!
+Rival: Y o u ..!
+Rival: Well, well, well... 'di ko akalain na natakbo pa pala ang lugar na 'to!
+Rival: Ikaw, ano ang pangalan mo?
+
+<<setPlayerName SpriteBehaviour>>
+Protagonist: {$player}
+Rival: Well, {$player}... Ipaalam ko lang sayo ang BAGONG TAYO na lomihan, yours respectively, sa kabilang kanto.
+Rival: Safe to say, mananalo na agad ako kapag naglaban.
+Rival: They say imagination is your greatest weapon
+Rival: And I've done quite a bit of imagining.
+Rival: At ayon sa aking pagaaral...
+<<changeCharacterSprite SpriteBehaviour Rival Angry>>
+Rival: Hmph! 
+Rival: PAGOD na ang mga tao sa nakagisnan nila. Same old lomi, same old recipes.
+Rival: Kailangan na nila ng panibago at kakaibang panlasa.
+Rival: Saan ba tayo dinala ng lumang tradisyon? Bakit parang napag-iwanan kana?
+Rival: Look at Rome! at Museums! Relics are just proof of what happens when a society fails to adapt.
+Juan: Naks... pwede ka na magpulitiko!
+Rival: Ugh- you will regret acting smart with me. 
+Rival: We travel the same path, the path to Lomi...
+Rival: ...But not just any lomi.
+Rival: This WAS my ISPESYAL Lomi... MY LOMI.
+Rival: Hint: it's all over your kids walls, on their bedsheets, on their pillows, made into marketable little plastic figures.
+Rival: Sirit?
+<<changeCharacterSprite SpriteBehaviour Rival Happy>>
+Rival: A-ni-me.
+<<changeCharacterSprite SpriteBehaviour Rival Angry>>
+Rival: Pangugunahan na kita! Japanese style lomi! Itadakimasu!
+<<changeCharacterSprite SpriteBehaviour Juan Shock >>
+<<changeCharacterSprite SpriteBehaviour Protagonist Shock >>
+<<overridePortraitHighlight SpriteBehaviour Juan Protagonist>>
+Juan: !!!
+Protagonist: !!!
+===
+
+title: Lipa_Med_Before
+---
+<<setBackground SpriteBehaviour Default>>
+Narrator: DAY START
+<<setBackground SpriteBehaviour Lipa>>
+Narrator: The sun rises over Lipa City—its familiar skyline blending mountains, markets, and the smell of freshly brewed kapeng barako from a nearby stall.
+Narrator: The city hums to life once more. And so does your little lomihan.
+Narrator: ...
+<<hideBackground SpriteBehaviour>>
+<<showCharacter SpriteBehaviour Rival at 1000 0>>
+Rival: HAHAHAHAHHAA—
+Narrator: The laugh pierces through the morning calm—oh, him again. Same energy, same smirk.
+<<clearCharacters SpriteBehaviour Rival>>
+<<showCharacter SpriteBehaviour Juan at 600 0>>
+Juan: Matatakot ga ako... o mamangha na nasimulan mo nang patakbuhin ang lugar na 'to.
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist: ...
+Juan: Right uh... Magbukas ka na nga! Wala tayong magagawa kung madidistract agad tayo.
+Protagonist: Hm...
+<<changeCharacterSprite SpriteBehaviour Juan Sad>>
+Juan: Erm... Are you alright?
+Protagonist: Do you think... that I should change my bussiness strategy too?
+<<changeCharacterSprite SpriteBehaviour Juan Normal>>
+Juan: Well... 'di naman kita mapipigilan kung ‘yon ang gusto mo...
+Juan: Pero tanungin na lang kita.
+Juan: Sa tingin mo ba, masarap ba ang Lomi mo?
+
+-> I think so.
+-> Medyo...
+-> I could do better.
+
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: Then sapat na ‘yan! Aba, ‘san ka ba makakakuha ng panggatong makagawa lang ng bagong recipe?
+<<changeCharacterSprite SpriteBehaviour Protagonist Normal>>
+Protagonist: May point ka.
+Juan: Actually...
+Juan: When it comes to ideas, why not ask someone, ‘di ba?
+<<changeCharacterSprite SpriteBehaviour Protagonist Shock>>
+Protagonist: Huh?
+Juan: It might not be the big change you’re looking for, pero kung gusto mong ma-inspire, tandaan mo ‘to—
+Juan: Lomi brings all sorts of people together.
+Juan: Baka sa mga dumarating dito, may isa o dalawa kang makakausap na makakapagbigay sa’yo ng bago.
+Juan: ...Kung marunong ka pa makipag-usap, syempre. May natitira pa bang social skills d’yan?
+<<changeCharacterSprite SpriteBehaviour Protagonist Normal>>
+Protagonist: I think I’m pretty good friends with my plants.
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: ...Kaibigan mo pa rin naman ako, so let’s call that progress—bago mo pa ‘ko paiyakin.
+Narrator: The two of you share a quiet laugh. Outside, the city noise starts to grow—the day is just beginning.
+===
+
+title: Lipa_Med_After
+---
+<<setBackground SpriteBehaviour Default>>
+Narrator: DAY END
+<<setBackground SpriteBehaviour Lipa>>
+Narrator: The sun dips low over Lipa’s skyline, turning the clouds a soft shade of orange.
+<<showCharacter SpriteBehaviour Juan at 600 0>>
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
+Juan: Good work today, bro!
+Protagonist: Thanks...
+Narrator: Looks like word is spreading a bit about your little store. People are starting to remember the old taste they missed—the warmth that once filled this place.
+Juan: Well... itutuloy mo pa ba yung changes na iniisip mo kanina?
+
+<<showCharacter SpriteBehaviour Rival at -800 0>>
+Rival: (If I just start marketing over here... What if I hire a celebrity—no, what if I hire some artists—)
+Protagonist: Hmm...
+Rival: (The taste? What do you mean the taste? What does it matter! It’s colorful, it’s unique, and more importantly—we are sponsored by anime!!)
+<<changeCharacterSprite SpriteBehaviour Juan Angry>>
+Juan: Yeah, uh. Magsara na nga tayo.
+Narrator: You snort, shaking your head. Some chase fame, others chase flavor—but for tonight, you’ll take the small victories.
+Narrator: The neon sign flickers to life again. Lipa hums quietly outside, as if waiting for what tomorrow brings.
+===
+
+title: Lipa_Hard_Before
+---
+<<hideBackground SpriteBehaviour>>
+Narrator: DAY START
+<<setBackground SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Juan at 600 0>>
+Juan: Mukhang sakses ka na naman ngayong araw, ah!
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
+Protagonist: Hmm? Are you in the good mood?
+Juan: I mean... medyo.
+<<changeCharacterSprite SpriteBehaviour Juan Sad>>
+Juan: Nakakamiss lang, no? Ngayon na nagkasama na ulit tayo sa lomihan, parang wala parin nagbago sa atin. Tayo paring dalawa ang laging magkasama.
+Juan: Nakakatuwa lang na lumaki tayo ng tama.
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: Ala... ka aga'y nagiging senti na agad, haha.
+Protagonist: I mean, you're correct.
+Protagonist: I didn't think I'd even see you again when I moved out. Or that you'd greet me at the airport.
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist: Ano... I'm sorry for not reaching ou-
+Juan: Hep! Hep! Mamaya na, ha, no hard feelings.
+Juan: Let's have a great day, first, shall we?
+Juan: 'Di ga mas masarap ang usapan 'pag gabi na?
+===
+
+title: Lipa_Hard_After
+---
+<<clearCharacters SpriteBehaviour All>>
+<<hideBackground SpriteBehaviour>>
+<<showCharacter SpriteBehaviour Juan at 600 0>>
+Juan: Honestly, nagalala talaga ako nung nalaman ko na mamanahin mo na pala ang lomihan ni tito...
+<<showCharacter SpriteBehaviour Protagonist at -500 0>>
+Protagonist: Yeah, i was indeed worried too when I heard it for the first time...
+Juan: Pero! Mukhang ayos naman ang pagpapatakbo mo!
+Juan: Feels like I can rest easy a bit, knowing you got it handed.
+Protagonist: Pft...! You sound like my dad...
+Juan: Haha, minsan napaparamdam mo rin sa akin iyon. When I first saw you sa airport, matapos ang lahat ng taon na hindi tayo nagkita, doon ko talaga na-realize kung gaano na karami ang nagbago. Pareho na tayong tumanda, ano?
+Juan: But just cause you've grown doesn't mean you can't rely on me, You know I got you.
+Protagonist: Thanks... I got you too.
+Juan: I know you do, I missed you man, really. Bihira na din talaga tayo mag-usap nung nasa states ka, and thought you forgot all about lil ol' me
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist: Listen, what I wanted to say awhile ago... I'm sorry. I should have reached out. I missed you too.
+Protagonist: I think I got a bit lost in it all, but I'm glad I got on that flight.
+Protagonist: Even seeing you again would have made that flight worth it, so thank you.
+Juan: Haha, ang drama mo naman~ Pasalamat ka nalang kay Tita for letting me know na babalik ka na.
+<<changeCharacterSprite SpriteBehaviour Juan Happy>>
+Juan: Ala eh... Tara na nga, tumagay kana dine. 
+Juan: Mahaba pa ang gabi.
+Narrator: You recall your apartment, small, expensive, and lonely.
+Narrator: You didn't realise you still had a friend in him, or in anyone here. 
+Narrator: For the first time in quite a long time- you feel seen.
+Narrator: TO BE CONTINUED!
+Narrator: ...
+Narrator: Hello this is Team Migraine, thank you for taking an interest in Lomi Dash!
+Narrator: If you're having fun, please consider taking the time to answer our post-survey questionnaire. 
+Narrator: Kulang na kami sa time hhuhuuhuhuhuhu
+Narrator: Thanks and God Bless! To more Batangas Locations in the future!
+===

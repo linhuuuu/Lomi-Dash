@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfb2e7a27579b9648910e91635243af0, type: 3}
+  m_Name: Iced Tea Pitcher
+  m_EditorClassIdentifier: 
+  id: ICED_TEA_BIG
+  bevName: Iced Tea PITCHER
+  sprite: {fileID: -874224328, guid: 2bed3632fae52c645adb3278ca49e849, type: 3}
+  size: 2

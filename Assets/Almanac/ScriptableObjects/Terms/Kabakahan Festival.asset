@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Kabakahan Festival
+  m_EditorClassIdentifier: 
+  entryID: KABAKAHAN
+  entryName: Kabakahan Festival
+  description: "Padre Garcia, Batangas is celebrated for its Kabakahan Festival,
+    honoring the town\u2019s thriving cattle industry. The festival showcases parades,
+    dances, and local delicacies that highlight the community\u2019s pride in their
+    livestock heritage, reflecting the hardworking and festive spirit of Batangue\xF1os."
+  mainImage: {fileID: 981176284, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

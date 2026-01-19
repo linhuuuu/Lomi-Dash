@@ -1,0 +1,100 @@
+﻿title: MiloAndMildredScene
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+<<showCharacter SpriteBehaviour Milo at 400 -100>>
+Milo: Heya!
+Narrator: You don't have a policy against animals.
+Milo: Ok, mag hello ka Mildred.
+<<showCharacter SpriteBehaviour Mildred at 400 -100>>
+Mildred: Moo.
+Narrator: Again: you do not have a policy against animals. You are an open restaurant.
+[Protag]: Uh, hello.
+[Protag]: Hello din sayo, Mildred!
+Mildred: Moo :)
+[Protag]: Hmm, lagi mo ba na dala ang cow mo sayo?
+
+Milo: Hey, hindi lang yan basta cow lang. Alam mo ba na isa si Mildred sa mga alaga ko sa cattle trading namin? 
+Milo: 'Di ko alam kung pamilyar ka 'don.
+Milo: Pero alam mo ba, na ang lugar ng Padre Garcia ay isang capital ng Pilipinas bilang isa sa mga cattle trading centers?
+
+Milo: Nararamdaman ko naman na din na malapit na ang El Niño dito. Mukhang mapipilitan ka ulit kumain, Mildred.
+Mildred: Mooooo...
+Milo: Ayaw mo 'non? Mananaba ka nanaman, hahahaha!
+Mildred: Moo..
+[Protag]: Uhm... Anong ibig mong sabihin? Bakit mo naman sya patatabain at papipiliting pakainin?
+
+Milo: Ang tawag namin don ay Supak System.
+Milo: Supak system ay isang uri ng pagpapa-force feed, katulad ng gagawin ko kay Mildred. Nangyayari lang sya kapag mag e-El Niño na.
+Milo: Bilang isang cattle trader, kapag kasi nag El Niño, syempre tagtuyo, mawawalan ng kakainin ang mga hayop.
+Milo: Kaya dapat in advance ay kailangan nila kumain ng madami at patabain para ma-maintain pa din nila ang weight na needed for the quality of the meat.
+Milo: If you know what I'm saying.
+
+[Protag]: I mean, gets ko naman na agad. Salamat sa impormasyong ibinigay mo. Napaka dami ko din na nalaman ngayong araw dahil sa iyo.
+Narrator: The protagonist has now learned a lot about Mildred and Padre Garcia, known as the capital of cattle traders.
+
+Milo: Geez, na-aawkward tuloy ako... Si Nimfa talaga may kasalanan nito eh.
+Milo: Dapat daw kasi kailangan ko daw landiin yung mga customers, tapos kailangan na mahulog sila sa akin — and sa aking meat...
+[Protag]: Uhm.....
+Milo: Wait, hindi sa ganon—
+Milo: Hay nako, ulit nga. Hi! I have meat.
+[Protag]: ...
+Milo: Bale—Ahem... Meron ako ditong mga karne, keso, at gatas. Fresh na fresh lahat mga 'yan.
+Milo: Malapit lang ang tindahan ko. At tsaka ang sarap ng lomi mo!
+Milo: Pero sa tingin ko mas okay sya kung may iba't ibang klase ng meat, diba?
+[Protag]: ...
+Milo: Basta... Bumisita ka nalang sa tindahan ko. Pero ang sarap talaga ng lomi mo.
+Mildred: Moooo!
+
+Milo: Ahhh~ Ang sarap talaga. Pagkatapos mo talaga magtrabaho sa pagca-cattle tapos kakain ka ng lomi? It really hits the spot!
+Milo: Kailangan palagi natin itong sinusulit, diba Mildred?
+Mildred: Moooo
+[Protag]: Hmmm? May problema ba?
+
+Milo: Wala naman. Sadyang napaka hirap lang magbenta ngayon...
+Milo: Nasasaktan ako na makita ko yung mga paninda ko na hindi kaagad nauubos at nasasayang kasi walang nabili.
+Milo: Alam ko na kailangan ko lang magpursige, pero nahihirapan na din kasi kami talaga ni Mildred.
+Milo: Pero, basta. Siguraduhin mo lang na pupunta ka sa tindahan ko kapag patapos na ang araw.
+Milo: Pwede kitang bigyan ng karne sometime. Napaka ganda mong customer talaga at hindi pa ako nagkakaroon ng ganito na benta.
+Mildred: MOOO
+[Protag]: Okay, sigeee. Salamat talaga sa offer mo. Napaka laking tulong din talaga ng store mo pagdating sa karne. 
+[Protag]: Ang gaganda talaga ng quality.
+Milo: At sana maging maganda pa ang samahan natin, [Protag].
+Milo: Maraming salamat talaga.
+
+-> MiloAndMildredScene_Later
+
+title: MiloAndMildredScene_Later
+---
+
+Milo: Hiiii, [Protag]!
+Milo: Maganda ba ang benta mo ngayon?
+Milo: Yung seryoso, para kahit papaano makabalik kami dito para bentahan ka namin ng mga magagandang karne.
+Milo: Tutal, napaka sipag din talaga maglakad palagi ni Mildred, diba?
+Mildred: Moo
+[Protag]: Maraming salamat talaga sa inyo, Milo at Mildred.
+[Protag]: Talagang binibigyan nyo ako palagi ng magandang quality ng meat nyo, kaya maraming salamat talaga sa inyo.
+
+Milo: [Protag]... Alam mo ba na nagpapasalamat talaga ako na napaka benta ng lomi mo sa mga panahon ngayon.
+Milo: Di ko alam paano mo sya nagawa...
+Milo: Pero, ayon... Maraming salamat talaga.
+[Protag]: Parang wala naman akong masyadong ginawa..?
+Milo: Pero, kapag maganda talaga ang business, gaganda din ang ibang business!
+Milo: Anong crab mentality?
+Milo: Walang ganon-ganon para sa atin.
+Milo: Pare-parehas tayong nagtutulungan iangat ang sarili natin.
+Milo: Kaya kapag nakikita ko talaga na nalaki na ang lomihan mo—
+Milo: Wala, napaka ganda lang makita na nalaki na sya.
+Milo: Masaya ako para sayo, [Protag].
+[Protag]: Wala 'yon, Milo...
+Milo: Yan talaga ang gusto ko sayo eh, napaka humble mo talaga. heh.
+Milo: Nagkakaroon din ako ng kita dahil sayo, noh.
+Milo: Kapag talaga marami nag crave dahil sayo, marami talaga ang pupunta.
+Milo: At dahil don, sunod-sunod lang ang kinikita mo.
+Milo: Lahat nagiging masaya!
+Mildred: Moo!
+Milo: Hahahahaha, go lang [Protag], lambingin mo si Mildred.
+
+-> END
+===

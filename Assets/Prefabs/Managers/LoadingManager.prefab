@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &407014408057945321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 571480153468227694}
+  - component: {fileID: 4769578603863931875}
+  m_Layer: 0
+  m_Name: LoadingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &571480153468227694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407014408057945321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2250, y: 874.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4769578603863931875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407014408057945321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf5fa7280f9a2844a94237eb43461a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetScene: 
+  loadingText: {fileID: 0}
+  isDebug: 0
+  trivias:
+  - 'Did you know that Suman Magkayakap, which is a pair of rice cakes wrapped together
+    to symbolize love and unity can only be found in Batangas? '
+  - 'Did you know that Batangas is the 3rd richest province in the Philippines? '
+  - 'Did you know that Taal volcano is the smallest active volcano, but also the
+    most dangerous one? '
+  - "Apolinario Mabini, the \u201CBrains of the Revolution,\u201D was born in Tanauan,
+    Batangas. "
+  - 'Lomi Batangas was invented in Lipa City in the 1960s by a Chinese merchant named
+    To Kim Eng. '
+  - 'Batangas is also known for Panutsa (peanut brittle) and Bagoong Balayan (fermented
+    anchovy sauce) as popular pasalubongs. '
+  - "Batangas is known as the \u201CCradle of Noble Heroes\u201D because many Filipino
+    revolutionaries during the Spanish era came from here. "
+  - 'Anilao in Mabini is considered the birthplace of scuba diving in the Philippines,
+    famous for its marine biodiversity. '
+  - "Do you know that Bulalo, the famous beef shank soup, is a favorite dish in Tagaytay
+    and Batangas\u2019 cool mountain areas? "
+  - "Did you know that the term Kapeng \u201CBarako\u201D doesn\u2019t just describe
+    coffee but also symbolizes Batangue\xF1o\u2019s resilience and identity? "
+  triviaText: {fileID: 0}

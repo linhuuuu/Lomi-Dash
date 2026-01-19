@@ -1,0 +1,103 @@
+using PCG;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class TrayDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
+    private RectTransform rectTransform;
+    private Canvas canvas;
+    private Vector3 originalPos;
+    [SerializeField] private PrepTray tray;
+    [SerializeField] private LayerMask mask;
+    
+    [SerializeField] private bool isDebug = false;
+    [SerializeField] private Button perfectTray;
+    [SerializeField] private GameObject checkMark;
+
+    void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
+
+        perfectTray.onClick.AddListener(() => ToggleTray());
+    }
+
+    void ToggleTray()
+    {
+
+        isDebug = !isDebug;
+         checkMark.gameObject.SetActive(isDebug);
+
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        originalPos = transform.localPosition;
+        CameraDragZoomControl.isCameraDraggingEnabled = false;
+    }
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, canvas.worldCamera,
+        out Vector3 worldPoint))
+            transform.position = worldPoint;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        Ray ray = CameraManager.cam.mainCam.ScreenPointToRay(eventData.position);
+
+        //Get CustomerGroup Component from Table or OrderPrompt
+        CustomerGroup group = null;
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, mask))
+        {
+            if (hit.collider.TryGetComponent(out TableDropZone table))
+            {
+                if (table.occupied == false)
+                {
+                    transform.localPosition = originalPos;
+                    return;
+                }
+
+                if (tray.dishList.Length < 1) return;
+
+                group = table.transform.GetComponentInChildren<CustomerGroup>();
+            }
+
+            if (hit.collider.TryGetComponent(out OrderPrompt prompt))
+                group = RoundManager.roundManager.orders[prompt.orderIndex].customers;
+
+            if (group.prompt.isOrderTaken == false)
+            {
+                transform.localPosition = originalPos;
+                return;
+            }
+
+            //Get Orders
+            OrderNode order = RoundManager.roundManager.orders[group.orderID].order;
+            OrderNode cookedOrder = tray.CompleteTray();
+
+            //Evaluate
+            if (isDebug != true)
+                cookedOrder.weight = order.Evaluate(cookedOrder);
+            else
+                cookedOrder.weight = order.Evaluate(order);
+
+            if (Debug.isDebugBuild) Debug.Log(cookedOrder.weight);
+
+            //Leave
+            RoundManager.roundManager.finishedOrders[group.orderID] = cookedOrder;
+            RoundManager.roundManager.OnCustomerGroupLeaveDined(group);
+            group.RemoveAll();
+
+            //Clear Out Tray
+            tray.ClearTray();
+
+            //SFX
+            AudioManager.instance.PlaySFX(SFX.SERVE_TRAY);
+        }
+        transform.localPosition = originalPos;
+                CameraDragZoomControl.isCameraDraggingEnabled = true;
+    }
+
+}

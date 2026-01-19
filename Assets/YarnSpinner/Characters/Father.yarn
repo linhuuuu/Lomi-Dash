@@ -1,0 +1,108 @@
+title: CE_FATHER_1
+---
+<<setBackground SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Father at 600 0>>
+Father: Hoy! Kayo talaga, kapipilyo nyo!
+<<changeCharacterSprite  SpriteBehaviour Father Angry>>
+CHILDREN: WAHAHAHA-!
+Father: Ilang beses ko pa 'ga kayong pagsasabihan...
+Father: ...na huwag kayong pagala-gala sa harap ng simbahan?!
+Father: Jusko po Panginoon, sana tulungan nyo po ang mga batang ito...
+Father: Gah - Mga kabataan talaga ngay-on... pag-asa daw ng bayan.. Ay, kainaman naman kung bastusin ng marker ang mga pader.
+Father: Hindi ga, iho?
+<<showCharacter SpriteBehaviour Protagonist at -600, 0>>
+Protagonist: Uhm, Eh - Ewan ko po...
+Protagonist: Hindi po ba ganoon rin po sila simula ng dati pa?
+Father: Aba? Saan ka ga pinulot at parang ngay-on mo laang narinig ang kabastusan ng mga bata sa mga panahon ngay-on?
+Father: At isa pa nga pala, bigyan mo nga ng tig-iisang lomi para sa lahat ng mga naandito... 2... 3... 4...
+Father: Limang lomi nga iho, paki-simplehan mo laang.
+CHILDREN: Tha~nk yo~u, po, Fathe~r!
+Father: Oh, ayan magsi-upo na kayo para 'di na kayong makapangabala ng ibang kostumer!
+Father: At wag ninyo kalimutang magdasal!
+Father: Hay nako...
+Father: Hm... Babago ka dine iho?
+Protagonist: Kababalik lang po father.
+Father: Aba'y nakakatuwa naman. Dahil masarap itong lomi mo, kwentuhan kita.
+Father: Iho, alam mo ba ga na isa sa mga kwento dine ay ang pagbisita ni Virgin Mary noong umulan ng petals dito sa Batangas noong 1948?
+Father: Noong 1948 sa Lipa, may kuwento na sa loob ng kumbento ng mga Carmelite sa siyudad, bigla-bigla umiulan ng mga talulot ng rosas, ’yung tipong mula lang daw sa alapaap.
+Father: Kaya din nga sya natawag na "Shower of Petals."
+Father: Hay nako, baka nakikinig na bigla sya ngayon. Tama na nga, hahahaha.
+Protagonist: Woah, di ko din po lubos na maisip na may ganon po na history po dito. Ano po ba ang simbolo ng petals po noon?
+Father: Sa mga naniniwala talaga, ang petals sa kanila noon ay isang proweba kumbaga ng isang pananampalataya, at bilang representasyon na din ng Mary Mediatrix.
+Protagonist: Ohhh. Ang galing din po pala.
+Narrator: You watch the children idly, hoping to remember your own home.
+Narrator: But instead, you remember the quiet apartment. It leaves you feeling a bit empty.
+Father: At tubig nga, pakiusa-... 
+<<changeCharacterSprite SpriteBehaviour Father Sad>>
+Father: Ayos lang?
+Protagonist: Ay, sorry po, Tubig. Yes po, meron kami.
+<<changeCharacterSprite SpriteBehaviour Protagonist Sad>>
+Protagonist: I was just thinking. Sa tingin ko po na mas maganda po na maging bata po muna ang mga bata ngayon habang di pa po sila tumatanda na maraming pinoproblema.
+===
+
+title: CE_FATHER_2
+---
+<<setBackground SpriteBehaviour Lipa>>
+<<showCharacter SpriteBehaviour Father at 600 0>>
+Father: Iho, ikaw lang 'gang nagpapatakbo ng lugar na'to?
+<<showCharacter SpriteBehaviour Protagonist at -400 0>>
+Protagonist: Opo, ako nga po. Pero ito po ay sa tito ko dati, ipinamana niya na po sa akin ito.
+Father: Hmmm... Hindi ka 'ga tinatamad kapag mag-isa ka lang nagpapatakbo nito?
+Father: Hindi kasi talaga madali magpatakbo ng isang negosyo mag-isa...
+Protagonist: Minsan po, nararamdaman ko po talaga.. Pero nasasanay na din naman po ako.
+Protagonist: I used to be na nasa abroad po ako and kung ipagkukumpara ko po, mas nakakaboring po talaga sa States.
+Father: Alam mo 'ga iho, sabi nga naman nila kapag may kasama kang kumain, hinding hindi ka na magiging mag-isa.
+Protagonist: ...
+Father: Yung mga bata diyan minsan, talagang ako'y nag-aalala na hindi nila ito naiintindihan.
+Father: Ang dali talagang mahulog sa dilim, ’yung isipin na dahil sa mga nangyari, hindi na nila kailanman mararanasan kung ano ang pamilya.
+Father: Pero alam mo naman, family is everywhere.
+Father: Iyan ang isang halimbawa ng Batangueño— ay hindi pala. Ito ay isang gawain ng bawat Pilipino.
+Father: Yung mga pagkain, kultura, at sama-samang pagtitipon sa hapag-kainan.
+Father: D’yan mo makikita ang pamilya na kahit sino o ano pa man, lapit talaga tayo sa Diyos pag kumakain. Natutunan ko ‘yan sa mahirap na paraan.
+Father: Pero noong komunyon, noong kinain mo ang ostya bilang katawan ni Hesukristo, nagkaroon ka ba na parang naging konektado ka sa lahat ng tao sa paligid mo? ‘Yung pakiramdam na parang naging mas malapit sa’yo si Hesus?
+Father: Haha, sori sori, ang daldal ko na naman. Sana ‘di mo rin makalimutan ‘yon, ha.
+Father: Sayang naman, ‘no? Gumagawa ka pa naman ng masarap na lomi, tapos ‘di mo malalaman ‘yon.
+===
+
+title: CE_FATHER_3
+---
+<<setBackground SpriteBehaviour Lipa>>
+<<setPlayerName SpriteBehaviour>>
+<<showCharacter SpriteBehaviour Father at 600 0>>
+Father: {$player}!
+<<showCharacter SpriteBehaviour Protagonist at -400 0>>
+Protagonist: Aba, may oras pa po kayo siguro, ‘no? Halos wala naman pong tao dito.
+Narrator: He slides you an extra bowl of Lomi. You realize they waited for the store to close properly before anyone ate.
+Father: Tara iho, kain tayo.
+Protagonist: Huh...?
+Father: Maganda ang gabi ngay-on, {$player} Tara na nga. Ang lamig ng hangin, bigay ‘yan ng Panginoon. Tingnan mo ‘yung langit, puno ng bituin, ganda ‘no?
+Protagonist: ...
+Father: Magdasal na tayo.
+CHILDREN: Opo, Father!!!
+Protagonist: ...
+Protagonist: H-hindi ko po alam ang sasabihin ko, Father.
+Father: Hmmm. Pwede namang magsimula tayo sa, "Lord, maraming salamat po sa mga blessing na ito."
+Father: Ay hindi naman ‘yung mga malalaking bagay.
+Father: Hindi rin ‘yung mga pagbabago sa buhay.
+Father: Kundi ‘yung mga sandaling kasama ang pamilya, mga kaibigan, mabubuting tao, at masasarap na pagkain!
+Narrator: You follow along with the Father’s prayer.
+Father: Tara, kumain na tayo.
+Protagonist: ...
+Father: Anong problema, iho?
+CHILDREN: Fathhheerrrrrr! Bakit nyo po sya tinakoooot?
+Father: Ay aba! Wala naman akong ginagawa eh.
+Father: Nasobrahan ba ako...?
+Protagonist: H-hindi po, ano lang po kasi...
+Narrator: Full. You feel full. You don’t know how to say it but the emptiness gnawing at you, it quiets.
+Narrator: Somehow, it's like he understands.
+Protagonist: S-salamat po, Father.
+Father: Wala namang taong talagang nag-iisa.
+Father: Ginawa tayo ng Panginoon na mga simpleng nilalang, mga taong ang hanap lang ay makita at maintindihan.
+Father: Pagka simple laang sana, pero tayo pa mismo ang nagpapahirap sa pagdudugtong ng damdamin, sa mundong puno ng mga taong naghahanap din ng makakaintindi sa kanila.
+Father: Ewan, pero kahit papaano, may isa rin palang gustong kumonekta sa’yo.
+Father: Yan ay ang tahanang ibinigay ng Panginoon sa’tin.
+Father: Minsan malabo, kadalasan magulo… pero kahit gano’n, tahanan pa rin ito.
+Father: Bahagi ka na namin, hindi ng nakaraan mo.
+Father: Kaya’t umupo ka na dyan, at kumain ka na kasama namin.
+Narrator: So you do. You step out of your past and into the present.
+===

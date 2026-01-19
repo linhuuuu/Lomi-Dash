@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad6e66c12754e22428d71d093d4eeb05, type: 3}
+  m_Name: Visual State Library
+  m_EditorClassIdentifier: 
+  brothcolor:
+  - id: original
+    value: {r: 1, g: 1, b: 1, a: 1}
+  - id: knorr
+    value: {r: 1, g: 0.9099141, b: 0.6745283, a: 1}
+  - id: soySauce
+    value: {r: 1, g: 0.62352943, b: 0.3764706, a: 1}
+  noodlescolor:
+  - id: 1
+    value: {r: 1, g: 1, b: 1, a: 1}
+  - id: 2
+    value: {r: 1, g: 0.9411379, b: 0.57924527, a: 1}
+  - id: 3
+    value: {r: 1, g: 0.89411765, b: 0.24313726, a: 1}
+  bawang:
+  - id: 1
+    value: {fileID: 21300000, guid: a309d851439fa7944a46669ff3408581, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: c428e4fd8532dd84797aff35f9d5747b, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: bcbb92a1d6fcafc4b91c9ed07ada19fd, type: 3}
+  oil:
+  - id: 1
+    value: {fileID: 21300000, guid: 7f139ec96690ead44b80a2f0bc348897, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: e1c8da72a0953f74d84e96e67dd91c69, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: 50570f79bb03b5447bf9cc80b2990f11, type: 3}
+  onion:
+  - id: 1
+    value: {fileID: 21300000, guid: 8b6f190e893688d42acb6dae3430a3b9, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: eaeda7dce9e34b84297b44e584851a51, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: 17f5d920707e04542a0e6ae613b1bb8c, type: 3}
+  broth:
+  - id: 1
+    value: {fileID: 21300000, guid: 9ae8e6b74a3bc074a92e892e5ec58386, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: 729511bf6852a414c97492f2cb8e4e87, type: 3}
+  egg:
+  - id: 1
+    value: {fileID: 21300000, guid: 23a1a02cb89ac7c4ba16b93cb2b8b3f3, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: 6470961fb6bd99c4e8c3cb5525583c4f, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: db09e3e4ccf600d4981530a25963be74, type: 3}
+  thickener:
+  - id: 1
+    value: {fileID: 21300000, guid: 96eb5752ee570b94ca575cc24749e098, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: f672b8e32fe48b5459fc96e0bc44341e, type: 3}
+  seasoningTray:
+  - id: 1
+    value: {fileID: 21300000, guid: 40481760aa2faf34ab1a1c7869a65c20, type: 3}
+  - id: 2
+    value: {fileID: 21300000, guid: f0400659e1d8cd64b9ef30bd57c157bd, type: 3}
+  - id: 3
+    value: {fileID: 21300000, guid: 15cf9e9d4ee210c4b874c2a3e76823eb, type: 3}
+  - id: 4
+    value: {fileID: 21300000, guid: 26b115167698ec04d83312e6527a5451, type: 3}
+  - id: 5
+    value: {fileID: 21300000, guid: f19b983cefc018e42a212e49c3f728e0, type: 3}
+  sinkWater:
+  - id: 0
+    value: {fileID: 21300000, guid: c4850be222ec30b4dadd57e52e22aa18, type: 3}
+  - id: 1
+    value: {fileID: 21300000, guid: ef912b8e11f98f8428ba7c4fe29b9e2b, type: 3}
+  sink:
+  - id: closed
+    value: {fileID: 21300000, guid: 632016c7cbf5df84c8c44ceaa49355cc, type: 3}
+  - id: open
+    value: {fileID: 21300000, guid: 3cb615f110960cf4aac0d8506a87cf40, type: 3}
+  potSeasoning:
+  - id: Salt
+    value: {fileID: 21300000, guid: 52455adaac02e364884fe5cf4c243c11, type: 3}
+  - id: Pepper
+    value: {fileID: 21300000, guid: 2ab5c2ee31adc0145b391ae491cf2a51, type: 3}
+  water:
+  - id: 0
+    value: {fileID: 21300000, guid: f31c54b95bb8aeb41b8b420be4a92689, type: 3}
+  - id: 1
+    value: {fileID: 21300000, guid: b9eff32f7ad7d354dbee5fd0bc105136, type: 3}

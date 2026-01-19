@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3ba9a3e4154cf44b3d3afe8198fb4c, type: 3}
+  m_Name: Burdang Taal
+  m_EditorClassIdentifier: 
+  entryID: BURDANG
+  entryName: Burdng Taal
+  description: "Burdang Taal is the traditional hand embroidery of Taal, Batangas,
+    renowned for its intricate and delicate designs crafted on fine fabrics such
+    as pi\xF1a and jusi. This meticulous art form, using techniques like callado
+    and sinuksok, is integral to Filipino culture and heritage that are most notably
+    seen in the Barong Tagalog and traditional formal wear. The embroidery represents
+    both artistry and craftsmanship, reflecting the patience, skill, and cultural
+    pride of Batangue\xF1o artisans.\n"
+  mainImage: {fileID: -1629337591, guid: 53d9c1501b73fa1489d80f5875cbccfc, type: 3}

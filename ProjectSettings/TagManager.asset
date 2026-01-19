@@ -3,7 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Sink
+  - DishPos
+  - Tray
+  - Dish
+  - Dish Slot
+  - Beverage Slot
+  - Seasoning Tray Slot
+  - Seasoning Tray
+  - Trash
+  - Seasoning Tray Clone
+  - Beverage
+  - Pot
+  - Wok
+  - Table
+  - StoolChair
+  - Topping
   layers:
   - Default
   - TransparentFX
@@ -11,13 +27,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Collider
+  - Non-Collidable
+  - Interactable
+  - Table
+  - Trash
+  - CustomerPrompts
+  - Tray
   - 
   - 
   - 
@@ -40,4 +56,28 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Orders
+    uniqueID: 762881813
+    locked: 0
+  - name: Service Ui
+    uniqueID: 3609676165
+    locked: 0
+  - name: Kitchen
+    uniqueID: 3474622409
+    locked: 0
+  - name: Tray Slot
+    uniqueID: 3509793079
+    locked: 0
+  - name: Toppings
+    uniqueID: 3098448821
+    locked: 0
+  - name: OnDrag
+    uniqueID: 2794978373
+    locked: 0
+  - name: Kitchen UI
+    uniqueID: 3811873089
+    locked: 0
+  - name: Dialogue UI
+    uniqueID: 3632886815
     locked: 0

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b5a003d016bcc44a87ac76a21b0c29, type: 3}
+  m_Name: Lomi Special
+  m_EditorClassIdentifier: 
+  id: SPECIAL
+  recipeName: LOMI SPECIAL
+  basePrice: 140
+  region: 0
+  description: "Lomi Special is a classic upgraded version of traditional Lipa lomi,
+    featuring a balanced combination of meats, vegetables, egg, and thick egg-based
+    broth. \n"
+  toppingList:
+  - topping: {fileID: 11400000, guid: 2eb0791d4a31d1f4e8e64814e8d5d3cd, type: 2}
+    count: 1
+  - topping: {fileID: 11400000, guid: d88bbf3554de75a46aabe20cb7053da9, type: 2}
+    count: 1
+  - topping: {fileID: 11400000, guid: 0cd4cdfda8e20c543bac5706d8594a6e, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: 01488ae3943a0c346a2fb4c97c36a6c3, type: 2}
+    count: 2
+  - topping: {fileID: 11400000, guid: d8471bd5bc031c045a93c433c63d9e2f, type: 2}
+    count: 2
+  - topping: {fileID: 11400000, guid: 437dd4ada1a99ad4fa2ff0462313e7ea, type: 2}
+    count: 2
+  toppingVisual: {fileID: 5597419501941907907, guid: 9fd2f21ee93159a44ba2798e37a73e3f,
+    type: 3}

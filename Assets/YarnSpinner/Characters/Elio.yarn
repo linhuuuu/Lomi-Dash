@@ -1,0 +1,73 @@
+﻿title: Elio_Encounter
+//<<$player_name>>
+---
+//<<declare $player_name = "" as string>> 
+<<setBackground SpriteBehaviour Default>>
+<<showCharacter SpriteBehaviour Elio at 300 -100>>
+Elio: Ganda ng gabi ah...
+[Protag]: Gabi pa ba ‘yan? Para na ngang madaling-araw, e.
+Narrator: You glance at the clock, you've barely even arrived
+Elio: Heh… Medyo mabigat lang ‘yung gabi ko. Bigyan mo lang ako ng madali lang, ‘yung hindi komplikado.
+[Protag]: Sigee po...
+Elio: Salamat sa Diyos at may mga kainan pang bukas ng ganitong oras…
+Elio: Kung wala ‘to, baka nagugutom na ‘ko ngayon.
+Elio: Ang bata mo pa para magpatakbo ng ganitong lugar ah.
+[Protag]: Hindi naman po.
+Elio: Ano ka ba, disisyete? Disisais?
+[Protag]: Twenty-four po.
+Elio: Huh. Mukha ka pa ring bata, haha.
+Narrator: Surely, it can't be that bad
+Elio: Ang bango dito ah.
+[Protag]: Lomi po kasi.
+Elio: Ahh, tama, tama.
+[Protag]: Eto na po, sir.
+Narrator: You notice the jeep parked nearby
+Elio: Salamat ha. Magandang gabi, at pagpalain ka ng Diyos.
+
+---
+Elio: Medyo kakaiba oras ng bukas mo ah.
+[Protag]: Nagkakater nga po kami minsan sa mga pista. Nasanay na rin.
+Elio: Pista… ng alas-dos ng umaga?
+[Protag]: Mahabang kwento po kasi ‘yan.
+Elio: Haha, halata. Mukhang marami kang kwento ah.
+Narrator: You pause for a moment, huh. You do, but really you were never the type to care much for your own legacy
+[Protag]: Kayo po? Ang aga n’yong bumiyahe rin ah.
+Elio: Haha! Eh kasi, kung di ganito oras ko, babagsak Batangas!
+Elio: O kung hindi man, baka dami ng di makapasok sa trabaho.
+[Protag]: Oo nga po, tama.
+Elio: Mhm...
+Elio: Sana lang, gawing madali nang konti para sa amin.
+Elio: Trapik dito, trapik doon, lahat abala.
+Elio: Sayang gasolina, sayang oras.
+Elio: Ang dami pang palakihan sa taas, puro iskandalo, puro gulo.
+Elio: Ako naman, gusto ko lang ihatid ‘yung mga dapat makarating.
+Elio: Bayaran man lang sana ng maayos na kalsada at murang gasolina, ‘di ba?
+Elio: Di ko naman sila ginugulo, basta ‘wag lang din nila akong guluhin. Gets mo?
+Narrator: A bit embarrassed, realizing you didn’t realize how early their hours were, you nod. Never really questioned how early jeeps were operating.
+Elio: Hehe, alam kong gets mo ‘yan, buddy.
+Elio: Salamat sa lomi ha.
+
+---
+Elio: Medyo nagrerelax muna ako ngayon, may konting oras pa naman.
+Elio: Alam mo, paborito ko na ‘tong lugar mo. Ayos ka magpatakbo.
+Elio: Na-realize ko lang…
+[Protag]: Hm...?
+Elio: Minsan, okay din ‘yung bumagal konti.
+Elio: Para sa ‘yo at sa akin din ‘to.
+Elio: Kung napatunayan mo na...
+Elio: Wag mo nang pilitin ulit.
+Elio: Naniniwala na sa ‘yo ang mga tao, buddy.
+[Protag]: Uh-
+Elio: At siguro, naniniwala rin sila sa ‘kin.
+[Protag]: Siyempre!
+[Protag]: "Kung wala kayong mga driver na tulad n’yo, babagsak lahat. Kayo ang nagpapatakbo ng buong sistema."
+Elio: Haha! Ganun na nga.
+Elio: Maliit lang parte ko pero alam kong may silbi kami.
+Elio: At dahil diyan, siguro deserve ko rin ng konting pahinga, ano?
+Elio: At ‘yung nagpapakain sa akin ngayon... aba, kailangan din nun ng pahinga.
+Elio: Tagal ko nang di ganito kaagaan pakiramdam, utoy.
+Elio: Hindi man tayo hari, pero isipin mo ‘to, ang dami nating nagagawa!
+Elio: Nakakabilib, ‘di ba? Minsan gusto kong isigaw!
+Narrator: You smile
+[Protag]: Ako din po.
+===

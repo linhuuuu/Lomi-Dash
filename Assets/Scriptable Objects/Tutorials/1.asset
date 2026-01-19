@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9dbc41050c65b4ab9efb91d7d4dbc3, type: 3}
+  m_Name: 1
+  m_EditorClassIdentifier: 
+  id: 1
+  fieldName: Seating Customers
+  description: To seat a custoimer, simply drag and drop them into a nearby table.
+  videoClip: {fileID: 32900000, guid: ef8bcc332221c9e44a08bd9fb7bb9116, type: 3}

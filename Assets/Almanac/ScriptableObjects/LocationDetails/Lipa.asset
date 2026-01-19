@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf22dcf565a10a4a8d19c95e0d021bd, type: 3}
+  m_Name: Lipa
+  m_EditorClassIdentifier: 
+  entryID: LIPA
+  entryName: City of Lipa
+  description: "The hometown of the Original Lomii. It\u2019s a bustling city that
+    blends modern life with deep-rooted Batangue\xF1o values with community, hospitality,
+    and pride in tradition. \n\nI remember that tito was very proud that our hometown
+    was called the Heart of Batangas. Honestly. It's a lot to live up to. But this
+    is home, a bustling city filled with Batangue\xF1o pride, hospitality and tradition.
+    The smell of Kapeng Barako, the neighborhood cafes, the laughter around the old
+    cathedrals. How could I forget? It's a bit sappy but tito was right, culture
+    lives and breathes with us. I want to try to rediscover it all, my childhood
+    memories... the culture my tito taught me and what it is now. \n\nBut for that,
+    I need to try and explore what my community has offered me.\n"
+  mainImage: {fileID: 21300000, guid: 8affc48b6f2af1c48b9dd309597965cd, type: 3}
+  lomiImages: []
+  trivia: 

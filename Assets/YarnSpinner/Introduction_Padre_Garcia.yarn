@@ -1,0 +1,16 @@
+﻿title: Introduction_Padre_Garcia
+---
+<<setBackground SpriteBehaviour PadreGarcia>>
+<<showCharacter SpriteBehaviour Juan at 1400 -100>>
+Juan: Okay, mukhang makakalarga na ulit ang lumang motor na ito. Medyo natagalan at nahirapan ako, pero mukhang naikot naman na ang mga gulong.
+Narrator: It took a bit of fiddling but the old wheels have finally been replaced, along with several other replacements it hurts your wallet to think about.
+Juan: Excited ka na ba na makaalis dito?
+[Protag]: Medyo, napuntahan na halos buong Batangas... Medyo nakakatakot lang gawin mag-isa.
+Juan: Haha, aliw din eh, tinuturuan pa kitang sumakay ng dyip!
+Juan: Tawagan mo lang ako kahit kailan, ha? Huwag ka namang biglang maglaho, ayt?
+[Protag]: I'll try, salamat sa lahat talaga.
+Juan: Wala ‘yon, siguraduhin mo lang na sasabihin mo sa iba na aalis ka na.
+Narrator: So, you head out on your journey.  
+Narrator: You glance at your map — the next stop: Padre Garcia and Rosario.
+
+===

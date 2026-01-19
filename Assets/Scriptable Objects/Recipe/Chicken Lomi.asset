@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b5a003d016bcc44a87ac76a21b0c29, type: 3}
+  m_Name: Chicken Lomi
+  m_EditorClassIdentifier: 
+  id: CHICKEN
+  recipeName: Chicken Lomi
+  basePrice: 120
+  region: 0
+  description: 'Chicken lomi uses tender chicken as the main protein, giving the
+    dish a lighter but still savory flavor. It is preferred by those who want a less
+    fatty version of Batangas lomi.
+
+'
+  toppingList:
+  - topping: {fileID: 11400000, guid: 826aa6757bfe8ee449cbb4946f02f118, type: 2}
+    count: 3
+  - topping: {fileID: 11400000, guid: 2aa2348643830014f8c7cf647624ffa3, type: 2}
+    count: 2
+  - topping: {fileID: 11400000, guid: d88bbf3554de75a46aabe20cb7053da9, type: 2}
+    count: 1
+  toppingVisual: {fileID: 5597419501941907907, guid: 4ead6b7476bd81d4cbb4e9f1aa90d1bc,
+    type: 3}

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a080680ed67e84ba6fcec03b88ae00, type: 3}
+  m_Name: Ka Ody
+  m_EditorClassIdentifier: 
+  id: KA_ODY
+  customerName: Ka Ody
+  patienceTime: 200
+  companions:
+  - {fileID: 11400000, guid: 2da4176cec995164ea421a0fac3fede1, type: 2}
+  preferredDish:
+  - {fileID: 11400000, guid: bc29f1fed63cb91438b1922fc53e00d7, type: 2}
+  - {fileID: 11400000, guid: bc29f1fed63cb91438b1922fc53e00d7, type: 2}
+  preferredBeverage:
+  - {fileID: 11400000, guid: 24c6823f85678a040999f890b99b944e, type: 2}
+  characterEvents:
+  - {fileID: 11400000, guid: ac4fef36d39ee464686f555470b4fab1, type: 2}
+  - {fileID: 11400000, guid: ddc0170ef6cc08f47847a522424dff3b, type: 2}
+  - {fileID: 11400000, guid: 8f52afd7c6b9cb14ca104648521b7aeb, type: 2}
+  portrait: {fileID: 1518687106, guid: dc8af9e1c9616b84b96a6f8754fffcf0, type: 3}
+  standingSprite: {fileID: 687883396, guid: 9cb8bbc105f3c7a4f82f119df7ee194a, type: 3}
+  sittingSprite: {fileID: 1918511605, guid: 9cb8bbc105f3c7a4f82f119df7ee194a, type: 3}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ea49fc41c2caf4bbf2327e095afaf9, type: 3}
+  m_Name: Cabbage Leaf
+  m_EditorClassIdentifier: 
+  id: CABBAGE_LEAF
+  toppingName: Cabbage Leaf
+  description: 'Cabbage leaves are widely used in soups and stir-fried dishes. Cabbage
+    is a staple vegetable in lomi and other noodle meals. '
+  sprite: {fileID: 1153190264, guid: 6e0af0f87d18f0d4b99ca442789f3d62, type: 3}
+  containerSprite: {fileID: -287930882, guid: 334380bf6bcefe741b5f9b721d248ea5, type: 3}
+  garnishSprite: {fileID: 0}
+  type: 0
